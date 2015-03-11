@@ -19,10 +19,12 @@ public class BattleControllerTest {
 	
 	@Before
 	public void setUp(){
-		robotLeft = new Robot("Wall-E", 100);
-		robotRight = new Robot("R2D2",  100);
+		robotLeft = new Robot();
+		robotRight = new Robot();
 		
-		battleController = new BattleController(robotLeft, robotRight);
+		battleController = new BattleController();
+		battleController.setRobotLeft(robotLeft);
+		battleController.setRobotRight(robotRight);
 		
 	}
 	

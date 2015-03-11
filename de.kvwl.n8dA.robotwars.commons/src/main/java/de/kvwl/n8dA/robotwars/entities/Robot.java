@@ -2,6 +2,7 @@ package de.kvwl.n8dA.robotwars.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import de.kvwl.n8dA.robotwars.actions.RobotAction;
 import de.kvwl.n8dA.robotwars.gui.Animation;
@@ -10,8 +11,11 @@ public class Robot implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
+	private UUID uuid;
+	
 	private String name;
 	private int healthPoints;
+	private int energyPoints;
 	
 	private Animation animation;
 	
@@ -21,11 +25,9 @@ public class Robot implements Serializable {
 	private RobotAction currentAction;
 	
 
-	public Robot(String name, int healthPoints) {
+	public Robot() {
 		super();
-		this.name = name;
-		this.healthPoints = healthPoints;
-		
+		uuid = UUID.randomUUID();
 		this.setPossibleAttacks(new ArrayList<RobotAction>(4));
 		this.setPossibleDefends(new ArrayList<RobotAction>(4));
 		
@@ -84,6 +86,59 @@ public class Robot implements Serializable {
 	public void setPossibleDefends(ArrayList<RobotAction> possibleDefends) {
 		this.possibleDefends = possibleDefends;
 	}
-	
 
+	public int getEnergyPoints() {
+		return energyPoints;
+	}
+
+	public void setEnergyPoints(int energyPoints) {
+		this.energyPoints = energyPoints;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result
+				+ ((possibleAttacks == null) ? 0 : possibleAttacks.hashCode());
+		result = prime * result
+				+ ((possibleDefends == null) ? 0 : possibleDefends.hashCode());
+		result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Robot other = (Robot) obj;
+		if (uuid == null) {
+			if (other.uuid != null)
+				return false;
+		} else if (!uuid.equals(other.uuid))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (possibleAttacks == null) {
+			if (other.possibleAttacks != null)
+				return false;
+		} else if (!possibleAttacks.equals(other.possibleAttacks))
+			return false;
+		if (possibleDefends == null) {
+			if (other.possibleDefends != null)
+				return false;
+		} else if (!possibleDefends.equals(other.possibleDefends))
+			return false;
+		return true;
+	}
+	
+	
 }
