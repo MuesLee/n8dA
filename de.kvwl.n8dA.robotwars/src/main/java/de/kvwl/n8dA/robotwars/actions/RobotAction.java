@@ -9,9 +9,10 @@ public abstract class RobotAction {
 	}
 
 	protected String name;
-	private RobotActionType robotActionType;
+	protected RobotActionType robotActionType;
 	protected Animation animation;
-
+	protected int energyCosts;
+	
 	
 	public boolean beats (RobotAction otherAction)
 	{
@@ -41,6 +42,14 @@ public abstract class RobotAction {
 	public String toString() {
 		
 		return name + " Typ: " + robotActionType;
+	}
+
+	public int getEnergyCosts() {
+		return energyCosts;
+	}
+
+	public void setEnergyCosts(int energyCosts) {
+		this.energyCosts = energyCosts;
 	}
 	
 }
