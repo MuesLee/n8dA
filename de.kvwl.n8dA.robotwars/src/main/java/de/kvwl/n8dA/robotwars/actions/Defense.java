@@ -2,19 +2,19 @@ package de.kvwl.n8dA.robotwars.actions;
 
 public  class Defense extends RobotAction {
 
-	protected int blockValue;
+	protected double blockValue;
 
-	public Defense(RobotActionType robotActionType, int blockValue) {
+	public Defense(RobotActionType robotActionType, double blockValue) {
 	
 		super(robotActionType);
 		this.blockValue = blockValue;
 	}
 
-	public int getBlockValue() {
+	public double getBlockValue() {
 		return blockValue;
 	}
 
-	public void setBlockValue(int blockValue) {
+	public void setBlockValue(double blockValue) {
 		this.blockValue = blockValue;
 	}
 	
