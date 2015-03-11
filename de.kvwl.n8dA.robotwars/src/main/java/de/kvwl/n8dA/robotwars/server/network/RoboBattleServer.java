@@ -31,7 +31,7 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 	      System.out.println(ex.getMessage());
 	    }
 	    try {
-	      Naming.rebind("Server", new RoboBattleServer());
+	      Naming.rebind("RoboBattleServer", new RoboBattleServer());
 	    }
 	    catch (MalformedURLException ex) {
 	      System.out.println(ex.getMessage());
@@ -45,7 +45,7 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 
 	@Override
 	public void setActionForRobot(RobotAction RobotAction, Robot robot) {
-		// TODO Auto-generated method stub
+		System.out.println("Server TEST");
 		
 	}
 	
