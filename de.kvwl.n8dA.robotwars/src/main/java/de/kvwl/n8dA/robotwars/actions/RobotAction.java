@@ -1,0 +1,46 @@
+package de.kvwl.n8dA.robotwars.actions;
+
+import de.kvwl.n8dA.robotwars.gui.Animation;
+
+public abstract class RobotAction {
+	
+	public RobotAction(RobotActionType robotActionType) {
+		this.robotActionType = robotActionType;
+	}
+
+	protected String name;
+	private RobotActionType robotActionType;
+	protected Animation animation;
+
+	
+	public boolean beats (RobotAction otherAction)
+	{
+		return this.robotActionType.beats(otherAction.getRobotActionType());
+	}
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public Animation getAnimation() {
+		return animation;
+	}
+	public void setAnimation(Animation animation) {
+		this.animation = animation;
+	}
+	public RobotActionType getRobotActionType() {
+		return robotActionType;
+	}
+	public void setRobotActionType(RobotActionType robotActionType) {
+		this.robotActionType = robotActionType;
+	}
+	
+	@Override
+	public String toString() {
+		
+		return name + " Typ: " + robotActionType;
+	}
+	
+}
