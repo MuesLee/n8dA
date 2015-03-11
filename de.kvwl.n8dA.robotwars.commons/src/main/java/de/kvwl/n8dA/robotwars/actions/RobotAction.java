@@ -1,9 +1,14 @@
 package de.kvwl.n8dA.robotwars.actions;
 
+import java.io.Serializable;
+
 import de.kvwl.n8dA.robotwars.gui.Animation;
 
-public abstract class RobotAction {
+public abstract class RobotAction implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+
+
 	public RobotAction(RobotActionType robotActionType) {
 		this.robotActionType = robotActionType;
 	}

@@ -16,7 +16,7 @@ public class BattleController {
 	
 	public void fight() throws RobotsArentRdyToFightException
 	{
-		if(robotLeft.getAction() == null || robotRight.getAction() == null)
+		if(robotLeft.getCurrentAction() == null || robotRight.getCurrentAction() == null)
 		{
 			throw new RobotsArentRdyToFightException();
 		}

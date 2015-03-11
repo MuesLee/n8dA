@@ -31,7 +31,7 @@ public class BattleControllerTest {
 		
 		Attack attack = new Attack(RobotActionType.ROCK, 10);
 		
-		robotLeft.setAction(attack);
+		robotLeft.setCurrentAction(attack);
 		
 		battleController.fight();
 		
@@ -41,7 +41,7 @@ public class BattleControllerTest {
 		
 		Defense defense = new Defense(RobotActionType.SCISSOR, 10);
 		
-		robotRight.setAction(defense);
+		robotRight.setCurrentAction(defense);
 		
 		battleController.fight();
 		
