@@ -4,11 +4,13 @@ import javax.jms.Connection;
 import javax.jms.DeliveryMode;
 import javax.jms.Destination;
 import javax.jms.JMSException;
+import javax.jms.Message;
 import javax.jms.MessageProducer;
 import javax.jms.Session;
-import javax.jms.TextMessage;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
+
+import de.kvwl.n8dA.robotwars.commons.network.messages.ClientNotificationType;
 
 public class RoboBattleJMSProducer {
 
@@ -20,7 +22,6 @@ public class RoboBattleJMSProducer {
 
 	public RoboBattleJMSProducer() {
 		initJMSConnection();
-
 	}
 
 	private void initJMSConnection() {
@@ -40,19 +41,43 @@ public class RoboBattleJMSProducer {
 		}
 
 	}
+	
+	
+	
+	private void sendMessage(Message message)
+	{
+		try {
+			producer.send(message);
+		} catch (JMSException e) {
+			
+		}
+	}
 
-	public void sendMessages() throws JMSException {
+public void sendMessageToAllClients(ClientNotificationType clientNotificationType)
+{
+	try {
+		Message message = session.createMessage();
+		
+		message.setIntProperty(ClientNotificationType.getNotificationName(), clientNotificationType.ordinal());
+		sendMessage(message);
+		
+	} catch (JMSException e) {
+	}
+}
+
+	public void spamMessages() {
 
 		while (true) {
 
-			String text = "Hello world! From: "
-					+ Thread.currentThread().getName() + " : "
-					+ this.hashCode();
-
-			TextMessage message = session.createTextMessage(text);
-			System.out.println("Sent message: " + message.hashCode() + " : "
-					+ Thread.currentThread().getName());
-			producer.send(message);
+			try {
+				Message message = session.createMessage();
+				System.out.println("Sent message: " + message.hashCode() + " : "
+						+ Thread.currentThread().getName());
+				message.setIntProperty(ClientNotificationType.getNotificationName(), ClientNotificationType.START_TURN.ordinal());
+				sendMessage(message);
+			} catch (JMSException e) {
+				e.printStackTrace();
+			}
 		}
 
 	}

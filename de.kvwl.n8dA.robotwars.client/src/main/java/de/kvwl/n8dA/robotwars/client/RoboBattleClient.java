@@ -3,11 +3,13 @@ package de.kvwl.n8dA.robotwars.client;
 import java.io.Serializable;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
+import java.util.UUID;
 
 import javax.jms.Message;
 import javax.jms.MessageListener;
 
 import de.kvwl.n8dA.robotwars.commons.interfaces.RoboBattleHandler;
+import de.kvwl.n8dA.robotwars.commons.network.messages.ClientNotificationType;
 import de.kvwl.n8dA.robotwars.entities.Robot;
 import de.kvwl.n8dA.robotwars.exception.NoFreeSlotInBattleArenaException;
 import de.kvwl.n8dA.robotwars.exception.UnknownRobotException;
@@ -19,6 +21,7 @@ public class RoboBattleClient implements Serializable, MessageListener{
 
 	private static final String url = "//127.0.0.1/RoboBattleServer";
 
+	private UUID uuid;
 	
 	private Robot robot;
 	
@@ -27,10 +30,11 @@ public class RoboBattleClient implements Serializable, MessageListener{
 	private RoboBattleJMSReceiver roboBattleJMSReceiver;
 
 
-	
 	public RoboBattleClient() {
 		
 		robot = new Robot();
+		
+		this.uuid = UUID.randomUUID();
 		
 		roboBattleJMSReceiver = new RoboBattleJMSReceiver();
 	}
@@ -66,7 +70,7 @@ public class RoboBattleClient implements Serializable, MessageListener{
 	{
 	
 		try {
-			server.registerRobotAndClientForBattle(robot);
+			server.registerRobotAndClientForBattle(robot, uuid);
 			
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -77,7 +81,7 @@ public class RoboBattleClient implements Serializable, MessageListener{
 	private void updateRobot()
 	{
 		try {
-			robot = server.getSynchronizedRobot(robot);
+			robot = server.getSynchronizedRobot(uuid);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		} catch (UnknownRobotException e) {
@@ -87,9 +91,24 @@ public class RoboBattleClient implements Serializable, MessageListener{
 
 	@Override
 	public void onMessage(Message message) {
-		System.out.println(message);
+		
+		try {
+			
+			int intProperty = message.getIntProperty(ClientNotificationType.getNotificationName());
+			ClientNotificationType clientNotificationType = ClientNotificationType.values()[intProperty];
+			
+			
+		}catch (ArrayIndexOutOfBoundsException e) {
+		System.out.println("Wenn man keine Ahnung hat, einfach mal die Finger vom Code lassen!");
+		}
+		 catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 
+	public UUID getUuid() {
+		return uuid;
+	}
 
 }
