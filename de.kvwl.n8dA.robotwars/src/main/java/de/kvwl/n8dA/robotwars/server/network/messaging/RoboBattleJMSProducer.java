@@ -1,5 +1,7 @@
 package de.kvwl.n8dA.robotwars.server.network.messaging;
 
+import java.util.UUID;
+
 import javax.jms.Connection;
 import javax.jms.DeliveryMode;
 import javax.jms.Destination;
@@ -11,6 +13,7 @@ import javax.jms.Session;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import de.kvwl.n8dA.robotwars.commons.network.messages.ClientNotificationType;
+import de.kvwl.n8dA.robotwars.commons.network.messages.ClientProperty;
 
 public class RoboBattleJMSProducer {
 
@@ -53,10 +56,12 @@ public class RoboBattleJMSProducer {
 		}
 	}
 
-public void sendMessageToAllClients(ClientNotificationType clientNotificationType)
+public void sendClientNotificationToAllClients(ClientNotificationType clientNotificationType)
 {
 	try {
 		Message message = session.createMessage();
+		
+		message.setStringProperty(ClientProperty.CLIENT_UUID.getName(), ClientProperty.ALL_CLIENTS.getName() );
 		
 		message.setIntProperty(ClientNotificationType.getNotificationName(), clientNotificationType.ordinal());
 		sendMessage(message);
@@ -65,22 +70,21 @@ public void sendMessageToAllClients(ClientNotificationType clientNotificationTyp
 	}
 }
 
-	public void spamMessages() {
+public void sendMessageToClient(UUID clientUUID, ClientNotificationType clientNotificationType)
+{
+	try {
+		Message message = session.createMessage();
+		
+		message.setStringProperty(ClientProperty.CLIENT_UUID.getName(), clientUUID.toString());
+		message.setIntProperty(ClientNotificationType.getNotificationName(), clientNotificationType.ordinal());
 
-		while (true) {
-
-			try {
-				Message message = session.createMessage();
-				System.out.println("Sent message: " + message.hashCode() + " : "
-						+ Thread.currentThread().getName());
-				message.setIntProperty(ClientNotificationType.getNotificationName(), ClientNotificationType.START_TURN.ordinal());
-				sendMessage(message);
-			} catch (JMSException e) {
-				e.printStackTrace();
-			}
-		}
-
+		sendMessage(message);
+		
+	} catch (JMSException e) {
 	}
+	
+}
+
 	public void closeConnections()
 	{
 		try {

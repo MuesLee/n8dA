@@ -17,8 +17,6 @@ import de.kvwl.n8dA.robotwars.exception.UnknownRobotException;
  */
 public class RoboBattlePlayerClient extends RoboBattleClient{
 	
-
-	
 	private Robot robot;
 	
 

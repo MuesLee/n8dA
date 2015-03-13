@@ -24,7 +24,7 @@ public abstract class RoboBattleClient implements MessageListener{
 		
 		this.uuid = UUID.randomUUID();
 		
-		roboBattleJMSReceiver = new RoboBattleJMSReceiver();
+		roboBattleJMSReceiver = new RoboBattleJMSReceiver(uuid);
 	
 	}
 	
