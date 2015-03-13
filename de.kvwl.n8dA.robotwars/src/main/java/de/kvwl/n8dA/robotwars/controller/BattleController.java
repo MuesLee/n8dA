@@ -41,6 +41,12 @@ public class BattleController {
 		performInitialModificationOfRobot(robotRight);
 		
 		cinematicVisualizer.battleIsAboutToStart();
+		
+		try {
+			fightNextBattleRound();
+		} catch (RobotsArentRdyToFightException e) {
+			
+		}
 	}
 	
 	private void performInitialModificationOfRobot(Robot robot)
@@ -72,6 +78,7 @@ public class BattleController {
 		
 		regenerateEnergyOfRobots(robotLeft, robotRight);
 		
+		//TODO: Siegbedingung
 	}
 	
 	private void regenerateEnergyOfRobots(Robot robotLeft, Robot robotRight) {
