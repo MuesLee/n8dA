@@ -32,6 +32,8 @@ public class BattleController {
 			throw new RobotsArentRdyToFightException();
 		}
 		
+		
+		
 	}
 
 
