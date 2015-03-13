@@ -35,6 +35,23 @@ public class BattleController {
 	}
 	
 	
+	public void startTheBattle()
+	{
+		performInitialModificationOfRobot(robotLeft);
+		performInitialModificationOfRobot(robotRight);
+		
+		cinematicVisualizer.battleIsAboutToStart();
+	}
+	
+	private void performInitialModificationOfRobot(Robot robot)
+	{
+	List<RoboItem> equippedItems = robot.getEquippedItems();
+		
+		for (RoboItem roboItem : equippedItems) {
+			roboItem.performInitialRobotModification(robot);
+		}
+	}
+	
 	public void fightNextBattleRound() throws RobotsArentRdyToFightException
 	{
 		RobotAction actionRobotLeft = robotLeft.getCurrentAction();
@@ -46,7 +63,7 @@ public class BattleController {
 			throw new RobotsArentRdyToFightException();
 		}
 		
-		cinematicVisualizer.battleIsAboutToStart();
+		cinematicVisualizer.roundIsAboutToStart();;
 		
 		//ruft in der Methode cinematicVisualizer auf
 		startAnimationsInOrder(actionRobotLeft, actionRobotRight);
