@@ -1,9 +1,11 @@
 package de.kvwl.n8dA.robotwars.commons.game.entities;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
+import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
 import de.kvwl.n8dA.robotwars.commons.gui.Animation;
 
 public class Robot extends Entity {
@@ -18,8 +20,10 @@ public class Robot extends Entity {
 
 	private Animation animation;
 
-	private ArrayList<RobotAction> possibleAttacks;
-	private ArrayList<RobotAction> possibleDefends;
+	private List<RobotAction> possibleAttacks;
+	private List<RobotAction> possibleDefends;
+	
+	private List<RoboItem> equippedItems;
 
 	private RobotAction currentAction;
 
@@ -69,19 +73,19 @@ public class Robot extends Entity {
 		this.animation = animation;
 	}
 
-	public ArrayList<RobotAction> getPossibleAttacks() {
+	public List<RobotAction> getPossibleAttacks() {
 		return possibleAttacks;
 	}
 
-	public void setPossibleAttacks(ArrayList<RobotAction> possibleAttacks) {
+	public void setPossibleAttacks(List<RobotAction> possibleAttacks) {
 		this.possibleAttacks = possibleAttacks;
 	}
 
-	public ArrayList<RobotAction> getPossibleDefends() {
+	public List<RobotAction> getPossibleDefends() {
 		return possibleDefends;
 	}
 
-	public void setPossibleDefends(ArrayList<RobotAction> possibleDefends) {
+	public void setPossibleDefends(List<RobotAction> possibleDefends) {
 		this.possibleDefends = possibleDefends;
 	}
 
@@ -125,6 +129,14 @@ public class Robot extends Entity {
 		else{
 			return true;
 		}
+	}
+
+	public List<RoboItem> getEquippedItems() {
+		return equippedItems;
+	}
+
+	public void setEquippedItems(List<RoboItem> equippedItems) {
+		this.equippedItems = equippedItems;
 	}
 
 }

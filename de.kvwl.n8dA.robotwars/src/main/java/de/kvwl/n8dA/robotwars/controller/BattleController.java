@@ -7,6 +7,7 @@ import de.kvwl.n8dA.robotwars.commons.exception.RobotHasInsufficientEnergyExcept
 import de.kvwl.n8dA.robotwars.commons.exception.RobotsArentRdyToFightException;
 import de.kvwl.n8dA.robotwars.commons.exception.UnknownRobotException;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
+import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
@@ -15,6 +16,8 @@ import de.kvwl.n8dA.robotwars.visualization.CinematicVisualizer;
 import de.kvwl.n8dA.robotwars.visualization.RobotPosition;
 
 public class BattleController {
+	
+	private static final int ENERGY_REGENERATION_RATE = 0;
 	
 	private Robot robotLeft;
 	private Robot robotRight;
@@ -32,7 +35,7 @@ public class BattleController {
 	}
 	
 	
-	public void startNextBattleRound() throws RobotsArentRdyToFightException
+	public void fightNextBattleRound() throws RobotsArentRdyToFightException
 	{
 		RobotAction actionRobotLeft = robotLeft.getCurrentAction();
 		RobotAction actionRobotRight = robotRight.getCurrentAction();
@@ -48,16 +51,70 @@ public class BattleController {
 		//ruft in der Methode cinematicVisualizer auf
 		startAnimationsInOrder(actionRobotLeft, actionRobotRight);
 		
-		computeOutcomeOfBattleRound();
+		computeOutcomeOfBattleRound(robotLeft, robotRight);
 		
+		regenerateEnergyOfRobots(robotLeft, robotRight);
 		
 	}
 	
-	private void computeOutcomeOfBattleRound() {
-		// TODO Auto-generated method stub
+	private void regenerateEnergyOfRobots(Robot robotLeft, Robot robotRight) {
+
+		int energyRobotLeft = robotLeft.getEnergyPoints();
+		int energyRobotRight = robotRight.getEnergyPoints();
 		
+		energyRobotLeft += ENERGY_REGENERATION_RATE;	
+		energyRobotRight += ENERGY_REGENERATION_RATE; 	
+		
+		robotLeft.setEnergyPoints(energyRobotLeft);
+		robotRight.setEnergyPoints(energyRobotRight);
 	}
 
+
+	private void computeOutcomeOfBattleRound(Robot robotLeft, Robot robotRight) {
+		
+		//TODO: implement me further
+		
+		RobotAction actionRobotLeft = robotLeft.getCurrentAction();
+		RobotAction actionRobotRight = robotRight.getCurrentAction();
+		
+		consumeEnergyForRobotAction(robotLeft);
+		consumeEnergyForRobotAction(robotRight);
+		
+		if(actionRobotLeft instanceof Attack)
+		{
+			Attack attackLeft = (Attack) actionRobotLeft;
+			
+			if(actionRobotRight instanceof Attack)
+			{
+				Attack attackRight = (Attack) actionRobotRight;
+				
+				int healthPointsRoboLeft = robotLeft.getHealthPoints();
+				int healthPointsRoboRight = robotRight.getHealthPoints();
+				
+				healthPointsRoboLeft  -= attackRight.getDamage();
+				healthPointsRoboRight -= attackLeft.getDamage();
+				
+				robotRight.setHealthPoints(healthPointsRoboRight);
+				robotLeft.setHealthPoints(healthPointsRoboLeft);
+			}
+		}
+		else {
+			Defense defenseLeft = (Defense) actionRobotLeft;
+			
+			
+		}
+	}
+	
+	private void consumeEnergyForRobotAction(Robot robot)
+	{
+		RobotAction actionRobot = robot.getCurrentAction();
+		
+		int energyRobot = robot.getEnergyPoints();
+		
+		energyRobot -= actionRobot.getEnergyCosts();	
+		
+		robot.setEnergyPoints(energyRobot);
+	}
 
 	/**
 	 * Orders the RobotActions into an Array.

@@ -64,7 +64,7 @@ public class BattleControllerTest {
 		
 		robotLeft.setCurrentAction(attack);
 		
-		battleController.startNextBattleRound();
+		battleController.fightNextBattleRound();
 		
 	}
 	@Test(expected = RobotsArentRdyToFightException.class)
@@ -74,7 +74,7 @@ public class BattleControllerTest {
 		
 		robotRight.setCurrentAction(defense);
 		
-		battleController.startNextBattleRound();
+		battleController.fightNextBattleRound();
 		
 	}
 	
@@ -101,7 +101,6 @@ public class BattleControllerTest {
 		
 		ArrayList<AnimationPosition> capturedList = (ArrayList<AnimationPosition>) argumentAnimationPosition.getValue();
 		
-		//TODO: Besseren Collection-Vergleich einbauen. Hamcrest evtl.
 		assertEquals(animations.toString(), capturedList.toString());
 	}
 	@Test
@@ -127,7 +126,6 @@ public class BattleControllerTest {
 		
 		ArrayList<AnimationPosition> capturedList = (ArrayList<AnimationPosition>) argumentAnimationPosition.getValue();
 		
-		//TODO: Besseren Collection-Vergleich einbauen. Hamcrest evtl.
 		assertEquals(animations.toString(), capturedList.toString());
 	}
 	@Test
@@ -153,7 +151,6 @@ public class BattleControllerTest {
 		
 		ArrayList<AnimationPosition> capturedList = (ArrayList<AnimationPosition>) argumentAnimationPosition.getValue();
 		
-		//TODO: Besseren Collection-Vergleich einbauen. Hamcrest evtl.
 		assertEquals(animations.toString(),capturedList.toString());
 	}
 	
@@ -183,7 +180,6 @@ public class BattleControllerTest {
 		
 		ArrayList<AnimationPosition> capturedList = (ArrayList<AnimationPosition>) argumentAnimationPosition.getValue();
 		
-		//TODO: Besseren Collection-Vergleich einbauen. Hamcrest evtl.
 		assertEquals(animations.toString(),capturedList.toString());
 	}
 

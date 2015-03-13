@@ -13,10 +13,16 @@ public class HPBoostItem extends RoboItem {
 	}
 
 	@Override
-	public void modifyRobot(Robot robot) {
+	public void performInitialRobotModification(Robot robot) {
 
 		int currentHealthPoints = robot.getHealthPoints();
 		robot.setHealthPoints(currentHealthPoints + hpBoost);
+	}
+
+	@Override
+	public void performEachRoundModification(Robot robot) {
+		
+		//nichts zu tun
 	}
 
 }
