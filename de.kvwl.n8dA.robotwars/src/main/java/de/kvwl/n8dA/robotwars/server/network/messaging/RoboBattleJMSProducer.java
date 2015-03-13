@@ -14,6 +14,7 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 
 import de.kvwl.n8dA.robotwars.commons.network.messages.ClientNotificationType;
 import de.kvwl.n8dA.robotwars.commons.network.messages.ClientProperty;
+import de.kvwl.n8dA.robotwars.commons.utils.NetworkUtils;
 
 public class RoboBattleJMSProducer {
 
@@ -30,7 +31,7 @@ public class RoboBattleJMSProducer {
 	private void initJMSConnection() {
 		try {
 			connectionFactory = new ActiveMQConnectionFactory(
-					"tcp://localhost:1527");
+					NetworkUtils.FULL_HOST_TCP_ADDRESS);
 			connection = connectionFactory.createConnection();
 			connection.start();
 			session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);

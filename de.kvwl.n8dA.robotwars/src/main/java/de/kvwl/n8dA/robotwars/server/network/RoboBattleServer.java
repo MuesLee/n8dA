@@ -25,6 +25,7 @@ import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.items.HPBoostItem;
 import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
 import de.kvwl.n8dA.robotwars.commons.interfaces.RoboBattleHandler;
+import de.kvwl.n8dA.robotwars.commons.utils.NetworkUtils;
 import de.kvwl.n8dA.robotwars.controller.BattleController;
 import de.kvwl.n8dA.robotwars.server.input.DataLoader;
 import de.kvwl.n8dA.robotwars.server.input.DataLoaderFileSystemImpl;
@@ -35,8 +36,6 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 
 	private static final Logger LOG = LoggerFactory.getLogger(RoboBattleServer.class);
 	
-	private static final int REGISTRY_PORT = Registry.REGISTRY_PORT;
-	private static final String SERVER_NAME = "RoboBattleServer";
 	private static final long serialVersionUID = 1L;
 
 	private BattleController battleController;
@@ -56,7 +55,7 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		try {
 			BasicConfigurator.configure();
 			RoboBattleServer server = new RoboBattleServer();
-			server.startServer(REGISTRY_PORT);
+			server.startServer(NetworkUtils.SERVER_REGISTRY_PORT);
 	
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -80,7 +79,7 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 			LOG.error(ex.getMessage());
 		}
 		try {
-			Naming.rebind(SERVER_NAME, this);
+			Naming.rebind(NetworkUtils.SERVER_NAME, this);
 			LOG.info("##### SERVER STARTED ####");
 		} catch (MalformedURLException ex) {
 			LOG.error(ex.getMessage());
@@ -137,7 +136,7 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 			adaptor.setDirectory(new File("activemq"));
 			broker.setPersistenceAdapter(adaptor);
 			broker.setUseJmx(true);
-			broker.addConnector("tcp://localhost:1527");
+			broker.addConnector(NetworkUtils.FULL_HOST_TCP_ADDRESS);
 			broker.start();
 		} catch (Exception e) {
 			e.printStackTrace();

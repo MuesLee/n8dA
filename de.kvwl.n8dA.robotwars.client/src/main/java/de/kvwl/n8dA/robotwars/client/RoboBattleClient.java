@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import de.kvwl.n8dA.robotwars.client.communication.RoboBattleJMSReceiver;
 import de.kvwl.n8dA.robotwars.commons.interfaces.RoboBattleHandler;
+import de.kvwl.n8dA.robotwars.commons.utils.NetworkUtils;
 
 /**
  * Abstract Client Class
@@ -20,7 +21,7 @@ public abstract class RoboBattleClient implements MessageListener{
 
 	protected final Logger LOG = LoggerFactory.getLogger(RoboBattleClient.class);
 	
-	protected static final String url = "//127.0.0.1/RoboBattleServer";
+	protected static final String url = "//"+NetworkUtils.HOST_IP_ADDRESS+"/"+NetworkUtils.SERVER_NAME;
 	protected UUID uuid;
 	protected RoboBattleHandler server;
 	protected RoboBattleJMSReceiver roboBattleJMSReceiver;
