@@ -9,6 +9,7 @@ import de.kvwl.n8dA.robotwars.commons.exception.UnknownRobotException;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
+import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
 import de.kvwl.n8dA.robotwars.visualization.AnimationPosition;
 import de.kvwl.n8dA.robotwars.visualization.CinematicVisualizer;
 import de.kvwl.n8dA.robotwars.visualization.RobotPosition;
@@ -21,6 +22,7 @@ public class BattleController {
 	private List<RobotAction> allAttacks;
 	private List<RobotAction> allDefends;
 	private List<Robot> allRobots;
+	private List<RoboItem> allItems;
 	
 	private CinematicVisualizer cinematicVisualizer;
 	
@@ -186,5 +188,15 @@ public class BattleController {
 
 	public void setAllRobots(List<Robot> allRobots) {
 		this.allRobots = allRobots;
+	}
+
+
+	public List<RoboItem> getAllItems() {
+		return allItems;
+	}
+
+
+	public void setAllItems(List<RoboItem> allItems) {
+		this.allItems = allItems;
 	}
 }

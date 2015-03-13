@@ -7,6 +7,8 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.apache.activemq.broker.BrokerService;
@@ -20,6 +22,8 @@ import de.kvwl.n8dA.robotwars.commons.exception.RobotHasInsufficientEnergyExcept
 import de.kvwl.n8dA.robotwars.commons.exception.UnknownRobotException;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
+import de.kvwl.n8dA.robotwars.commons.game.items.HPBoostItem;
+import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
 import de.kvwl.n8dA.robotwars.commons.interfaces.RoboBattleHandler;
 import de.kvwl.n8dA.robotwars.controller.BattleController;
 import de.kvwl.n8dA.robotwars.server.input.DataLoader;
@@ -36,6 +40,7 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 	private static final long serialVersionUID = 1L;
 
 	private BattleController battleController;
+	@SuppressWarnings("unused")
 	private RoboBattleJMSProducer producer;
 	private BrokerService broker;
 	
@@ -45,6 +50,43 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 	protected RoboBattleServer() throws RemoteException {
 		super();
 		this.battleController = new BattleController();
+	}
+
+	public static void main(String[] args) {
+		try {
+			BasicConfigurator.configure();
+			RoboBattleServer server = new RoboBattleServer();
+			server.startServer(REGISTRY_PORT);
+	
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void startServer(int port) {
+		try {
+			startActiveMQBroker();
+			
+			initJMSProducer();
+			
+			LocateRegistry.createRegistry(port);
+			
+			loadGameData();
+		}
+	
+		catch (RemoteException ex) {
+			LOG.error(ex.getMessage());
+		}
+		try {
+			Naming.rebind(SERVER_NAME, this);
+			LOG.info("##### SERVER STARTED ####");
+		} catch (MalformedURLException ex) {
+			LOG.error(ex.getMessage());
+		} catch (RemoteException ex) {
+			LOG.error(ex.getMessage());
+		}
 	}
 
 	@Override
@@ -115,6 +157,7 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 			
 	}
 	
+	@SuppressWarnings("unused")
 	private void stopActiveMQBroker()
 	{
 		try {
@@ -130,43 +173,6 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		//producer.sendMessages();
 	}
 
-	public static void main(String[] args) {
-		try {
-			BasicConfigurator.configure();
-			RoboBattleServer server = new RoboBattleServer();
-			server.startServer(REGISTRY_PORT);
-
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void startServer(int port) {
-		try {
-			startActiveMQBroker();
-			
-			initJMSProducer();
-			
-			LocateRegistry.createRegistry(port);
-			
-			loadGameData();
-		}
-
-		catch (RemoteException ex) {
-			LOG.error(ex.getMessage());
-		}
-		try {
-			Naming.rebind(SERVER_NAME, this);
-			LOG.info("##### SERVER STARTED ####");
-		} catch (MalformedURLException ex) {
-			LOG.error(ex.getMessage());
-		} catch (RemoteException ex) {
-			LOG.error(ex.getMessage());
-		}
-	}
-
 	private void loadGameData() {
 		
 		DataLoader loader = new DataLoaderFileSystemImpl();
@@ -174,6 +180,10 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		battleController.setAllAttacks(loader.loadRobotAttacks());
 		battleController.setAllDefends(loader.loadRobotDefends());
 		battleController.setAllRobots(loader.loadRobots());
+		List<RoboItem> allItems = new ArrayList<>();
+		allItems.add(new HPBoostItem());
+		battleController.setAllItems(allItems);
+		
 	}
 
 }
