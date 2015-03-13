@@ -78,7 +78,11 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 	@Override
 	public Robot getSynchronizedRobot(UUID uuid) throws RemoteException,
 	UnknownRobotException {
-		return battleController.getLocalRobotForRemoteRobot(getRobotForUUID(uuid));
+		
+		Robot robot = battleController.getLocalRobotForRemoteRobot(getRobotForUUID(uuid));
+		LOG.info("UUID: " + uuid + " has requested update of Robot. Received " + robot);
+		
+		return robot;
 	}
 	
 	private void startActiveMQBroker ()

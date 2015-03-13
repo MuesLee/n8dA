@@ -1,4 +1,4 @@
-package de.kvwl.n8dA.robotwars.client;
+package de.kvwl.n8dA.robotwars.client.communication;
 
 import javax.jms.Connection;
 import javax.jms.Destination;

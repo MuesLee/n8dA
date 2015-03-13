@@ -10,6 +10,11 @@ import de.kvwl.n8dA.robotwars.entities.Robot;
 import de.kvwl.n8dA.robotwars.exception.NoFreeSlotInBattleArenaException;
 import de.kvwl.n8dA.robotwars.exception.UnknownRobotException;
 
+
+/**
+ * Player-Client for inputs and just obligatory information 
+ *
+ */
 public class RoboBattlePlayerClient extends RoboBattleClient{
 	
 
