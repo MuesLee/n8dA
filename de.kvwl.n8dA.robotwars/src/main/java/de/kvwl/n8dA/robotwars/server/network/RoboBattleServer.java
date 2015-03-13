@@ -22,6 +22,8 @@ import de.kvwl.n8dA.robotwars.entities.Robot;
 import de.kvwl.n8dA.robotwars.exception.NoFreeSlotInBattleArenaException;
 import de.kvwl.n8dA.robotwars.exception.RobotHasInsufficientEnergyException;
 import de.kvwl.n8dA.robotwars.exception.UnknownRobotException;
+import de.kvwl.n8dA.robotwars.server.input.DataLoader;
+import de.kvwl.n8dA.robotwars.server.input.DataLoaderFileSystemImpl;
 import de.kvwl.n8dA.robotwars.server.network.messaging.RoboBattleJMSProducer;
 
 public class RoboBattleServer extends UnicastRemoteObject implements
@@ -144,6 +146,8 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 			initJMSProducer();
 			
 			LocateRegistry.createRegistry(port);
+			
+			loadGameData();
 		}
 
 		catch (RemoteException ex) {
@@ -157,6 +161,15 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		} catch (RemoteException ex) {
 			LOG.error(ex.getMessage());
 		}
+	}
+
+	private void loadGameData() {
+		
+		DataLoader loader = new DataLoaderFileSystemImpl();
+		
+		battleController.setAllAttacks(loader.loadRobotAttacks());
+		battleController.setAllDefends(loader.loadRobotDefends());
+		battleController.setAllRobots(loader.loadRobots());
 	}
 
 }

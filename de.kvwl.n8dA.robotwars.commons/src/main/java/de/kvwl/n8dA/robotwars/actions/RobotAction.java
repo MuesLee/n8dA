@@ -1,13 +1,13 @@
 package de.kvwl.n8dA.robotwars.actions;
 
-import java.io.Serializable;
-
+import de.kvwl.n8dA.robotwars.entities.Entity;
 import de.kvwl.n8dA.robotwars.gui.Animation;
 
-public abstract class RobotAction implements Serializable {
+public abstract class RobotAction extends Entity {
 	
 	private static final long serialVersionUID = 1L;
 
+	
 
 	public RobotAction(RobotActionType robotActionType) {
 		this.robotActionType = robotActionType;
@@ -56,5 +56,4 @@ public abstract class RobotAction implements Serializable {
 	public void setEnergyCosts(int energyCosts) {
 		this.energyCosts = energyCosts;
 	}
-	
 }

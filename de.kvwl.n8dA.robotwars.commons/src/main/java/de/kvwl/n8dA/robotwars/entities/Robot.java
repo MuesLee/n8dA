@@ -1,13 +1,12 @@
 package de.kvwl.n8dA.robotwars.entities;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.UUID;
 
 import de.kvwl.n8dA.robotwars.actions.RobotAction;
 import de.kvwl.n8dA.robotwars.gui.Animation;
 
-public class Robot implements Serializable {
+public class Robot extends Entity {
 	
 	private static final long serialVersionUID = 1L;
 	

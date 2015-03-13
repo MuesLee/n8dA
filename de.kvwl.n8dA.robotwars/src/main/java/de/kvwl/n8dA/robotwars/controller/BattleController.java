@@ -1,5 +1,7 @@
 package de.kvwl.n8dA.robotwars.controller;
 
+import java.util.List;
+
 import de.kvwl.n8dA.robotwars.actions.RobotAction;
 import de.kvwl.n8dA.robotwars.entities.Robot;
 import de.kvwl.n8dA.robotwars.exception.RobotHasInsufficientEnergyException;
@@ -10,6 +12,10 @@ public class BattleController {
 	
 	private Robot robotLeft;
 	private Robot robotRight;
+	
+	private List<RobotAction> allAttacks;
+	private List<RobotAction> allDefends;
+	private List<Robot> allRobots;
 	
 	public BattleController() {
 	}
@@ -75,5 +81,34 @@ public class BattleController {
 
 		throw new UnknownRobotException();
 	}
-	
+
+
+	public List<RobotAction> getAllAttacks() {
+		return allAttacks;
+	}
+
+
+	public void setAllAttacks(List<RobotAction> allAttacks) {
+		this.allAttacks = allAttacks;
+	}
+
+
+	public List<RobotAction> getAllDefends() {
+		return allDefends;
+	}
+
+
+	public void setAllDefends(List<RobotAction> allDefends) {
+		this.allDefends = allDefends;
+	}
+
+
+	public List<Robot> getAllRobots() {
+		return allRobots;
+	}
+
+
+	public void setAllRobots(List<Robot> allRobots) {
+		this.allRobots = allRobots;
+	}
 }
