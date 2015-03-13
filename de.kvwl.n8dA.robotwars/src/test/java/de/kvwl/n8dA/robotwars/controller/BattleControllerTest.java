@@ -64,7 +64,7 @@ public class BattleControllerTest {
 		
 		robotLeft.setCurrentAction(attack);
 		
-		battleController.fight();
+		battleController.startNextBattleRound();
 		
 	}
 	@Test(expected = RobotsArentRdyToFightException.class)
@@ -74,12 +74,12 @@ public class BattleControllerTest {
 		
 		robotRight.setCurrentAction(defense);
 		
-		battleController.fight();
+		battleController.startNextBattleRound();
 		
 	}
 	
 	@Test
-	public void testStartActionsATTandDEF() throws Exception {
+	public void testStartAnimationsATTandDEF() throws Exception {
 		String animationIDLeft = "1";
 		RobotPosition positionLeft  = RobotPosition.LEFT;
 		String animationIDRight = "2";
@@ -95,7 +95,7 @@ public class BattleControllerTest {
 		animations.add(new AnimationPosition(animationIDLeft, positionLeft));
 		animations.add(new AnimationPosition(animationIDRight, positionRight));
 		
-		battleController.startActionsInOrder(actionRobotLeft, actionRobotRight);
+		battleController.startAnimationsInOrder(actionRobotLeft, actionRobotRight);
 		
 		verify(cinematicVisualizerMock).playAnimationForRobotsWithDelayAfterFirst(argumentAnimationPosition.capture());
 		
@@ -105,7 +105,7 @@ public class BattleControllerTest {
 		assertEquals(animations.toString(), capturedList.toString());
 	}
 	@Test
-	public void testStartActionsDEFandATT() throws Exception {
+	public void testStartAnimationsDEFandATT() throws Exception {
 		String animationIDLeft = "1";
 		RobotPosition positionLeft  = RobotPosition.LEFT;
 		String animationIDRight = "2";
@@ -121,7 +121,7 @@ public class BattleControllerTest {
 		animations.add(new AnimationPosition(animationIDRight, positionRight));
 		animations.add(new AnimationPosition(animationIDLeft, positionLeft));
 		
-		battleController.startActionsInOrder(actionRobotLeft, actionRobotRight);
+		battleController.startAnimationsInOrder(actionRobotLeft, actionRobotRight);
 		
 		verify(cinematicVisualizerMock).playAnimationForRobotsWithDelayAfterFirst(argumentAnimationPosition.capture());
 		
@@ -131,7 +131,7 @@ public class BattleControllerTest {
 		assertEquals(animations.toString(), capturedList.toString());
 	}
 	@Test
-	public void testStartActionsDEFandDEF() throws Exception {
+	public void testStartAnimationsDEFandDEF() throws Exception {
 		String animationIDLeft = "1";
 		RobotPosition positionLeft  = RobotPosition.LEFT;
 		String animationIDRight = "2";
@@ -147,7 +147,7 @@ public class BattleControllerTest {
 		animations.add(new AnimationPosition(animationIDRight, positionRight));
 		animations.add(new AnimationPosition(animationIDLeft, positionLeft));
 		
-		battleController.startActionsInOrder(actionRobotLeft, actionRobotRight);
+		battleController.startAnimationsInOrder(actionRobotLeft, actionRobotRight);
 		
 		verify(cinematicVisualizerMock).playAnimationForRobotsSimultaneously(argumentAnimationPosition.capture());
 		
@@ -161,7 +161,7 @@ public class BattleControllerTest {
 	//@Test
 	// Test funktioniert. Durch die zufällige Sortierung innerhalb der Liste, failed assertEquals zu 50%.. 
 	// deshalb mal auskommentiert. zwischendurch mal testen.
-	public void testStartActionsATTandATT() throws Exception {
+	public void testStartAnimationsATTandATT() throws Exception {
 		String animationIDLeft = "1";
 		RobotPosition positionLeft  = RobotPosition.LEFT;
 		String animationIDRight = "2";
@@ -177,7 +177,7 @@ public class BattleControllerTest {
 		animations.add(new AnimationPosition(animationIDRight, positionRight));
 		animations.add(new AnimationPosition(animationIDLeft, positionLeft));
 		
-		battleController.startActionsInOrder(actionRobotLeft, actionRobotRight);
+		battleController.startAnimationsInOrder(actionRobotLeft, actionRobotRight);
 		
 		verify(cinematicVisualizerMock).playAnimationForRobotsWithDelayAfterFirst(argumentAnimationPosition.capture());
 		

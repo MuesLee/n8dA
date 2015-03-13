@@ -32,7 +32,7 @@ public class BattleController {
 	}
 	
 	
-	public void fight() throws RobotsArentRdyToFightException
+	public void startNextBattleRound() throws RobotsArentRdyToFightException
 	{
 		RobotAction actionRobotLeft = robotLeft.getCurrentAction();
 		RobotAction actionRobotRight = robotRight.getCurrentAction();
@@ -45,20 +45,32 @@ public class BattleController {
 		
 		cinematicVisualizer.battleIsAboutToStart();
 		
+		//ruft in der Methode cinematicVisualizer auf
+		startAnimationsInOrder(actionRobotLeft, actionRobotRight);
+		
+		computeOutcomeOfBattleRound();
+		
+		
 	}
 	
+	private void computeOutcomeOfBattleRound() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 	/**
 	 * Orders the RobotActions into an Array.
 	 * 
 	 * <p>2 Attacks -> Random Order</p>
 	 * <p>1 Attack, 1 Defend -> 1st Attack, 2nd Defend</p>
-	 * <p>2 Defends -> null</p>
+	 * <p>2 Defends -> Simultaneously</p>
 	 * 
 	 * @param actionRobotLeft
 	 * @param actionRobotRight
 	 * @return Array containing RobotActions in order. null if both are defends 
 	 */
-	void startActionsInOrder(RobotAction actionRobotLeft, RobotAction actionRobotRight)
+	void startAnimationsInOrder(RobotAction actionRobotLeft, RobotAction actionRobotRight)
 	{
 		ArrayList<AnimationPosition> order = new ArrayList<AnimationPosition>(2);
 		AnimationPosition animationPosition1;
