@@ -7,29 +7,28 @@ import de.kvwl.n8dA.robotwars.actions.RobotAction;
 import de.kvwl.n8dA.robotwars.gui.Animation;
 
 public class Robot extends Entity {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private UUID uuid;
-	
+
 	private String name;
 	private int healthPoints;
 	private int energyPoints;
-	
+
 	private Animation animation;
-	
+
 	private ArrayList<RobotAction> possibleAttacks;
-	private ArrayList<RobotAction> possibleDefends;	
-	
+	private ArrayList<RobotAction> possibleDefends;
+
 	private RobotAction currentAction;
-	
 
 	public Robot() {
 		super();
 		uuid = UUID.randomUUID();
 		this.setPossibleAttacks(new ArrayList<RobotAction>(4));
 		this.setPossibleDefends(new ArrayList<RobotAction>(4));
-		
+
 	}
 
 	public String getName() {
@@ -55,11 +54,11 @@ public class Robot extends Entity {
 	public void setCurrentAction(RobotAction action) {
 		this.currentAction = action;
 	}
-	
+
 	@Override
 	public String toString() {
-	
-	return name+": " + healthPoints + "HP";
+
+		return name + ": " + healthPoints + "HP";
 	}
 
 	public Animation getAnimation() {
@@ -119,25 +118,13 @@ public class Robot extends Entity {
 		if (uuid == null) {
 			if (other.uuid != null)
 				return false;
-		} else if (!uuid.equals(other.uuid))
+		} 
+		
+		if (!uuid.equals(other.uuid))
 			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (possibleAttacks == null) {
-			if (other.possibleAttacks != null)
-				return false;
-		} else if (!possibleAttacks.equals(other.possibleAttacks))
-			return false;
-		if (possibleDefends == null) {
-			if (other.possibleDefends != null)
-				return false;
-		} else if (!possibleDefends.equals(other.possibleDefends))
-			return false;
-		return true;
+		else{
+			return true;
+		}
 	}
-	
-	
+
 }

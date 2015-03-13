@@ -30,7 +30,7 @@ public class RoboBattlePlayerClient extends RoboBattleClient{
 	public static void main(String[] args) {
 		RoboBattlePlayerClient client = new RoboBattlePlayerClient();
 		client.init();
-		client.registerClientWithRobotOnServer();
+		client.registerClientWithRobotAtServer();
 		client.updateRobot();
 	}
 	
@@ -38,9 +38,10 @@ public class RoboBattlePlayerClient extends RoboBattleClient{
 	
 	
 	
-	public void registerClientWithRobotOnServer()
+	public void registerClientWithRobotAtServer()
 	{
 		try {
+			LOG.info("Client: " + uuid + " wants to register at server");
 			server.registerRobotAndClientForBattle(robot, uuid);
 			
 		} catch (RemoteException e) {
@@ -52,6 +53,7 @@ public class RoboBattlePlayerClient extends RoboBattleClient{
 	private void updateRobot()
 	{
 		try {
+			LOG.info("Client: " + uuid + " requests robot update");
 			robot = server.getSynchronizedRobot(uuid);
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -68,12 +70,14 @@ public class RoboBattlePlayerClient extends RoboBattleClient{
 			int intProperty = message.getIntProperty(ClientNotificationType.getNotificationName());
 			ClientNotificationType clientNotificationType = ClientNotificationType.values()[intProperty];
 			
+			LOG.info("Client: " + uuid + " received: " + clientNotificationType.name());
+			
 			
 		}catch (ArrayIndexOutOfBoundsException e) {
-		System.out.println("Wenn man keine Ahnung hat, einfach mal die Finger vom Code lassen!");
+		LOG.debug("Wenn man keine Ahnung hat, einfach mal die Finger vom Code lassen!\n" + e.getStackTrace());
 		}
 		 catch (Exception e) {
-			e.printStackTrace();
+			LOG.error("####Bumm####", e);
 		}
 		
 	}

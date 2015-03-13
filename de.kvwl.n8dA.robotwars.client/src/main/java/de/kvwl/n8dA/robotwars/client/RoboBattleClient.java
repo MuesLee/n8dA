@@ -5,6 +5,9 @@ import java.util.UUID;
 
 import javax.jms.MessageListener;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.kvwl.n8dA.robotwars.client.communication.RoboBattleJMSReceiver;
 import de.kvwl.n8dA.robotwars.commons.interfaces.RoboBattleHandler;
 
@@ -15,6 +18,8 @@ import de.kvwl.n8dA.robotwars.commons.interfaces.RoboBattleHandler;
  */
 public abstract class RoboBattleClient implements MessageListener{
 
+	protected final Logger LOG = LoggerFactory.getLogger(RoboBattleClient.class);
+	
 	protected static final String url = "//127.0.0.1/RoboBattleServer";
 	protected UUID uuid;
 	protected RoboBattleHandler server;
@@ -37,7 +42,7 @@ public abstract class RoboBattleClient implements MessageListener{
 	private void connectToServer(String url) {
 		try {
 		      server = (RoboBattleHandler)Naming.lookup(url);
-		      System.out.println("Connected to Server");
+		      LOG.info("Client: " + uuid + " connected to Server");
 		    }
 		    catch (Exception ex)
 		    {
@@ -46,8 +51,10 @@ public abstract class RoboBattleClient implements MessageListener{
 	}
 	
 	private void listenToJMSReceiver()
-	{
+	{	
+		
 		roboBattleJMSReceiver.setMessageListener(this);
+		LOG.info("Client: " + uuid + "is listening on JSM-Queue");
 	}
 	
 }
