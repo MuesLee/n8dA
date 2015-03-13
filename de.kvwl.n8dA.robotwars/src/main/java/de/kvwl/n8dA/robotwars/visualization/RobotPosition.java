@@ -1,5 +1,5 @@
 package de.kvwl.n8dA.robotwars.visualization;
 
-public interface CinematicHandler {
-
+public enum RobotPosition {
+LEFT, RIGHT
 }
