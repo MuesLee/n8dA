@@ -1,5 +1,6 @@
 package de.kvwl.n8dA.robotwars.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.kvwl.n8dA.robotwars.actions.Attack;
@@ -8,8 +9,9 @@ import de.kvwl.n8dA.robotwars.entities.Robot;
 import de.kvwl.n8dA.robotwars.exception.RobotHasInsufficientEnergyException;
 import de.kvwl.n8dA.robotwars.exception.RobotsArentRdyToFightException;
 import de.kvwl.n8dA.robotwars.exception.UnknownRobotException;
+import de.kvwl.n8dA.robotwars.visualization.AnimationPosition;
 import de.kvwl.n8dA.robotwars.visualization.CinematicVisualizer;
-import de.kvwl.n8dA.robotwars.visualization.CinematicVisualizerImpl;
+import de.kvwl.n8dA.robotwars.visualization.RobotPosition;
 
 public class BattleController {
 	
@@ -24,7 +26,7 @@ public class BattleController {
 	
 	public BattleController() {
 		
-		this.cinematicVisualizer = new CinematicVisualizerImpl();
+		//TODO: this.cinematicVisualizer = 
 	}
 	
 	
@@ -41,8 +43,6 @@ public class BattleController {
 		
 		cinematicVisualizer.battleIsAboutToStart();
 		
-		RobotAction[] orderOfActions = decideOrderOfActions(actionRobotLeft, actionRobotRight);
-		
 	}
 	
 	/**
@@ -56,9 +56,11 @@ public class BattleController {
 	 * @param actionRobotRight
 	 * @return Array containing RobotActions in order. null if both are defends 
 	 */
-	RobotAction[] decideOrderOfActions(RobotAction actionRobotLeft, RobotAction actionRobotRight)
+	void startActionsInOrder(RobotAction actionRobotLeft, RobotAction actionRobotRight)
 	{
-		RobotAction[] order = new RobotAction[2];
+		ArrayList<AnimationPosition> order = new ArrayList<AnimationPosition>(2);
+		AnimationPosition animationPosition1;
+		AnimationPosition animationPosition2;
 		
 		if(actionRobotLeft instanceof Attack)
 		{
@@ -68,35 +70,44 @@ public class BattleController {
 				double random = Math.random();
 				if(random>=0.5)
 				{
-					order[0] = actionRobotLeft;					
-					order[1] = actionRobotRight;					
+					animationPosition1 = new AnimationPosition(actionRobotLeft.getAnimation().getId(), RobotPosition.LEFT);
+					animationPosition2 = new AnimationPosition(actionRobotRight.getAnimation().getId(), RobotPosition.RIGHT);
+				
 				}
 				else {
-					order[0] = actionRobotRight;					
-					order[1] = actionRobotLeft;					
+					animationPosition1 = new AnimationPosition(actionRobotRight.getAnimation().getId(), RobotPosition.RIGHT);
+					animationPosition2 = new AnimationPosition(actionRobotLeft.getAnimation().getId(), RobotPosition.LEFT);
 				}
 			}
 			//Links ATT rechts DEF
 			else {
-				order[1] = actionRobotRight;					
-				order[0] = actionRobotLeft;	
+				animationPosition1 = new AnimationPosition(actionRobotLeft.getAnimation().getId(), RobotPosition.LEFT);
+				animationPosition2 = new AnimationPosition(actionRobotRight.getAnimation().getId(), RobotPosition.RIGHT);
 			}
 		}
 		//Links DEF Rechts ATT
 		else {
 			if(actionRobotRight instanceof Attack)
 			{
-				order[0] = actionRobotRight;					
-				order[1] = actionRobotLeft;	
+				animationPosition1 = new AnimationPosition(actionRobotRight.getAnimation().getId(), RobotPosition.RIGHT);
+				animationPosition2 = new AnimationPosition(actionRobotLeft.getAnimation().getId(), RobotPosition.LEFT);
 			}
 			
 			//Links DEF rechts DEF
 			else {
-				order = null;
+				animationPosition1 = new AnimationPosition(actionRobotRight.getAnimation().getId(), RobotPosition.RIGHT);
+				animationPosition2 = new AnimationPosition(actionRobotLeft.getAnimation().getId(), RobotPosition.LEFT);
+				order.add(animationPosition1);
+				order.add(animationPosition2);
+				cinematicVisualizer.playAnimationForRobotsSimultaneously(order);
+				return;
 			}
 		}
 		
-		return order;
+		order.add(animationPosition1);
+		order.add(animationPosition2);
+		
+		cinematicVisualizer.playAnimationForRobotsWithDelayAfterFirst(order);
 	}
 
 

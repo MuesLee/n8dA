@@ -39,5 +39,10 @@ public class AnimationPosition
 	{
 		this.position = position;
 	}
+	
+	@Override
+	public String toString() {
+		return "(" + animationID + " , " +position+")";
+	}
 
 }

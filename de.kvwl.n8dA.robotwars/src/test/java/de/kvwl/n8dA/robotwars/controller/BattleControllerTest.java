@@ -1,30 +1,59 @@
 package de.kvwl.n8dA.robotwars.controller;
 
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import de.kvwl.n8dA.robotwars.actions.Attack;
 import de.kvwl.n8dA.robotwars.actions.Defense;
+import de.kvwl.n8dA.robotwars.actions.RobotAction;
 import de.kvwl.n8dA.robotwars.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.entities.Robot;
 import de.kvwl.n8dA.robotwars.exception.RobotsArentRdyToFightException;
+import de.kvwl.n8dA.robotwars.gui.Animation;
+import de.kvwl.n8dA.robotwars.visualization.AnimationPosition;
+import de.kvwl.n8dA.robotwars.visualization.CinematicVisualizer;
+import de.kvwl.n8dA.robotwars.visualization.RobotPosition;
 
 
 public class BattleControllerTest {
+	
+	@Captor ArgumentCaptor<List<AnimationPosition>> argumentAnimationPosition;
 	
 	private BattleController battleController;
 	
 	private Robot robotLeft;
 	private Robot robotRight;
 	
+	@Mock
+	private CinematicVisualizer cinematicVisualizerMock;
+	
 	@Before
-	public void setUp(){
+	public void setUp() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException{
+			
+		MockitoAnnotations.initMocks(this);
+		
 		robotLeft = new Robot();
 		robotRight = new Robot();
-		
 		battleController = new BattleController();
 		battleController.setRobotLeft(robotLeft);
 		battleController.setRobotRight(robotRight);
+		
+		Field field = battleController.getClass().getDeclaredField("cinematicVisualizer");
+		field.setAccessible(true);
+		field.set(battleController, cinematicVisualizerMock);
+		
+		
 		
 	}
 	
@@ -47,6 +76,59 @@ public class BattleControllerTest {
 		
 		battleController.fight();
 		
+	}
+	
+	@Test
+	public void testStartActionsATTandDEF() throws Exception {
+		String animationIDLeft = "1";
+		RobotPosition positionLeft  = RobotPosition.LEFT;
+		String animationIDRight = "2";
+		RobotPosition positionRight = RobotPosition.RIGHT;
+		
+		RobotAction actionRobotLeft = new Attack(RobotActionType.PAPER, 10);
+		actionRobotLeft.setAnimation(new Animation(animationIDLeft, "", null));
+		
+		RobotAction actionRobotRight = new Defense(RobotActionType.ROCK, 10);
+		actionRobotRight.setAnimation(new Animation(animationIDRight, "", null));
+		
+		List<AnimationPosition> animations = new ArrayList<>(2);
+		animations.add(new AnimationPosition(animationIDLeft, positionLeft));
+		animations.add(new AnimationPosition(animationIDRight, positionRight));
+		
+		battleController.startActionsInOrder(actionRobotLeft, actionRobotRight);
+		
+		verify(cinematicVisualizerMock).playAnimationForRobotsWithDelayAfterFirst(argumentAnimationPosition.capture());
+		
+		ArrayList<AnimationPosition> capturedList = (ArrayList<AnimationPosition>) argumentAnimationPosition.getValue();
+		
+		//TODO: Besseren Collection-Vergleich einbauen. Hamcrest evtl.
+		assertEquals(capturedList.toString(), animations.toString());
+	}
+	@Test
+	public void testStartActionsDEFandATT() throws Exception {
+		String animationIDLeft = "1";
+		RobotPosition positionLeft  = RobotPosition.LEFT;
+		String animationIDRight = "2";
+		RobotPosition positionRight = RobotPosition.RIGHT;
+		
+		RobotAction actionRobotRight = new Attack(RobotActionType.PAPER, 10);
+		actionRobotRight.setAnimation(new Animation(animationIDRight, "", null));
+		
+		RobotAction actionRobotLeft = new Defense(RobotActionType.ROCK, 10);
+		actionRobotLeft.setAnimation(new Animation(animationIDLeft, "", null));
+		
+		List<AnimationPosition> animations = new ArrayList<>(2);
+		animations.add(new AnimationPosition(animationIDRight, positionRight));
+		animations.add(new AnimationPosition(animationIDLeft, positionLeft));
+		
+		battleController.startActionsInOrder(actionRobotLeft, actionRobotRight);
+		
+		verify(cinematicVisualizerMock).playAnimationForRobotsWithDelayAfterFirst(argumentAnimationPosition.capture());
+		
+		ArrayList<AnimationPosition> capturedList = (ArrayList<AnimationPosition>) argumentAnimationPosition.getValue();
+		
+		//TODO: Besseren Collection-Vergleich einbauen. Hamcrest evtl.
+		assertEquals(capturedList.toString(), animations.toString());
 	}
 
 }

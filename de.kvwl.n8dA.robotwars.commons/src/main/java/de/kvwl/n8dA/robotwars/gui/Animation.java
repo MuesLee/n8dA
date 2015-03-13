@@ -6,7 +6,12 @@ public class Animation {
 	private String pathToFile;
 	private int[] frameTimings;
 	
-	
+	public Animation(String id, String pathToFile, int[] frameTimings) {
+		super();
+		this.id = id;
+		this.pathToFile = pathToFile;
+		this.frameTimings = frameTimings;
+	}
 	public String getPathToFile() {
 		return pathToFile;
 	}
