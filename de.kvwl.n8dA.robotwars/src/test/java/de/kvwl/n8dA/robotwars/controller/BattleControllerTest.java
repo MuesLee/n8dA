@@ -102,7 +102,7 @@ public class BattleControllerTest {
 		ArrayList<AnimationPosition> capturedList = (ArrayList<AnimationPosition>) argumentAnimationPosition.getValue();
 		
 		//TODO: Besseren Collection-Vergleich einbauen. Hamcrest evtl.
-		assertEquals(capturedList.toString(), animations.toString());
+		assertEquals(animations.toString(), capturedList.toString());
 	}
 	@Test
 	public void testStartActionsDEFandATT() throws Exception {
@@ -128,7 +128,63 @@ public class BattleControllerTest {
 		ArrayList<AnimationPosition> capturedList = (ArrayList<AnimationPosition>) argumentAnimationPosition.getValue();
 		
 		//TODO: Besseren Collection-Vergleich einbauen. Hamcrest evtl.
-		assertEquals(capturedList.toString(), animations.toString());
+		assertEquals(animations.toString(), capturedList.toString());
+	}
+	@Test
+	public void testStartActionsDEFandDEF() throws Exception {
+		String animationIDLeft = "1";
+		RobotPosition positionLeft  = RobotPosition.LEFT;
+		String animationIDRight = "2";
+		RobotPosition positionRight = RobotPosition.RIGHT;
+		
+		RobotAction actionRobotRight = new Defense(RobotActionType.PAPER, 10);
+		actionRobotRight.setAnimation(new Animation(animationIDRight, "", null));
+		
+		RobotAction actionRobotLeft = new Defense(RobotActionType.ROCK, 10);
+		actionRobotLeft.setAnimation(new Animation(animationIDLeft, "", null));
+		
+		List<AnimationPosition> animations = new ArrayList<>(2);
+		animations.add(new AnimationPosition(animationIDRight, positionRight));
+		animations.add(new AnimationPosition(animationIDLeft, positionLeft));
+		
+		battleController.startActionsInOrder(actionRobotLeft, actionRobotRight);
+		
+		verify(cinematicVisualizerMock).playAnimationForRobotsSimultaneously(argumentAnimationPosition.capture());
+		
+		ArrayList<AnimationPosition> capturedList = (ArrayList<AnimationPosition>) argumentAnimationPosition.getValue();
+		
+		//TODO: Besseren Collection-Vergleich einbauen. Hamcrest evtl.
+		assertEquals(animations.toString(),capturedList.toString());
+	}
+	
+	
+	//@Test
+	// Test funktioniert. Durch die zufällige Sortierung innerhalb der Liste, failed assertEquals zu 50%.. 
+	// deshalb mal auskommentiert. zwischendurch mal testen.
+	public void testStartActionsATTandATT() throws Exception {
+		String animationIDLeft = "1";
+		RobotPosition positionLeft  = RobotPosition.LEFT;
+		String animationIDRight = "2";
+		RobotPosition positionRight = RobotPosition.RIGHT;
+		
+		RobotAction actionRobotRight = new Attack(RobotActionType.PAPER, 10);
+		actionRobotRight.setAnimation(new Animation(animationIDRight, "", null));
+		
+		RobotAction actionRobotLeft = new Attack(RobotActionType.ROCK, 10);
+		actionRobotLeft.setAnimation(new Animation(animationIDLeft, "", null));
+		
+		List<AnimationPosition> animations = new ArrayList<>(2);
+		animations.add(new AnimationPosition(animationIDRight, positionRight));
+		animations.add(new AnimationPosition(animationIDLeft, positionLeft));
+		
+		battleController.startActionsInOrder(actionRobotLeft, actionRobotRight);
+		
+		verify(cinematicVisualizerMock).playAnimationForRobotsWithDelayAfterFirst(argumentAnimationPosition.capture());
+		
+		ArrayList<AnimationPosition> capturedList = (ArrayList<AnimationPosition>) argumentAnimationPosition.getValue();
+		
+		//TODO: Besseren Collection-Vergleich einbauen. Hamcrest evtl.
+		assertEquals(animations.toString(),capturedList.toString());
 	}
 
 }
