@@ -3,12 +3,12 @@ package de.kvwl.n8dA.robotwars.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.kvwl.n8dA.robotwars.actions.Attack;
-import de.kvwl.n8dA.robotwars.actions.RobotAction;
-import de.kvwl.n8dA.robotwars.entities.Robot;
-import de.kvwl.n8dA.robotwars.exception.RobotHasInsufficientEnergyException;
-import de.kvwl.n8dA.robotwars.exception.RobotsArentRdyToFightException;
-import de.kvwl.n8dA.robotwars.exception.UnknownRobotException;
+import de.kvwl.n8dA.robotwars.commons.exception.RobotHasInsufficientEnergyException;
+import de.kvwl.n8dA.robotwars.commons.exception.RobotsArentRdyToFightException;
+import de.kvwl.n8dA.robotwars.commons.exception.UnknownRobotException;
+import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
+import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
+import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.visualization.AnimationPosition;
 import de.kvwl.n8dA.robotwars.visualization.CinematicVisualizer;
 import de.kvwl.n8dA.robotwars.visualization.RobotPosition;

@@ -1,10 +1,10 @@
-package de.kvwl.n8dA.robotwars.entities;
+package de.kvwl.n8dA.robotwars.commons.game.entities;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
-import de.kvwl.n8dA.robotwars.actions.RobotAction;
-import de.kvwl.n8dA.robotwars.gui.Animation;
+import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
+import de.kvwl.n8dA.robotwars.commons.gui.Animation;
 
 public class Robot extends Entity {
 

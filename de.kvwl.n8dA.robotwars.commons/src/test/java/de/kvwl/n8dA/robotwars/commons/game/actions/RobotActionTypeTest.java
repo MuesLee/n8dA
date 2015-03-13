@@ -1,8 +1,10 @@
-package de.kvwl.n8dA.robotwars.actions;
+package de.kvwl.n8dA.robotwars.commons.game.actions;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+
+import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 
 
 public class RobotActionTypeTest {

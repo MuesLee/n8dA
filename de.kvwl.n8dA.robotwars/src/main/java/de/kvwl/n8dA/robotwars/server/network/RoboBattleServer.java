@@ -15,13 +15,13 @@ import org.apache.log4j.BasicConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.kvwl.n8dA.robotwars.actions.RobotAction;
+import de.kvwl.n8dA.robotwars.commons.exception.NoFreeSlotInBattleArenaException;
+import de.kvwl.n8dA.robotwars.commons.exception.RobotHasInsufficientEnergyException;
+import de.kvwl.n8dA.robotwars.commons.exception.UnknownRobotException;
+import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
+import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.interfaces.RoboBattleHandler;
 import de.kvwl.n8dA.robotwars.controller.BattleController;
-import de.kvwl.n8dA.robotwars.entities.Robot;
-import de.kvwl.n8dA.robotwars.exception.NoFreeSlotInBattleArenaException;
-import de.kvwl.n8dA.robotwars.exception.RobotHasInsufficientEnergyException;
-import de.kvwl.n8dA.robotwars.exception.UnknownRobotException;
 import de.kvwl.n8dA.robotwars.server.input.DataLoader;
 import de.kvwl.n8dA.robotwars.server.input.DataLoaderFileSystemImpl;
 import de.kvwl.n8dA.robotwars.server.network.messaging.RoboBattleJMSProducer;

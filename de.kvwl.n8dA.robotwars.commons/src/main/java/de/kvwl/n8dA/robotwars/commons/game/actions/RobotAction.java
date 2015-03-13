@@ -1,7 +1,7 @@
-package de.kvwl.n8dA.robotwars.actions;
+package de.kvwl.n8dA.robotwars.commons.game.actions;
 
-import de.kvwl.n8dA.robotwars.entities.Entity;
-import de.kvwl.n8dA.robotwars.gui.Animation;
+import de.kvwl.n8dA.robotwars.commons.game.entities.Entity;
+import de.kvwl.n8dA.robotwars.commons.gui.Animation;
 
 public abstract class RobotAction extends Entity {
 	

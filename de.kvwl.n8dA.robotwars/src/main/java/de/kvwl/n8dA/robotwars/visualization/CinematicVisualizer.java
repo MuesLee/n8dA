@@ -2,7 +2,7 @@ package de.kvwl.n8dA.robotwars.visualization;
 
 import java.util.List;
 
-import de.kvwl.n8dA.robotwars.entities.Robot;
+import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 
 public interface CinematicVisualizer {
 

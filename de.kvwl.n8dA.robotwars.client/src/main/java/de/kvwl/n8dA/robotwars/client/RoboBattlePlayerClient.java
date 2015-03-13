@@ -5,10 +5,10 @@ import java.util.UUID;
 
 import javax.jms.Message;
 
+import de.kvwl.n8dA.robotwars.commons.exception.NoFreeSlotInBattleArenaException;
+import de.kvwl.n8dA.robotwars.commons.exception.UnknownRobotException;
+import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.network.messages.ClientNotificationType;
-import de.kvwl.n8dA.robotwars.entities.Robot;
-import de.kvwl.n8dA.robotwars.exception.NoFreeSlotInBattleArenaException;
-import de.kvwl.n8dA.robotwars.exception.UnknownRobotException;
 
 
 /**

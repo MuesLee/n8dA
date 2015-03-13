@@ -1,4 +1,4 @@
-package de.kvwl.n8dA.robotwars.entities;
+package de.kvwl.n8dA.robotwars.commons.game.entities;
 
 import java.io.Serializable;
 

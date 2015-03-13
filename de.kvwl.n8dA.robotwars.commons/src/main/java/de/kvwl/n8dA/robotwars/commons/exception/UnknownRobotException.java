@@ -1,4 +1,4 @@
-package de.kvwl.n8dA.robotwars.exception;
+package de.kvwl.n8dA.robotwars.commons.exception;
 
 public class UnknownRobotException extends Exception {
 

@@ -1,4 +1,4 @@
-package de.kvwl.n8dA.robotwars.actions;
+package de.kvwl.n8dA.robotwars.commons.game.actions;
 
 public enum RobotActionType {
 

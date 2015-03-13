@@ -1,4 +1,4 @@
-package de.kvwl.n8dA.robotwars.gui;
+package de.kvwl.n8dA.robotwars.commons.gui;
 
 public class Animation {
 	

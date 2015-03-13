@@ -2,8 +2,8 @@ package de.kvwl.n8dA.robotwars.server.input;
 
 import java.util.List;
 
-import de.kvwl.n8dA.robotwars.actions.RobotAction;
-import de.kvwl.n8dA.robotwars.entities.Robot;
+import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
+import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 
 public interface DataLoader {
 	
