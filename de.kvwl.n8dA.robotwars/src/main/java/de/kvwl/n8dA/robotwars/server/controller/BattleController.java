@@ -3,6 +3,9 @@ package de.kvwl.n8dA.robotwars.server.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.kvwl.n8dA.robotwars.commons.exception.RobotHasInsufficientEnergyException;
 import de.kvwl.n8dA.robotwars.commons.exception.RobotsArentRdyToFightException;
 import de.kvwl.n8dA.robotwars.commons.exception.UnknownRobotException;
@@ -15,6 +18,9 @@ import de.kvwl.n8dA.robotwars.server.visualization.CinematicVisualizer;
 import de.kvwl.n8dA.robotwars.server.visualization.RobotPosition;
 
 public class BattleController {
+	
+	
+	private static final Logger LOG = LoggerFactory.getLogger(BattleController.class);
 	
 	private static final int ENERGY_REGENERATION_RATE = 0;
 	
@@ -36,6 +42,8 @@ public class BattleController {
 	
 	public void startTheBattle()
 	{
+		LOG.info("The Battle has begun!");
+		
 		performInitialModificationOfRobot(robotLeft);
 		performInitialModificationOfRobot(robotRight);
 		
@@ -45,15 +53,19 @@ public class BattleController {
 			fightNextBattleRound();
 		} catch (RobotsArentRdyToFightException e) {
 			
+			LOG.error("Robots arent rdy", e);
 		}
 	}
 	
 	private void performInitialModificationOfRobot(Robot robot)
 	{
+		
+		
 	List<RoboItem> equippedItems = robot.getEquippedItems();
 		
 		for (RoboItem roboItem : equippedItems) {
 			roboItem.performInitialRobotModification(robot);
+			LOG.info("Robot " + robot + " has received an initial upgrade: " + roboItem);
 		}
 	}
 	
@@ -63,7 +75,8 @@ public class BattleController {
 		List<RoboItem> equippedItems = robot.getEquippedItems();
 		
 		for (RoboItem roboItem : equippedItems) {
-			roboItem.performEachRoundsModification(robot);;
+			roboItem.performEachRoundsModification(robot);
+			LOG.info("Robot " + robot + " has received an upgrade: " + roboItem);
 		}
 	}
 	
@@ -71,6 +84,8 @@ public class BattleController {
 	
 	public void fightNextBattleRound() throws RobotsArentRdyToFightException
 	{
+		LOG.debug("Next Battleround triggered");
+		
 		RobotAction actionRobotLeft = robotLeft.getCurrentAction();
 		RobotAction actionRobotRight = robotRight.getCurrentAction();
 		
@@ -105,6 +120,8 @@ public class BattleController {
 		
 		robotLeft.setEnergyPoints(energyRobotLeft);
 		robotRight.setEnergyPoints(energyRobotRight);
+
+		LOG.info("Robots regenerated energy: " +energyReg);
 	}
 
 
@@ -123,9 +140,12 @@ public class BattleController {
 		
 		int energyRobot = robot.getEnergyPoints();
 		
-		energyRobot -= actionRobot.getEnergyCosts();	
+		int actionsEnergyCosts = actionRobot.getEnergyCosts();
+		energyRobot -= actionsEnergyCosts;	
 		
 		robot.setEnergyPoints(energyRobot);
+		
+		LOG.info("Robot " + robot + " has lost " + actionsEnergyCosts + " Energy.");
 	}
 
 	/**

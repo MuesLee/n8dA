@@ -24,5 +24,10 @@ public class HPBoostItem extends RoboItem {
 		
 		//nichts zu tun
 	}
+	
+	@Override
+	public String toString() {
+		return "HP Boost: " + hpBoost;
+	}
 
 }
