@@ -6,6 +6,6 @@ public interface RoboModificator {
 
 	public void performInitialRobotModification(Robot robot);
 	
-	public void performEachRoundModification(Robot robot);
+	public void performEachRoundsModification(Robot robot);
 	
 }

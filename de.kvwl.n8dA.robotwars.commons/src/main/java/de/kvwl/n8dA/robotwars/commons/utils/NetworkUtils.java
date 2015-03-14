@@ -4,7 +4,7 @@ import java.rmi.registry.Registry;
 
 public class NetworkUtils {
 
-	public static final String HOST_IP_ADDRESS = "192.168.1.94";
+	public static final String HOST_IP_ADDRESS = "localhost";
 	
 	public static final String FULL_HOST_TCP_ADDRESS = "tcp://"
 			+ HOST_IP_ADDRESS + ":1527";

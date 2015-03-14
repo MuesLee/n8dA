@@ -7,7 +7,6 @@ import de.kvwl.n8dA.robotwars.commons.exception.RobotHasInsufficientEnergyExcept
 import de.kvwl.n8dA.robotwars.commons.exception.RobotsArentRdyToFightException;
 import de.kvwl.n8dA.robotwars.commons.exception.UnknownRobotException;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
-import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
@@ -58,6 +57,18 @@ public class BattleController {
 		}
 	}
 	
+	
+	private void performEachRoundsModificationOfRobot(Robot robot)
+	{
+		List<RoboItem> equippedItems = robot.getEquippedItems();
+		
+		for (RoboItem roboItem : equippedItems) {
+			roboItem.performEachRoundsModification(robot);;
+		}
+	}
+	
+	
+	
 	public void fightNextBattleRound() throws RobotsArentRdyToFightException
 	{
 		RobotAction actionRobotLeft = robotLeft.getCurrentAction();
@@ -71,62 +82,39 @@ public class BattleController {
 		
 		cinematicVisualizer.roundIsAboutToStart();;
 		
+		
 		//ruft in der Methode cinematicVisualizer auf
-		startAnimationsInOrder(actionRobotLeft, actionRobotRight);
+		startAnimationsInOrderAndProcessBattle(robotLeft, robotRight);
 		
-		computeOutcomeOfBattleRound(robotLeft, robotRight);
-		
-		regenerateEnergyOfRobots(robotLeft, robotRight);
+		consumeEnergyForRobotAction(robotLeft);
+		consumeEnergyForRobotAction(robotRight);
+		regenerateEnergyOfRobots(robotLeft, robotRight, ENERGY_REGENERATION_RATE);
+		performEachRoundsModificationOfRobot(robotLeft);
+		performEachRoundsModificationOfRobot(robotRight);
 		
 		//TODO: Siegbedingung
 	}
 	
-	private void regenerateEnergyOfRobots(Robot robotLeft, Robot robotRight) {
+	private void regenerateEnergyOfRobots(Robot robotLeft, Robot robotRight, int energyReg) {
 
 		int energyRobotLeft = robotLeft.getEnergyPoints();
 		int energyRobotRight = robotRight.getEnergyPoints();
 		
-		energyRobotLeft += ENERGY_REGENERATION_RATE;	
-		energyRobotRight += ENERGY_REGENERATION_RATE; 	
+		energyRobotLeft += energyReg;	
+		energyRobotRight += energyReg; 	
 		
 		robotLeft.setEnergyPoints(energyRobotLeft);
 		robotRight.setEnergyPoints(energyRobotRight);
 	}
 
 
-	private void computeOutcomeOfBattleRound(Robot robotLeft, Robot robotRight) {
+	 void computeOutcomeATTvsDEF(Robot attacker, Robot defender) {
 		
-		//TODO: implement me further
+	
+	}
+	 void computeOutcomeATTvsATT(Robot attackerLeft, Robot attackerRight) {
 		
-		RobotAction actionRobotLeft = robotLeft.getCurrentAction();
-		RobotAction actionRobotRight = robotRight.getCurrentAction();
 		
-		consumeEnergyForRobotAction(robotLeft);
-		consumeEnergyForRobotAction(robotRight);
-		
-		if(actionRobotLeft instanceof Attack)
-		{
-			Attack attackLeft = (Attack) actionRobotLeft;
-			
-			if(actionRobotRight instanceof Attack)
-			{
-				Attack attackRight = (Attack) actionRobotRight;
-				
-				int healthPointsRoboLeft = robotLeft.getHealthPoints();
-				int healthPointsRoboRight = robotRight.getHealthPoints();
-				
-				healthPointsRoboLeft  -= attackRight.getDamage();
-				healthPointsRoboRight -= attackLeft.getDamage();
-				
-				robotRight.setHealthPoints(healthPointsRoboRight);
-				robotLeft.setHealthPoints(healthPointsRoboLeft);
-			}
-		}
-		else {
-			Defense defenseLeft = (Defense) actionRobotLeft;
-			
-			
-		}
 	}
 	
 	private void consumeEnergyForRobotAction(Robot robot)
@@ -141,8 +129,6 @@ public class BattleController {
 	}
 
 	/**
-	 * Orders the RobotActions into an Array.
-	 * 
 	 * <p>2 Attacks -> Random Order</p>
 	 * <p>1 Attack, 1 Defend -> 1st Attack, 2nd Defend</p>
 	 * <p>2 Defends -> Simultaneously</p>
@@ -151,8 +137,11 @@ public class BattleController {
 	 * @param actionRobotRight
 	 * @return Array containing RobotActions in order. null if both are defends 
 	 */
-	void startAnimationsInOrder(RobotAction actionRobotLeft, RobotAction actionRobotRight)
+	void startAnimationsInOrderAndProcessBattle(Robot robotLeft, Robot robotRight)
 	{
+		RobotAction actionRobotRight = robotRight.getCurrentAction();
+		RobotAction actionRobotLeft = robotLeft.getCurrentAction();
+		
 		ArrayList<AnimationPosition> order = new ArrayList<AnimationPosition>(2);
 		AnimationPosition animationPosition1;
 		AnimationPosition animationPosition2;

@@ -90,12 +90,14 @@ public class BattleControllerTest {
 		
 		RobotAction actionRobotRight = new Defense(RobotActionType.ROCK, 10);
 		actionRobotRight.setAnimation(new Animation(animationIDRight, "", null));
+		robotLeft.setCurrentAction(actionRobotLeft);
+		robotRight.setCurrentAction(actionRobotRight);
 		
 		List<AnimationPosition> animations = new ArrayList<>(2);
 		animations.add(new AnimationPosition(animationIDLeft, positionLeft));
 		animations.add(new AnimationPosition(animationIDRight, positionRight));
 		
-		battleController.startAnimationsInOrder(actionRobotLeft, actionRobotRight);
+		battleController.startAnimationsInOrderAndProcessBattle(robotLeft, robotRight);
 		
 		verify(cinematicVisualizerMock).playAnimationForRobotsWithDelayAfterFirst(argumentAnimationPosition.capture());
 		
@@ -116,11 +118,14 @@ public class BattleControllerTest {
 		RobotAction actionRobotLeft = new Defense(RobotActionType.ROCK, 10);
 		actionRobotLeft.setAnimation(new Animation(animationIDLeft, "", null));
 		
+		robotLeft.setCurrentAction(actionRobotLeft);
+		robotRight.setCurrentAction(actionRobotRight);
+		
 		List<AnimationPosition> animations = new ArrayList<>(2);
 		animations.add(new AnimationPosition(animationIDRight, positionRight));
 		animations.add(new AnimationPosition(animationIDLeft, positionLeft));
 		
-		battleController.startAnimationsInOrder(actionRobotLeft, actionRobotRight);
+		battleController.startAnimationsInOrderAndProcessBattle(robotLeft, robotRight);
 		
 		verify(cinematicVisualizerMock).playAnimationForRobotsWithDelayAfterFirst(argumentAnimationPosition.capture());
 		
@@ -141,11 +146,14 @@ public class BattleControllerTest {
 		RobotAction actionRobotLeft = new Defense(RobotActionType.ROCK, 10);
 		actionRobotLeft.setAnimation(new Animation(animationIDLeft, "", null));
 		
+		robotLeft.setCurrentAction(actionRobotLeft);
+		robotRight.setCurrentAction(actionRobotRight);
+
 		List<AnimationPosition> animations = new ArrayList<>(2);
 		animations.add(new AnimationPosition(animationIDRight, positionRight));
 		animations.add(new AnimationPosition(animationIDLeft, positionLeft));
 		
-		battleController.startAnimationsInOrder(actionRobotLeft, actionRobotRight);
+		battleController.startAnimationsInOrderAndProcessBattle(robotLeft, robotRight);
 		
 		verify(cinematicVisualizerMock).playAnimationForRobotsSimultaneously(argumentAnimationPosition.capture());
 		
@@ -170,11 +178,14 @@ public class BattleControllerTest {
 		RobotAction actionRobotLeft = new Attack(RobotActionType.ROCK, 10);
 		actionRobotLeft.setAnimation(new Animation(animationIDLeft, "", null));
 		
+		robotLeft.setCurrentAction(actionRobotLeft);
+		robotRight.setCurrentAction(actionRobotRight);
+
 		List<AnimationPosition> animations = new ArrayList<>(2);
 		animations.add(new AnimationPosition(animationIDRight, positionRight));
 		animations.add(new AnimationPosition(animationIDLeft, positionLeft));
 		
-		battleController.startAnimationsInOrder(actionRobotLeft, actionRobotRight);
+		battleController.startAnimationsInOrderAndProcessBattle(robotLeft, robotRight);
 		
 		verify(cinematicVisualizerMock).playAnimationForRobotsWithDelayAfterFirst(argumentAnimationPosition.capture());
 		

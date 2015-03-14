@@ -20,7 +20,7 @@ public class HPBoostItem extends RoboItem {
 	}
 
 	@Override
-	public void performEachRoundModification(Robot robot) {
+	public void performEachRoundsModification(Robot robot) {
 		
 		//nichts zu tun
 	}
