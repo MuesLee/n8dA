@@ -25,7 +25,7 @@ import de.kvwl.n8dA.robotwars.commons.game.items.HPBoostItem;
 import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
 import de.kvwl.n8dA.robotwars.commons.interfaces.RoboBattleHandler;
 import de.kvwl.n8dA.robotwars.commons.utils.NetworkUtils;
-import de.kvwl.n8dA.robotwars.controller.BattleController;
+import de.kvwl.n8dA.robotwars.server.controller.BattleController;
 import de.kvwl.n8dA.robotwars.server.input.DataLoader;
 import de.kvwl.n8dA.robotwars.server.input.DataLoaderFileSystemImpl;
 import de.kvwl.n8dA.robotwars.server.network.messaging.RoboBattleJMSProducer;

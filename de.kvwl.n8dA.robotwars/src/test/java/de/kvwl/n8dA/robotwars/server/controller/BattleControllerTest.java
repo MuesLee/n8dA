@@ -1,4 +1,4 @@
-package de.kvwl.n8dA.robotwars.controller;
+package de.kvwl.n8dA.robotwars.server.controller;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -21,9 +21,10 @@ import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.gui.Animation;
-import de.kvwl.n8dA.robotwars.visualization.AnimationPosition;
-import de.kvwl.n8dA.robotwars.visualization.CinematicVisualizer;
-import de.kvwl.n8dA.robotwars.visualization.RobotPosition;
+import de.kvwl.n8dA.robotwars.server.controller.BattleController;
+import de.kvwl.n8dA.robotwars.server.visualization.AnimationPosition;
+import de.kvwl.n8dA.robotwars.server.visualization.CinematicVisualizer;
+import de.kvwl.n8dA.robotwars.server.visualization.RobotPosition;
 
 
 public class BattleControllerTest {

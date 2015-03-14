@@ -1,4 +1,4 @@
-package de.kvwl.n8dA.robotwars.visualization;
+package de.kvwl.n8dA.robotwars.server.visualization;
 
 import java.util.List;
 

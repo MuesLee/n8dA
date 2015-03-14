@@ -1,4 +1,4 @@
-package de.kvwl.n8dA.robotwars.controller;
+package de.kvwl.n8dA.robotwars.server.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +10,9 @@ import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
-import de.kvwl.n8dA.robotwars.visualization.AnimationPosition;
-import de.kvwl.n8dA.robotwars.visualization.CinematicVisualizer;
-import de.kvwl.n8dA.robotwars.visualization.RobotPosition;
+import de.kvwl.n8dA.robotwars.server.visualization.AnimationPosition;
+import de.kvwl.n8dA.robotwars.server.visualization.CinematicVisualizer;
+import de.kvwl.n8dA.robotwars.server.visualization.RobotPosition;
 
 public class BattleController {
 	
