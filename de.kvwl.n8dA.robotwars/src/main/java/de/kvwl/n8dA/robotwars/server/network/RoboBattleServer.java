@@ -118,7 +118,9 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 			battleController.setRobotRight(robot);
 			clientUUIDRight = uuid;
 			LOG.info("Robot registered: " + robot + " ClientUUID: " + uuid);
-			producer.sendGameStateNotificationToAllClients(GameStateType.GAME_HASNT_BEGUN);
+			
+			battleController.startTheBattle();
+			
 			return RobotPosition.RIGHT;
 			
 		} else {

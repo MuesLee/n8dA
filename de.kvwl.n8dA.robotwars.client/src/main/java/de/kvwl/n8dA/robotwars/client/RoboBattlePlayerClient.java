@@ -7,7 +7,9 @@ import javax.jms.Message;
 
 import de.kvwl.n8dA.robotwars.commons.exception.NoFreeSlotInBattleArenaException;
 import de.kvwl.n8dA.robotwars.commons.exception.UnknownRobotException;
+import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
+import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.util.GameStateType;
 import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
@@ -25,14 +27,16 @@ public class RoboBattlePlayerClient extends RoboBattleClient {
 	public RoboBattlePlayerClient() {
 
 		robot = new Robot();
-
 	}
 
 	public static void main(String[] args) {
 		RoboBattlePlayerClient client = new RoboBattlePlayerClient();
 		client.init();
+		
+		//TODO: Test Zeug entfernen
 		client.registerClientWithRobotAtServer();
 		client.updateRobot();
+		client.sendRobotActionToServer(new Attack(RobotActionType.ROCK,	 10));
 	}
 	
 	public void registerClientWithRobotAtServer() {

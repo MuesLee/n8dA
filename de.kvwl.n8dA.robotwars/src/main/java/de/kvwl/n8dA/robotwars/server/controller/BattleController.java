@@ -52,11 +52,16 @@ public class BattleController {
 
 	public void startTheBattle() {
 		LOG.info("The Battle has begun!");
-
+		
+		//TODO: Call der Methode überdenkem
+		
 		performInitialModificationOfRobot(robotLeft);
 		performInitialModificationOfRobot(robotRight);
 
+		server.sendGameStateInfoToClients(GameStateType.GAME_IS_ACTIVE);
 		cinematicVisualizer.battleIsAboutToStart();
+		
+		
 	}
 	
 
@@ -391,6 +396,12 @@ public class BattleController {
 			localRobot.setCurrentAction(robotAction);
 		} else {
 			throw new RobotHasInsufficientEnergyException();
+		}
+		
+		try {
+			fightNextBattleRound();
+		} catch (RobotsArentRdyToFightException e) {
+			LOG.error("War nen Versucht wert..", e);
 		}
 	}
 
