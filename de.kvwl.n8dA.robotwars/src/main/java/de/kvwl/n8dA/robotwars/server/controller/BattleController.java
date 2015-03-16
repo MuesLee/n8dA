@@ -3,10 +3,10 @@ package de.kvwl.n8dA.robotwars.server.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.BasicConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.kvwl.n8dA.robotwars.commons.exception.RobotDefeatedException;
 import de.kvwl.n8dA.robotwars.commons.exception.RobotHasInsufficientEnergyException;
 import de.kvwl.n8dA.robotwars.commons.exception.RobotsArentRdyToFightException;
 import de.kvwl.n8dA.robotwars.commons.exception.UnknownRobotException;
@@ -41,6 +41,8 @@ public class BattleController {
 	private CinematicVisualizer cinematicVisualizer;
 	
 	public BattleController() {
+		
+		BasicConfigurator.configure();
 		
 		//TODO: this.cinematicVisualizer = 
 	}
@@ -146,21 +148,26 @@ public class BattleController {
 		RobotActionType attackType = attack.getRobotActionType();
 		RobotActionType defenseType = defense.getRobotActionType();
 		
+		LOG.info("Robot: " + attacker + " attacks with: " + attack +"\nRobot: " +defender + " defends with: " + defense );
 		int attackDamage = attack.getDamage();
 		if(attackType.beats(defenseType))
 		{
+			
 			// Voller Schaden für DEF
+			LOG.info("Weak defense!");
 			dealDamageToRobot(defender, attackDamage);
 		}
 		else if (defenseType.beats(attackType))
 				{
 			
 			// teilweise Reflektion an ATT, keinen Schaden für DEF
+			LOG.info("Strong defense!");
 			int reflectedDamage = (int) (attackDamage*STRONG_DEFENSE_REFLECTION_FACTOR);
 			dealDamageToRobot(attacker, reflectedDamage);
 			
 		}
 		else {
+			LOG.info("Neutral defense!");
 			int postBlockDamage = (int) (attackDamage*NEUTRAL_DEFENSE_BLOCK_FACTOR);
 			dealDamageToRobot(defender, postBlockDamage);
 		}
@@ -179,10 +186,13 @@ public class BattleController {
 	 
 	 private void dealDamageToRobot(Robot robot, int damage)
 	 {
+		 
+		 LOG.info("Robot: " + robot + " has received " + damage + " damage.");
 		 int healthPoints = robot.getHealthPoints();
 		 healthPoints -= damage;
 		 
 			 robot.setHealthPoints(healthPoints);
+			 LOG.info("Robot: " + robot + " has " + healthPoints+ " HP left.");
 	 }
 	
 	private void consumeEnergyForRobotAction(Robot robot)
@@ -197,6 +207,7 @@ public class BattleController {
 		robot.setEnergyPoints(energyRobot);
 		
 		LOG.info("Robot " + robot + " has lost " + actionsEnergyCosts + " Energy.");
+		LOG.info("Robot " + robot + " has " + energyRobot+ " EP left.");
 	}
 
 	/**
