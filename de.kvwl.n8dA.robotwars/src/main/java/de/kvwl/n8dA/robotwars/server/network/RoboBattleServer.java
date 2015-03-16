@@ -1,6 +1,7 @@
 package de.kvwl.n8dA.robotwars.server.network;
 
 import java.io.File;
+import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
@@ -9,6 +10,11 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.MessageListener;
+import javax.jms.ObjectMessage;
 
 import org.apache.activemq.broker.BrokerService;
 import org.apache.activemq.store.kahadb.KahaDBPersistenceAdapter;
@@ -23,23 +29,27 @@ import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.items.HPBoostItem;
 import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
+import de.kvwl.n8dA.robotwars.commons.game.util.GameStateType;
+import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
 import de.kvwl.n8dA.robotwars.commons.interfaces.RoboBattleHandler;
+import de.kvwl.n8dA.robotwars.commons.network.messages.ClientProperty;
 import de.kvwl.n8dA.robotwars.commons.utils.NetworkUtils;
 import de.kvwl.n8dA.robotwars.server.controller.BattleController;
 import de.kvwl.n8dA.robotwars.server.input.DataLoader;
 import de.kvwl.n8dA.robotwars.server.input.DataLoaderFileSystemImpl;
-import de.kvwl.n8dA.robotwars.server.network.messaging.RoboBattleJMSProducer;
+import de.kvwl.n8dA.robotwars.server.network.messaging.RoboBattleJMSProducerServer;
+import de.kvwl.n8dA.robotwars.server.network.messaging.RoboBattleJMSReceiverServer;
 
 public class RoboBattleServer extends UnicastRemoteObject implements
-		RoboBattleHandler {
+		RoboBattleHandler, MessageListener {
 
 	private static final Logger LOG = LoggerFactory.getLogger(RoboBattleServer.class);
 	
 	private static final long serialVersionUID = 1L;
 
 	private BattleController battleController;
-	@SuppressWarnings("unused")
-	private RoboBattleJMSProducer producer;
+	private RoboBattleJMSProducerServer producer;
+	private RoboBattleJMSReceiverServer receiver;
 	private BrokerService broker;
 	
 	private UUID clientUUIDLeft;
@@ -48,6 +58,7 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 	protected RoboBattleServer() throws RemoteException {
 		super();
 		this.battleController = new BattleController();
+		this.battleController.setServer(this);
 	}
 
 	public static void main(String[] args) {
@@ -67,7 +78,7 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		try {
 			startActiveMQBroker();
 			
-			initJMSProducer();
+			initJMS();
 			
 			LocateRegistry.createRegistry(port);
 			
@@ -87,25 +98,28 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		}
 	}
 
-	@Override
-	public void setActionForRobot(RobotAction robotAction, UUID uuid) throws UnknownRobotException, RobotHasInsufficientEnergyException {
-		LOG.info("Server TEST");
-			battleController.setActionForRobot(robotAction, getRobotForUUID(uuid));
+	public void setActionForRobot(RobotAction robotAction, UUID uuid)
+			throws UnknownRobotException, RobotHasInsufficientEnergyException {
+		LOG.info("Action: " + robotAction + " received from UUID: " + uuid);
+		
+		battleController.setActionForRobot(robotAction, getRobotForUUID(uuid));
 	}
-	
+
 	@Override
-	public void registerRobotAndClientForBattle(Robot robot, UUID uuid) throws RemoteException,
+	public RobotPosition registerRobotAndClientForBattle(Robot robot, UUID uuid) throws RemoteException,
 			NoFreeSlotInBattleArenaException {
 		if (battleController.getRobotLeft() == null) {
 			battleController.setRobotLeft(robot);
 			clientUUIDLeft = uuid;
-			
 			LOG.info("Robot registered: " + robot + " ClientUUID: " + uuid);
+			return RobotPosition.LEFT;
 			
 		} else if (battleController.getRobotRight() == null) {
 			battleController.setRobotRight(robot);
 			clientUUIDRight = uuid;
 			LOG.info("Robot registered: " + robot + " ClientUUID: " + uuid);
+			producer.sendGameStateNotificationToAllClients(GameStateType.GAME_HASNT_BEGUN);
+			return RobotPosition.RIGHT;
 			
 		} else {
 			throw new NoFreeSlotInBattleArenaException();
@@ -123,6 +137,11 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		LOG.info("UUID: " + uuid + " has requested update of Robot. Received " + robot);
 		
 		return robot;
+	}
+	
+	public void sendGameStateInfoToClients(GameStateType gameStateType)
+	{
+		producer.sendGameStateNotificationToAllClients(gameStateType);
 	}
 	
 	private void startActiveMQBroker ()
@@ -165,10 +184,11 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		}
 	}
 	
-	private void initJMSProducer()
+	private void initJMS()
 	{
-		producer = new RoboBattleJMSProducer();
-		//producer.sendMessages();
+		producer = new RoboBattleJMSProducerServer();
+		receiver = new RoboBattleJMSReceiverServer();
+		receiver.setMessageListener(this);
 	}
 
 	private void loadGameData() {
@@ -184,4 +204,30 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		
 	}
 
-}
+	@Override
+	public void onMessage(Message message) {
+			try {
+				ObjectMessage objectMessage = (ObjectMessage) message;
+				Serializable object = objectMessage.getObject();
+				RobotAction robotAction = (RobotAction) object;
+				String uuidAsString = objectMessage.getStringProperty(ClientProperty.CLIENT_UUID.getName());
+				UUID clientUUID = UUID.fromString(uuidAsString);
+				
+				setActionForRobot(robotAction, clientUUID);
+				
+			} catch (JMSException e) {
+			LOG.error("Error while receiving Player input", e);
+			}
+			catch (ClassCastException e) {
+				LOG.error("Wrong class format for player input", e);
+			} catch (UnknownRobotException e) {
+				LOG.error("Wrong robot...", e);
+			} catch (RobotHasInsufficientEnergyException e) {
+				LOG.error("Robot has not Energy to use this action", e);
+			}
+		
+		}
+		
+		
+	}
+

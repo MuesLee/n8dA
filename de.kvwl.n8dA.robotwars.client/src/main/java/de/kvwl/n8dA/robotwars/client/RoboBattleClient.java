@@ -9,7 +9,8 @@ import org.apache.log4j.BasicConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.kvwl.n8dA.robotwars.client.communication.RoboBattleJMSReceiver;
+import de.kvwl.n8dA.robotwars.client.communication.RoboBattleJMSProducerClient;
+import de.kvwl.n8dA.robotwars.client.communication.RoboBattleJMSReceiverClient;
 import de.kvwl.n8dA.robotwars.commons.interfaces.RoboBattleHandler;
 import de.kvwl.n8dA.robotwars.commons.utils.NetworkUtils;
 
@@ -25,7 +26,8 @@ public abstract class RoboBattleClient implements MessageListener{
 	protected static final String url = "//"+NetworkUtils.HOST_IP_ADDRESS+"/"+NetworkUtils.SERVER_NAME;
 	protected UUID uuid;
 	protected RoboBattleHandler server;
-	protected RoboBattleJMSReceiver roboBattleJMSReceiver;
+	protected RoboBattleJMSReceiverClient roboBattleJMSReceiver;
+	protected RoboBattleJMSProducerClient producer;
 
 	public RoboBattleClient() {
 		
@@ -33,8 +35,8 @@ public abstract class RoboBattleClient implements MessageListener{
 		
 		BasicConfigurator.configure();
 		
-		roboBattleJMSReceiver = new RoboBattleJMSReceiver(uuid);
-	
+		roboBattleJMSReceiver = new RoboBattleJMSReceiverClient(uuid);
+		producer = new RoboBattleJMSProducerClient(uuid);
 	}
 	
 	public void init()
@@ -58,7 +60,6 @@ public abstract class RoboBattleClient implements MessageListener{
 	{	
 		
 		roboBattleJMSReceiver.setMessageListener(this);
-		LOG.info("Client: " + uuid + "is listening on JSM-Queue");
+		LOG.info("Client: " + uuid + "is listening on JSM-Topic");
 	}
-	
 }

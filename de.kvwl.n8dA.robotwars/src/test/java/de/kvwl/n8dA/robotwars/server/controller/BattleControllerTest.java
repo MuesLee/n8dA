@@ -20,12 +20,12 @@ import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
-import de.kvwl.n8dA.robotwars.commons.game.util.GameEndingType;
+import de.kvwl.n8dA.robotwars.commons.game.util.GameStateType;
+import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
 import de.kvwl.n8dA.robotwars.commons.gui.Animation;
 import de.kvwl.n8dA.robotwars.server.controller.BattleController;
 import de.kvwl.n8dA.robotwars.server.visualization.AnimationPosition;
 import de.kvwl.n8dA.robotwars.server.visualization.CinematicVisualizer;
-import de.kvwl.n8dA.robotwars.server.visualization.RobotPosition;
 
 
 public class BattleControllerTest {
@@ -68,9 +68,9 @@ public class BattleControllerTest {
 		robotRight.setHealthPoints(0);
 		robotLeft.setHealthPoints(100);
 		
-		GameEndingType actualGameEnding = battleController.checkForGameEnding(robotLeft, robotRight);
+		GameStateType actualGameEnding = battleController.getCurrentGameState(robotLeft, robotRight);
 			
-		GameEndingType expectedGameEnding = GameEndingType.VICTORY_LEFT;
+		GameStateType expectedGameEnding = GameStateType.VICTORY_LEFT;
 		
 		assertEquals(expectedGameEnding, actualGameEnding);
 	}
@@ -80,9 +80,9 @@ public class BattleControllerTest {
 		robotRight.setHealthPoints(100);
 		robotLeft.setHealthPoints(0);
 		
-		GameEndingType actualGameEnding = battleController.checkForGameEnding(robotLeft, robotRight);
+		GameStateType actualGameEnding = battleController.getCurrentGameState(robotLeft, robotRight);
 		
-		GameEndingType expectedGameEnding = GameEndingType.VICTORY_RIGHT;
+		GameStateType expectedGameEnding = GameStateType.VICTORY_RIGHT;
 		
 		assertEquals(expectedGameEnding, actualGameEnding);
 	}
@@ -92,9 +92,9 @@ public class BattleControllerTest {
 		robotRight.setHealthPoints(0);
 		robotLeft.setHealthPoints(0);
 		
-		GameEndingType actualGameEnding = battleController.checkForGameEnding(robotLeft, robotRight);
+		GameStateType actualGameEnding = battleController.getCurrentGameState(robotLeft, robotRight);
 		
-		GameEndingType expectedGameEnding = GameEndingType.DRAW;
+		GameStateType expectedGameEnding = GameStateType.DRAW;
 		
 		assertEquals(expectedGameEnding, actualGameEnding);
 	}
@@ -104,9 +104,9 @@ public class BattleControllerTest {
 		robotRight.setHealthPoints(10);
 		robotLeft.setHealthPoints(10);
 		
-		GameEndingType actualGameEnding = battleController.checkForGameEnding(robotLeft, robotRight);
+		GameStateType actualGameEnding = battleController.getCurrentGameState(robotLeft, robotRight);
 		
-		GameEndingType expectedGameEnding = GameEndingType.ITS_STILL_ON_MOFO;
+		GameStateType expectedGameEnding = GameStateType.GAME_IS_ACTIVE;
 		
 		assertEquals(expectedGameEnding, actualGameEnding);
 	}

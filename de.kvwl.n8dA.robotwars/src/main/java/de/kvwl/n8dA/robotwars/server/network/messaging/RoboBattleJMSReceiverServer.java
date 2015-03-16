@@ -1,6 +1,4 @@
-package de.kvwl.n8dA.robotwars.client.communication;
-
-import java.util.UUID;
+package de.kvwl.n8dA.robotwars.server.network.messaging;
 
 import javax.jms.Connection;
 import javax.jms.Destination;
@@ -11,23 +9,20 @@ import javax.jms.Session;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
-import de.kvwl.n8dA.robotwars.commons.network.messages.ClientProperty;
 import de.kvwl.n8dA.robotwars.commons.utils.NetworkUtils;
 
 
 
-public class RoboBattleJMSReceiver {
+public class RoboBattleJMSReceiverServer {
 	
 	private ActiveMQConnectionFactory connectionFactory;
 	private Destination destination;
 	private MessageConsumer consumer;
 	private Connection connection;
 	private Session session;
-	private UUID clientUUID;
 	
 	
-	public RoboBattleJMSReceiver(UUID uuid) {
-		this.clientUUID = uuid;
+	public RoboBattleJMSReceiverServer() {
 		
 		initJMSConnection();
 		
@@ -52,8 +47,8 @@ public class RoboBattleJMSReceiver {
 		connection = connectionFactory.createConnection();
 		connection.start();
 		session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-		destination = session.createQueue("QUEUE.CLIENTS");
-		consumer = session.createConsumer(destination, ClientProperty.CLIENT_UUID+"'"+clientUUID.toString()+"' OR " +ClientProperty.CLIENT_UUID+"'"+ ClientProperty.ALL_CLIENTS+"'");
+		destination = session.createTopic("QUEUE.CLIENTS");
+		consumer = session.createConsumer(destination);
 		
 		} catch (Exception e) {
         e.printStackTrace();

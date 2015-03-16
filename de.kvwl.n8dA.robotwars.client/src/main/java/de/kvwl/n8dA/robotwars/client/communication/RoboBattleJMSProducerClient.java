@@ -1,4 +1,4 @@
-package de.kvwl.n8dA.robotwars.server.network.messaging;
+package de.kvwl.n8dA.robotwars.client.communication;
 
 import java.util.UUID;
 
@@ -8,34 +8,38 @@ import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageProducer;
+import javax.jms.ObjectMessage;
 import javax.jms.Session;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
-import de.kvwl.n8dA.robotwars.commons.network.messages.ClientNotificationType;
+import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
 import de.kvwl.n8dA.robotwars.commons.network.messages.ClientProperty;
 import de.kvwl.n8dA.robotwars.commons.utils.NetworkUtils;
 
-public class RoboBattleJMSProducer {
+public class RoboBattleJMSProducerClient {
 
 	private ActiveMQConnectionFactory connectionFactory;
 	private Connection connection;
 	private Session session;
 	private Destination destination;
 	private MessageProducer producer;
+	
+	private UUID clientUUID;
 
-	public RoboBattleJMSProducer() {
-		initJMSConnection();
+	public RoboBattleJMSProducerClient(UUID clientUUID) {
+		this.clientUUID = clientUUID;
+		initJMSConnection(clientUUID);
 	}
 
-	private void initJMSConnection() {
+	private void initJMSConnection(UUID clientUUID) {
 		try {
 			connectionFactory = new ActiveMQConnectionFactory(
 					NetworkUtils.FULL_HOST_TCP_ADDRESS);
 			connection = connectionFactory.createConnection();
 			connection.start();
 			session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-			destination = session.createQueue("QUEUE.CLIENTS");
+			destination = session.createTopic("QUEUE.CLIENTS");
 			producer = session.createProducer(destination);
 
 			producer.setDeliveryMode(DeliveryMode.PERSISTENT);
@@ -57,33 +61,17 @@ public class RoboBattleJMSProducer {
 		}
 	}
 
-public void sendClientNotificationToAllClients(ClientNotificationType clientNotificationType)
+public void sendRobotActionToServer(RobotAction robotAction)
 {
 	try {
-		Message message = session.createMessage();
+		ObjectMessage message = session.createObjectMessage();
 		
-		message.setStringProperty(ClientProperty.CLIENT_UUID.getName(), ClientProperty.ALL_CLIENTS.getName() );
-		
-		message.setIntProperty(ClientNotificationType.getNotificationName(), clientNotificationType.ordinal());
+		message.setStringProperty(ClientProperty.CLIENT_UUID.getName(), clientUUID.toString() );
+		message.setObject(robotAction);
 		sendMessage(message);
 		
 	} catch (JMSException e) {
 	}
-}
-
-public void sendMessageToClient(UUID clientUUID, ClientNotificationType clientNotificationType)
-{
-	try {
-		Message message = session.createMessage();
-		
-		message.setStringProperty(ClientProperty.CLIENT_UUID.getName(), clientUUID.toString());
-		message.setIntProperty(ClientNotificationType.getNotificationName(), clientNotificationType.ordinal());
-
-		sendMessage(message);
-		
-	} catch (JMSException e) {
-	}
-	
 }
 
 	public void closeConnections()

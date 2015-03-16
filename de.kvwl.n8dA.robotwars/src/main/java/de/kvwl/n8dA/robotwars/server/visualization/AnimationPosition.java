@@ -1,5 +1,7 @@
 package de.kvwl.n8dA.robotwars.server.visualization;
 
+import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
+
 // Welche Animation wird für welchen Roboter ausgeführt
 public class AnimationPosition
 {

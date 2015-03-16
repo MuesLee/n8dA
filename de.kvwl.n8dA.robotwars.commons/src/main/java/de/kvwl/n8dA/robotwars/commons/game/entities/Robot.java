@@ -32,7 +32,7 @@ public class Robot extends Entity {
 		uuid = UUID.randomUUID();
 		this.setPossibleAttacks(new ArrayList<RobotAction>(4));
 		this.setPossibleDefends(new ArrayList<RobotAction>(4));
-
+		this.setEquippedItems(new ArrayList<RoboItem>(4));
 	}
 
 	public String getName() {
