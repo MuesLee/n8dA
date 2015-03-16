@@ -46,6 +46,9 @@ public class BattleControllerTest {
 		
 		robotLeft = new Robot();
 		robotRight = new Robot();
+		robotLeft.setHealthPoints(100);
+		robotRight.setHealthPoints(100);
+		
 		battleController = new BattleController();
 		battleController.setRobotLeft(robotLeft);
 		battleController.setRobotRight(robotRight);
@@ -61,12 +64,27 @@ public class BattleControllerTest {
 	@Test
 	public void testATTvsDEF_ROCKvsPAPER() throws Exception {
 		
-		Attack attack = new Attack(RobotActionType.ROCK, 10);
+		int attackDmg = 10;
+		Attack attack = new Attack(RobotActionType.ROCK, attackDmg);
 		Defense defense = new Defense(RobotActionType.PAPER, 0);
 		
 		robotLeft.setCurrentAction(attack);
 		robotRight.setCurrentAction(defense);
 		
+		int startHPLeft = battleController.getRobotLeft().getHealthPoints();
+		int startHPRight = battleController.getRobotRight().getHealthPoints();
+		
+		
+		battleController.computeOutcomeATTvsDEF(robotLeft, robotRight);
+		
+		int actualHPLeft = battleController.getRobotLeft().getHealthPoints();
+		int actualHPRight = battleController.getRobotRight().getHealthPoints();
+		
+		int expectedHPLeft =  (int) (startHPLeft - (attackDmg * BattleController.STRONG_DEFENSE_REFLECTION_FACTOR));
+		int expectedHPRight =  startHPRight;
+				
+		assertEquals(expectedHPLeft, actualHPLeft);
+		assertEquals(expectedHPRight, actualHPRight);
 	}
 	
 	
