@@ -2,3 +2,4 @@
 /bin/
 /activemq/
 /activemq-data/
+*.class
