@@ -39,7 +39,7 @@ public class RoboBattleJMSProducerClient {
 			connection = connectionFactory.createConnection();
 			connection.start();
 			session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-			destination = session.createTopic("QUEUE.CLIENTS");
+			destination = session.createQueue("QUEUE.CLIENTS");
 			producer = session.createProducer(destination);
 
 			producer.setDeliveryMode(DeliveryMode.PERSISTENT);
