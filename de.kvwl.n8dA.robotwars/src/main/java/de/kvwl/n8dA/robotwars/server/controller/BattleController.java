@@ -23,6 +23,9 @@ import de.kvwl.n8dA.robotwars.server.visualization.RobotPosition;
 public class BattleController {
 	
 	
+	 static final double NEUTRAL_DEFENSE_BLOCK_FACTOR = 0.5;
+	 static final double STRONG_DEFENSE_REFLECTION_FACTOR = 0.5;
+
 	private static final Logger LOG = LoggerFactory.getLogger(BattleController.class);
 	
 	private static final int ENERGY_REGENERATION_RATE = 0;
@@ -128,6 +131,14 @@ public class BattleController {
 	}
 
 
+	/**
+	 * ATT vs Strong DEF -> Some dmg reflected, no dmg to DEF
+	 * ATT vs Weak DEF -> full dmg to DEF
+	 * ATT vs. neutral DEF -> some dmg blocked, some dmg to DEF
+	 * 
+	 * @param attacker
+	 * @param defender
+	 */
 	 void computeOutcomeATTvsDEF(Robot attacker, Robot defender) {
 		Attack attack = (Attack) attacker.getCurrentAction();
 		Defense defense = (Defense) defender.getCurrentAction();
@@ -135,18 +146,23 @@ public class BattleController {
 		RobotActionType attackType = attack.getRobotActionType();
 		RobotActionType defenseType = defense.getRobotActionType();
 		
+		int attackDamage = attack.getDamage();
 		if(attackType.beats(defenseType))
 		{
 			// Voller Schaden für DEF
+			dealDamageToRobot(defender, attackDamage);
 		}
 		else if (defenseType.beats(attackType))
 				{
 			
 			// teilweise Reflektion an ATT, keinen Schaden für DEF
+			int reflectedDamage = (int) (attackDamage*STRONG_DEFENSE_REFLECTION_FACTOR);
+			dealDamageToRobot(attacker, reflectedDamage);
 			
 		}
 		else {
-			// teilweiser Block des Schadens für DEF
+			int postBlockDamage = (int) (attackDamage*NEUTRAL_DEFENSE_BLOCK_FACTOR);
+			dealDamageToRobot(defender, postBlockDamage);
 		}
 	}
 	 

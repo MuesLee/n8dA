@@ -3,20 +3,20 @@ package de.kvwl.n8dA.robotwars.commons.game.actions;
 public  class Defense extends RobotAction {
 
 	private static final long serialVersionUID = 1L;
-	protected double blockValue;
+	protected double bonusOnDefenseFactor;
 
-	public Defense(RobotActionType robotActionType, double blockValue) {
+	public Defense(RobotActionType robotActionType, double bonusOnDefenseFactor) {
 	
 		super(robotActionType);
-		this.blockValue = blockValue;
+		this.bonusOnDefenseFactor = bonusOnDefenseFactor;
 	}
 
-	public double getBlockValue() {
-		return blockValue;
+	public double getBonusOnDefenseFactor() {
+		return bonusOnDefenseFactor;
 	}
 
-	public void setBlockValue(double blockValue) {
-		this.blockValue = blockValue;
+	public void setBonusOnDefenseFactor(double bonusOnDefenseFactor) {
+		this.bonusOnDefenseFactor = bonusOnDefenseFactor;
 	}
 	
 	

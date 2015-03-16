@@ -58,6 +58,18 @@ public class BattleControllerTest {
 		
 	}
 	
+	@Test
+	public void testATTvsDEF_ROCKvsPAPER() throws Exception {
+		
+		Attack attack = new Attack(RobotActionType.ROCK, 10);
+		Defense defense = new Defense(RobotActionType.PAPER, 0);
+		
+		robotLeft.setCurrentAction(attack);
+		robotRight.setCurrentAction(defense);
+		
+	}
+	
+	
 	@Test(expected = RobotsArentRdyToFightException.class)
 	public void testFightRobotRightNotRdy() throws Exception {
 		
