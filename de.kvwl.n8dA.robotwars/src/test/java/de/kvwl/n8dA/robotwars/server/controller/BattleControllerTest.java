@@ -87,6 +87,57 @@ public class BattleControllerTest {
 		assertEquals(expectedHPRight, actualHPRight);
 	}
 	
+	@Test
+	public void testATTvsDEF_ROCKvsSCISSOR() throws Exception {
+		
+		int attackDmg = 10;
+		Attack attack = new Attack(RobotActionType.ROCK, attackDmg);
+		Defense defense = new Defense(RobotActionType.SCISSOR, 0);
+		
+		robotLeft.setCurrentAction(attack);
+		robotRight.setCurrentAction(defense);
+		
+		int startHPLeft = battleController.getRobotLeft().getHealthPoints();
+		int startHPRight = battleController.getRobotRight().getHealthPoints();
+		
+		
+		battleController.computeOutcomeATTvsDEF(robotLeft, robotRight);
+		
+		int actualHPLeft = battleController.getRobotLeft().getHealthPoints();
+		int actualHPRight = battleController.getRobotRight().getHealthPoints();
+		
+		int expectedHPLeft =  startHPLeft;
+		int expectedHPRight =  startHPRight -attackDmg;
+		
+		assertEquals(expectedHPLeft, actualHPLeft);
+		assertEquals(expectedHPRight, actualHPRight);
+	}
+	@Test
+	public void testATTvsDEF_ROCKvsROCK() throws Exception {
+		
+		int attackDmg = 10;
+		Attack attack = new Attack(RobotActionType.ROCK, attackDmg);
+		Defense defense = new Defense(RobotActionType.ROCK, 0);
+		
+		robotLeft.setCurrentAction(attack);
+		robotRight.setCurrentAction(defense);
+		
+		int startHPLeft = battleController.getRobotLeft().getHealthPoints();
+		int startHPRight = battleController.getRobotRight().getHealthPoints();
+		
+		
+		battleController.computeOutcomeATTvsDEF(robotLeft, robotRight);
+		
+		int actualHPLeft = battleController.getRobotLeft().getHealthPoints();
+		int actualHPRight = battleController.getRobotRight().getHealthPoints();
+		
+		int expectedHPLeft =  startHPLeft;
+		int expectedHPRight =  (int) (startHPRight - (attackDmg *BattleController.NEUTRAL_DEFENSE_BLOCK_FACTOR));
+		
+		assertEquals(expectedHPLeft, actualHPLeft);
+		assertEquals(expectedHPRight, actualHPRight);
+	}
+	
 	
 	@Test(expected = RobotsArentRdyToFightException.class)
 	public void testFightRobotRightNotRdy() throws Exception {
