@@ -6,11 +6,14 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.kvwl.n8dA.robotwars.commons.exception.RobotDefeatedException;
 import de.kvwl.n8dA.robotwars.commons.exception.RobotHasInsufficientEnergyException;
 import de.kvwl.n8dA.robotwars.commons.exception.RobotsArentRdyToFightException;
 import de.kvwl.n8dA.robotwars.commons.exception.UnknownRobotException;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
+import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
+import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
 import de.kvwl.n8dA.robotwars.server.visualization.AnimationPosition;
@@ -126,13 +129,45 @@ public class BattleController {
 
 
 	 void computeOutcomeATTvsDEF(Robot attacker, Robot defender) {
+		Attack attack = (Attack) attacker.getCurrentAction();
+		Defense defense = (Defense) defender.getCurrentAction();
 		
-	
+		RobotActionType attackType = attack.getRobotActionType();
+		RobotActionType defenseType = defense.getRobotActionType();
+		
+		if(attackType.beats(defenseType))
+		{
+			// Voller Schaden für DEF
+		}
+		else if (defenseType.beats(attackType))
+				{
+			
+			// teilweise Reflektion an ATT, keinen Schaden für DEF
+			
+		}
+		else {
+			// teilweiser Block des Schadens für DEF
+		}
 	}
+	 
 	 void computeOutcomeATTvsATT(Robot attackerLeft, Robot attackerRight) {
-		
-		
+		 Attack attackLeft = (Attack) attackerLeft.getCurrentAction();
+		 Attack attackRight = (Attack) attackerRight.getCurrentAction();
+			
+			int damageLeft = attackLeft.getDamage();
+			int damageRight = attackRight.getDamage();
+			
+			dealDamageToRobot(attackerLeft, damageRight);
+			dealDamageToRobot(attackerRight, damageLeft);
 	}
+	 
+	 private void dealDamageToRobot(Robot robot, int damage)
+	 {
+		 int healthPoints = robot.getHealthPoints();
+		 healthPoints -= damage;
+		 
+			 robot.setHealthPoints(healthPoints);
+	 }
 	
 	private void consumeEnergyForRobotAction(Robot robot)
 	{
