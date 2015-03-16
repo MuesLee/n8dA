@@ -16,6 +16,7 @@ import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
+import de.kvwl.n8dA.robotwars.commons.game.util.GameEndingType;
 import de.kvwl.n8dA.robotwars.server.visualization.AnimationPosition;
 import de.kvwl.n8dA.robotwars.server.visualization.CinematicVisualizer;
 import de.kvwl.n8dA.robotwars.server.visualization.RobotPosition;
@@ -107,17 +108,48 @@ public class BattleController {
 		
 		
 		//ruft in der Methode cinematicVisualizer auf
-		startAnimationsInOrderAndProcessBattle(robotLeft, robotRight);
+		startAnimationsInOrder(robotLeft, robotRight);
+		computeBattleOutcome(robotLeft, robotRight);
 		
-		consumeEnergyForRobotAction(robotLeft);
-		consumeEnergyForRobotAction(robotRight);
+		checkForGameEnding(robotLeft, robotRight);
+		
 		regenerateEnergyOfRobots(robotLeft, robotRight, ENERGY_REGENERATION_RATE);
+		
 		performEachRoundsModificationOfRobot(robotLeft);
 		performEachRoundsModificationOfRobot(robotRight);
 		
 		//TODO: Siegbedingung
 	}
 	
+	GameEndingType checkForGameEnding(Robot robotLeft, Robot robotRight) {
+		
+		GameEndingType result = GameEndingType.ITS_STILL_ON_MOFO;
+		
+		int healthPointsLeft = robotLeft.getHealthPoints();
+		int healthPointsRight = robotRight.getHealthPoints();
+		
+		
+		if(healthPointsLeft <= 0)
+		{
+			if(healthPointsRight <= 0)
+			{
+result = GameEndingType.DRAW;				
+			}
+			else {
+				result = GameEndingType.VICTORY_RIGHT;
+			}
+		}
+		else {
+			if(healthPointsRight <=0)
+			{
+				result = GameEndingType.VICTORY_LEFT;
+			}
+		}
+		
+		return result;
+	}
+
+
 	private void regenerateEnergyOfRobots(Robot robotLeft, Robot robotRight, int energyReg) {
 
 		int energyRobotLeft = robotLeft.getEnergyPoints();
@@ -130,6 +162,41 @@ public class BattleController {
 		robotRight.setEnergyPoints(energyRobotRight);
 
 		LOG.info("Robots regenerated energy: " +energyReg);
+	}
+
+
+	void computeBattleOutcome(Robot robotLeft, Robot robotRight) {
+		
+		RobotAction actionRobotRight = robotRight.getCurrentAction();
+		RobotAction actionRobotLeft = robotLeft.getCurrentAction();
+		
+		if(actionRobotLeft instanceof Attack)
+		{
+			//Links ATT Rechts ATT
+			if(actionRobotRight instanceof Attack)
+			{
+				computeOutcomeATTvsATT(robotLeft, robotRight);
+			}
+			//Links ATT rechts DEF
+			else {
+				computeOutcomeATTvsATT(robotLeft, robotRight);
+			}
+		}
+		//Links DEF Rechts ATT
+		else {
+			if(actionRobotRight instanceof Attack)
+			{
+				computeOutcomeATTvsATT(robotRight, robotLeft);
+			}
+			
+			//Links DEF rechts DEF
+			else {
+				// Nichts passiert. Langweilig...
+			}
+		}
+		
+		consumeEnergyForRobotAction(robotLeft);
+		consumeEnergyForRobotAction(robotRight);
 	}
 
 
@@ -219,7 +286,7 @@ public class BattleController {
 	 * @param actionRobotRight
 	 * @return Array containing RobotActions in order. null if both are defends 
 	 */
-	void startAnimationsInOrderAndProcessBattle(Robot robotLeft, Robot robotRight)
+	void startAnimationsInOrder(Robot robotLeft, Robot robotRight)
 	{
 		RobotAction actionRobotRight = robotRight.getCurrentAction();
 		RobotAction actionRobotLeft = robotLeft.getCurrentAction();

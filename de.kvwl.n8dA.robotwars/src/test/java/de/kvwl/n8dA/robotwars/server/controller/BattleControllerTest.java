@@ -20,6 +20,7 @@ import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
+import de.kvwl.n8dA.robotwars.commons.game.util.GameEndingType;
 import de.kvwl.n8dA.robotwars.commons.gui.Animation;
 import de.kvwl.n8dA.robotwars.server.controller.BattleController;
 import de.kvwl.n8dA.robotwars.server.visualization.AnimationPosition;
@@ -59,6 +60,55 @@ public class BattleControllerTest {
 		
 		
 		
+	}
+	
+	@Test
+	public void testCheckForGameResult_VictoryLeft() throws Exception {
+		
+		robotRight.setHealthPoints(0);
+		robotLeft.setHealthPoints(100);
+		
+		GameEndingType actualGameEnding = battleController.checkForGameEnding(robotLeft, robotRight);
+			
+		GameEndingType expectedGameEnding = GameEndingType.VICTORY_LEFT;
+		
+		assertEquals(expectedGameEnding, actualGameEnding);
+	}
+	@Test
+	public void testCheckForGameResult_VictoryRight() throws Exception {
+		
+		robotRight.setHealthPoints(100);
+		robotLeft.setHealthPoints(0);
+		
+		GameEndingType actualGameEnding = battleController.checkForGameEnding(robotLeft, robotRight);
+		
+		GameEndingType expectedGameEnding = GameEndingType.VICTORY_RIGHT;
+		
+		assertEquals(expectedGameEnding, actualGameEnding);
+	}
+	@Test
+	public void testCheckForGameResult_Draw() throws Exception {
+		
+		robotRight.setHealthPoints(0);
+		robotLeft.setHealthPoints(0);
+		
+		GameEndingType actualGameEnding = battleController.checkForGameEnding(robotLeft, robotRight);
+		
+		GameEndingType expectedGameEnding = GameEndingType.DRAW;
+		
+		assertEquals(expectedGameEnding, actualGameEnding);
+	}
+	@Test
+	public void testCheckForGameResult_Still_on_Mofo() throws Exception {
+		
+		robotRight.setHealthPoints(10);
+		robotLeft.setHealthPoints(10);
+		
+		GameEndingType actualGameEnding = battleController.checkForGameEnding(robotLeft, robotRight);
+		
+		GameEndingType expectedGameEnding = GameEndingType.ITS_STILL_ON_MOFO;
+		
+		assertEquals(expectedGameEnding, actualGameEnding);
 	}
 	
 	@Test
@@ -179,7 +229,7 @@ public class BattleControllerTest {
 		animations.add(new AnimationPosition(animationIDLeft, positionLeft));
 		animations.add(new AnimationPosition(animationIDRight, positionRight));
 		
-		battleController.startAnimationsInOrderAndProcessBattle(robotLeft, robotRight);
+		battleController.startAnimationsInOrder(robotLeft, robotRight);
 		
 		verify(cinematicVisualizerMock).playAnimationForRobotsWithDelayAfterFirst(argumentAnimationPosition.capture());
 		
@@ -207,7 +257,7 @@ public class BattleControllerTest {
 		animations.add(new AnimationPosition(animationIDRight, positionRight));
 		animations.add(new AnimationPosition(animationIDLeft, positionLeft));
 		
-		battleController.startAnimationsInOrderAndProcessBattle(robotLeft, robotRight);
+		battleController.startAnimationsInOrder(robotLeft, robotRight);
 		
 		verify(cinematicVisualizerMock).playAnimationForRobotsWithDelayAfterFirst(argumentAnimationPosition.capture());
 		
@@ -235,7 +285,7 @@ public class BattleControllerTest {
 		animations.add(new AnimationPosition(animationIDRight, positionRight));
 		animations.add(new AnimationPosition(animationIDLeft, positionLeft));
 		
-		battleController.startAnimationsInOrderAndProcessBattle(robotLeft, robotRight);
+		battleController.startAnimationsInOrder(robotLeft, robotRight);
 		
 		verify(cinematicVisualizerMock).playAnimationForRobotsSimultaneously(argumentAnimationPosition.capture());
 		
@@ -267,7 +317,7 @@ public class BattleControllerTest {
 		animations.add(new AnimationPosition(animationIDRight, positionRight));
 		animations.add(new AnimationPosition(animationIDLeft, positionLeft));
 		
-		battleController.startAnimationsInOrderAndProcessBattle(robotLeft, robotRight);
+		battleController.startAnimationsInOrder(robotLeft, robotRight);
 		
 		verify(cinematicVisualizerMock).playAnimationForRobotsWithDelayAfterFirst(argumentAnimationPosition.capture());
 		
