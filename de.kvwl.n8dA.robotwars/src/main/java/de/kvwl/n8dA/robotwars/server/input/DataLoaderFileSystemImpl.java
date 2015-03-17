@@ -19,7 +19,6 @@ import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.gui.Animation;
 
-//TODO Marvin: Animation loader
 /**
  * 
  * Lädt die Animationen aus eienr Verzeichnisstruktur.<br>
