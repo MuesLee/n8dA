@@ -21,14 +21,11 @@ import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
 public class RoboBattlePlayerClient extends RoboBattleClient
 {
 
-	private Robot robot;
-
 	private RobotPosition positionOfOwnRobot;
 
 	public RoboBattlePlayerClient()
 	{
 
-		robot = new Robot();
 	}
 
 	public static void main(String[] args)
@@ -37,12 +34,22 @@ public class RoboBattlePlayerClient extends RoboBattleClient
 		client.init();
 
 		//TODO Timo: Test Zeug entfernen
-		client.registerClientWithRobotAtServer();
+		try {
+			client.registerClientWithRobotAtServer(new Robot());
+		} catch (NoFreeSlotInBattleArenaException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		client.getUpdatedRobot();
 		client.sendRobotActionToServer(new Attack(RobotActionType.ROCK, 10));
 	}
 
-	public void registerClientWithRobotAtServer()
+	/**
+	 * Meldet den Roboter zum Kampf am Server an. Client UUID wird automatisch mitgeschickt.
+	 * @param robot
+	 * @throws NoFreeSlotInBattleArenaException
+	 */
+	public void registerClientWithRobotAtServer(Robot robot) throws NoFreeSlotInBattleArenaException
 	{
 		try
 		{
@@ -56,27 +63,53 @@ public class RoboBattlePlayerClient extends RoboBattleClient
 		{
 			e.printStackTrace();
 		}
-		catch (NoFreeSlotInBattleArenaException e)
-		{
-		}
 	}
 
+	/**
+	 * Der Spieler ist bereit. Der Kampf kann beginnen.
+	 */
 	public void sendPlayerIsReadyToBattleToServer()
 	{
 		producer.sendReadyToBeginBattleToServer();
 	}
 
+	/**
+	 * Übermittelt die nächste Aktion des eigenen Roboters an den Server 
+	 * 
+	 * @param robotAction
+	 */
 	public void sendRobotActionToServer(RobotAction robotAction)
 	{
 		producer.sendRobotActionToServer(robotAction);
 	}
-
+	
+	/**
+	 * Fordert den aktuellen Stand des gegnerischen Roboters an und gibt ihn zurück
+	 * @return
+	 */
+	public Robot getUpdatedRobotOfEnemy()
+	{
+		try {
+			server.getSynchronizedRobotOfEnemy(uuid);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnknownRobotException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * Fordert den aktuellen Stand des eigen Roboters an und gibt ihn zurück
+	 */
 	public Robot getUpdatedRobot()
 	{
 		try
 		{
 			LOG.info("Client: " + uuid + " requests robot update");
-			robot = server.getSynchronizedRobot(uuid);
+			Robot robot = server.getSynchronizedRobot(uuid);
 			return robot;
 		}
 		catch (RemoteException e)
@@ -92,10 +125,8 @@ public class RoboBattlePlayerClient extends RoboBattleClient
 	@Override
 	public void onMessage(Message message)
 	{
-
 		try
 		{
-
 			int intProperty = message.getIntProperty(GameStateType.getNotificationName());
 			GameStateType gameStateType = GameStateType.values()[intProperty];
 

@@ -289,6 +289,20 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 	public List<Defense> getAllPossibleDefends() {
 		return battleController.getAllDefends();
 	}
+
+	@Override
+	public Robot getSynchronizedRobotOfEnemy(UUID ownUUID)
+			throws RemoteException, UnknownRobotException {
+		
+		if(ownUUID.equals(clientUUIDLeft))
+		{
+			return battleController.getRobotRight();
+		}
+		else if (ownUUID.equals(clientUUIDRight)){
+			return battleController.getRobotLeft();
+		}
+		throw new UnknownRobotException();
+	}
 		
 		
 	}

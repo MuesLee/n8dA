@@ -18,6 +18,8 @@ public interface RoboBattleHandler extends Remote {
 	public RobotPosition registerRobotAndClientForBattle(Robot robot, UUID uuid) throws RemoteException, NoFreeSlotInBattleArenaException;
 	
 	public Robot getSynchronizedRobot(UUID clientUUID) throws RemoteException, UnknownRobotException;
+	public Robot getSynchronizedRobotOfEnemy(UUID ownUUID) throws RemoteException, UnknownRobotException;
+	
 	
 	public List<Robot> getAllPossibleRobots() throws RemoteException;
 	public List<RoboItem> getAllPossibleItems() throws RemoteException;
