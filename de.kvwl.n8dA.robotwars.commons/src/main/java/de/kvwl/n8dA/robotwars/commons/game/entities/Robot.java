@@ -14,10 +14,9 @@ public class Robot extends Entity {
 
 	private UUID uuid;
 
-	private String name;
 	private int healthPoints;
 	private int energyPoints;
-private boolean readyToFight;
+	private boolean readyToFight;
 	
 	private Animation animation;
 
@@ -34,14 +33,6 @@ private boolean readyToFight;
 		this.setPossibleAttacks(new ArrayList<RobotAction>(4));
 		this.setPossibleDefends(new ArrayList<RobotAction>(4));
 		this.setEquippedItems(new ArrayList<RoboItem>(4));
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public int getHealthPoints() {

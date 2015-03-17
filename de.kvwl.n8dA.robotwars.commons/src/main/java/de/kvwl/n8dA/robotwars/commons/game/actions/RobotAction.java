@@ -13,7 +13,6 @@ public abstract class RobotAction extends Entity {
 		this.robotActionType = robotActionType;
 	}
 
-	protected String name;
 	protected RobotActionType robotActionType;
 	protected Animation animation;
 	protected int energyCosts;
@@ -24,12 +23,6 @@ public abstract class RobotAction extends Entity {
 		return this.robotActionType.beats(otherAction.getRobotActionType());
 	}
 	
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
 	public Animation getAnimation() {
 		return animation;
 	}

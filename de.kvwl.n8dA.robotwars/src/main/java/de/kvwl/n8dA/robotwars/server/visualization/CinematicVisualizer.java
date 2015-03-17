@@ -28,7 +28,7 @@ public interface CinematicVisualizer
 	public void roundIsAboutToStart();
 
 	/**
-	 * Nach 70% der Animationszeit der ersten Animation, soll die zweite Animation starten.
+	 * Nach 70% der Animationszeit der ersten Animation, soll (falls vorhanden) die zweite Animation starten.
 	 */
 	public void playAnimationForRobotsWithDelayAfterFirst(List<AnimationPosition> animations);
 
@@ -38,5 +38,4 @@ public interface CinematicVisualizer
 	 * @param animations
 	 */
 	public void playAnimationForRobotsSimultaneously(List<AnimationPosition> animations);
-
 }
