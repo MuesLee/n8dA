@@ -21,45 +21,50 @@ import de.kvwl.n8dA.robotwars.commons.gui.Animation;
 //TODO Marvin: Animation loader
 /**
  * 
- * Lädt die Animationen aus eienr Verzeichnisstruktur.Darunter existieren die Ordner [animations],
- * [actions] und [robots]. Jede Animation besteht darunter wieder aus einem Ordner, der die Dateien
+ * Lädt die Animationen aus eienr Verzeichnisstruktur.<br>
+ * <br>
+ * Unter dem root Ordner befinden sich die Ordner für die Animationen
+ * [animations].<br>
+ * <br>
+ * Innerhalb der Animationen wird in [robots] und [actions] unterteilt. Die
+ * Actions selber sind in [attacks] und [defends] unterteilt. <br>
+ * <br>
+ * Jede Animation besteht darunter wieder aus einem Ordner, der die Dateien
  * [info.xml] und [animation.png]
  */
-public class DataLoaderFileSystemImpl implements DataLoader
-{
+public class DataLoaderFileSystemImpl implements DataLoader {
 
 	private SAXBuilder builder = new SAXBuilder();
 
 	private Path sourceFolder;
+
+	private Path animationFolder;
 	private Path robotAniFolder;
 	private Path actionAniFolder;
 	private Path atkAniFolder;
 	private Path defAniFolder;
 
-	public DataLoaderFileSystemImpl()
-	{
+	public DataLoaderFileSystemImpl() {
 
 		this(Paths.get("./"));
 	}
 
-	public DataLoaderFileSystemImpl(Path sourceFolder)
-	{
+	public DataLoaderFileSystemImpl(Path sourceFolder) {
 
 		this.sourceFolder = sourceFolder;
 		createPaths();
 	}
 
-	private void createPaths()
-	{
+	private void createPaths() {
 
-		robotAniFolder = sourceFolder.resolve("robots");
-		actionAniFolder = sourceFolder.resolve("actions");
+		animationFolder = sourceFolder.resolve("animations");
+		robotAniFolder = animationFolder.resolve("robots");
+		actionAniFolder = animationFolder.resolve("actions");
 		atkAniFolder = actionAniFolder.resolve("attacks");
 		defAniFolder = actionAniFolder.resolve("defends");
 	}
 
-	public void createFolderStructure() throws IOException
-	{
+	public void createFolderStructure() throws IOException {
 
 		Files.createDirectories(robotAniFolder);
 		Files.createDirectories(actionAniFolder);
@@ -67,8 +72,7 @@ public class DataLoaderFileSystemImpl implements DataLoader
 		Files.createDirectories(defAniFolder);
 	}
 
-	public Animation readAnimation(Path info) throws JDOMException, IOException
-	{
+	public Animation readAnimation(Path info) throws JDOMException, IOException {
 
 		String id;
 		String pathToFile;
@@ -76,7 +80,8 @@ public class DataLoaderFileSystemImpl implements DataLoader
 		int frameWidth;
 		int frameHeight;
 
-		pathToFile = info.getParent().resolve("animation.png").toAbsolutePath().toString();
+		pathToFile = info.getParent().resolve("animation.png").toAbsolutePath()
+				.toString();
 
 		Document doc = builder.build(Files.newInputStream(info));
 
@@ -93,24 +98,23 @@ public class DataLoaderFileSystemImpl implements DataLoader
 
 		frameTimings = new long[Math.max(times.size(), containerSize)];
 
-		for (Element time : times)
-		{
+		for (Element time : times) {
 
-			frameTimings[time.getAttribute("frame").getIntValue()] = Long.valueOf(time.getValue());
+			frameTimings[time.getAttribute("frame").getIntValue()] = Long
+					.valueOf(time.getValue());
 		}
 
-		return new Animation(id, pathToFile, frameTimings, frameWidth, frameHeight);
+		return new Animation(id, pathToFile, frameTimings, frameWidth,
+				frameHeight);
 	}
 
 	@Override
-	public List<Animation> loadAnimationsForRobots()
-	{
+	public List<Animation> loadAnimationsForRobots() {
 		return loadAnimationsFromFolder(robotAniFolder);
 	}
 
 	@Override
-	public List<Animation> loadAnimationsForRobotActions()
-	{
+	public List<Animation> loadAnimationsForRobotActions() {
 		List<Animation> anis = new LinkedList<Animation>();
 
 		anis.addAll(loadAnimationsFromFolder(atkAniFolder));
@@ -120,40 +124,32 @@ public class DataLoaderFileSystemImpl implements DataLoader
 	}
 
 	@Override
-	public List<Robot> loadRobots()
-	{
+	public List<Robot> loadRobots() {
 		return null;
 	}
 
 	@Override
-	public List<Attack> loadRobotAttacks()
-	{
+	public List<Attack> loadRobotAttacks() {
 		return null;
 	}
 
 	@Override
-	public List<Defense> loadRobotDefends()
-	{
+	public List<Defense> loadRobotDefends() {
 		return null;
 	}
 
-	private List<Animation> loadAnimationsFromFolder(Path folder)
-	{
+	private List<Animation> loadAnimationsFromFolder(Path folder) {
 
 		List<Animation> anis = new LinkedList<Animation>();
 
-		try
-		{
+		try {
 			DirectoryStream<Path> dirs = Files.newDirectoryStream(folder);
 
-			for (Path dir : dirs)
-			{
+			for (Path dir : dirs) {
 
 				anis.add(readAnimation(dir.resolve("info.xml")));
 			}
-		}
-		catch (IOException | JDOMException e)
-		{
+		} catch (IOException | JDOMException e) {
 			e.printStackTrace();
 		}
 
