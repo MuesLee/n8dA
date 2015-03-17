@@ -2,23 +2,27 @@ package de.kvwl.n8dA.infrastructure.rewardserver.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 
 @Entity
-@Table(name="user")
-public class User {
+@Table(name="person")
+public class Person {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(generator="sqlite")
+	@TableGenerator(name="sqlite_person", table="sqlite_sequence",
+	    pkColumnName="name", valueColumnName="seq",
+	    pkColumnValue="Person",
+	    initialValue=1, allocationSize=1)
 	private String id;
 
 	private String name;
 
 	private int points;
 
-	public User() {
+	public Person() {
 		this.id = null;
 	}
 
@@ -64,7 +68,7 @@ public class User {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		User other = (User) obj;
+		Person other = (Person) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

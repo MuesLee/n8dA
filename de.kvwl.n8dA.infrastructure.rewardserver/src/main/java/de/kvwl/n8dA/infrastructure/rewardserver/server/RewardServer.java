@@ -1,7 +1,7 @@
 package de.kvwl.n8dA.infrastructure.rewardserver.server;
 
 import de.kvwl.n8dA.infrastructure.rewardserver.dao.UserDaoSqlite;
-import de.kvwl.n8dA.infrastructure.rewardserver.entity.User;
+import de.kvwl.n8dA.infrastructure.rewardserver.entity.Person;
 
 public class RewardServer {
 	
@@ -15,7 +15,7 @@ public class RewardServer {
 
 	public void startServer() {
 		userDao = new UserDaoSqlite();
-		User user = new User();
+		Person user = new Person();
 		user.setName("Derp");
 		userDao.add(user);
 		
