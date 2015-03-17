@@ -226,7 +226,7 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener {
 		actualizeActiveRobot();
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 		JFrame disp = new JFrame();
 		disp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		disp.setSize(800, 600);
