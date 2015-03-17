@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<animation>
+	<id>AnimationId</id>
+	<width>64</width>
+	<height>128</height>
+	<times size="2">
+		<time frame="0">100</time>
+		<time frame="1">150</time>
+	</times>
+</animation>
