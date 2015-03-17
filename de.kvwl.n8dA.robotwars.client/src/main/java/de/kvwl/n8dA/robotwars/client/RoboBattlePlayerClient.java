@@ -35,7 +35,7 @@ public class RoboBattlePlayerClient extends RoboBattleClient {
 		
 		//TODO: Test Zeug entfernen
 		client.registerClientWithRobotAtServer();
-		client.updateRobot();
+		client.getUpdatedRobot();
 		client.sendRobotActionToServer(new Attack(RobotActionType.ROCK,	 10));
 	}
 	
@@ -53,20 +53,26 @@ public class RoboBattlePlayerClient extends RoboBattleClient {
 		}
 	}
 	
+	public void sendPlayerIsReadyToBattleToServer()
+	{
+		producer.sendReadyToBeginBattleToServer();
+	}
+	
 	public void sendRobotActionToServer(RobotAction robotAction)
 	{
 		producer.sendRobotActionToServer(robotAction);
 	}
 
-	private void updateRobot() {
+	public Robot getUpdatedRobot() {
 		try {
 			LOG.info("Client: " + uuid + " requests robot update");
 			robot = server.getSynchronizedRobot(uuid);
+			return robot;
 		} catch (RemoteException e) {
-			e.printStackTrace();
 		} catch (UnknownRobotException e) {
-			e.printStackTrace();
 		}
+		
+		return null;
 	}
 
 	@Override
