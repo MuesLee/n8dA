@@ -220,6 +220,32 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 		return null;
 	}
 
+	private List<Animation> loadDefAnimations() {
+		return loadAnimationsFromFolder(defAniFolder);
+	}
+
+	private List<Animation> loadAtkAnimations() {
+		return loadAnimationsFromFolder(atkAniFolder);
+	}
+
+	private List<Animation> loadAnimationsFromFolder(Path folder) {
+	
+		List<Animation> anis = new LinkedList<Animation>();
+	
+		try {
+			DirectoryStream<Path> dirs = Files.newDirectoryStream(folder);
+	
+			for (Path dir : dirs) {
+	
+				anis.add(readAnimation(dir.resolve("info.xml")));
+			}
+		} catch (IOException | JDOMException e) {
+			e.printStackTrace();
+		}
+	
+		return anis;
+	}
+
 	@Override
 	public List<Animation> loadAnimationsForRobots() {
 		return loadAnimationsFromFolder(robotAniFolder);
@@ -234,14 +260,6 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 		anis.addAll(loadDefAnimations());
 
 		return anis;
-	}
-
-	private List<Animation> loadDefAnimations() {
-		return loadAnimationsFromFolder(defAniFolder);
-	}
-
-	private List<Animation> loadAtkAnimations() {
-		return loadAnimationsFromFolder(atkAniFolder);
 	}
 
 	@Override
@@ -289,24 +307,6 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 		}
 
 		return defends;
-	}
-
-	private List<Animation> loadAnimationsFromFolder(Path folder) {
-
-		List<Animation> anis = new LinkedList<Animation>();
-
-		try {
-			DirectoryStream<Path> dirs = Files.newDirectoryStream(folder);
-
-			for (Path dir : dirs) {
-
-				anis.add(readAnimation(dir.resolve("info.xml")));
-			}
-		} catch (IOException | JDOMException e) {
-			e.printStackTrace();
-		}
-
-		return anis;
 	}
 
 }
