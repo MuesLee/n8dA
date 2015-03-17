@@ -11,6 +11,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -99,6 +100,7 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener {
 		centerTxt.add(txtRoboName);
 
 		lblRoboName = new JLabel("<Roboter Name>");
+		lblRoboName.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 13));
 		lblRoboName.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRoboName.setVerticalAlignment(SwingConstants.CENTER);
 		robo.add(lblRoboName, BorderLayout.NORTH);
@@ -226,9 +228,6 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener {
 		disp.setLocationRelativeTo(null);
 
 		RoboConfigurationPanel comp = new RoboConfigurationPanel();
-		// comp.setRoboAni(new Animation("id", "", new long[] { TimeUtils
-		// .NanosecondsOfMilliseconds(100) }, 64, 128));
-
 		disp.add(comp);
 
 		disp.pack();

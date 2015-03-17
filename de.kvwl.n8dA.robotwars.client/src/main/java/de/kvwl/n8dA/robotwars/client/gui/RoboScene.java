@@ -4,33 +4,34 @@ import game.engine.stage.scene.Scene;
 import game.engine.stage.scene.object.AnimatedSceneObject;
 import game.engine.stage.scene.object.Point;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.util.EventListener;
 
-public class RoboScene implements Scene
-{
+public class RoboScene implements Scene {
 	private AnimatedSceneObject roboAnimation;
 
 	@Override
-	public EventListener[] getEventListeners()
-	{
+	public EventListener[] getEventListeners() {
 		return null;
 	}
 
 	@Override
-	public void paintScene(Graphics2D g, int width, int height, long time)
-	{
-		synchronized (this)
-		{
+	public void paintScene(Graphics2D g, int width, int height, long time) {
+		synchronized (this) {
 
-			if (roboAnimation == null)
-			{
+			g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+					RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
+			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+					RenderingHints.VALUE_ANTIALIAS_OFF);
+
+			paintBackground(g, width, height);
+
+			if (roboAnimation == null) {
 				return;
 			}
-
-			g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
-			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
 
 			roboAnimation.setTopLeftPosition(new Point(0, 0));
 			roboAnimation.setSize(width, height);
@@ -39,13 +40,31 @@ public class RoboScene implements Scene
 		}
 	}
 
-	public synchronized AnimatedSceneObject getRoboAnimation()
-	{
+	private void paintBackground(Graphics2D g, int width, int height) {
+
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, width, height);
+
+		g.setColor(new Color(104, 208, 97));
+		g.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 10));
+
+		for (int y = 0; y < height; y += 12) {
+			for (int x = 0; x < width; x += 12) {
+
+				if (Math.random() < 0.5) {
+
+					int number = (int) Math.round(Math.random() * 9);
+					g.drawString("" + number, x, y);
+				}
+			}
+		}
+	}
+
+	public synchronized AnimatedSceneObject getRoboAnimation() {
 		return roboAnimation;
 	}
 
-	public synchronized void setRoboAnimation(AnimatedSceneObject roboAnimation)
-	{
+	public synchronized void setRoboAnimation(AnimatedSceneObject roboAnimation) {
 		this.roboAnimation = roboAnimation;
 	}
 
