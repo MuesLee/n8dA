@@ -8,6 +8,8 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
+import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
 import de.kvwl.n8dA.robotwars.commons.gui.Animation;
 
 public class DataLoaderFileSystemImplTest {
@@ -70,5 +72,25 @@ public class DataLoaderFileSystemImplTest {
 			}
 		}
 		assertTrue(exist);
+	}
+
+	@Test
+	public void loadRobotAttacksTest() throws Exception {
+
+		List<Attack> attacks = dao.loadRobotAttacks();
+		assertEquals(1, attacks.size());
+
+		Attack attack = attacks.get(0);
+		assertEquals(64, attack.getAnimation().getFrameWidth());
+	}
+
+	@Test
+	public void loadRobotDefendsTest() throws Exception {
+
+		List<Defense> defends = dao.loadRobotDefends();
+		assertEquals(1, defends.size());
+
+		Defense defense = defends.get(0);
+		assertEquals(64, defense.getAnimation().getFrameWidth());
 	}
 }

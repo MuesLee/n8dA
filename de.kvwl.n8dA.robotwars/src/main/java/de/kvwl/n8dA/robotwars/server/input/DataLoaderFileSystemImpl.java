@@ -80,8 +80,8 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 		objectFolder = sourceFolder.resolve("objects");
 		robotFolder = objectFolder.resolve("robots");
 		actionFolder = objectFolder.resolve("actions");
-		atkFolder = actionFolder.resolve("defends");
-		defFolder = actionFolder.resolve("attacks");
+		atkFolder = actionFolder.resolve("attacks");
+		defFolder = actionFolder.resolve("defends");
 	}
 
 	public void createFolderStructure() throws IOException {
@@ -227,12 +227,21 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 
 	@Override
 	public List<Animation> loadAnimationsForRobotActions() {
+
 		List<Animation> anis = new LinkedList<Animation>();
 
-		anis.addAll(loadAnimationsFromFolder(atkAniFolder));
-		anis.addAll(loadAnimationsFromFolder(defAniFolder));
+		anis.addAll(loadAtkAnimations());
+		anis.addAll(loadDefAnimations());
 
 		return anis;
+	}
+
+	private List<Animation> loadDefAnimations() {
+		return loadAnimationsFromFolder(defAniFolder);
+	}
+
+	private List<Animation> loadAtkAnimations() {
+		return loadAnimationsFromFolder(atkAniFolder);
 	}
 
 	@Override
@@ -242,12 +251,44 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 
 	@Override
 	public List<Attack> loadRobotAttacks() {
-		return null;
+
+		List<Animation> atkAnimations = loadAtkAnimations();
+
+		List<Attack> attacks = new LinkedList<Attack>();
+
+		try {
+			DirectoryStream<Path> objs = Files.newDirectoryStream(atkFolder);
+
+			for (Path obj : objs) {
+
+				attacks.add(readAttack(obj.resolve("info.xml"), atkAnimations));
+			}
+		} catch (IOException | JDOMException e) {
+			e.printStackTrace();
+		}
+
+		return attacks;
 	}
 
 	@Override
 	public List<Defense> loadRobotDefends() {
-		return null;
+
+		List<Animation> defAnimations = loadDefAnimations();
+
+		List<Defense> defends = new LinkedList<Defense>();
+
+		try {
+			DirectoryStream<Path> objs = Files.newDirectoryStream(defFolder);
+
+			for (Path obj : objs) {
+
+				defends.add(readDefense(obj.resolve("info.xml"), defAnimations));
+			}
+		} catch (IOException | JDOMException e) {
+			e.printStackTrace();
+		}
+
+		return defends;
 	}
 
 	private List<Animation> loadAnimationsFromFolder(Path folder) {
