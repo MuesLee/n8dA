@@ -24,13 +24,20 @@ import de.kvwl.n8dA.robotwars.commons.gui.Animation;
  * Lädt die Animationen aus eienr Verzeichnisstruktur.<br>
  * <br>
  * Unter dem root Ordner befinden sich die Ordner für die Animationen
- * [animations].<br>
+ * [animations] und [objects] für die actions/robots.<br>
  * <br>
  * Innerhalb der Animationen wird in [robots] und [actions] unterteilt. Die
  * Actions selber sind in [attacks] und [defends] unterteilt. <br>
  * <br>
  * Jede Animation besteht darunter wieder aus einem Ordner, der die Dateien
- * [info.xml] und [animation.png]
+ * [info.xml] und [animation.png] <br>
+ * <br>
+ * Für die objects bestehen die Ordner [robots] und [actions].<br>
+ * <br>
+ * Die actions sind wiederum unterteilt in [defends] und [attacks].<br>
+ * <br>
+ * Jedes object besteht darunter wieder aus einem Ordner und darin den Dateien
+ * [info.xml]
  */
 public class DataLoaderFileSystemImpl implements DataLoader {
 
@@ -43,6 +50,12 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 	private Path actionAniFolder;
 	private Path atkAniFolder;
 	private Path defAniFolder;
+
+	private Path objectFolder;
+	private Path robotFolder;
+	private Path actionFolder;
+	private Path atkFolder;
+	private Path defFolder;
 
 	public DataLoaderFileSystemImpl() {
 
@@ -62,14 +75,27 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 		actionAniFolder = animationFolder.resolve("actions");
 		atkAniFolder = actionAniFolder.resolve("attacks");
 		defAniFolder = actionAniFolder.resolve("defends");
+
+		objectFolder = sourceFolder.resolve("objects");
+		robotFolder = objectFolder.resolve("robots");
+		actionFolder = objectFolder.resolve("actions");
+		atkFolder = actionFolder.resolve("defends");
+		defFolder = actionFolder.resolve("attacks");
 	}
 
 	public void createFolderStructure() throws IOException {
 
+		Files.createDirectories(animationFolder);
 		Files.createDirectories(robotAniFolder);
 		Files.createDirectories(actionAniFolder);
 		Files.createDirectories(atkAniFolder);
 		Files.createDirectories(defAniFolder);
+
+		Files.createDirectories(objectFolder);
+		Files.createDirectories(robotFolder);
+		Files.createDirectories(actionFolder);
+		Files.createDirectories(atkFolder);
+		Files.createDirectories(defFolder);
 	}
 
 	public Animation readAnimation(Path info) throws JDOMException, IOException {
