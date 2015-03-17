@@ -2,6 +2,7 @@ package de.kvwl.n8dA.robotwars.client.gui;
 
 import javax.swing.JFrame;
 
+import de.kvwl.n8dA.robotwars.client.CreditClient;
 import de.kvwl.n8dA.robotwars.client.RoboBattlePlayerClient;
 
 //TODO Marvin: Client disp
@@ -10,12 +11,14 @@ public class ClientFrame extends JFrame
 
 	private static final long serialVersionUID = 1L;
 
-	private RoboBattlePlayerClient client;
+	private RoboBattlePlayerClient battleClient;
+	private CreditClient creditClient;
 
-	public ClientFrame(RoboBattlePlayerClient client)
+	public ClientFrame(RoboBattlePlayerClient battleClient, CreditClient creditClient)
 	{
 
-		this.client = client;
+		this.battleClient = battleClient;
+		this.creditClient = creditClient;
 
 		createGui();
 		pack();
