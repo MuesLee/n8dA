@@ -149,6 +149,11 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 
 	private void checkIndexPosition()
 	{
+		if (robots == null)
+		{
+			return;
+		}
+
 		if (selectedRobot >= robots.length)
 		{
 			selectedRobot = 0;
