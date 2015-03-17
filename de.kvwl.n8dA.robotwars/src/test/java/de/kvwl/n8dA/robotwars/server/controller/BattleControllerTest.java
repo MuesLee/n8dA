@@ -218,10 +218,10 @@ public class BattleControllerTest {
 		RobotPosition positionRight = RobotPosition.RIGHT;
 		
 		RobotAction actionRobotLeft = new Attack(RobotActionType.PAPER, 10);
-		actionRobotLeft.setAnimation(new Animation(animationIDLeft, "", null));
+		actionRobotLeft.setAnimation(new Animation(animationIDLeft, "", null, 0, 0));
 		
 		RobotAction actionRobotRight = new Defense(RobotActionType.ROCK, 10);
-		actionRobotRight.setAnimation(new Animation(animationIDRight, "", null));
+		actionRobotRight.setAnimation(new Animation(animationIDRight, "", null, 0, 0));
 		robotLeft.setCurrentAction(actionRobotLeft);
 		robotRight.setCurrentAction(actionRobotRight);
 		
@@ -245,10 +245,10 @@ public class BattleControllerTest {
 		RobotPosition positionRight = RobotPosition.RIGHT;
 		
 		RobotAction actionRobotRight = new Attack(RobotActionType.PAPER, 10);
-		actionRobotRight.setAnimation(new Animation(animationIDRight, "", null));
+		actionRobotRight.setAnimation(new Animation(animationIDRight, "", null, 0, 0));
 		
 		RobotAction actionRobotLeft = new Defense(RobotActionType.ROCK, 10);
-		actionRobotLeft.setAnimation(new Animation(animationIDLeft, "", null));
+		actionRobotLeft.setAnimation(new Animation(animationIDLeft, "", null, 0, 0));
 		
 		robotLeft.setCurrentAction(actionRobotLeft);
 		robotRight.setCurrentAction(actionRobotRight);
@@ -273,10 +273,10 @@ public class BattleControllerTest {
 		RobotPosition positionRight = RobotPosition.RIGHT;
 		
 		RobotAction actionRobotRight = new Defense(RobotActionType.PAPER, 10);
-		actionRobotRight.setAnimation(new Animation(animationIDRight, "", null));
+		actionRobotRight.setAnimation(new Animation(animationIDRight, "", null, 0, 0));
 		
 		RobotAction actionRobotLeft = new Defense(RobotActionType.ROCK, 10);
-		actionRobotLeft.setAnimation(new Animation(animationIDLeft, "", null));
+		actionRobotLeft.setAnimation(new Animation(animationIDLeft, "", null, 0, 0));
 		
 		robotLeft.setCurrentAction(actionRobotLeft);
 		robotRight.setCurrentAction(actionRobotRight);
@@ -305,10 +305,10 @@ public class BattleControllerTest {
 		RobotPosition positionRight = RobotPosition.RIGHT;
 		
 		RobotAction actionRobotRight = new Attack(RobotActionType.PAPER, 10);
-		actionRobotRight.setAnimation(new Animation(animationIDRight, "", null));
+		actionRobotRight.setAnimation(new Animation(animationIDRight, "", null, 0, 0));
 		
 		RobotAction actionRobotLeft = new Attack(RobotActionType.ROCK, 10);
-		actionRobotLeft.setAnimation(new Animation(animationIDLeft, "", null));
+		actionRobotLeft.setAnimation(new Animation(animationIDLeft, "", null, 0, 0));
 		
 		robotLeft.setCurrentAction(actionRobotLeft);
 		robotRight.setCurrentAction(actionRobotRight);
