@@ -6,7 +6,6 @@ import game.engine.image.sprite.Sprite;
 import game.engine.stage.SwingStage;
 import game.engine.stage.scene.object.AnimatedSceneObject;
 import game.engine.time.Clock;
-import game.engine.time.TimeUtils;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -31,8 +30,7 @@ import bno.swing2.widget.BTextField;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.gui.Animation;
 
-public class RoboConfigurationPanel extends JPanel implements ActionListener
-{
+public class RoboConfigurationPanel extends JPanel implements ActionListener {
 
 	private static final String IMAGE_PATH = "/de/kvwl/n8dA/robotwars/client/images/";
 	private static final long serialVersionUID = 1L;
@@ -47,56 +45,55 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 	private int selectedRobot;
 	private Robot[] robots;
 
-	public RoboConfigurationPanel(Robot[] robots) throws IOException
-	{
+	public RoboConfigurationPanel(Robot[] robots) throws IOException {
 		this();
 		setRobots(robots);
 	}
 
-	public RoboConfigurationPanel()
-	{
+	public RoboConfigurationPanel() {
 
 		createGui();
 	}
 
-	private void createGui()
-	{
+	private void createGui() {
 
 		setLayout(new BorderLayout());
 
 		add(createRoboSelection(), BorderLayout.CENTER);
 	}
 
-	private JPanel createRoboSelection()
-	{
+	private JPanel createRoboSelection() {
 
 		JPanel robo = new JPanel();
 		robo.setLayout(new BorderLayout());
 		add(robo, BorderLayout.CENTER);
 
-		//Roboter Navigation
+		// Roboter Navigation
 		prevRobo = new JButton();
 		prevRobo.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		prevRobo.setContentAreaFilled(false);
-		prevRobo.setIcon(new ImageIcon(InternalImage.loadFromPath(IMAGE_PATH, "selection_left.png")));
+		prevRobo.setIcon(new ImageIcon(InternalImage.loadFromPath(IMAGE_PATH,
+				"selection_left.png")));
 		prevRobo.addActionListener(this);
 		robo.add(prevRobo, BorderLayout.WEST);
 
 		nextRobo = new JButton();
 		nextRobo.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		nextRobo.setContentAreaFilled(false);
-		nextRobo.setIcon(new ImageIcon(InternalImage.loadFromPath(IMAGE_PATH, "selection_right.png")));
+		nextRobo.setIcon(new ImageIcon(InternalImage.loadFromPath(IMAGE_PATH,
+				"selection_right.png")));
 		nextRobo.addActionListener(this);
 		robo.add(nextRobo, BorderLayout.EAST);
 
-		//Eingabe für den Namen des Roboters
+		// Eingabe für den Namen des Roboters
 		JPanel centerTxt = new JPanel();
 		centerTxt.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		centerTxt.setLayout(new BorderLayout());
 		robo.add(centerTxt, BorderLayout.SOUTH);
 
 		txtRoboName = new BTextField(20);
-		txtRoboName.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, true));
+		txtRoboName.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2,
+				true));
 		txtRoboName.setHint("Name eingeben...");
 		txtRoboName.setIgnoreHintFocus(true);
 		centerTxt.add(txtRoboName);
@@ -106,7 +103,7 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 		lblRoboName.setVerticalAlignment(SwingConstants.CENTER);
 		robo.add(lblRoboName, BorderLayout.NORTH);
 
-		//Die Roboter Animation
+		// Die Roboter Animation
 		clk = new Clock();
 
 		JPanel stagePanel = new JPanel();
@@ -126,19 +123,16 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 		return robo;
 	}
 
-	private void changeRoboIndex(int increase)
-	{
+	private void changeRoboIndex(int increase) {
 
 		selectedRobot += increase;
 
 		checkIndexPosition();
 	}
 
-	private void actualizeActiveRobot() throws IOException
-	{
+	private void actualizeActiveRobot() throws IOException {
 
-		if (robots == null)
-		{
+		if (robots == null) {
 			return;
 		}
 
@@ -147,33 +141,26 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 		setActiveRobot(robots[selectedRobot]);
 	}
 
-	private void checkIndexPosition()
-	{
-		if (robots == null)
-		{
+	private void checkIndexPosition() {
+		if (robots == null) {
 			return;
 		}
 
-		if (selectedRobot >= robots.length)
-		{
+		if (selectedRobot >= robots.length) {
 			selectedRobot = 0;
-		}
-		else if (selectedRobot < 0)
-		{
+		} else if (selectedRobot < 0) {
 			selectedRobot = robots.length - 1;
 		}
 	}
 
-	private void setActiveRobot(Robot robo) throws IOException
-	{
+	private void setActiveRobot(Robot robo) throws IOException {
 
 		lblRoboName.setText(robo.getName());
 
 		setRoboAni(robo.getAnimation());
 	}
 
-	private void setRoboAni(Animation ani) throws IOException
-	{
+	private void setRoboAni(Animation ani) throws IOException {
 
 		BufferedImage img = ImageIO.read(new File(ani.getPathToFile()));
 		int width = ani.getFrameWidth();
@@ -183,12 +170,12 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 		long[][] time = new long[][] { ani.getFrameTimings() };
 		long defaultTime = time[0][0];
 
-		roboScene.setRoboAnimation(new AnimatedSceneObject(sprite, defaultTime, time));
+		roboScene.setRoboAnimation(new AnimatedSceneObject(sprite, defaultTime,
+				time));
 	}
 
 	@Override
-	protected void finalize() throws Throwable
-	{
+	protected void finalize() throws Throwable {
 
 		clk.destroy();
 
@@ -196,59 +183,49 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e)
-	{
+	public void actionPerformed(ActionEvent e) {
 
 		Object source = e.getSource();
 
-		if (source == prevRobo)
-		{
+		if (source == prevRobo) {
 
 			previousRobot();
-		}
-		else if (source == nextRobo)
-		{
+		} else if (source == nextRobo) {
 
 			nextRobot();
 		}
 	}
 
-	public void previousRobot()
-	{
+	public void previousRobot() {
 
 		changeRoboIndex(-1);
 	}
 
-	public void nextRobot()
-	{
+	public void nextRobot() {
 
 		changeRoboIndex(+1);
 	}
 
-	public Robot[] getRobots()
-	{
+	public Robot[] getRobots() {
 		return robots;
 	}
 
-	public void setRobots(Robot[] robots) throws IOException
-	{
+	public void setRobots(Robot[] robots) throws IOException {
 		this.robots = robots;
 		this.selectedRobot = 0;
 
 		actualizeActiveRobot();
 	}
 
-	public static void main(String[] args) throws IOException
-	{
+	public static void main(String[] args) throws IOException {
 		JFrame disp = new JFrame();
 		disp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		disp.setSize(800, 600);
 		disp.setLocationRelativeTo(null);
 
 		RoboConfigurationPanel comp = new RoboConfigurationPanel();
-		comp.setRoboAni(new Animation("id",
-			"M:\\34000_GB_IT_Austausch\\N8derAusbildung\\Animationen\\Roboter\\GirlRoboter\\GirlRoboterZAnimation.png",
-			new long[] { TimeUtils.NanosecondsOfMilliseconds(100) }, 64, 128));
+		// comp.setRoboAni(new Animation("id", "", new long[] { TimeUtils
+		// .NanosecondsOfMilliseconds(100) }, 64, 128));
 
 		disp.add(comp);
 
