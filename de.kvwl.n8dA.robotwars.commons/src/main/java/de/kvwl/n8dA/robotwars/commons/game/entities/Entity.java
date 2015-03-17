@@ -2,17 +2,22 @@ package de.kvwl.n8dA.robotwars.commons.game.entities;
 
 import java.io.Serializable;
 
-public abstract class Entity implements Serializable {
+public abstract class Entity implements Serializable
+{
 
-	
+	//TODO Namen
+	//TODO Kosten
+
 	private static final long serialVersionUID = 1L;
 	protected long id;
 
-	public long getId() {
+	public long getId()
+	{
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(long id)
+	{
 		this.id = id;
 	}
 }
