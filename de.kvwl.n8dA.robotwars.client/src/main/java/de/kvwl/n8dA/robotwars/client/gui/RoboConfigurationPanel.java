@@ -1,6 +1,5 @@
 package de.kvwl.n8dA.robotwars.client.gui;
 
-import game.engine.image.ImageUtils;
 import game.engine.image.InternalImage;
 import game.engine.image.sprite.DefaultSprite;
 import game.engine.image.sprite.Sprite;
@@ -13,7 +12,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -29,8 +27,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import de.kvwl.n8dA.robotwars.commons.gui.Animation;
 import bno.swing2.widget.BTextField;
+import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
+import de.kvwl.n8dA.robotwars.commons.gui.Animation;
 
 public class RoboConfigurationPanel extends JPanel implements ActionListener
 {
@@ -44,6 +43,15 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 	private JButton nextRobo;
 	private JButton prevRobo;
 	private Clock clk;
+
+	private int selectedRobot;
+	private Robot[] robots;
+
+	public RoboConfigurationPanel(Robot[] robots) throws IOException
+	{
+		this();
+		setRobots(robots);
+	}
 
 	public RoboConfigurationPanel()
 	{
@@ -66,6 +74,7 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 		robo.setLayout(new BorderLayout());
 		add(robo, BorderLayout.CENTER);
 
+		//Roboter Navigation
 		prevRobo = new JButton();
 		prevRobo.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		prevRobo.setContentAreaFilled(false);
@@ -117,6 +126,47 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 		return robo;
 	}
 
+	private void changeRoboIndex(int increase)
+	{
+
+		selectedRobot += increase;
+
+		checkIndexPosition();
+	}
+
+	private void actualizeActiveRobot() throws IOException
+	{
+
+		if (robots == null)
+		{
+			return;
+		}
+
+		checkIndexPosition();
+
+		setActiveRobot(robots[selectedRobot]);
+	}
+
+	private void checkIndexPosition()
+	{
+		if (selectedRobot >= robots.length)
+		{
+			selectedRobot = 0;
+		}
+		else if (selectedRobot < 0)
+		{
+			selectedRobot = robots.length - 1;
+		}
+	}
+
+	private void setActiveRobot(Robot robo) throws IOException
+	{
+
+		lblRoboName.setText(robo.getName());
+
+		setRoboAni(robo.getAnimation());
+	}
+
 	private void setRoboAni(Animation ani) throws IOException
 	{
 
@@ -129,6 +179,58 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 		long defaultTime = time[0][0];
 
 		roboScene.setRoboAnimation(new AnimatedSceneObject(sprite, defaultTime, time));
+	}
+
+	@Override
+	protected void finalize() throws Throwable
+	{
+
+		clk.destroy();
+
+		super.finalize();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+
+		Object source = e.getSource();
+
+		if (source == prevRobo)
+		{
+
+			previousRobot();
+		}
+		else if (source == nextRobo)
+		{
+
+			nextRobot();
+		}
+	}
+
+	public void previousRobot()
+	{
+
+		changeRoboIndex(-1);
+	}
+
+	public void nextRobot()
+	{
+
+		changeRoboIndex(+1);
+	}
+
+	public Robot[] getRobots()
+	{
+		return robots;
+	}
+
+	public void setRobots(Robot[] robots) throws IOException
+	{
+		this.robots = robots;
+		this.selectedRobot = 0;
+
+		actualizeActiveRobot();
 	}
 
 	public static void main(String[] args) throws IOException
@@ -147,30 +249,5 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 
 		disp.pack();
 		disp.setVisible(true);
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e)
-	{
-
-		Object source = e.getSource();
-
-		if (source == prevRobo)
-		{
-
-		}
-		else if (source == nextRobo)
-		{
-
-		}
-	}
-
-	@Override
-	protected void finalize() throws Throwable
-	{
-
-		clk.destroy();
-
-		super.finalize();
 	}
 }
