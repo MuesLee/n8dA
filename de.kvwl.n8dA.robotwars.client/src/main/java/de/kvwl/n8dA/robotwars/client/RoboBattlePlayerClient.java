@@ -18,26 +18,22 @@ import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
  * Player-Client for inputs and just obligatory information
  *
  */
-public class RoboBattlePlayerClient extends RoboBattleClient
-{
+public class RoboBattlePlayerClient extends RoboBattleClient {
 
 	private RobotPosition positionOfOwnRobot;
 
-	public RoboBattlePlayerClient()
-	{
+	public RoboBattlePlayerClient() {
 
 	}
 
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) {
 		RoboBattlePlayerClient client = new RoboBattlePlayerClient();
 		client.init();
 
-		//TODO Timo: Test Zeug entfernen
+		// TODO Timo: Test Zeug entfernen
 		try {
 			client.registerClientWithRobotAtServer(new Robot());
 		} catch (NoFreeSlotInBattleArenaException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		client.getUpdatedRobot();
@@ -45,22 +41,23 @@ public class RoboBattlePlayerClient extends RoboBattleClient
 	}
 
 	/**
-	 * Meldet den Roboter zum Kampf am Server an. Client UUID wird automatisch mitgeschickt.
+	 * Meldet den Roboter zum Kampf am Server an. Client UUID wird automatisch
+	 * mitgeschickt.
+	 * 
 	 * @param robot
 	 * @throws NoFreeSlotInBattleArenaException
 	 */
-	public void registerClientWithRobotAtServer(Robot robot) throws NoFreeSlotInBattleArenaException
-	{
-		try
-		{
+	public void registerClientWithRobotAtServer(Robot robot)
+			throws NoFreeSlotInBattleArenaException {
+		try {
 			LOG.info("Client: " + uuid + " wants to register at server");
-			RobotPosition ownRobotsPosition = server.registerRobotAndClientForBattle(robot, uuid);
+			RobotPosition ownRobotsPosition = server
+					.registerRobotAndClientForBattle(robot, uuid);
 			setPositionOfOwnRobot(ownRobotsPosition);
-			LOG.info("Client: " + uuid + " plays the " + ownRobotsPosition.getDescription() + " robot.");
+			LOG.info("Client: " + uuid + " plays the "
+					+ ownRobotsPosition.getDescription() + " robot.");
 
-		}
-		catch (RemoteException e)
-		{
+		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 	}
@@ -68,94 +65,78 @@ public class RoboBattlePlayerClient extends RoboBattleClient
 	/**
 	 * Der Spieler ist bereit. Der Kampf kann beginnen.
 	 */
-	public void sendPlayerIsReadyToBattleToServer()
-	{
+	public void sendPlayerIsReadyToBattleToServer() {
 		producer.sendReadyToBeginBattleToServer();
 	}
 
 	/**
-	 * Übermittelt die nächste Aktion des eigenen Roboters an den Server 
+	 * Übermittelt die nächste Aktion des eigenen Roboters an den Server
 	 * 
 	 * @param robotAction
 	 */
-	public void sendRobotActionToServer(RobotAction robotAction)
-	{
+	public void sendRobotActionToServer(RobotAction robotAction) {
 		producer.sendRobotActionToServer(robotAction);
 	}
-	
+
 	/**
-	 * Fordert den aktuellen Stand des gegnerischen Roboters an und gibt ihn zurück
+	 * Fordert den aktuellen Stand des gegnerischen Roboters an und gibt ihn
+	 * zurück
+	 * 
 	 * @return
 	 */
-	public Robot getUpdatedRobotOfEnemy()
-	{
+	public Robot getUpdatedRobotOfEnemy() {
 		try {
 			server.getSynchronizedRobotOfEnemy(uuid);
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (UnknownRobotException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Fordert den aktuellen Stand des eigen Roboters an und gibt ihn zurück
 	 */
-	public Robot getUpdatedRobot()
-	{
-		try
-		{
+	public Robot getUpdatedRobot() {
+		try {
 			LOG.info("Client: " + uuid + " requests robot update");
 			Robot robot = server.getSynchronizedRobot(uuid);
 			return robot;
-		}
-		catch (RemoteException e)
-		{
-		}
-		catch (UnknownRobotException e)
-		{
+		} catch (RemoteException e) {
+		} catch (UnknownRobotException e) {
 		}
 
 		return null;
 	}
 
 	@Override
-	public void onMessage(Message message)
-	{
-		try
-		{
-			int intProperty = message.getIntProperty(GameStateType.getNotificationName());
+	public void onMessage(Message message) {
+		try {
+			int intProperty = message.getIntProperty(GameStateType
+					.getNotificationName());
 			GameStateType gameStateType = GameStateType.values()[intProperty];
 
 			LOG.info("Client: " + uuid + " received: " + gameStateType.name());
 
-		}
-		catch (ArrayIndexOutOfBoundsException e)
-		{
-			LOG.debug("Wenn man keine Ahnung hat, einfach mal die Finger vom Code lassen!\n" + e.getStackTrace());
-		}
-		catch (Exception e)
-		{
+		} catch (ArrayIndexOutOfBoundsException e) {
+			LOG.debug("Wenn man keine Ahnung hat, einfach mal die Finger vom Code lassen!\n"
+					+ e.getStackTrace());
+		} catch (Exception e) {
 			LOG.error("####Bumm####", e);
 		}
 
 	}
 
-	public UUID getUuid()
-	{
+	public UUID getUuid() {
 		return uuid;
 	}
 
-	public RobotPosition getPositionOfOwnRobot()
-	{
+	public RobotPosition getPositionOfOwnRobot() {
 		return positionOfOwnRobot;
 	}
 
-	public void setPositionOfOwnRobot(RobotPosition positionOfOwnRobot)
-	{
+	public void setPositionOfOwnRobot(RobotPosition positionOfOwnRobot) {
 		this.positionOfOwnRobot = positionOfOwnRobot;
 	}
 

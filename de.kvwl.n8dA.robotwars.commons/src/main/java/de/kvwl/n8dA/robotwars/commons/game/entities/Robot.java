@@ -8,8 +8,7 @@ import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
 import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
 import de.kvwl.n8dA.robotwars.commons.gui.Animation;
 
-public class Robot extends Entity
-{
+public class Robot extends Entity {
 
 	private static final long serialVersionUID = 1L;
 
@@ -21,6 +20,7 @@ public class Robot extends Entity
 
 	private Animation animation;
 
+	// TODO Timo: RoboAction möglichst durch Defense/Attack ersetzen
 	private List<RobotAction> possibleAttacks;
 	private List<RobotAction> possibleDefends;
 
@@ -28,8 +28,7 @@ public class Robot extends Entity
 
 	private RobotAction currentAction;
 
-	public Robot()
-	{
+	public Robot() {
 		super();
 		uuid = UUID.randomUUID();
 		this.setPossibleAttacks(new ArrayList<RobotAction>(4));
@@ -37,88 +36,75 @@ public class Robot extends Entity
 		this.setEquippedItems(new ArrayList<RoboItem>(4));
 	}
 
-	public int getHealthPoints()
-	{
+	public int getHealthPoints() {
 		return healthPoints;
 	}
 
-	public void setHealthPoints(int healthPoints)
-	{
+	public void setHealthPoints(int healthPoints) {
 		this.healthPoints = healthPoints;
 	}
 
-	public RobotAction getCurrentAction()
-	{
+	public RobotAction getCurrentAction() {
 		return currentAction;
 	}
 
-	public void setCurrentAction(RobotAction action)
-	{
+	public void setCurrentAction(RobotAction action) {
 		this.currentAction = action;
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 
 		return name + ": " + healthPoints + "HP";
 	}
 
-	public Animation getAnimation()
-	{
+	public Animation getAnimation() {
 		return animation;
 	}
 
-	public void setAnimation(Animation animation)
-	{
+	public void setAnimation(Animation animation) {
 		this.animation = animation;
 	}
 
-	public List<RobotAction> getPossibleAttacks()
-	{
+	public List<RobotAction> getPossibleAttacks() {
 		return possibleAttacks;
 	}
 
-	public void setPossibleAttacks(List<RobotAction> possibleAttacks)
-	{
+	public void setPossibleAttacks(List<RobotAction> possibleAttacks) {
 		this.possibleAttacks = possibleAttacks;
 	}
 
-	public List<RobotAction> getPossibleDefends()
-	{
+	public List<RobotAction> getPossibleDefends() {
 		return possibleDefends;
 	}
 
-	public void setPossibleDefends(List<RobotAction> possibleDefends)
-	{
+	public void setPossibleDefends(List<RobotAction> possibleDefends) {
 		this.possibleDefends = possibleDefends;
 	}
 
-	public int getEnergyPoints()
-	{
+	public int getEnergyPoints() {
 		return energyPoints;
 	}
 
-	public void setEnergyPoints(int energyPoints)
-	{
+	public void setEnergyPoints(int energyPoints) {
 		this.energyPoints = energyPoints;
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((possibleAttacks == null) ? 0 : possibleAttacks.hashCode());
-		result = prime * result + ((possibleDefends == null) ? 0 : possibleDefends.hashCode());
+		result = prime * result
+				+ ((possibleAttacks == null) ? 0 : possibleAttacks.hashCode());
+		result = prime * result
+				+ ((possibleDefends == null) ? 0 : possibleDefends.hashCode());
 		result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
 		return result;
 	}
 
 	@Override
-	public boolean equals(Object obj)
-	{
+	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -126,37 +112,31 @@ public class Robot extends Entity
 		if (getClass() != obj.getClass())
 			return false;
 		Robot other = (Robot) obj;
-		if (uuid == null)
-		{
+		if (uuid == null) {
 			if (other.uuid != null)
 				return false;
 		}
 
 		if (!uuid.equals(other.uuid))
 			return false;
-		else
-		{
+		else {
 			return true;
 		}
 	}
 
-	public List<RoboItem> getEquippedItems()
-	{
+	public List<RoboItem> getEquippedItems() {
 		return equippedItems;
 	}
 
-	public void setEquippedItems(List<RoboItem> equippedItems)
-	{
+	public void setEquippedItems(List<RoboItem> equippedItems) {
 		this.equippedItems = equippedItems;
 	}
 
-	public boolean isReadyToFight()
-	{
+	public boolean isReadyToFight() {
 		return readyToFight;
 	}
 
-	public void setReadyToFight(boolean readyToFight)
-	{
+	public void setReadyToFight(boolean readyToFight) {
 		this.readyToFight = readyToFight;
 	}
 
