@@ -1,9 +1,11 @@
 package de.kvwl.n8dA.robotwars.server.input;
 
 import java.io.IOException;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.jdom2.Document;
@@ -27,7 +29,12 @@ public class DataLoaderFileSystemImpl implements DataLoader
 {
 
 	private SAXBuilder builder = new SAXBuilder();
+
 	private Path sourceFolder;
+	private Path robotAniFolder;
+	private Path actionAniFolder;
+	private Path atkAniFolder;
+	private Path defAniFolder;
 
 	public DataLoaderFileSystemImpl()
 	{
@@ -39,6 +46,25 @@ public class DataLoaderFileSystemImpl implements DataLoader
 	{
 
 		this.sourceFolder = sourceFolder;
+		createPaths();
+	}
+
+	private void createPaths()
+	{
+
+		robotAniFolder = sourceFolder.resolve("robots");
+		actionAniFolder = sourceFolder.resolve("actions");
+		atkAniFolder = actionAniFolder.resolve("attacks");
+		defAniFolder = actionAniFolder.resolve("defends");
+	}
+
+	public void createFolderStructure() throws IOException
+	{
+
+		Files.createDirectories(robotAniFolder);
+		Files.createDirectories(actionAniFolder);
+		Files.createDirectories(atkAniFolder);
+		Files.createDirectories(defAniFolder);
 	}
 
 	public Animation readAnimation(Path info) throws JDOMException, IOException
@@ -50,7 +76,7 @@ public class DataLoaderFileSystemImpl implements DataLoader
 		int frameWidth;
 		int frameHeight;
 
-		pathToFile = info.getParent().toString();
+		pathToFile = info.getParent().resolve("animation.png").toAbsolutePath().toString();
 
 		Document doc = builder.build(Files.newInputStream(info));
 
@@ -79,13 +105,18 @@ public class DataLoaderFileSystemImpl implements DataLoader
 	@Override
 	public List<Animation> loadAnimationsForRobots()
 	{
-		return null;
+		return loadAnimationsFromFolder(robotAniFolder);
 	}
 
 	@Override
 	public List<Animation> loadAnimationsForRobotActions()
 	{
-		return null;
+		List<Animation> anis = new LinkedList<Animation>();
+
+		anis.addAll(loadAnimationsFromFolder(atkAniFolder));
+		anis.addAll(loadAnimationsFromFolder(defAniFolder));
+
+		return anis;
 	}
 
 	@Override
@@ -104,6 +135,29 @@ public class DataLoaderFileSystemImpl implements DataLoader
 	public List<Defense> loadRobotDefends()
 	{
 		return null;
+	}
+
+	private List<Animation> loadAnimationsFromFolder(Path folder)
+	{
+
+		List<Animation> anis = new LinkedList<Animation>();
+
+		try
+		{
+			DirectoryStream<Path> dirs = Files.newDirectoryStream(folder);
+
+			for (Path dir : dirs)
+			{
+
+				anis.add(readAnimation(dir.resolve("info.xml")));
+			}
+		}
+		catch (IOException | JDOMException e)
+		{
+			e.printStackTrace();
+		}
+
+		return anis;
 	}
 
 }

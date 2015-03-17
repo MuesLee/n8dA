@@ -39,5 +39,7 @@ public class DataLoaderFileSystemImplTest
 
 			assertEquals(should[i], frameTimings[i]);
 		}
+
+		System.out.println(ani.getPathToFile());
 	}
 }
