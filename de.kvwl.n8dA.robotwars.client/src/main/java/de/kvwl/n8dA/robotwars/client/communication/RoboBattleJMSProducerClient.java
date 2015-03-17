@@ -17,7 +17,7 @@ import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
 import de.kvwl.n8dA.robotwars.commons.network.messages.ClientProperty;
 import de.kvwl.n8dA.robotwars.commons.utils.NetworkUtils;
 
-public class RoboBattleJMSProducerClient implements ServerCommunicator{
+public class RoboBattleJMSProducerClient implements AsyncServerCommunicator{
 
 	private ActiveMQConnectionFactory connectionFactory;
 	private Connection connection;
