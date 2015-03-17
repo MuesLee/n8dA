@@ -2,7 +2,8 @@ package de.kvwl.n8dA.robotwars.server.input;
 
 import java.util.List;
 
-import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
+import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
+import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.gui.Animation;
 
@@ -26,12 +27,12 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 	}
 
 	@Override
-	public List<RobotAction> loadRobotAttacks() {
+	public List<Attack> loadRobotAttacks() {
 		return null;
 	}
 
 	@Override
-	public List<RobotAction> loadRobotDefends() {
+	public List<Defense> loadRobotDefends() {
 		return null;
 	}
 

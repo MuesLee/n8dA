@@ -17,7 +17,8 @@ public class Robot extends Entity {
 	private String name;
 	private int healthPoints;
 	private int energyPoints;
-
+private boolean readyToFight;
+	
 	private Animation animation;
 
 	private List<RobotAction> possibleAttacks;
@@ -137,6 +138,14 @@ public class Robot extends Entity {
 
 	public void setEquippedItems(List<RoboItem> equippedItems) {
 		this.equippedItems = equippedItems;
+	}
+
+	public boolean isReadyToFight() {
+		return readyToFight;
+	}
+
+	public void setReadyToFight(boolean readyToFight) {
+		this.readyToFight = readyToFight;
 	}
 
 }

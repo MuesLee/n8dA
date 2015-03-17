@@ -17,14 +17,14 @@ import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
 import de.kvwl.n8dA.robotwars.commons.network.messages.ClientProperty;
 import de.kvwl.n8dA.robotwars.commons.utils.NetworkUtils;
 
-public class RoboBattleJMSProducerClient {
+public class RoboBattleJMSProducerClient implements ServerCommunicator{
 
 	private ActiveMQConnectionFactory connectionFactory;
 	private Connection connection;
 	private Session session;
 	private Destination destination;
 	private MessageProducer producer;
-	
+
 	private UUID clientUUID;
 
 	public RoboBattleJMSProducerClient(UUID clientUUID) {
@@ -39,7 +39,7 @@ public class RoboBattleJMSProducerClient {
 			connection = connectionFactory.createConnection();
 			connection.start();
 			session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-			destination = session.createQueue("QUEUE.CLIENTS");
+			destination = session.createQueue(NetworkUtils.QUEUE_FOR_CLIENTS);
 			producer = session.createProducer(destination);
 
 			producer.setDeliveryMode(DeliveryMode.PERSISTENT);
@@ -49,33 +49,39 @@ public class RoboBattleJMSProducerClient {
 		}
 
 	}
-	
-	
-	
-	private void sendMessage(Message message)
-	{
+
+	private void sendMessage(Message message) {
 		try {
+			message.setStringProperty(ClientProperty.CLIENT_UUID.getName(),
+					clientUUID.toString());
 			producer.send(message);
+		} catch (JMSException e) {
+
+		}
+	}
+
+	@Override
+	public void sendReadyToBeginBattleToServer() {
+		try {
+			Message message = session.createMessage();
+			message.setBooleanProperty(ClientProperty.READY_TO_START_THE_BATTLE.getName(), true);
 		} catch (JMSException e) {
 			
 		}
 	}
+	@Override
+	public void sendRobotActionToServer(RobotAction robotAction) {
+		try {
+			ObjectMessage message = session.createObjectMessage();
 
-public void sendRobotActionToServer(RobotAction robotAction)
-{
-	try {
-		ObjectMessage message = session.createObjectMessage();
-		
-		message.setStringProperty(ClientProperty.CLIENT_UUID.getName(), clientUUID.toString() );
-		message.setObject(robotAction);
-		sendMessage(message);
-		
-	} catch (JMSException e) {
+			message.setObject(robotAction);
+			sendMessage(message);
+
+		} catch (JMSException e) {
+		}
 	}
-}
-
-	public void closeConnections()
-	{
+	@Override
+	public void closeConnections() {
 		try {
 			session.close();
 			connection.close();

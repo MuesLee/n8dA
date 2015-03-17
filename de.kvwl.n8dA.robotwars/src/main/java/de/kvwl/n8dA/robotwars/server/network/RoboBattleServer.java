@@ -25,6 +25,9 @@ import org.slf4j.LoggerFactory;
 import de.kvwl.n8dA.robotwars.commons.exception.NoFreeSlotInBattleArenaException;
 import de.kvwl.n8dA.robotwars.commons.exception.RobotHasInsufficientEnergyException;
 import de.kvwl.n8dA.robotwars.commons.exception.UnknownRobotException;
+import de.kvwl.n8dA.robotwars.commons.exception.WrongGameStateException;
+import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
+import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.items.HPBoostItem;
@@ -99,7 +102,7 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 	}
 
 	public void setActionForRobot(RobotAction robotAction, UUID uuid)
-			throws UnknownRobotException, RobotHasInsufficientEnergyException {
+			throws UnknownRobotException, RobotHasInsufficientEnergyException, WrongGameStateException {
 		LOG.info("Action: " + robotAction + " received from UUID: " + uuid);
 		
 		battleController.setActionForRobot(robotAction, getRobotForUUID(uuid));
@@ -117,9 +120,8 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		} else if (battleController.getRobotRight() == null) {
 			battleController.setRobotRight(robot);
 			clientUUIDRight = uuid;
-			LOG.info("Robot registered: " + robot + " ClientUUID: " + uuid);
 			
-			battleController.startTheBattle();
+			LOG.info("Robot registered: " + robot + " ClientUUID: " + uuid);
 			
 			return RobotPosition.RIGHT;
 			
@@ -208,27 +210,85 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 
 	@Override
 	public void onMessage(Message message) {
-			try {
-				ObjectMessage objectMessage = (ObjectMessage) message;
-				Serializable object = objectMessage.getObject();
-				RobotAction robotAction = (RobotAction) object;
-				String uuidAsString = objectMessage.getStringProperty(ClientProperty.CLIENT_UUID.getName());
-				UUID clientUUID = UUID.fromString(uuidAsString);
-				
-				setActionForRobot(robotAction, clientUUID);
-				
-			} catch (JMSException e) {
-			LOG.error("Error while receiving Player input", e);
-			}
-			catch (ClassCastException e) {
-				LOG.error("Wrong class format for player input", e);
-			} catch (UnknownRobotException e) {
-				LOG.error("Wrong robot...", e);
-			} catch (RobotHasInsufficientEnergyException e) {
-				LOG.error("Robot has not Energy to use this action", e);
-			}
+
+		if(message instanceof ObjectMessage)
+		{
+			handleObjectMessage((ObjectMessage) message);
+		}
+		else if (message instanceof Message)
+		{
+			handleMessage(message);
+		}
+		
 		
 		}
+
+	private void handleMessage(Message message) {
+		
+		try {
+			String uuidAsString = message.getStringProperty(ClientProperty.CLIENT_UUID.getName());
+			boolean playerIsRdy = message.getBooleanProperty(ClientProperty.CLIENT_UUID.getName());
+			UUID clientUUID = UUID.fromString(uuidAsString);
+			
+			
+			if(playerIsRdy)
+			{
+				battleController.setRobotIsReady(getRobotForUUID(clientUUID));
+			}
+			
+		} catch (JMSException e) {
+			
+		} catch (UnknownRobotException e) {
+		}
+	}
+
+	private void handleObjectMessage(ObjectMessage message) {
+		
+		try {
+			ObjectMessage objectMessage = (ObjectMessage) message;
+			Serializable object = objectMessage.getObject();
+			RobotAction robotAction = (RobotAction) object;
+			String uuidAsString = objectMessage.getStringProperty(ClientProperty.CLIENT_UUID.getName());
+			UUID clientUUID = UUID.fromString(uuidAsString);
+			
+			setActionForRobot(robotAction, clientUUID);
+			
+		} catch (JMSException e) {
+		LOG.error("Error while receiving Player input", e);
+		}
+		catch (ClassCastException e) {
+			LOG.error("Wrong class format for player input", e);
+		} catch (UnknownRobotException e) {
+			LOG.error("Wrong robot...", e);
+		} catch (RobotHasInsufficientEnergyException e) {
+			LOG.error("Robot has not Energy to use this action", e);
+		} catch (WrongGameStateException e) {
+			LOG.error("Not the right to time to send input...", e);
+		}
+	
+		
+	}
+
+	@Override
+	public List<Robot> getAllPossibleRobots() {
+		
+		return battleController.getAllRobots();
+	}
+
+	@Override
+	public List<RoboItem> getAllPossibleItems() {
+		return battleController.getAllItems();
+	}
+
+	@Override
+	public List<Attack> getAllPossibleAttacks() {
+		return battleController.getAllAttacks();
+	}
+
+	@Override
+	public List<Defense> getAllPossibleDefends() {
+		return battleController.getAllDefends();
+	}
 		
 		
 	}

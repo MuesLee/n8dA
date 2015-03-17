@@ -47,7 +47,7 @@ public class RoboBattleJMSReceiverServer {
 		connection = connectionFactory.createConnection();
 		connection.start();
 		session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-		destination = session.createQueue("QUEUE.CLIENTS");
+		destination = session.createQueue(NetworkUtils.QUEUE_FOR_CLIENTS);
 		consumer = session.createConsumer(destination);
 		
 		} catch (Exception e) {

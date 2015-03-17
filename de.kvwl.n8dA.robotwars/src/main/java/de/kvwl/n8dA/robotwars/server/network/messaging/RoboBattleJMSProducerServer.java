@@ -35,7 +35,7 @@ public class RoboBattleJMSProducerServer {
 			connection = connectionFactory.createConnection();
 			connection.start();
 			session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-			destination = session.createTopic("TOPIC.CLIENTS");
+			destination = session.createTopic(NetworkUtils.TOPIC_FOR_CLIENTS);
 			producer = session.createProducer(destination);
 
 			producer.setDeliveryMode(DeliveryMode.PERSISTENT);

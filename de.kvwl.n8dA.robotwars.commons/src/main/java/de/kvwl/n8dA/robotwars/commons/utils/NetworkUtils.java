@@ -10,4 +10,8 @@ public class NetworkUtils {
 			+ HOST_IP_ADDRESS + ":1527";
 	public static final int SERVER_REGISTRY_PORT = Registry.REGISTRY_PORT;
 	public static final String SERVER_NAME = "RoboBattleServer";
+
+	public static final String TOPIC_FOR_CLIENTS = "TOPIC.CLIENTS";
+
+	public static final String QUEUE_FOR_CLIENTS = "QUEUE.CLIENTS";
 }

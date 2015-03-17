@@ -106,7 +106,7 @@ public class BattleControllerTest {
 		
 		GameStateType actualGameEnding = battleController.getCurrentGameState(robotLeft, robotRight);
 		
-		GameStateType expectedGameEnding = GameStateType.GAME_IS_ACTIVE;
+		GameStateType expectedGameEnding = GameStateType.BATTLE_IS_ACTIVE;
 		
 		assertEquals(expectedGameEnding, actualGameEnding);
 	}

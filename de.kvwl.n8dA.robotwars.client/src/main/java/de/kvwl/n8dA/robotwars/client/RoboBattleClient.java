@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import de.kvwl.n8dA.robotwars.client.communication.RoboBattleJMSProducerClient;
 import de.kvwl.n8dA.robotwars.client.communication.RoboBattleJMSReceiverClient;
+import de.kvwl.n8dA.robotwars.client.communication.ServerCommunicator;
 import de.kvwl.n8dA.robotwars.commons.interfaces.RoboBattleHandler;
 import de.kvwl.n8dA.robotwars.commons.utils.NetworkUtils;
 
@@ -27,7 +28,7 @@ public abstract class RoboBattleClient implements MessageListener{
 	protected UUID uuid;
 	protected RoboBattleHandler server;
 	protected RoboBattleJMSReceiverClient roboBattleJMSReceiver;
-	protected RoboBattleJMSProducerClient producer;
+	protected ServerCommunicator producer;
 
 	public RoboBattleClient() {
 		

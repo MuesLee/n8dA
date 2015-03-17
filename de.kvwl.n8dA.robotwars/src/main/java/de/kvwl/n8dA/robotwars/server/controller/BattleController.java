@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import de.kvwl.n8dA.robotwars.commons.exception.RobotHasInsufficientEnergyException;
 import de.kvwl.n8dA.robotwars.commons.exception.RobotsArentRdyToFightException;
 import de.kvwl.n8dA.robotwars.commons.exception.UnknownRobotException;
+import de.kvwl.n8dA.robotwars.commons.exception.WrongGameStateException;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
@@ -34,13 +35,13 @@ public class BattleController {
 	private Robot robotLeft;
 	private Robot robotRight;
 
-	private List<RobotAction> allAttacks;
-	private List<RobotAction> allDefends;
+	private List<Attack> allAttacks;
+	private List<Defense> allDefends;
 	private List<Robot> allRobots;
 	private List<RoboItem> allItems;
 
 	private GameStateType currentGameState = GameStateType.GAME_HASNT_BEGUN;
-	
+
 	private RoboBattleServer server;
 
 	private CinematicVisualizer cinematicVisualizer;
@@ -49,23 +50,21 @@ public class BattleController {
 
 		// TODO: this.cinematicVisualizer =
 	}
-
-	public void startTheBattle() {
+	
+	
+	private void startTheBattle() {
 		LOG.info("The Battle has begun!");
-		
-		//TODO: Call der Methode überdenkem
-		
+
 		performInitialModificationOfRobot(robotLeft);
 		performInitialModificationOfRobot(robotRight);
 
-		server.sendGameStateInfoToClients(GameStateType.GAME_IS_ACTIVE);
+		setCurrentGameState(GameStateType.GAME_HAS_BEGUN);
 		cinematicVisualizer.battleIsAboutToStart();
-		
-		
+		setCurrentGameState(GameStateType.WAITING_FOR_PLAYER_INPUT);
 	}
-	
 
 	public void fightNextBattleRound() throws RobotsArentRdyToFightException {
+
 		LOG.debug("Next Battleround triggered");
 
 		RobotAction actionRobotLeft = robotLeft.getCurrentAction();
@@ -74,7 +73,9 @@ public class BattleController {
 		if (actionRobotLeft == null || actionRobotRight == null) {
 			throw new RobotsArentRdyToFightException();
 		}
+		
 		LOG.info("Battleround started");
+		setCurrentGameState(GameStateType.BATTLE_IS_ACTIVE);
 
 		regenerateEnergyOfRobots(robotLeft, robotRight,
 				ENERGY_REGENERATION_RATE);
@@ -108,11 +109,11 @@ public class BattleController {
 	void startAnimationsInOrder(Robot robotLeft, Robot robotRight) {
 		RobotAction actionRobotRight = robotRight.getCurrentAction();
 		RobotAction actionRobotLeft = robotLeft.getCurrentAction();
-	
+
 		ArrayList<AnimationPosition> order = new ArrayList<AnimationPosition>(2);
 		AnimationPosition animationPosition1;
 		AnimationPosition animationPosition2;
-	
+
 		if (actionRobotLeft instanceof Attack) {
 			// Links ATT Rechts ATT
 			if (actionRobotRight instanceof Attack) {
@@ -122,7 +123,7 @@ public class BattleController {
 							.getAnimation().getId(), RobotPosition.LEFT);
 					animationPosition2 = new AnimationPosition(actionRobotRight
 							.getAnimation().getId(), RobotPosition.RIGHT);
-	
+
 				} else {
 					animationPosition1 = new AnimationPosition(actionRobotRight
 							.getAnimation().getId(), RobotPosition.RIGHT);
@@ -146,7 +147,7 @@ public class BattleController {
 				animationPosition2 = new AnimationPosition(actionRobotLeft
 						.getAnimation().getId(), RobotPosition.LEFT);
 			}
-	
+
 			// Links DEF rechts DEF
 			else {
 				animationPosition1 = new AnimationPosition(actionRobotRight
@@ -159,20 +160,24 @@ public class BattleController {
 				return;
 			}
 		}
-	
+
 		order.add(animationPosition1);
 		order.add(animationPosition2);
-	
+
 		cinematicVisualizer.playAnimationForRobotsWithDelayAfterFirst(order);
 	}
 
 	GameStateType getCurrentGameState(Robot robotLeft, Robot robotRight) {
 
-		GameStateType result = GameStateType.GAME_IS_ACTIVE;
-		
-		if(robotLeft == null || robotRight == null)
-		{
+		GameStateType result = GameStateType.WAITING_FOR_PLAYER_INPUT;
+
+		if (robotLeft == null || robotRight == null) {
 			return GameStateType.GAME_HASNT_BEGUN;
+		} else {
+			if (robotLeft.getCurrentAction() != null
+					&& robotRight.getCurrentAction() != null) {
+				result = GameStateType.BATTLE_IS_ACTIVE;
+			}
 		}
 
 		int healthPointsLeft = robotLeft.getHealthPoints();
@@ -192,7 +197,15 @@ public class BattleController {
 
 		return result;
 	}
-
+	
+	/**
+	 * Computes effects of RobotActions
+	 * Clears currentAction of Robots
+	 * Consumes robots energy
+	 * 
+	 * @param robotLeft
+	 * @param robotRight
+	 */
 	void computeBattleOutcome(Robot robotLeft, Robot robotRight) {
 
 		RobotAction actionRobotRight = robotRight.getCurrentAction();
@@ -275,9 +288,9 @@ public class BattleController {
 	}
 
 	private void performInitialModificationOfRobot(Robot robot) {
-	
+
 		List<RoboItem> equippedItems = robot.getEquippedItems();
-	
+
 		for (RoboItem roboItem : equippedItems) {
 			roboItem.performInitialRobotModification(robot);
 			LOG.info("Robot " + robot + " has received an initial upgrade: "
@@ -287,7 +300,7 @@ public class BattleController {
 
 	private void performEachRoundsModificationOfRobot(Robot robot) {
 		List<RoboItem> equippedItems = robot.getEquippedItems();
-	
+
 		for (RoboItem roboItem : equippedItems) {
 			roboItem.performEachRoundsModification(robot);
 			LOG.info("Robot " + robot + " has received an upgrade: " + roboItem);
@@ -295,29 +308,29 @@ public class BattleController {
 	}
 
 	private void checkForGameEnding(Robot robotLeft, Robot robotRight) {
-	
-		currentGameState = getCurrentGameState(robotLeft,
-				robotRight);
-	
-		switch (currentGameState) {
-	
+
+		setCurrentGameState(getCurrentGameState(robotLeft, robotRight));
+
+		switch (getCurrentGameState()) {
+
 		case DRAW:
 		case VICTORY_LEFT:
 		case VICTORY_RIGHT:
-			endGame(currentGameState);
+			endGame(getCurrentGameState());
 			break;
-		case GAME_IS_ACTIVE:
+		case WAITING_FOR_PLAYER_INPUT:
+		case BATTLE_IS_ACTIVE:
+			break;
+		case GAME_HASNT_BEGUN:
 			break;
 		default:
 			break;
 		}
-	
+
 	}
 
 	private void endGame(GameStateType currentGameState) {
-		
-		
-	
+
 	}
 
 	private void dealDamageToRobot(Robot robot, int damage) {
@@ -332,16 +345,16 @@ public class BattleController {
 
 	private void regenerateEnergyOfRobots(Robot robotLeft, Robot robotRight,
 			int energyReg) {
-	
+
 		int energyRobotLeft = robotLeft.getEnergyPoints();
 		int energyRobotRight = robotRight.getEnergyPoints();
-	
+
 		energyRobotLeft += energyReg;
 		energyRobotRight += energyReg;
-	
+
 		robotLeft.setEnergyPoints(energyRobotLeft);
 		robotRight.setEnergyPoints(energyRobotRight);
-	
+
 		LOG.info("Robots regenerated energy: " + energyReg);
 	}
 
@@ -386,9 +399,16 @@ public class BattleController {
 	 * @param robot
 	 * @throws UnknownRobotException
 	 * @throws RobotHasInsufficientEnergyException
+	 * @throws WrongGameStateException
 	 */
 	public void setActionForRobot(RobotAction robotAction, Robot robot)
-			throws UnknownRobotException, RobotHasInsufficientEnergyException {
+			throws UnknownRobotException, RobotHasInsufficientEnergyException,
+			WrongGameStateException {
+
+		if (!getCurrentGameState().equals(
+				GameStateType.WAITING_FOR_PLAYER_INPUT)) {
+			throw new WrongGameStateException();
+		}
 
 		Robot localRobot = getLocalRobotForRemoteRobot(robot);
 
@@ -397,7 +417,7 @@ public class BattleController {
 		} else {
 			throw new RobotHasInsufficientEnergyException();
 		}
-		
+
 		try {
 			fightNextBattleRound();
 		} catch (RobotsArentRdyToFightException e) {
@@ -420,21 +440,7 @@ public class BattleController {
 		throw new UnknownRobotException();
 	}
 
-	public List<RobotAction> getAllAttacks() {
-		return allAttacks;
-	}
 
-	public void setAllAttacks(List<RobotAction> allAttacks) {
-		this.allAttacks = allAttacks;
-	}
-
-	public List<RobotAction> getAllDefends() {
-		return allDefends;
-	}
-
-	public void setAllDefends(List<RobotAction> allDefends) {
-		this.allDefends = allDefends;
-	}
 
 	public List<Robot> getAllRobots() {
 		return allRobots;
@@ -458,5 +464,53 @@ public class BattleController {
 
 	public void setServer(RoboBattleServer server) {
 		this.server = server;
+	}
+
+	public GameStateType getCurrentGameState() {
+		return currentGameState;
+	}
+
+	/**
+	 * Sets the Actual Game State and publishs it to the Clients
+	 * 
+	 * @param currentGameState
+	 */
+	public void setCurrentGameState(GameStateType currentGameState) {
+		this.currentGameState = currentGameState;
+		server.sendGameStateInfoToClients(currentGameState);
+	}
+	
+	public void setRobotIsReady(Robot robot) throws UnknownRobotException
+	{
+		Robot localRobot = getLocalRobotForRemoteRobot(robot);
+		localRobot.setReadyToFight(true);
+		
+		if(robotLeft != null && robotRight !=null)
+		{
+			if(robotLeft.isReadyToFight() && robotRight.isReadyToFight())
+			{
+				startTheBattle();
+			}
+		}
+	}
+
+
+	public List<Defense> getAllDefends() {
+		return allDefends;
+	}
+
+
+	public void setAllDefends(List<Defense> allDefends) {
+		this.allDefends = allDefends;
+	}
+
+
+	public List<Attack> getAllAttacks() {
+		return allAttacks;
+	}
+
+
+	public void setAllAttacks(List<Attack> allAttacks) {
+		this.allAttacks = allAttacks;
 	}
 }
