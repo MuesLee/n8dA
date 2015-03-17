@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 
 import de.kvwl.n8dA.robotwars.client.RoboBattlePlayerClient;
 
-//TODO Client disp
+//TODO Marvin: Client disp
 public class ClientFrame extends JFrame
 {
 
@@ -16,5 +16,13 @@ public class ClientFrame extends JFrame
 	{
 
 		this.client = client;
+
+		createGui();
+		pack();
+	}
+
+	private void createGui()
+	{
+
 	}
 }
