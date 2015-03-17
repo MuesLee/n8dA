@@ -189,9 +189,11 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener {
 
 		if (source == prevRobo) {
 
+			System.out.println("prev Robo");
 			previousRobot();
 		} else if (source == nextRobo) {
 
+			System.out.println("next Robo");
 			nextRobot();
 		}
 	}
