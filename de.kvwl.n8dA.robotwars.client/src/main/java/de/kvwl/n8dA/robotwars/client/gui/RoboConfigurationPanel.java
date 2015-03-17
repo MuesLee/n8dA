@@ -176,6 +176,11 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener {
 				time));
 	}
 
+	public void pauseAnimation(boolean pause) {
+
+		clk.setPaused(pause);
+	}
+
 	@Override
 	protected void finalize() throws Throwable {
 
