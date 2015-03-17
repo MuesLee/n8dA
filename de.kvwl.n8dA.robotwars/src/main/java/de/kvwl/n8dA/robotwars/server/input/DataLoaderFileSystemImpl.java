@@ -206,6 +206,42 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 		return defense;
 	}
 
+	public Robot readRobot(Path info, List<Animation> robotAnimations)
+			throws JDOMException, IOException {
+
+		int id;
+		String animationId;
+		Animation animation;
+		String name;
+		int configurationPointCosts;
+		int energyPoints;
+		int healthPoints;
+
+		Document doc = builder.build(Files.newInputStream(info));
+		Element robo = doc.getRootElement();
+
+		id = Integer.valueOf(robo.getChild("id").getValue());
+		animationId = robo.getChild("animationid").getValue();
+		animation = getAnimation(robotAnimations, animationId);
+		name = robo.getChild("name").getValue();
+		configurationPointCosts = Integer.valueOf(robo.getChild("configcosts")
+				.getValue());
+		energyPoints = Integer
+				.valueOf(robo.getChild("energypoints").getValue());
+		healthPoints = Integer
+				.valueOf(robo.getChild("healthpoints").getValue());
+
+		Robot robot = new Robot();
+		robot.setId(id);
+		robot.setAnimation(animation);
+		robot.setName(name);
+		robot.setConfigurationPointCosts(configurationPointCosts);
+		robot.setEnergyPoints(energyPoints);
+		robot.setHealthPoints(healthPoints);
+
+		return robot;
+	}
+
 	private Animation getAnimation(List<Animation> animations,
 			String animationId) {
 
@@ -217,7 +253,8 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 			}
 		}
 
-		return null;
+		throw new RuntimeException("Keine Animtaion für " + animationId
+				+ " gefunden");
 	}
 
 	private List<Animation> loadDefAnimations() {
@@ -229,20 +266,20 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 	}
 
 	private List<Animation> loadAnimationsFromFolder(Path folder) {
-	
+
 		List<Animation> anis = new LinkedList<Animation>();
-	
+
 		try {
 			DirectoryStream<Path> dirs = Files.newDirectoryStream(folder);
-	
+
 			for (Path dir : dirs) {
-	
+
 				anis.add(readAnimation(dir.resolve("info.xml")));
 			}
 		} catch (IOException | JDOMException e) {
 			e.printStackTrace();
 		}
-	
+
 		return anis;
 	}
 
@@ -264,7 +301,23 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 
 	@Override
 	public List<Robot> loadRobots() {
-		return null;
+
+		List<Animation> roboAnis = loadAnimationsForRobots();
+
+		List<Robot> robos = new LinkedList<Robot>();
+
+		try {
+			DirectoryStream<Path> objs = Files.newDirectoryStream(robotFolder);
+
+			for (Path obj : objs) {
+
+				robos.add(readRobot(obj.resolve("info.xml"), roboAnis));
+			}
+		} catch (IOException | JDOMException e) {
+			e.printStackTrace();
+		}
+
+		return robos;
 	}
 
 	@Override

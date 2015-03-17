@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
+import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.gui.Animation;
 
 public class DataLoaderFileSystemImplTest {
@@ -92,5 +93,17 @@ public class DataLoaderFileSystemImplTest {
 
 		Defense defense = defends.get(0);
 		assertEquals(64, defense.getAnimation().getFrameWidth());
+	}
+
+	@Test
+	public void loadRobotsTest() throws Exception {
+
+		List<Robot> robos = dao.loadRobots();
+		assertEquals(2, robos.size());
+
+		for (Robot ro : robos) {
+
+			assertNotNull(ro.getAnimation());
+		}
 	}
 }
