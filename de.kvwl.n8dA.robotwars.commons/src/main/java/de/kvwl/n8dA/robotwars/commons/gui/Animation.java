@@ -1,5 +1,6 @@
 package de.kvwl.n8dA.robotwars.commons.gui;
 
+//XXX Timo: musste frame size aufnehmen
 public class Animation
 {
 
