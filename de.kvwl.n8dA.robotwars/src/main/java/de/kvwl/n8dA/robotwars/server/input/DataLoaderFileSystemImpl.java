@@ -15,6 +15,7 @@ import org.jdom2.input.SAXBuilder;
 
 import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
+import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.gui.Animation;
 
@@ -132,6 +133,91 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 
 		return new Animation(id, pathToFile, frameTimings, frameWidth,
 				frameHeight);
+	}
+
+	public Attack readAttack(Path info, List<Animation> attackAnimations)
+			throws JDOMException, IOException {
+
+		RobotActionType type;
+		int damage;
+		int configurationPointCosts;
+		int energyCosts;
+		String name;
+		long id;
+		Animation animation;
+		String animationId;
+
+		Document doc = builder.build(Files.newInputStream(info));
+		Element atk = doc.getRootElement();
+
+		type = RobotActionType.valueOf(atk.getChild("type").getValue());
+		damage = Integer.valueOf(atk.getChild("damage").getValue());
+		configurationPointCosts = Integer.valueOf(atk.getChild("configcosts")
+				.getValue());
+		energyCosts = Integer.valueOf(atk.getChild("energycosts").getValue());
+		name = atk.getChild("name").getValue();
+		id = Integer.valueOf(atk.getChild("id").getValue());
+		animationId = atk.getChild("animationid").getValue();
+		animation = getAnimation(attackAnimations, animationId);
+
+		Attack attack = new Attack(type, damage);
+		attack.setConfigurationPointCosts(configurationPointCosts);
+		attack.setEnergyCosts(energyCosts);
+		attack.setName(name);
+		attack.setAnimation(animation);
+		attack.setId(id);
+
+		return attack;
+	}
+
+	public Defense readDefense(Path info, List<Animation> defenseAnimations)
+			throws JDOMException, IOException {
+
+		RobotActionType type;
+		double bonusOnDefenceFactor;
+		int configurationPointCosts;
+		int energyCosts;
+		String name;
+		long id;
+		Animation animation;
+		String animationId;
+
+		Document doc = builder.build(Files.newInputStream(info));
+		Element atk = doc.getRootElement();
+
+		type = RobotActionType.valueOf(atk.getChild("type").getValue());
+		bonusOnDefenceFactor = Double.valueOf(atk.getChild("defensefactor")
+				.getValue());
+		configurationPointCosts = Integer.valueOf(atk.getChild("configcosts")
+				.getValue());
+		energyCosts = Integer.valueOf(atk.getChild("energycosts").getValue());
+		name = atk.getChild("name").getValue();
+		id = Integer.valueOf(atk.getChild("id").getValue());
+		animationId = atk.getChild("animationid").getValue();
+		animation = getAnimation(defenseAnimations, animationId);
+
+		Defense defense = new Defense(type, bonusOnDefenceFactor);
+		defense.setConfigurationPointCosts(configurationPointCosts);
+		defense.setEnergyCosts(energyCosts);
+		defense.setName(name);
+		defense.setAnimation(animation);
+		defense.setId(id);
+
+		return defense;
+	}
+
+	private Animation getAnimation(List<Animation> animations,
+			String animationId) {
+
+		for (Animation ani : animations) {
+
+			if (ani.getId().equals(animationId)) {
+
+				return ani;
+			}
+		}
+
+		return null;
 	}
 
 	@Override
