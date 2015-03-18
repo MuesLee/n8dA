@@ -1,6 +1,7 @@
 package de.kvwl.n8dA.robotwars.client;
 
 import java.rmi.RemoteException;
+import java.util.List;
 import java.util.UUID;
 
 import javax.jms.Message;
@@ -8,9 +9,11 @@ import javax.jms.Message;
 import de.kvwl.n8dA.robotwars.commons.exception.NoFreeSlotInBattleArenaException;
 import de.kvwl.n8dA.robotwars.commons.exception.UnknownRobotException;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
+import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
+import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
 import de.kvwl.n8dA.robotwars.commons.game.util.GameStateType;
 import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
 
@@ -126,6 +129,48 @@ public class RoboBattlePlayerClient extends RoboBattleClient {
 			LOG.error("####Bumm####", e);
 		}
 
+	}
+	
+	public void disconnectFromServer()
+	{
+		producer.sendDisconnectFromServer();
+	}
+	
+	public List<Attack> getAllPossibleAttacksFromServer()
+	{
+		try {
+			return server.getAllPossibleAttacks();
+		} catch (RemoteException e) {
+		}
+		
+		return null;
+	}
+	public List<Defense> getAllPossibleDefendsFromServer()
+	{
+		try {
+			return server.getAllPossibleDefends();
+		} catch (RemoteException e) {
+		}
+		
+		return null;
+	}
+	public List<RoboItem> getAllPossibleItemsFromServer()
+	{
+		try {
+			return server.getAllPossibleItems();
+		} catch (RemoteException e) {
+		}
+		
+		return null;
+	}
+	public List<Robot> getAllPossibleRobotsFromServer()
+	{
+		try {
+			return server.getAllPossibleRobots();
+		} catch (RemoteException e) {
+		}
+		
+		return null;
 	}
 
 	public UUID getUuid() {

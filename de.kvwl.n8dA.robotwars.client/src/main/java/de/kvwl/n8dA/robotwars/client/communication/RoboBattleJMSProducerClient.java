@@ -89,4 +89,10 @@ public class RoboBattleJMSProducerClient implements AsyncServerCommunicator{
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public void sendDisconnectFromServer() {
+		// TODO implement
+		
+	}
 }

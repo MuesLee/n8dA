@@ -6,7 +6,8 @@ package de.kvwl.n8dA.robotwars.client;
  * Verbindung zu unserem Punkteserver
  *
  */
-public interface CreditClient
+public interface CreditAccess
 {
-
+	int getConfigurationPointsForPerson(String name) throws NoSuchPersonException;
+	
 }
