@@ -14,10 +14,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.kvwl.n8dA.infrastructure.commons.entity.Person;
+import de.kvwl.n8dA.infrastructure.commons.exception.NoSuchPersonException;
+import de.kvwl.n8dA.infrastructure.commons.interfaces.CreditAccesHandler;
+import de.kvwl.n8dA.infrastructure.commons.interfaces.CreditAccess;
 import de.kvwl.n8dA.infrastructure.commons.util.NetworkUtils;
 import de.kvwl.n8dA.infrastructure.rewardserver.dao.UserDaoSqlite;
 
-public class RewardServer extends UnicastRemoteObject {
+public class RewardServer extends UnicastRemoteObject implements CreditAccesHandler {
 
 	protected RewardServer() throws RemoteException {
 	}
@@ -50,18 +53,14 @@ public class RewardServer extends UnicastRemoteObject {
 		Person user = new Person();
 		user.setName("Derp");
 		userDao.add(user);
-
-		Person findById = userDao.findById(user.getName());
-		System.out.println(findById.getName() + " " + findById.getName());
-		userDao.delete(user);
 	}
 
 	public void startServer(int port) {
 		try {
+			userDao = new UserDaoSqlite();
 			startActiveMQBroker();
 
 			LocateRegistry.createRegistry(port);
-
 		}
 
 		catch (RemoteException ex) {
@@ -101,6 +100,19 @@ public class RewardServer extends UnicastRemoteObject {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public int getConfigurationPointsForPerson(String name)
+			throws NoSuchPersonException, RemoteException {
+		
+		LOG.info("ConfigPoints requested for " + name);
+		
+		Person person= userDao.findById(name);
+		int points = person.getPoints();
+		
+		LOG.info(points + " ConfigPoints returned for " + name);
+		
+		return points;
 	}
 
 }
