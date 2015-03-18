@@ -497,6 +497,11 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 	public long createUserRobot(Robot robot, String userId) throws IOException,
 			JDOMException {
 
+		if (robot.isLoadedAsUserRobot()) {
+			throw new RuntimeException(
+					"Robot wurde bereits als userRobot geladen.");
+		}
+
 		List<Long> usedIds = getUsedIdsOf(userId);
 		long id = -1;
 
