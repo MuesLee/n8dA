@@ -1,4 +1,4 @@
-package de.kvwl.n8dA.robotwars.client;
+package de.kvwl.n8dA.infrastructure.commons.exception;
 
 public class NoSuchPersonException extends Exception {
 
