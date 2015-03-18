@@ -2,6 +2,11 @@ package de.kvwl.n8dA.robotwars.commons.game.items;
 
 import de.kvwl.n8dA.robotwars.commons.game.entities.Entity;
 
+
+/**
+ * Vorlage für Roboter-Items 
+ *
+ */
 public abstract class RoboItem extends Entity implements RoboModificator
 {
 
@@ -19,5 +24,4 @@ public abstract class RoboItem extends Entity implements RoboModificator
 	{
 		this.removeable = removeable;
 	}
-
 }

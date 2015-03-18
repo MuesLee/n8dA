@@ -13,6 +13,10 @@ import de.kvwl.n8dA.infrastructure.commons.interfaces.CreditAccesHandler;
 import de.kvwl.n8dA.infrastructure.commons.interfaces.CreditAccess;
 import de.kvwl.n8dA.infrastructure.commons.util.NetworkUtils;
 
+
+/**
+ * GUI-loser Client als Verbindung zum zentralen Punkte-Server.
+ */
 public class CreditAccessClient implements CreditAccess {
 
 	private static final Logger LOG = LoggerFactory
@@ -28,7 +32,9 @@ public class CreditAccessClient implements CreditAccess {
 		BasicConfigurator.configure();
 		this.uuid = UUID.randomUUID();
 	}
-
+	/**
+	 * Baut eine vorkonfigurierte Verbindung zum Punkteserver auch
+	 */
 	public void initConnectionToServer() throws RemoteException {
 		try {
 			server = (CreditAccesHandler) Naming.lookup(url);
@@ -38,12 +44,16 @@ public class CreditAccessClient implements CreditAccess {
 		}
 
 	}
-
+	
+	/**
+	 * Ruft den Punktestand für den übergebenen Namen vom Server ab
+	 */
 	public int getConfigurationPointsForPerson(String name)
 			throws NoSuchPersonException, RemoteException {
 		return server.getConfigurationPointsForPerson(name);
 	}
 
+	//TODO: Timo: Nur zu Testzwecken. Später entfernen.
 	public static void main(String[] args) {
 		CreditAccessClient client = new CreditAccessClient();
 		try {
