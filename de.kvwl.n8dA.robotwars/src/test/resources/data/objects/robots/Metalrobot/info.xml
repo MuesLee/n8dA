@@ -6,4 +6,6 @@
 	<healthpoints>110</healthpoints>
 	<energypoints>90</energypoints>
 	<animationid>Metalrobot</animationid>
+	<defaultitems>
+	</defaultitems>
 </robot>

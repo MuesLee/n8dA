@@ -6,4 +6,8 @@
 	<healthpoints>100</healthpoints>
 	<energypoints>100</energypoints>
 	<animationid>Alienrobot</animationid>
+	<defaultitems>
+		<item>0</item>
+		<item>2</item>
+	</defaultitems>
 </robot>
