@@ -30,12 +30,16 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
+import javax.swing.border.BevelBorder;
 
 import bno.swing2.widget.BTextField;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
+import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
 import de.kvwl.n8dA.robotwars.commons.gui.Animation;
 
 public class RoboConfigurationPanel extends JPanel implements ActionListener
@@ -43,18 +47,25 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 
 	private static final String IMAGE_PATH = "/de/kvwl/n8dA/robotwars/client/images/";
 	private static final long serialVersionUID = 1L;
+
 	private SwingStage roboStage;
 	private RoboScene roboScene;
+
 	private JLabel lblRoboName;
 	private BTextField txtRoboName;
+
 	private JButton nextRobo;
 	private JButton prevRobo;
+
 	private Clock clk;
 
 	private int selectedRobot;
 	private Robot[] robots;
+
 	private List<JButton> btnAtks;
 	private ArrayList<JButton> btnDefs;
+	private JList<RoboItem> itemList;
+	private JButton buyItems;
 
 	public RoboConfigurationPanel(Robot[] robots) throws IOException
 	{
@@ -100,7 +111,7 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 	{
 		JPanel defBorder = new JPanel();
 		defBorder.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 1, true),
-			"Defense"));
+			"Verteidigung"));
 		defBorder.setLayout(new BorderLayout());
 
 		JPanel def = new JPanel();
@@ -141,7 +152,22 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 		itemBorder.setLayout(new BorderLayout());
 
 		JPanel item = new JPanel();
+		item.setLayout(new BorderLayout());
 		itemBorder.add(item, BorderLayout.CENTER);
+
+		JScrollPane spItems = new JScrollPane();
+		item.add(spItems, BorderLayout.CENTER);
+
+		itemList = new JList<RoboItem>();
+		itemList.setSelectionModel(new DisabledItemSelectionModel());
+		itemList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+		spItems.setViewportView(itemList);
+
+		buyItems = new JButton("Kaufen");
+		buyItems.addActionListener(this);
+		buyItems.setContentAreaFilled(false);
+		buyItems.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+		item.add(buyItems, BorderLayout.SOUTH);
 
 		return itemBorder;
 	}
@@ -150,7 +176,7 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 	{
 		JPanel atkBorder = new JPanel();
 		atkBorder.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 1, true),
-			"Attack"));
+			"Attacke"));
 		atkBorder.setLayout(new BorderLayout());
 
 		JPanel atk = new JPanel();
@@ -183,17 +209,24 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 		return atkBorder;
 	}
 
-	protected void selectDefends()
+	private void selectDefends()
 	{
 		System.out.println("Def selection");
 		// TODO Marvin: selectDefends
 
 	}
 
-	protected void selectAttacks()
+	private void selectAttacks()
 	{
 		System.out.println("Atk selection");
 		// TODO Marvin: selectAttacks
+
+	}
+
+	private void selectItems()
+	{
+		System.out.println("Atk selection");
+		// TODO Marvin: selectItems
 
 	}
 
@@ -365,6 +398,12 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 
 			System.out.println("next Robo");
 			nextRobot();
+		}
+		else if (source == buyItems)
+		{
+
+			System.out.println("buy items");
+			selectItems();
 		}
 	}
 
