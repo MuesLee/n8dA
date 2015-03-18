@@ -448,9 +448,68 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener {
 				time));
 	}
 
-	private void start() {
-		// TODO Marvin: start
+	private void checkConfigurationAndStart() {
 
+		Robot robo = robots[selectedRobot];
+
+		if (!isValid(robo)) {
+
+			return;
+		}
+
+		ConfigurationListener[] listeners = listenerList
+				.getListeners(ConfigurationListener.class);
+		for (ConfigurationListener lis : listeners) {
+
+			lis.configurationCompleted(robo);
+		}
+	}
+
+	private boolean isValid(Robot robo) {
+
+		List<Attack> atks = robo.getPossibleAttacks();
+		List<Defense> defs = robo.getPossibleDefends();
+		List<RoboItem> items = robo.getEquippedItems();
+
+		if (atks.size() > 4 || defs.size() > 4) {
+
+			return false;
+		}
+
+		boolean basicAttack = false;
+		for (Attack atk : atks) {
+
+			if (atk.getEnergyCosts() <= 0) {
+
+				basicAttack = true;
+				break;
+			}
+		}
+
+		if (!basicAttack) {
+
+			return false;
+		}
+
+		long costs = robo.getConfigurationPointCosts();
+		for (Attack atk : atks) {
+
+			costs += atk.getConfigurationPointCosts();
+		}
+		for (Defense def : defs) {
+
+			costs += def.getConfigurationPointCosts();
+		}
+		for (RoboItem item : items) {
+
+			costs += item.getConfigurationPointCosts();
+		}
+
+		if (costs > maxCredit) {
+			return false;
+		}
+
+		return true;
 	}
 
 	public void pauseAnimation(boolean pause) {
@@ -486,7 +545,7 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener {
 		} else if (source == btnStart) {
 
 			System.out.println("start");
-			start();
+			checkConfigurationAndStart();
 		}
 	}
 
@@ -509,6 +568,16 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener {
 		this.selectedRobot = 0;
 
 		actualizeActiveRobot();
+	}
+
+	public void addConfigurationListener(ConfigurationListener li) {
+
+		listenerList.add(ConfigurationListener.class, li);
+	}
+
+	public void removeConfigurationListener(ConfigurationListener li) {
+
+		listenerList.remove(ConfigurationListener.class, li);
 	}
 
 	public static void main(String[] args) throws Exception {
