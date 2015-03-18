@@ -14,4 +14,6 @@ public interface AsyncServerCommunicator {
 	
 	public void closeConnections();
 
+	public void sendDisconnectFromServer();
+
 }
