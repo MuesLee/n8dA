@@ -367,8 +367,8 @@ public class ConfigShop extends JDialog
 			info.setLayout(new BoxLayout(info, BoxLayout.X_AXIS));
 			row.add(info, BorderLayout.CENTER);
 
-			info.add(new JLabel(String.format("Name: %s - Reflektion: %f - Energiekosten: %d", def.getName(),
-				def.getBonusOnDefenseFactor(), def.getEnergyCosts())));
+			info.add(new JLabel(String.format("Name: %s - Reflektion: %f - Energiekosten: %d - Typ: %s", def.getName(),
+				def.getBonusOnDefenseFactor(), def.getEnergyCosts(), def.getRobotActionType().getHumanReadableString())));
 
 			scroll.add(row);
 		}
