@@ -5,7 +5,6 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 import org.apache.activemq.broker.BrokerService;
@@ -14,8 +13,9 @@ import org.apache.log4j.BasicConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.kvwl.n8dA.infrastructure.commons.entity.Person;
+import de.kvwl.n8dA.infrastructure.commons.util.NetworkUtils;
 import de.kvwl.n8dA.infrastructure.rewardserver.dao.UserDaoSqlite;
-import de.kvwl.n8dA.infrastructure.rewardserver.entity.Person;
 
 public class RewardServer extends UnicastRemoteObject {
 
@@ -27,12 +27,6 @@ public class RewardServer extends UnicastRemoteObject {
 	private static final Logger LOG = LoggerFactory
 			.getLogger(RewardServer.class);
 
-	private static final String SERVER_NAME = "RewardServer";
-	private static final int SERVER_REGISTRY_PORT = Registry.REGISTRY_PORT;
-	private static final String HOST_IP_ADDRESS = "localhost";
-	private static final String FULL_HOST_TCP_ADDRESS = "tcp://"
-			+ HOST_IP_ADDRESS + ":1528";
-
 	private UserDaoSqlite userDao;
 	private BrokerService broker;
 
@@ -41,7 +35,7 @@ public class RewardServer extends UnicastRemoteObject {
 		try {
 			BasicConfigurator.configure();
 			rewardServer = new RewardServer();
-			rewardServer.startServer(SERVER_REGISTRY_PORT);
+			rewardServer.startServer(NetworkUtils.REWARD_SERVER_REGISTRY_PORT);
 			rewardServer.testStuff();
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
@@ -74,8 +68,8 @@ public class RewardServer extends UnicastRemoteObject {
 			LOG.error(ex.getMessage());
 		}
 		try {
-			Naming.rebind(SERVER_NAME, this);
-			LOG.info("##### "+ SERVER_NAME+" STARTED ####");
+			Naming.rebind(NetworkUtils.REWARD_SERVER_NAME, this);
+			LOG.info("##### "+ NetworkUtils.REWARD_SERVER_NAME+" STARTED ####");
 		} catch (MalformedURLException ex) {
 			LOG.error(ex.getMessage());
 		} catch (RemoteException ex) {
@@ -92,7 +86,7 @@ public class RewardServer extends UnicastRemoteObject {
 			adaptor.setDirectory(new File("activemq"));
 			broker.setPersistenceAdapter(adaptor);
 			broker.setUseJmx(true);
-			broker.addConnector(FULL_HOST_TCP_ADDRESS);
+			broker.addConnector(NetworkUtils.REWARD_SERVER_FULL_HOST_TCP_ADDRESS);
 			broker.start();
 		} catch (Exception e) {
 			e.printStackTrace();
