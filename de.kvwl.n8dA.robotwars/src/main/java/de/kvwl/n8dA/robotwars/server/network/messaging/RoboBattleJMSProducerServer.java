@@ -62,7 +62,7 @@ public void sendGameStateNotificationToAllClients(GameStateType gameStateType)
 	try {
 		Message message = session.createMessage();
 		
-		message.setStringProperty(ClientProperty.CLIENT_UUID.getName(), ClientProperty.ALL_CLIENTS.getName() );
+		message.setStringProperty(ClientProperty.UUID.getName(), ClientProperty.ALL_CLIENTS.getName() );
 		
 		message.setIntProperty(GameStateType.getNotificationName(), gameStateType.ordinal());
 		sendMessage(message);
@@ -76,7 +76,7 @@ public void sendMessageToClient(UUID clientUUID, GameStateType gameStateType)
 	try {
 		Message message = session.createMessage();
 		
-		message.setStringProperty(ClientProperty.CLIENT_UUID.getName(), clientUUID.toString());
+		message.setStringProperty(ClientProperty.UUID.getName(), clientUUID.toString());
 		message.setIntProperty(GameStateType.getNotificationName(), gameStateType.ordinal());
 
 		sendMessage(message);

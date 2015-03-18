@@ -11,11 +11,13 @@ public class RewardServer {
 		RewardServer rewardServer = new RewardServer();
 		rewardServer.startServer();
 		
+		//TODO: Timo: persistence.xml -> drop and create zu create-or-extend-tables ändern
+		
 	}
 
 	public void startServer() {
 		userDao = new UserDaoSqlite();
-		//TODO: Delete Test Stuff
+		//TODO: Timo: Test Zeug entfernen
 		testStuff();
 	}
 
@@ -24,8 +26,8 @@ public class RewardServer {
 		user.setName("Derp");
 		userDao.add(user);
 		
-		Person findById = userDao.findById(user.getId());
-		System.out.println(findById.getName() + " " + findById.getId());
+		Person findById = userDao.findById(user.getName());
+		System.out.println(findById.getName() + " " + findById.getName());
 		userDao.delete(user);
 	}
 

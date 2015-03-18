@@ -1,5 +1,7 @@
 package de.kvwl.n8dA.robotwars.client;
 
+import java.rmi.RemoteException;
+
 //TODO Timo: Implementierung
 /**
  * 
@@ -8,6 +10,8 @@ package de.kvwl.n8dA.robotwars.client;
  */
 public interface CreditAccess
 {
-	int getConfigurationPointsForPerson(String name) throws NoSuchPersonException;
+	void initConnectionToServer() throws RemoteException;
+	
+	int getConfigurationPointsForPerson(String name) throws NoSuchPersonException, RemoteException;
 	
 }
