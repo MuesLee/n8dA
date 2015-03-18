@@ -246,8 +246,12 @@ public class ConfigShop extends JDialog
 
 							if (haben > soll)
 							{
-								its.remove(i);
-								i--;
+								if (its.get(i).isRemoveable())
+								{
+
+									its.remove(i);
+									i--;
+								}
 							}
 						}
 					}
@@ -259,6 +263,17 @@ public class ConfigShop extends JDialog
 
 						its.add(fitem);
 					}
+
+					haben = 0;
+					for (RoboItem i : its)
+					{
+
+						if (i.getId() == fitem.getId())
+						{
+							haben++;
+						}
+					}
+					model.setValue(haben);
 
 					updateCreditLabel();
 				}
@@ -570,6 +585,7 @@ public class ConfigShop extends JDialog
 
 		Robot startConfig = new Robot();
 		List<RoboItem> itemsli = startConfig.getEquippedItems();
+		items[1].setRemoveable(false);
 		itemsli.add(items[1]);
 		startConfig.setEquippedItems(itemsli);
 
