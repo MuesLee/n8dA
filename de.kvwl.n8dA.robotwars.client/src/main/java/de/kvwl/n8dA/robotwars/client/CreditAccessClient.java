@@ -13,8 +13,8 @@ public class CreditAccessClient implements CreditAccess {
 	
 	
 	@Override
-	public int getConfigurationPointsForPerson(String name)
-			throws NoSuchPersonException {
+	public int getConfigurationPointsForPerson(String personsName)
+			throws RemoteException, NoSuchPersonException {
 		
 		// TODO Timo: implementieren
 		return 0;
