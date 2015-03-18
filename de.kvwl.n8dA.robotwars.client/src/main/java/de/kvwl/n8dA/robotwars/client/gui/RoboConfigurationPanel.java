@@ -33,6 +33,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
@@ -46,8 +47,7 @@ import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
 import de.kvwl.n8dA.robotwars.commons.gui.Animation;
 
-public class RoboConfigurationPanel extends JPanel implements ActionListener
-{
+public class RoboConfigurationPanel extends JPanel implements ActionListener {
 
 	private static final String IMAGE_PATH = "/de/kvwl/n8dA/robotwars/client/images/";
 	private static final long serialVersionUID = 1L;
@@ -78,9 +78,9 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 	private RoboItem[] items;
 	private JButton btnStart;
 
-	public RoboConfigurationPanel(Robot[] robots, Attack[] attacks, Defense[] defends, RoboItem[] items, long maxCredit)
-		throws IOException
-	{
+	public RoboConfigurationPanel(Robot[] robots, Attack[] attacks,
+			Defense[] defends, RoboItem[] items, long maxCredit)
+			throws IOException {
 		this();
 		this.attacks = attacks;
 		this.defends = defends;
@@ -89,13 +89,11 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 		setRobots(robots);
 	}
 
-	private RoboConfigurationPanel()
-	{
+	private RoboConfigurationPanel() {
 		createGui();
 	}
 
-	private void createGui()
-	{
+	private void createGui() {
 
 		setLayout(new BorderLayout());
 		setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -105,8 +103,7 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 		add(createButtonsRow(), BorderLayout.SOUTH);
 	}
 
-	private JPanel createButtonsRow()
-	{
+	private JPanel createButtonsRow() {
 		JPanel border = new JPanel();
 		border.setLayout(new BorderLayout());
 		border.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -125,12 +122,12 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 		return border;
 	}
 
-	private JPanel createObjectSelection()
-	{
+	private JPanel createObjectSelection() {
 
 		JPanel selBorder = new JPanel();
 		selBorder.setLayout(new BorderLayout());
-		selBorder.add(new JSeparator(JSeparator.HORIZONTAL), BorderLayout.NORTH);
+		selBorder
+				.add(new JSeparator(JSeparator.HORIZONTAL), BorderLayout.NORTH);
 
 		JPanel selection = new JPanel();
 		selection.setLayout(new GridLayout(1, 3, 5, 5));
@@ -143,11 +140,11 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 		return selBorder;
 	}
 
-	private JPanel createDefSelection()
-	{
+	private JPanel createDefSelection() {
 		JPanel defBorder = new JPanel();
-		defBorder.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 1, true),
-			"Verteidigung"));
+		defBorder.setBorder(BorderFactory.createTitledBorder(
+				BorderFactory.createLineBorder(Color.BLACK, 1, true),
+				"Verteidigung"));
 		defBorder.setLayout(new BorderLayout());
 
 		JPanel def = new JPanel();
@@ -156,18 +153,15 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 
 		btnDefs = new ArrayList<JButton>(4);
 
-		for (int i = 0; i < 4; i++)
-		{
+		for (int i = 0; i < 4; i++) {
 
 			JButton df = new JButton("<Leer>");
 			df.setBorder(BorderFactory.createLineBorder(Color.RED, 1, true));
 			df.setContentAreaFilled(false);
-			df.addActionListener(new ActionListener()
-			{
+			df.addActionListener(new ActionListener() {
 
 				@Override
-				public void actionPerformed(ActionEvent e)
-				{
+				public void actionPerformed(ActionEvent e) {
 
 					selectDefends();
 				}
@@ -180,11 +174,10 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 		return defBorder;
 	}
 
-	private JPanel createItemSelection()
-	{
+	private JPanel createItemSelection() {
 		JPanel itemBorder = new JPanel();
-		itemBorder.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 1, true),
-			"Item"));
+		itemBorder.setBorder(BorderFactory.createTitledBorder(
+				BorderFactory.createLineBorder(Color.BLACK, 1, true), "Item"));
 		itemBorder.setLayout(new BorderLayout());
 
 		JPanel item = new JPanel();
@@ -208,11 +201,12 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 		return itemBorder;
 	}
 
-	private JPanel createAtkSelection()
-	{
+	private JPanel createAtkSelection() {
 		JPanel atkBorder = new JPanel();
-		atkBorder.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 1, true),
-			"Attacke"));
+		atkBorder
+				.setBorder(BorderFactory.createTitledBorder(
+						BorderFactory.createLineBorder(Color.BLACK, 1, true),
+						"Attacke"));
 		atkBorder.setLayout(new BorderLayout());
 
 		JPanel atk = new JPanel();
@@ -221,18 +215,15 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 
 		btnAtks = new ArrayList<JButton>(4);
 
-		for (int i = 0; i < 4; i++)
-		{
+		for (int i = 0; i < 4; i++) {
 
 			JButton ak = new JButton("<Leer>");
 			ak.setBorder(BorderFactory.createLineBorder(Color.RED, 1, true));
 			ak.setContentAreaFilled(false);
-			ak.addActionListener(new ActionListener()
-			{
+			ak.addActionListener(new ActionListener() {
 
 				@Override
-				public void actionPerformed(ActionEvent e)
-				{
+				public void actionPerformed(ActionEvent e) {
 
 					selectAttacks();
 				}
@@ -245,44 +236,49 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 		return atkBorder;
 	}
 
-	private void selectDefends()
-	{
+	private void selectDefends() {
 		System.out.println("Def selection");
 
 		modifyRobot();
 	}
 
-	private void selectAttacks()
-	{
+	private void selectAttacks() {
 		System.out.println("Atk selection");
 
 		modifyRobot();
 	}
 
-	private void selectItems()
-	{
+	private void selectItems() {
 		System.out.println("Atk selection");
 
 		modifyRobot();
 	}
 
-	private void modifyRobot()
-	{
+	private void modifyRobot() {
 
 		System.out.println("modify robot");
 
-		if (robots == null || robots.length <= 0)
-		{
-			throw new RuntimeException("Keine Roboter zum Konfigurieren vorhanden.");
+		if (robots == null || robots.length <= 0) {
+			throw new RuntimeException(
+					"Keine Roboter zum Konfigurieren vorhanden.");
 		}
 
-		Robot robo = ConfigShop.getConfiguration(robots[selectedRobot], maxCredit, items, attacks, defends);
+		Robot actualRobot = robots[selectedRobot];
+		if (actualRobot.isLoadedAsUserRobot()) {
+
+			JOptionPane.showMessageDialog(this,
+					"Der ausgewählte Roboter kann nicht geändert werden.",
+					"Benutzerdefinierter Roboter", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
+		Robot robo = ConfigShop.getConfiguration(actualRobot, maxCredit, items,
+				attacks, defends);
 
 		actualizeModifications(robo);
 	}
 
-	private void actualizeModifications(Robot robo)
-	{
+	private void actualizeModifications(Robot robo) {
 
 		System.out.println("aktualisiere robot config");
 
@@ -290,47 +286,37 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 		List<Attack> attacks = robo.getPossibleAttacks();
 		List<Defense> defends = robo.getPossibleDefends();
 
-		//Aktualisiere Items
+		// Aktualisiere Items
 		DefaultListModel<RoboItem> itemModel = new DefaultListModel<RoboItem>();
-		for (RoboItem item : items)
-		{
+		for (RoboItem item : items) {
 			itemModel.addElement(item);
 		}
 		itemList.setModel(itemModel);
 
-		//Aktualisiere Verteidigungen
+		// Aktualisiere Verteidigungen
 		Iterator<Defense> defs = defends.iterator();
-		for (JButton def : btnDefs)
-		{
+		for (JButton def : btnDefs) {
 
-			if (defs.hasNext())
-			{
+			if (defs.hasNext()) {
 				def.setText(defs.next().getName());
-			}
-			else
-			{
+			} else {
 				def.setText("<Leer>");
 			}
 		}
 
-		//Aktualisiere Attacken
+		// Aktualisiere Attacken
 		Iterator<Attack> atks = attacks.iterator();
-		for (JButton atk : btnAtks)
-		{
+		for (JButton atk : btnAtks) {
 
-			if (atks.hasNext())
-			{
+			if (atks.hasNext()) {
 				atk.setText(atks.next().getName());
-			}
-			else
-			{
+			} else {
 				atk.setText("<Leer>");
 			}
 		}
 	}
 
-	private JPanel createRoboSelection()
-	{
+	private JPanel createRoboSelection() {
 
 		JPanel robo = new JPanel();
 		robo.setLayout(new BorderLayout());
@@ -339,14 +325,16 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 		prevRobo = new JButton();
 		prevRobo.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		prevRobo.setContentAreaFilled(false);
-		prevRobo.setIcon(new ImageIcon(InternalImage.loadFromPath(IMAGE_PATH, "selection_left.png")));
+		prevRobo.setIcon(new ImageIcon(InternalImage.loadFromPath(IMAGE_PATH,
+				"selection_left.png")));
 		prevRobo.addActionListener(this);
 		robo.add(prevRobo, BorderLayout.WEST);
 
 		nextRobo = new JButton();
 		nextRobo.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		nextRobo.setContentAreaFilled(false);
-		nextRobo.setIcon(new ImageIcon(InternalImage.loadFromPath(IMAGE_PATH, "selection_right.png")));
+		nextRobo.setIcon(new ImageIcon(InternalImage.loadFromPath(IMAGE_PATH,
+				"selection_right.png")));
 		nextRobo.addActionListener(this);
 		robo.add(nextRobo, BorderLayout.EAST);
 
@@ -357,7 +345,8 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 		robo.add(centerTxt, BorderLayout.SOUTH);
 
 		txtRoboName = new BTextField(20);
-		txtRoboName.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, true));
+		txtRoboName.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2,
+				true));
 		txtRoboName.setHint("Name eingeben...");
 		txtRoboName.setIgnoreHintFocus(true);
 		centerTxt.add(txtRoboName);
@@ -373,7 +362,8 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 
 		JPanel stageBorder = new JPanel();
 		stageBorder.setLayout(new BorderLayout());
-		stageBorder.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, true));
+		stageBorder.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2,
+				true));
 		robo.add(stageBorder, BorderLayout.CENTER);
 
 		JPanel stagePanel = new JPanel();
@@ -390,9 +380,10 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 
 		clk.start();
 
-		//Horizontal center robo
+		// Horizontal center robo
 		JPanel horizontalCenter = new JPanel();
-		horizontalCenter.setLayout(new BoxLayout(horizontalCenter, BoxLayout.X_AXIS));
+		horizontalCenter.setLayout(new BoxLayout(horizontalCenter,
+				BoxLayout.X_AXIS));
 
 		robo.setMaximumSize(robo.getPreferredSize());
 
@@ -405,19 +396,16 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 		return horizontalCenter;
 	}
 
-	private void changeRoboIndex(int increase)
-	{
+	private void changeRoboIndex(int increase) {
 
 		selectedRobot += increase;
 
 		checkIndexPosition();
 	}
 
-	private void actualizeActiveRobot() throws IOException
-	{
+	private void actualizeActiveRobot() throws IOException {
 
-		if (robots == null)
-		{
+		if (robots == null) {
 			return;
 		}
 
@@ -426,25 +414,19 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 		setActiveRobot(robots[selectedRobot]);
 	}
 
-	private void checkIndexPosition()
-	{
-		if (robots == null)
-		{
+	private void checkIndexPosition() {
+		if (robots == null) {
 			return;
 		}
 
-		if (selectedRobot >= robots.length)
-		{
+		if (selectedRobot >= robots.length) {
 			selectedRobot = 0;
-		}
-		else if (selectedRobot < 0)
-		{
+		} else if (selectedRobot < 0) {
 			selectedRobot = robots.length - 1;
 		}
 	}
 
-	private void setActiveRobot(Robot robo) throws IOException
-	{
+	private void setActiveRobot(Robot robo) throws IOException {
 
 		lblRoboName.setText(robo.getName());
 
@@ -452,8 +434,7 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 		actualizeModifications(robo);
 	}
 
-	private void setRoboAni(Animation ani) throws IOException
-	{
+	private void setRoboAni(Animation ani) throws IOException {
 
 		BufferedImage img = ImageIO.read(new File(ani.getPathToFile()));
 		int width = ani.getFrameWidth();
@@ -463,24 +444,22 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 		long[][] time = new long[][] { ani.getFrameTimings() };
 		long defaultTime = time[0][0];
 
-		roboScene.setAnimation(new AnimatedSceneObject(sprite, defaultTime, time));
+		roboScene.setAnimation(new AnimatedSceneObject(sprite, defaultTime,
+				time));
 	}
 
-	private void start()
-	{
+	private void start() {
 		// TODO Marvin: start
 
 	}
 
-	public void pauseAnimation(boolean pause)
-	{
+	public void pauseAnimation(boolean pause) {
 
 		clk.setPaused(pause);
 	}
 
 	@Override
-	protected void finalize() throws Throwable
-	{
+	protected void finalize() throws Throwable {
 
 		clk.destroy();
 
@@ -488,72 +467,60 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e)
-	{
+	public void actionPerformed(ActionEvent e) {
 
 		Object source = e.getSource();
 
-		if (source == prevRobo)
-		{
+		if (source == prevRobo) {
 
 			System.out.println("prev Robo");
 			previousRobot();
-		}
-		else if (source == nextRobo)
-		{
+		} else if (source == nextRobo) {
 
 			System.out.println("next Robo");
 			nextRobot();
-		}
-		else if (source == buyItems)
-		{
+		} else if (source == buyItems) {
 
 			System.out.println("buy items");
 			selectItems();
-		}
-		else if (source == btnStart)
-		{
+		} else if (source == btnStart) {
 
 			System.out.println("start");
 			start();
 		}
 	}
 
-	public void previousRobot()
-	{
+	public void previousRobot() {
 
 		changeRoboIndex(-1);
 	}
 
-	public void nextRobot()
-	{
+	public void nextRobot() {
 
 		changeRoboIndex(+1);
 	}
 
-	public Robot[] getRobots()
-	{
+	public Robot[] getRobots() {
 		return robots;
 	}
 
-	public void setRobots(Robot[] robots) throws IOException
-	{
+	public void setRobots(Robot[] robots) throws IOException {
 		this.robots = robots;
 		this.selectedRobot = 0;
 
 		actualizeActiveRobot();
 	}
 
-	public static void main(String[] args) throws Exception
-	{
+	public static void main(String[] args) throws Exception {
 		JFrame disp = new JFrame();
 		disp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		disp.setSize(800, 600);
 		disp.setLocationRelativeTo(null);
 
 		RoboConfigurationPanel comp = new RoboConfigurationPanel();
-		comp.setRoboAni(new Animation("1", "D:\\tmp\\GreenRoboterAni.png", new long[] { TimeUtils
-			.NanosecondsOfMilliseconds(100) }, 64, 128));
+		comp.setRoboAni(new Animation("1", "D:\\tmp\\GreenRoboterAni.png",
+				new long[] { TimeUtils.NanosecondsOfMilliseconds(100) }, 64,
+				128));
 
 		disp.add(comp);
 
