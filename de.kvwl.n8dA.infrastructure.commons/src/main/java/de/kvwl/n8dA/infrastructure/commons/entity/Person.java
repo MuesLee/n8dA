@@ -1,4 +1,4 @@
-package de.kvwl.n8dA.infrastructure.rewardserver.entity;
+package de.kvwl.n8dA.infrastructure.commons.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

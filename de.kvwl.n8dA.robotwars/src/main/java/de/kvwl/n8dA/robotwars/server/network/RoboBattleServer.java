@@ -101,53 +101,6 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		}
 	}
 
-	public void setActionForRobot(RobotAction robotAction, UUID uuid)
-			throws UnknownRobotException, RobotHasInsufficientEnergyException, WrongGameStateException {
-		LOG.info("Action: " + robotAction + " received from UUID: " + uuid);
-		
-		battleController.setActionForRobot(robotAction, getRobotForUUID(uuid));
-	}
-
-	@Override
-	public RobotPosition registerRobotAndClientForBattle(Robot robot, UUID uuid) throws RemoteException,
-			NoFreeSlotInBattleArenaException {
-		if (battleController.getRobotLeft() == null) {
-			battleController.setRobotLeft(robot);
-			clientUUIDLeft = uuid;
-			LOG.info("Robot registered: " + robot + " ClientUUID: " + uuid);
-			return RobotPosition.LEFT;
-			
-		} else if (battleController.getRobotRight() == null) {
-			battleController.setRobotRight(robot);
-			clientUUIDRight = uuid;
-			
-			LOG.info("Robot registered: " + robot + " ClientUUID: " + uuid);
-			
-			return RobotPosition.RIGHT;
-			
-		} else {
-			throw new NoFreeSlotInBattleArenaException();
-		}
-		
-		
-
-	}
-
-	@Override
-	public Robot getSynchronizedRobot(UUID uuid) throws RemoteException,
-	UnknownRobotException {
-		
-		Robot robot = battleController.getLocalRobotForRemoteRobot(getRobotForUUID(uuid));
-		LOG.info("UUID: " + uuid + " has requested update of Robot. Received " + robot);
-		
-		return robot;
-	}
-	
-	public void sendGameStateInfoToClients(GameStateType gameStateType)
-	{
-		producer.sendGameStateNotificationToAllClients(gameStateType);
-	}
-	
 	private void startActiveMQBroker ()
 	{
 		 LOG.info("Starting ActiveMQ Broker");
@@ -164,17 +117,6 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 			e.printStackTrace();
 		}
 		 
-			
-	}
-	
-	private Robot getRobotForUUID(UUID uuid) throws UnknownRobotException
-	{
-		if(uuid.equals(clientUUIDLeft))
-			return battleController.getRobotLeft();
-		if (uuid.equals(clientUUIDRight)) 
-			return battleController.getRobotRight();
-		
-		throw new UnknownRobotException();
 			
 	}
 	
@@ -207,21 +149,6 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		battleController.setAllItems(allItems);
 		
 	}
-
-	@Override
-	public void onMessage(Message message) {
-
-		if(message instanceof ObjectMessage)
-		{
-			handleObjectMessage((ObjectMessage) message);
-		}
-		else if (message instanceof Message)
-		{
-			handleMessage(message);
-		}
-		
-		
-		}
 
 	private void handleMessage(Message message) {
 		
@@ -276,9 +203,21 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		
 	}
 
+	private Robot getRobotForUUID(UUID uuid) throws UnknownRobotException
+	{
+		if(uuid.equals(clientUUIDLeft))
+			return battleController.getRobotLeft();
+		if (uuid.equals(clientUUIDRight)) 
+			return battleController.getRobotRight();
+		
+		throw new UnknownRobotException();
+			
+	}
+
 	private void disconnectClient(UUID clientUUID) {
 		
 		//TODO: Timo: Spiel beenden
+		// Neuer BattleController?
 		
 		if(clientUUID.equals(clientUUIDLeft))
 		{
@@ -296,6 +235,68 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 	}
 	
 	
+	public void setActionForRobot(RobotAction robotAction, UUID uuid)
+			throws UnknownRobotException, RobotHasInsufficientEnergyException, WrongGameStateException {
+		LOG.info("Action: " + robotAction + " received from UUID: " + uuid);
+		
+		battleController.setActionForRobot(robotAction, getRobotForUUID(uuid));
+	}
+
+	@Override
+	public Robot getSynchronizedRobot(UUID uuid) throws RemoteException,
+	UnknownRobotException {
+		
+		Robot robot = battleController.getLocalRobotForRemoteRobot(getRobotForUUID(uuid));
+		LOG.info("UUID: " + uuid + " has requested update of Robot. Received " + robot);
+		
+		return robot;
+	}
+
+	public void sendGameStateInfoToClients(GameStateType gameStateType)
+	{
+		producer.sendGameStateNotificationToAllClients(gameStateType);
+	}
+
+	@Override
+	public RobotPosition registerRobotAndClientForBattle(Robot robot, UUID uuid) throws RemoteException,
+			NoFreeSlotInBattleArenaException {
+		if (battleController.getRobotLeft() == null) {
+			battleController.setRobotLeft(robot);
+			clientUUIDLeft = uuid;
+			LOG.info("Robot registered: " + robot + " ClientUUID: " + uuid);
+			return RobotPosition.LEFT;
+			
+		} else if (battleController.getRobotRight() == null) {
+			battleController.setRobotRight(robot);
+			clientUUIDRight = uuid;
+			
+			LOG.info("Robot registered: " + robot + " ClientUUID: " + uuid);
+			
+			return RobotPosition.RIGHT;
+			
+		} else {
+			throw new NoFreeSlotInBattleArenaException();
+		}
+		
+		
+	
+	}
+
+	@Override
+	public void onMessage(Message message) {
+	
+		if(message instanceof ObjectMessage)
+		{
+			handleObjectMessage((ObjectMessage) message);
+		}
+		else if (message instanceof Message)
+		{
+			handleMessage(message);
+		}
+		
+		
+		}
+
 	@Override
 	public List<Robot> getAllPossibleRobots() {
 		

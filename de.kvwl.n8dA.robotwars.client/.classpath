@@ -26,5 +26,6 @@
 	<classpathentry kind="src" path="/de.kvwl.n8dA.robotwars.commons"/>
 	<classpathentry kind="lib" path="lib/GameEngine.jar"/>
 	<classpathentry kind="lib" path="lib/Swing2.jar"/>
+	<classpathentry kind="src" path="/de.kvwl.n8dA.infrastructure.commons"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

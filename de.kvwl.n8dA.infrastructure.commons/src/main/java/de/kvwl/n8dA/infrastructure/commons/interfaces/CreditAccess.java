@@ -1,6 +1,8 @@
-package de.kvwl.n8dA.robotwars.client;
+package de.kvwl.n8dA.infrastructure.commons.interfaces;
 
 import java.rmi.RemoteException;
+
+import de.kvwl.n8dA.infrastructure.commons.exception.NoSuchPersonException;
 
 //TODO Timo: Implementierung
 /**

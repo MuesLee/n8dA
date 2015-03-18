@@ -4,7 +4,7 @@ import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
 
-import de.kvwl.n8dA.robotwars.client.CreditAccess;
+import de.kvwl.n8dA.infrastructure.commons.interfaces.CreditAccess;
 import de.kvwl.n8dA.robotwars.client.RoboBattlePlayerClient;
 
 //TODO Marvin: Client disp
