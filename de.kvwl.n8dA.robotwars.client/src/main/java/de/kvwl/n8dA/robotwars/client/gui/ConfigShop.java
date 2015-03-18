@@ -1,11 +1,13 @@
 package de.kvwl.n8dA.robotwars.client.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
+import java.awt.FlowLayout;
 import java.util.List;
 
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 
 import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
@@ -21,6 +23,8 @@ public class ConfigShop extends JDialog
 
 	private long maxCredits;
 	private long usedCredits;
+
+	private JLabel lblCredits;
 
 	private ConfigShop(Robot startConfig, long maxCredits)
 	{
@@ -74,13 +78,62 @@ public class ConfigShop extends JDialog
 		setTitle("Shop");
 
 		add(createCreditBar(), BorderLayout.NORTH);
+		add(createShop(), BorderLayout.CENTER);
+	}
+
+	private JPanel createShop()
+	{
+		JPanel shop = new JPanel();
+		shop.setLayout(new BorderLayout());
+
+		JTabbedPane tbPane = new JTabbedPane();
+		shop.add(tbPane, BorderLayout.CENTER);
+
+		tbPane.addTab("Angriff", createAttackShop());
+		tbPane.addTab("Verteidigung", createDefenseShop());
+		tbPane.addTab("Ausrüstung", createItemShop());
+
+		return shop;
+	}
+
+	private JPanel createItemShop()
+	{
+		JPanel items = new JPanel();
+
+		return items;
+	}
+
+	private JPanel createDefenseShop()
+	{
+
+		JPanel defense = new JPanel();
+
+		return defense;
+	}
+
+	private JPanel createAttackShop()
+	{
+		JPanel attack = new JPanel();
+
+		return attack;
 	}
 
 	private JPanel createCreditBar()
 	{
 		JPanel creditBar = new JPanel();
+		creditBar.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+		lblCredits = new JLabel();
+		updateCreditLabel();
+		creditBar.add(lblCredits);
 
 		return creditBar;
+	}
+
+	private void updateCreditLabel()
+	{
+
+		lblCredits.setText(String.format("Credits: %d", (maxCredits - usedCredits)));
 	}
 
 	public Robot getConfiguration()
