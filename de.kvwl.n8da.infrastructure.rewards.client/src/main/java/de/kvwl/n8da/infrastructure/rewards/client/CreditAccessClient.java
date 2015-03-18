@@ -13,7 +13,6 @@ import de.kvwl.n8dA.infrastructure.commons.interfaces.CreditAccesHandler;
 import de.kvwl.n8dA.infrastructure.commons.interfaces.CreditAccess;
 import de.kvwl.n8dA.infrastructure.commons.util.NetworkUtils;
 
-
 /**
  * GUI-loser Client als Verbindung zum zentralen Punkte-Server.
  */
@@ -22,6 +21,9 @@ public class CreditAccessClient implements CreditAccess {
 	private static final Logger LOG = LoggerFactory
 			.getLogger(CreditAccessClient.class);
 
+	// TODO Timo: IP:Port dynamisch
+	// mach das mal so, dass die IP:Port angaben oder was es da so
+	// gibt zumindest Ã¼ber die -Dxxx JVM options angegeben werden kÃ¶nnen
 	private static final String url = "//"
 			+ NetworkUtils.REWARD_SERVER_HOST_IP_ADDRESS + "/"
 			+ NetworkUtils.REWARD_SERVER_NAME;
@@ -32,6 +34,7 @@ public class CreditAccessClient implements CreditAccess {
 		BasicConfigurator.configure();
 		this.uuid = UUID.randomUUID();
 	}
+
 	/**
 	 * Baut eine vorkonfigurierte Verbindung zum Punkteserver auch
 	 */
@@ -44,16 +47,16 @@ public class CreditAccessClient implements CreditAccess {
 		}
 
 	}
-	
+
 	/**
-	 * Ruft den Punktestand für den übergebenen Namen vom Server ab
+	 * Ruft den Punktestand fï¿½r den ï¿½bergebenen Namen vom Server ab
 	 */
 	public int getConfigurationPointsForPerson(String name)
 			throws NoSuchPersonException, RemoteException {
 		return server.getConfigurationPointsForPerson(name);
 	}
 
-	//TODO: Timo: Nur zu Testzwecken. Später entfernen.
+	// TODO: Timo: Nur zu Testzwecken. Spï¿½ter entfernen.
 	public static void main(String[] args) {
 		CreditAccessClient client = new CreditAccessClient();
 		try {

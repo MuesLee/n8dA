@@ -33,7 +33,7 @@ public class RoboBattlePlayerClient extends RoboBattleClient {
 		RoboBattlePlayerClient client = new RoboBattlePlayerClient();
 		client.init();
 
-		// TODO Timo: Test Zeug entfernen
+		// XXX Timo: Test Zeug entfernen
 		try {
 			client.registerClientWithRobotAtServer(new Robot());
 		} catch (NoFreeSlotInBattleArenaException e) {
