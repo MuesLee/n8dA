@@ -19,6 +19,7 @@ import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
+import de.kvwl.n8dA.robotwars.commons.game.util.ItemUtil;
 import de.kvwl.n8dA.robotwars.commons.gui.Animation;
 
 /**
@@ -251,10 +252,21 @@ public class DataLoaderFileSystemImpl implements DataLoader
 		return robot;
 	}
 
-	private RoboItem getItemById(Long valueOf)
+	private RoboItem getItemById(Long itemId)
 	{
-		// TODO Marvin: getItemById
-		return null;
+		List<RoboItem> roboItems = ItemUtil.getAllRoboItems();
+
+		for (RoboItem item : roboItems)
+		{
+
+			if (item.getId() == itemId)
+			{
+
+				return item;
+			}
+		}
+
+		throw new RuntimeException(String.format("Item %d nicht gefunden.", itemId));
 	}
 
 	private Animation getAnimation(List<Animation> animations, String animationId)
