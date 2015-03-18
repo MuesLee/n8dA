@@ -26,23 +26,23 @@ import de.kvwl.n8dA.robotwars.commons.gui.Animation;
  * 
  * Lädt die Animationen aus eienr Verzeichnisstruktur.<br>
  * <br>
- * Unter dem root Ordner befinden sich die Ordner für die Animationen [animations] und [objects] für
- * die actions/robots.<br>
+ * Unter dem root Ordner befinden sich die Ordner für die Animationen
+ * [animations] und [objects] für die actions/robots.<br>
  * <br>
- * Innerhalb der Animationen wird in [robots] und [actions] unterteilt. Die Actions selber sind in
- * [attacks] und [defends] unterteilt. <br>
+ * Innerhalb der Animationen wird in [robots] und [actions] unterteilt. Die
+ * Actions selber sind in [attacks] und [defends] unterteilt. <br>
  * <br>
- * Jede Animation besteht darunter wieder aus einem Ordner, der die Dateien [info.xml] und
- * [animation.png] <br>
+ * Jede Animation besteht darunter wieder aus einem Ordner, der die Dateien
+ * [info.xml] und [animation.png] <br>
  * <br>
  * Für die objects bestehen die Ordner [robots] und [actions].<br>
  * <br>
  * Die actions sind wiederum unterteilt in [defends] und [attacks].<br>
  * <br>
- * Jedes object besteht darunter wieder aus einem Ordner und darin den Dateien [info.xml]
+ * Jedes object besteht darunter wieder aus einem Ordner und darin den Dateien
+ * [info.xml]
  */
-public class DataLoaderFileSystemImpl implements DataLoader
-{
+public class DataLoaderFileSystemImpl implements DataLoader {
 
 	private SAXBuilder builder = new SAXBuilder();
 
@@ -60,21 +60,18 @@ public class DataLoaderFileSystemImpl implements DataLoader
 	private Path atkFolder;
 	private Path defFolder;
 
-	public DataLoaderFileSystemImpl()
-	{
+	public DataLoaderFileSystemImpl() {
 
 		this(Paths.get("./"));
 	}
 
-	public DataLoaderFileSystemImpl(Path sourceFolder)
-	{
+	public DataLoaderFileSystemImpl(Path sourceFolder) {
 
 		this.sourceFolder = sourceFolder;
 		createPaths();
 	}
 
-	private void createPaths()
-	{
+	private void createPaths() {
 
 		animationFolder = sourceFolder.resolve("animations");
 		robotAniFolder = animationFolder.resolve("robots");
@@ -89,8 +86,7 @@ public class DataLoaderFileSystemImpl implements DataLoader
 		defFolder = actionFolder.resolve("defends");
 	}
 
-	public void createFolderStructure() throws IOException
-	{
+	public void createFolderStructure() throws IOException {
 
 		Files.createDirectories(animationFolder);
 		Files.createDirectories(robotAniFolder);
@@ -105,8 +101,7 @@ public class DataLoaderFileSystemImpl implements DataLoader
 		Files.createDirectories(defFolder);
 	}
 
-	public Animation readAnimation(Path info) throws JDOMException, IOException
-	{
+	public Animation readAnimation(Path info) throws JDOMException, IOException {
 
 		String id;
 		String relativePathToFile;
@@ -114,8 +109,10 @@ public class DataLoaderFileSystemImpl implements DataLoader
 		int frameWidth;
 		int frameHeight;
 
-		Path absolutePath = info.getParent().resolve("animation.png").toAbsolutePath();
-		relativePathToFile = sourceFolder.toAbsolutePath().relativize(absolutePath).toString();
+		Path absolutePath = info.getParent().resolve("animation.png")
+				.toAbsolutePath();
+		relativePathToFile = sourceFolder.toAbsolutePath()
+				.relativize(absolutePath).toString();
 
 		Document doc = builder.build(Files.newInputStream(info));
 
@@ -132,17 +129,18 @@ public class DataLoaderFileSystemImpl implements DataLoader
 
 		frameTimings = new long[Math.max(times.size(), containerSize)];
 
-		for (Element time : times)
-		{
+		for (Element time : times) {
 
-			frameTimings[time.getAttribute("frame").getIntValue()] = Long.valueOf(time.getValue());
+			frameTimings[time.getAttribute("frame").getIntValue()] = Long
+					.valueOf(time.getValue());
 		}
 
-		return new Animation(id, relativePathToFile, frameTimings, frameWidth, frameHeight);
+		return new Animation(id, relativePathToFile, frameTimings, frameWidth,
+				frameHeight);
 	}
 
-	public Attack readAttack(Path info, List<Animation> attackAnimations) throws JDOMException, IOException
-	{
+	public Attack readAttack(Path info, List<Animation> attackAnimations)
+			throws JDOMException, IOException {
 
 		RobotActionType type;
 		int damage;
@@ -158,7 +156,8 @@ public class DataLoaderFileSystemImpl implements DataLoader
 
 		type = RobotActionType.valueOf(atk.getChild("type").getValue());
 		damage = Integer.valueOf(atk.getChild("damage").getValue());
-		configurationPointCosts = Integer.valueOf(atk.getChild("configcosts").getValue());
+		configurationPointCosts = Integer.valueOf(atk.getChild("configcosts")
+				.getValue());
 		energyCosts = Integer.valueOf(atk.getChild("energycosts").getValue());
 		name = atk.getChild("name").getValue();
 		id = Long.valueOf(atk.getChild("id").getValue());
@@ -175,8 +174,8 @@ public class DataLoaderFileSystemImpl implements DataLoader
 		return attack;
 	}
 
-	public Defense readDefense(Path info, List<Animation> defenseAnimations) throws JDOMException, IOException
-	{
+	public Defense readDefense(Path info, List<Animation> defenseAnimations)
+			throws JDOMException, IOException {
 
 		RobotActionType type;
 		double bonusOnDefenceFactor;
@@ -191,8 +190,10 @@ public class DataLoaderFileSystemImpl implements DataLoader
 		Element atk = doc.getRootElement();
 
 		type = RobotActionType.valueOf(atk.getChild("type").getValue());
-		bonusOnDefenceFactor = Double.valueOf(atk.getChild("defensefactor").getValue());
-		configurationPointCosts = Integer.valueOf(atk.getChild("configcosts").getValue());
+		bonusOnDefenceFactor = Double.valueOf(atk.getChild("defensefactor")
+				.getValue());
+		configurationPointCosts = Integer.valueOf(atk.getChild("configcosts")
+				.getValue());
 		energyCosts = Integer.valueOf(atk.getChild("energycosts").getValue());
 		name = atk.getChild("name").getValue();
 		id = Long.valueOf(atk.getChild("id").getValue());
@@ -209,8 +210,8 @@ public class DataLoaderFileSystemImpl implements DataLoader
 		return defense;
 	}
 
-	public Robot readRobot(Path info, List<Animation> robotAnimations) throws JDOMException, IOException
-	{
+	public Robot readRobot(Path info, List<Animation> robotAnimations)
+			throws JDOMException, IOException {
 
 		long id;
 		String animationId;
@@ -228,16 +229,20 @@ public class DataLoaderFileSystemImpl implements DataLoader
 		animationId = robo.getChild("animationid").getValue();
 		animation = getAnimation(robotAnimations, animationId);
 		name = robo.getChild("name").getValue();
-		configurationPointCosts = Integer.valueOf(robo.getChild("configcosts").getValue());
-		energyPoints = Integer.valueOf(robo.getChild("energypoints").getValue());
-		healthPoints = Integer.valueOf(robo.getChild("healthpoints").getValue());
+		configurationPointCosts = Integer.valueOf(robo.getChild("configcosts")
+				.getValue());
+		energyPoints = Integer
+				.valueOf(robo.getChild("energypoints").getValue());
+		healthPoints = Integer
+				.valueOf(robo.getChild("healthpoints").getValue());
 
-		List<Element> defItems = robo.getChild("defaultitems").getChildren("item");
+		List<Element> defItems = robo.getChild("defaultitems").getChildren(
+				"item");
 		defaultItems = new ArrayList<RoboItem>(defItems.size() + 10);
-		for (Element it : defItems)
-		{
+		for (Element it : defItems) {
 
-			defaultItems.add(getItemById(Long.valueOf(it.getValue())));
+			defaultItems.add(getNotRemoveableItemById(Long.valueOf(it
+					.getValue())));
 		}
 
 		Robot robot = new Robot();
@@ -252,66 +257,56 @@ public class DataLoaderFileSystemImpl implements DataLoader
 		return robot;
 	}
 
-	private RoboItem getItemById(Long itemId)
-	{
-		List<RoboItem> roboItems = ItemUtil.getAllRoboItems();
+	private RoboItem getNotRemoveableItemById(Long itemId) {
 
-		for (RoboItem item : roboItems)
-		{
+		RoboItem item = ItemUtil.cloneItemById(itemId);
 
-			if (item.getId() == itemId)
-			{
+		if (item == null) {
 
-				return item;
-			}
+			throw new RuntimeException(String.format("Item %d nicht gefunden.",
+					itemId));
 		}
 
-		throw new RuntimeException(String.format("Item %d nicht gefunden.", itemId));
+		item.setRemoveable(false);
+
+		return item;
 	}
 
-	private Animation getAnimation(List<Animation> animations, String animationId)
-	{
+	private Animation getAnimation(List<Animation> animations,
+			String animationId) {
 
-		for (Animation ani : animations)
-		{
+		for (Animation ani : animations) {
 
-			if (ani.getId().equals(animationId))
-			{
+			if (ani.getId().equals(animationId)) {
 
 				return ani;
 			}
 		}
 
-		throw new RuntimeException("Keine Animtaion für " + animationId + " gefunden");
+		throw new RuntimeException("Keine Animtaion für " + animationId
+				+ " gefunden");
 	}
 
-	private List<Animation> loadDefAnimations()
-	{
+	private List<Animation> loadDefAnimations() {
 		return loadAnimationsFromFolder(defAniFolder);
 	}
 
-	private List<Animation> loadAtkAnimations()
-	{
+	private List<Animation> loadAtkAnimations() {
 		return loadAnimationsFromFolder(atkAniFolder);
 	}
 
-	private List<Animation> loadAnimationsFromFolder(Path folder)
-	{
+	private List<Animation> loadAnimationsFromFolder(Path folder) {
 
 		List<Animation> anis = new LinkedList<Animation>();
 
-		try
-		{
+		try {
 			DirectoryStream<Path> dirs = Files.newDirectoryStream(folder);
 
-			for (Path dir : dirs)
-			{
+			for (Path dir : dirs) {
 
 				anis.add(readAnimation(dir.resolve("info.xml")));
 			}
-		}
-		catch (IOException | JDOMException e)
-		{
+		} catch (IOException | JDOMException e) {
 			e.printStackTrace();
 		}
 
@@ -319,14 +314,12 @@ public class DataLoaderFileSystemImpl implements DataLoader
 	}
 
 	@Override
-	public List<Animation> loadAnimationsForRobots()
-	{
+	public List<Animation> loadAnimationsForRobots() {
 		return loadAnimationsFromFolder(robotAniFolder);
 	}
 
 	@Override
-	public List<Animation> loadAnimationsForRobotActions()
-	{
+	public List<Animation> loadAnimationsForRobotActions() {
 
 		List<Animation> anis = new LinkedList<Animation>();
 
@@ -337,25 +330,20 @@ public class DataLoaderFileSystemImpl implements DataLoader
 	}
 
 	@Override
-	public List<Robot> loadRobots()
-	{
+	public List<Robot> loadRobots() {
 
 		List<Animation> roboAnis = loadAnimationsForRobots();
 
 		List<Robot> robos = new LinkedList<Robot>();
 
-		try
-		{
+		try {
 			DirectoryStream<Path> objs = Files.newDirectoryStream(robotFolder);
 
-			for (Path obj : objs)
-			{
+			for (Path obj : objs) {
 
 				robos.add(readRobot(obj.resolve("info.xml"), roboAnis));
 			}
-		}
-		catch (IOException | JDOMException e)
-		{
+		} catch (IOException | JDOMException e) {
 			e.printStackTrace();
 		}
 
@@ -363,25 +351,20 @@ public class DataLoaderFileSystemImpl implements DataLoader
 	}
 
 	@Override
-	public List<Attack> loadRobotAttacks()
-	{
+	public List<Attack> loadRobotAttacks() {
 
 		List<Animation> atkAnimations = loadAtkAnimations();
 
 		List<Attack> attacks = new LinkedList<Attack>();
 
-		try
-		{
+		try {
 			DirectoryStream<Path> objs = Files.newDirectoryStream(atkFolder);
 
-			for (Path obj : objs)
-			{
+			for (Path obj : objs) {
 
 				attacks.add(readAttack(obj.resolve("info.xml"), atkAnimations));
 			}
-		}
-		catch (IOException | JDOMException e)
-		{
+		} catch (IOException | JDOMException e) {
 			e.printStackTrace();
 		}
 
@@ -389,25 +372,20 @@ public class DataLoaderFileSystemImpl implements DataLoader
 	}
 
 	@Override
-	public List<Defense> loadRobotDefends()
-	{
+	public List<Defense> loadRobotDefends() {
 
 		List<Animation> defAnimations = loadDefAnimations();
 
 		List<Defense> defends = new LinkedList<Defense>();
 
-		try
-		{
+		try {
 			DirectoryStream<Path> objs = Files.newDirectoryStream(defFolder);
 
-			for (Path obj : objs)
-			{
+			for (Path obj : objs) {
 
 				defends.add(readDefense(obj.resolve("info.xml"), defAnimations));
 			}
-		}
-		catch (IOException | JDOMException e)
-		{
+		} catch (IOException | JDOMException e) {
 			e.printStackTrace();
 		}
 
