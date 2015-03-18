@@ -2,14 +2,28 @@ package de.kvwl.n8dA.robotwars.client.gui;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.List;
 
+import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.JSpinner.DefaultEditor;
 import javax.swing.JTabbedPane;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
@@ -43,7 +57,7 @@ public class ConfigShop extends JDialog
 		this.usedCredits = calculateUsedCredits(config);
 
 		setModalityType(ModalityType.APPLICATION_MODAL);
-		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 
 		createGui();
 		pack();
@@ -93,6 +107,7 @@ public class ConfigShop extends JDialog
 	private JPanel createShop()
 	{
 		JPanel shop = new JPanel();
+		shop.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		shop.setLayout(new BorderLayout());
 
 		JTabbedPane tbPane = new JTabbedPane();
@@ -102,12 +117,161 @@ public class ConfigShop extends JDialog
 		tbPane.addTab("Verteidigung", createDefenseShop());
 		tbPane.addTab("Ausrüstung", createItemShop());
 
+		JPanel btnPanel = new JPanel();
+		btnPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		shop.add(btnPanel, BorderLayout.SOUTH);
+
+		JButton btnOk = new JButton("Kaufen");
+		btnOk.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+
+				tryToExit();
+			}
+		});
+		btnPanel.add(btnOk);
+
 		return shop;
+	}
+
+	private void tryToExit()
+	{
+		if (usedCredits > maxCredits)
+		{
+			JOptionPane.showMessageDialog(this, "Du hast nicht genug Credits um dir das leisten zu können.",
+				"Keine Credits", JOptionPane.ERROR_MESSAGE);
+		}
+
+		List<Attack> possibleAttacks = config.getPossibleAttacks();
+		List<Defense> possibleDefends = config.getPossibleDefends();
+
+		if (possibleAttacks.size() > 4 || possibleDefends.size() > 4)
+		{
+			JOptionPane.showMessageDialog(this,
+				"Du hast zu viele Attacken oder Verteidigungen. \nEs sind maximal vier Fähigkeiten erlaubt.",
+				"Zu viele Fähigkeiten", JOptionPane.ERROR_MESSAGE);
+		}
+
+		boolean foundBasicAttack = false;
+		for (Attack a : possibleAttacks)
+		{
+
+			if (a.getEnergyCosts() <= 0)
+			{
+
+				foundBasicAttack = true;
+				break;
+			}
+		}
+
+		if (!foundBasicAttack)
+		{
+			JOptionPane.showMessageDialog(this,
+				"Es muss mindestens eine Basisattacke(keien Energiekosten) ausgewählt sein.", "Keine Basisattacke",
+				JOptionPane.ERROR_MESSAGE);
+		}
+
+		dispose();
 	}
 
 	private JPanel createItemShop()
 	{
 		JPanel items = new JPanel();
+		items.setLayout(new BorderLayout());
+
+		JScrollPane sp = new JScrollPane();
+		items.add(sp, BorderLayout.CENTER);
+
+		JPanel scroll = new JPanel();
+		scroll.setLayout(new BoxLayout(scroll, BoxLayout.Y_AXIS));
+		sp.setViewportView(scroll);
+
+		for (RoboItem item : this.items)
+		{
+
+			final RoboItem fitem = item;
+
+			JPanel row = new JPanel();
+			row.setLayout(new BorderLayout());
+
+			JPanel buy = new JPanel();
+			buy.setLayout(new BoxLayout(buy, BoxLayout.X_AXIS));
+			buy.add(Box.createHorizontalStrut(20));
+			row.add(buy, BorderLayout.EAST);
+
+			buy.add(new JLabel("Credits: " + item.getConfigurationPointCosts()));
+
+			int count = 0;
+			for (RoboItem preConfig : config.getEquippedItems())
+			{
+
+				if (preConfig.getId() == item.getId())
+				{
+
+					count++;
+				}
+			}
+
+			final SpinnerNumberModel model = new SpinnerNumberModel(count, 0, Integer.MAX_VALUE, 1);
+			JSpinner use = new JSpinner(model);
+
+			use.addChangeListener(new ChangeListener()
+			{
+
+				@Override
+				public void stateChanged(ChangeEvent e)
+				{
+
+					int soll = model.getNumber().intValue();
+
+					List<RoboItem> its = config.getEquippedItems();
+					int haben = 0;
+
+					for (int i = 0; i < its.size(); i++)
+					{
+
+						if (its.get(i).getId() == fitem.getId())
+						{
+
+							haben++;
+
+							if (haben > soll)
+							{
+								its.remove(i);
+								i--;
+							}
+						}
+					}
+
+					int add = soll - haben;
+
+					for (int i = 0; i < add; i++)
+					{
+
+						its.add(fitem);
+					}
+
+					updateCreditLabel();
+				}
+			});
+
+			DefaultEditor editor = new JSpinner.DefaultEditor(use);
+			editor.getTextField().setEnabled(true);
+			editor.getTextField().setEditable(false);
+			use.setEditor(editor);
+			buy.add(use);
+
+			JPanel info = new JPanel();
+			info.setLayout(new BoxLayout(info, BoxLayout.X_AXIS));
+			row.add(info, BorderLayout.CENTER);
+
+			info.add(new JLabel(String.format("Name: %s", item.getName())));
+
+			scroll.add(row);
+		}
 
 		return items;
 	}
@@ -116,19 +280,188 @@ public class ConfigShop extends JDialog
 	{
 
 		JPanel defense = new JPanel();
+		defense.setLayout(new BorderLayout());
+
+		JScrollPane sp = new JScrollPane();
+		defense.add(sp, BorderLayout.CENTER);
+
+		JPanel scroll = new JPanel();
+		scroll.setLayout(new BoxLayout(scroll, BoxLayout.Y_AXIS));
+		sp.setViewportView(scroll);
+
+		for (Defense def : defends)
+		{
+
+			final Defense fdef = def;
+
+			JPanel row = new JPanel();
+			row.setLayout(new BorderLayout());
+
+			JPanel buy = new JPanel();
+			buy.setLayout(new BoxLayout(buy, BoxLayout.X_AXIS));
+			buy.add(Box.createHorizontalStrut(20));
+			row.add(buy, BorderLayout.EAST);
+
+			JCheckBox use = new JCheckBox("Credits: " + def.getConfigurationPointCosts());
+
+			List<Defense> preSelected = config.getPossibleDefends();
+			for (Defense pre : preSelected)
+			{
+
+				if (pre.getId() == fdef.getId())
+				{
+
+					use.setSelected(true);
+				}
+				else
+				{
+
+					use.setSelected(false);
+				}
+			}
+
+			use.addItemListener(new ItemListener()
+			{
+
+				@Override
+				public void itemStateChanged(ItemEvent e)
+				{
+
+					if (e.getStateChange() == ItemEvent.SELECTED)
+					{
+
+						List<Defense> defs = config.getPossibleDefends();
+						defs.add(fdef);
+
+						config.setPossibleDefends(defs);
+					}
+					else
+					{
+
+						List<Defense> defs = config.getPossibleDefends();
+
+						for (int i = 0; i < defs.size(); i++)
+						{
+
+							if (defs.get(i).getId() == fdef.getId())
+							{
+
+								defs.remove(i);
+								break;
+							}
+						}
+
+						config.setPossibleDefends(defs);
+					}
+
+					updateCreditLabel();
+				}
+			});
+			buy.add(use);
+
+			JPanel info = new JPanel();
+			info.setLayout(new BoxLayout(info, BoxLayout.X_AXIS));
+			row.add(info, BorderLayout.CENTER);
+
+			info.add(new JLabel(String.format("Name: %s Reflektion: %f Energiekosten: %d", def.getName(),
+				def.getBonusOnDefenseFactor(), def.getEnergyCosts())));
+
+			scroll.add(row);
+		}
 
 		return defense;
 	}
 
 	private JPanel createAttackShop()
 	{
-		JPanel attack = new JPanel();
-		attack.setLayout(new BoxLayout(attack, BoxLayout.Y_AXIS));
 
-		for (int i = 0; i < attacks.length; i++)
+		JPanel attack = new JPanel();
+		attack.setLayout(new BorderLayout());
+
+		JScrollPane sp = new JScrollPane();
+		attack.add(sp, BorderLayout.CENTER);
+
+		JPanel scroll = new JPanel();
+		scroll.setLayout(new BoxLayout(scroll, BoxLayout.Y_AXIS));
+		sp.setViewportView(scroll);
+
+		for (Attack atk : attacks)
 		{
 
-			attack.add(new JSeparator(JSeparator.HORIZONTAL));
+			final Attack fatk = atk;
+
+			JPanel row = new JPanel();
+			row.setLayout(new BorderLayout());
+
+			JPanel buy = new JPanel();
+			buy.setLayout(new BoxLayout(buy, BoxLayout.X_AXIS));
+			buy.add(Box.createHorizontalStrut(20));
+			row.add(buy, BorderLayout.EAST);
+
+			JCheckBox use = new JCheckBox("Credits: " + atk.getConfigurationPointCosts());
+
+			List<Attack> preSelected = config.getPossibleAttacks();
+			for (Attack pre : preSelected)
+			{
+
+				if (pre.getId() == fatk.getId())
+				{
+
+					use.setSelected(true);
+				}
+				else
+				{
+
+					use.setSelected(false);
+				}
+			}
+
+			use.addItemListener(new ItemListener()
+			{
+
+				@Override
+				public void itemStateChanged(ItemEvent e)
+				{
+
+					if (e.getStateChange() == ItemEvent.SELECTED)
+					{
+
+						List<Attack> atks = config.getPossibleAttacks();
+						atks.add(fatk);
+
+						config.setPossibleAttacks(atks);
+					}
+					else
+					{
+
+						List<Attack> atks = config.getPossibleAttacks();
+
+						for (int i = 0; i < atks.size(); i++)
+						{
+
+							if (atks.get(i).getId() == fatk.getId())
+							{
+
+								atks.remove(i);
+								break;
+							}
+						}
+
+						config.setPossibleAttacks(atks);
+					}
+					updateCreditLabel();
+				}
+			});
+			buy.add(use);
+
+			JPanel info = new JPanel();
+			info.setLayout(new BoxLayout(info, BoxLayout.X_AXIS));
+			row.add(info, BorderLayout.CENTER);
+
+			info.add(new JLabel(String.format("Name: %s Schaden: %d Energiekosten: %d", atk.getName(), atk.getDamage(),
+				atk.getEnergyCosts())));
+
+			scroll.add(row);
 		}
 
 		return attack;
@@ -149,6 +482,7 @@ public class ConfigShop extends JDialog
 	private void updateCreditLabel()
 	{
 
+		calculateUsedCredits(config);
 		lblCredits.setText(String.format("Credits: %d", (maxCredits - usedCredits)));
 	}
 
@@ -174,6 +508,6 @@ public class ConfigShop extends JDialog
 
 		Robot startConfig = new Robot();
 
-		getConfiguration(startConfig, 500, null, null, null);
+		getConfiguration(startConfig, 500, new RoboItem[0], new Attack[0], new Defense[0]);
 	}
 }
