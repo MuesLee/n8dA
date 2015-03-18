@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
+import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
 import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
 import de.kvwl.n8dA.robotwars.commons.gui.Animation;
@@ -20,9 +22,8 @@ public class Robot extends Entity {
 
 	private Animation animation;
 
-	// TODO Timo: RoboAction möglichst durch Defense/Attack ersetzen
-	private List<RobotAction> possibleAttacks;
-	private List<RobotAction> possibleDefends;
+	private List<Attack> possibleAttacks;
+	private List<Defense> possibleDefends;
 
 	private List<RoboItem> equippedItems;
 
@@ -31,8 +32,8 @@ public class Robot extends Entity {
 	public Robot() {
 		super();
 		uuid = UUID.randomUUID();
-		this.setPossibleAttacks(new ArrayList<RobotAction>(4));
-		this.setPossibleDefends(new ArrayList<RobotAction>(4));
+		this.setPossibleAttacks(new ArrayList<Attack>(4));
+		this.setPossibleDefends(new ArrayList<Defense>(4));
 		this.setEquippedItems(new ArrayList<RoboItem>(4));
 	}
 
@@ -66,22 +67,6 @@ public class Robot extends Entity {
 		this.animation = animation;
 	}
 
-	public List<RobotAction> getPossibleAttacks() {
-		return possibleAttacks;
-	}
-
-	public void setPossibleAttacks(List<RobotAction> possibleAttacks) {
-		this.possibleAttacks = possibleAttacks;
-	}
-
-	public List<RobotAction> getPossibleDefends() {
-		return possibleDefends;
-	}
-
-	public void setPossibleDefends(List<RobotAction> possibleDefends) {
-		this.possibleDefends = possibleDefends;
-	}
-
 	public int getEnergyPoints() {
 		return energyPoints;
 	}
@@ -96,9 +81,9 @@ public class Robot extends Entity {
 		int result = 1;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result
-				+ ((possibleAttacks == null) ? 0 : possibleAttacks.hashCode());
+				+ ((getPossibleAttacks() == null) ? 0 : getPossibleAttacks().hashCode());
 		result = prime * result
-				+ ((possibleDefends == null) ? 0 : possibleDefends.hashCode());
+				+ ((getPossibleDefends() == null) ? 0 : getPossibleDefends().hashCode());
 		result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
 		return result;
 	}
@@ -138,6 +123,22 @@ public class Robot extends Entity {
 
 	public void setReadyToFight(boolean readyToFight) {
 		this.readyToFight = readyToFight;
+	}
+
+	public List<Attack> getPossibleAttacks() {
+		return possibleAttacks;
+	}
+
+	public void setPossibleAttacks(List<Attack> possibleAttacks) {
+		this.possibleAttacks = possibleAttacks;
+	}
+
+	public List<Defense> getPossibleDefends() {
+		return possibleDefends;
+	}
+
+	public void setPossibleDefends(List<Defense> possibleDefends) {
+		this.possibleDefends = possibleDefends;
 	}
 
 }

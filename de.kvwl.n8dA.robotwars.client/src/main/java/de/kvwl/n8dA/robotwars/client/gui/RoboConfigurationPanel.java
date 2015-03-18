@@ -6,6 +6,7 @@ import game.engine.image.sprite.Sprite;
 import game.engine.stage.SwingStage;
 import game.engine.stage.scene.object.AnimatedSceneObject;
 import game.engine.time.Clock;
+import game.engine.time.TimeUtils;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -233,6 +234,8 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener {
 		disp.setLocationRelativeTo(null);
 
 		RoboConfigurationPanel comp = new RoboConfigurationPanel();
+		comp.setRoboAni(new Animation("1", "C:\\Temp\\GreenRoboterAni.png", new long[]{TimeUtils.NanosecondsOfMilliseconds(100)}, 64, 	128));
+		
 		disp.add(comp);
 
 		disp.pack();
