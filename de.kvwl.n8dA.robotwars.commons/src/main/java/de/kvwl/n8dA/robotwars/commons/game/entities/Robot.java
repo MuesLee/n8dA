@@ -29,6 +29,14 @@ public class Robot extends Entity {
 
 	private RobotAction currentAction;
 
+	/**
+	 * Wenn true sollte dieser Roboter nicht erneut als User roboter gespeichert
+	 * werden, da er als solcher bereits geladen wurde. Außerdem werden
+	 * Konfigurationen an solchen Robotern unterdrückt. Änderungen sind nicht
+	 * mehr möglich.
+	 */
+	private boolean loadedAsUserRobot = false;
+
 	public Robot() {
 		super();
 		uuid = UUID.randomUUID();
@@ -80,10 +88,14 @@ public class Robot extends Entity {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result
-				+ ((getPossibleAttacks() == null) ? 0 : getPossibleAttacks().hashCode());
-		result = prime * result
-				+ ((getPossibleDefends() == null) ? 0 : getPossibleDefends().hashCode());
+		result = prime
+				* result
+				+ ((getPossibleAttacks() == null) ? 0 : getPossibleAttacks()
+						.hashCode());
+		result = prime
+				* result
+				+ ((getPossibleDefends() == null) ? 0 : getPossibleDefends()
+						.hashCode());
 		result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
 		return result;
 	}
@@ -139,6 +151,14 @@ public class Robot extends Entity {
 
 	public void setPossibleDefends(List<Defense> possibleDefends) {
 		this.possibleDefends = possibleDefends;
+	}
+
+	public boolean isLoadedAsUserRobot() {
+		return loadedAsUserRobot;
+	}
+
+	public void setLoadedAsUserRobot(boolean loadedAsUserRobot) {
+		this.loadedAsUserRobot = loadedAsUserRobot;
 	}
 
 }

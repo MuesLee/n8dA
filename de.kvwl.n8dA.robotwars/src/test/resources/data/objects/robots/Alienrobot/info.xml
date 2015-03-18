@@ -10,4 +10,10 @@
 		<item>80</item>
 		<item>80</item>
 	</defaultitems>
+	<attacks>
+		<id>0</id>
+	</attacks>
+	<defends>
+		<id>1</id>
+	</defends>
 </robot>
