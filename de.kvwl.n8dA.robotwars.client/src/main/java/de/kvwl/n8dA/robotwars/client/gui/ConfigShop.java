@@ -1,6 +1,7 @@
 package de.kvwl.n8dA.robotwars.client.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -221,6 +222,7 @@ public class ConfigShop extends JDialog
 
 			final SpinnerNumberModel model = new SpinnerNumberModel(count, 0, Integer.MAX_VALUE, 1);
 			JSpinner use = new JSpinner(model);
+			use.setPreferredSize(new Dimension(50, 0));
 
 			use.addChangeListener(new ChangeListener()
 			{
@@ -462,8 +464,8 @@ public class ConfigShop extends JDialog
 			info.setLayout(new BoxLayout(info, BoxLayout.X_AXIS));
 			row.add(info, BorderLayout.CENTER);
 
-			info.add(new JLabel(String.format("Name: %s - Schaden: %d - Energiekosten: %d", atk.getName(),
-				atk.getDamage(), atk.getEnergyCosts())));
+			info.add(new JLabel(String.format("Name: %s - Schaden: %d - Energiekosten: %d - Typ: %s", atk.getName(),
+				atk.getDamage(), atk.getEnergyCosts(), atk.getRobotActionType().getHumanReadableString())));
 
 			scroll.add(row);
 		}
@@ -487,7 +489,7 @@ public class ConfigShop extends JDialog
 	{
 
 		usedCredits = calculateUsedCredits(config);
-		lblCredits.setText(String.format("Credits: %d", (maxCredits - usedCredits)));
+		lblCredits.setText(String.format("Credits: %d$", (maxCredits - usedCredits)));
 
 		System.out.println("update credits max" + maxCredits + " used" + usedCredits);
 	}
@@ -535,6 +537,7 @@ public class ConfigShop extends JDialog
 			};
 			it.setId(i);
 			it.setName("Item " + i);
+			it.setConfigurationPointCosts(i * 84512);
 
 			items[i] = it;
 		}
