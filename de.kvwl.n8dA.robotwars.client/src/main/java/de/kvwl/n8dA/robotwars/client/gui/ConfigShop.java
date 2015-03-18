@@ -27,6 +27,7 @@ import javax.swing.event.ChangeListener;
 
 import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
+import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
 
@@ -73,21 +74,18 @@ public class ConfigShop extends JDialog
 		List<RoboItem> equippedItems = config.getEquippedItems();
 		for (RoboItem item : equippedItems)
 		{
-
 			costs += item.getConfigurationPointCosts();
 		}
 
 		List<Attack> possibleAttacks = config.getPossibleAttacks();
 		for (Attack atks : possibleAttacks)
 		{
-
 			costs += atks.getConfigurationPointCosts();
 		}
 
 		List<Defense> possibleDefends = config.getPossibleDefends();
 		for (Defense defs : possibleDefends)
 		{
-
 			costs += defs.getConfigurationPointCosts();
 		}
 
@@ -143,6 +141,8 @@ public class ConfigShop extends JDialog
 		{
 			JOptionPane.showMessageDialog(this, "Du hast nicht genug Credits um dir das leisten zu können.",
 				"Keine Credits", JOptionPane.ERROR_MESSAGE);
+
+			return;
 		}
 
 		List<Attack> possibleAttacks = config.getPossibleAttacks();
@@ -153,6 +153,8 @@ public class ConfigShop extends JDialog
 			JOptionPane.showMessageDialog(this,
 				"Du hast zu viele Attacken oder Verteidigungen. \nEs sind maximal vier Fähigkeiten erlaubt.",
 				"Zu viele Fähigkeiten", JOptionPane.ERROR_MESSAGE);
+
+			return;
 		}
 
 		boolean foundBasicAttack = false;
@@ -172,6 +174,7 @@ public class ConfigShop extends JDialog
 			JOptionPane.showMessageDialog(this,
 				"Es muss mindestens eine Basisattacke(keien Energiekosten) ausgewählt sein.", "Keine Basisattacke",
 				JOptionPane.ERROR_MESSAGE);
+			return;
 		}
 
 		dispose();
@@ -203,6 +206,7 @@ public class ConfigShop extends JDialog
 			row.add(buy, BorderLayout.EAST);
 
 			buy.add(new JLabel("Credits: " + item.getConfigurationPointCosts()));
+			buy.add(Box.createHorizontalStrut(10));
 
 			int count = 0;
 			for (RoboItem preConfig : config.getEquippedItems())
@@ -363,7 +367,7 @@ public class ConfigShop extends JDialog
 			info.setLayout(new BoxLayout(info, BoxLayout.X_AXIS));
 			row.add(info, BorderLayout.CENTER);
 
-			info.add(new JLabel(String.format("Name: %s Reflektion: %f Energiekosten: %d", def.getName(),
+			info.add(new JLabel(String.format("Name: %s - Reflektion: %f - Energiekosten: %d", def.getName(),
 				def.getBonusOnDefenseFactor(), def.getEnergyCosts())));
 
 			scroll.add(row);
@@ -458,8 +462,8 @@ public class ConfigShop extends JDialog
 			info.setLayout(new BoxLayout(info, BoxLayout.X_AXIS));
 			row.add(info, BorderLayout.CENTER);
 
-			info.add(new JLabel(String.format("Name: %s Schaden: %d Energiekosten: %d", atk.getName(), atk.getDamage(),
-				atk.getEnergyCosts())));
+			info.add(new JLabel(String.format("Name: %s - Schaden: %d - Energiekosten: %d", atk.getName(),
+				atk.getDamage(), atk.getEnergyCosts())));
 
 			scroll.add(row);
 		}
@@ -482,8 +486,10 @@ public class ConfigShop extends JDialog
 	private void updateCreditLabel()
 	{
 
-		calculateUsedCredits(config);
+		usedCredits = calculateUsedCredits(config);
 		lblCredits.setText(String.format("Credits: %d", (maxCredits - usedCredits)));
+
+		System.out.println("update credits max" + maxCredits + " used" + usedCredits);
 	}
 
 	public Robot getConfiguration()
@@ -506,8 +512,59 @@ public class ConfigShop extends JDialog
 	public static void main(String[] args)
 	{
 
+		RoboItem[] items = new RoboItem[10];
+		Attack[] attacks = new Attack[10];
+		Defense[] defends = new Defense[10];
+
+		for (int i = 0; i < items.length; i++)
+		{
+			RoboItem it = new RoboItem()
+			{
+
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void performInitialRobotModification(Robot robot)
+				{
+				}
+
+				@Override
+				public void performEachRoundsModification(Robot robot)
+				{
+				}
+			};
+			it.setId(i);
+			it.setName("Item " + i);
+
+			items[i] = it;
+		}
+
+		for (int i = 0; i < attacks.length; i++)
+		{
+
+			Attack at = new Attack(RobotActionType.PAPER, i + 5);
+			at.setId(items.length + i);
+			at.setDamage(6 * i + 5);
+			at.setEnergyCosts(i * 9);
+			at.setName("Attacke " + i);
+			at.setConfigurationPointCosts(i * 10);
+
+			attacks[i] = at;
+		}
+
+		for (int i = 0; i < defends.length; i++)
+		{
+			Defense df = new Defense(RobotActionType.ROCK, i + 5);
+			df.setId(items.length + attacks.length + i);
+			df.setBonusOnDefenseFactor(Math.random());
+			df.setConfigurationPointCosts(i * 10);
+			df.setName("Defense " + i);
+
+			defends[i] = df;
+		}
+
 		Robot startConfig = new Robot();
 
-		getConfiguration(startConfig, 500, new RoboItem[0], new Attack[0], new Defense[0]);
+		getConfiguration(startConfig, 500, items, attacks, defends);
 	}
 }
