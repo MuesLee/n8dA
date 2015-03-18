@@ -13,11 +13,14 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -27,11 +30,16 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
+import javax.swing.border.BevelBorder;
 
 import bno.swing2.widget.BTextField;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
+import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
 import de.kvwl.n8dA.robotwars.commons.gui.Animation;
 
 public class RoboConfigurationPanel extends JPanel implements ActionListener
@@ -39,16 +47,25 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 
 	private static final String IMAGE_PATH = "/de/kvwl/n8dA/robotwars/client/images/";
 	private static final long serialVersionUID = 1L;
+
 	private SwingStage roboStage;
 	private RoboScene roboScene;
+
 	private JLabel lblRoboName;
 	private BTextField txtRoboName;
+
 	private JButton nextRobo;
 	private JButton prevRobo;
+
 	private Clock clk;
 
 	private int selectedRobot;
 	private Robot[] robots;
+
+	private List<JButton> btnAtks;
+	private ArrayList<JButton> btnDefs;
+	private JList<RoboItem> itemList;
+	private JButton buyItems;
 
 	public RoboConfigurationPanel(Robot[] robots) throws IOException
 	{
@@ -69,6 +86,148 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 		setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
 		add(createRoboSelection(), BorderLayout.NORTH);
+		add(createObjectSelection(), BorderLayout.CENTER);
+	}
+
+	private JPanel createObjectSelection()
+	{
+
+		JPanel selBorder = new JPanel();
+		selBorder.setLayout(new BorderLayout());
+		selBorder.add(new JSeparator(JSeparator.HORIZONTAL), BorderLayout.NORTH);
+
+		JPanel selection = new JPanel();
+		selection.setLayout(new GridLayout(1, 3, 5, 5));
+		selBorder.add(selection, BorderLayout.CENTER);
+
+		selection.add(createAtkSelection());
+		selection.add(createItemSelection());
+		selection.add(createDefSelection());
+
+		return selBorder;
+	}
+
+	private JPanel createDefSelection()
+	{
+		JPanel defBorder = new JPanel();
+		defBorder.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 1, true),
+			"Verteidigung"));
+		defBorder.setLayout(new BorderLayout());
+
+		JPanel def = new JPanel();
+		def.setLayout(new GridLayout(0, 2, 5, 5));
+		defBorder.add(def, BorderLayout.CENTER);
+
+		btnDefs = new ArrayList<JButton>(4);
+
+		for (int i = 0; i < 4; i++)
+		{
+
+			JButton df = new JButton("<Leer>");
+			df.setBorder(BorderFactory.createLineBorder(Color.RED, 1, true));
+			df.setContentAreaFilled(false);
+			df.addActionListener(new ActionListener()
+			{
+
+				@Override
+				public void actionPerformed(ActionEvent e)
+				{
+
+					selectDefends();
+				}
+			});
+
+			def.add(df);
+			btnDefs.add(df);
+		}
+
+		return defBorder;
+	}
+
+	private JPanel createItemSelection()
+	{
+		JPanel itemBorder = new JPanel();
+		itemBorder.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 1, true),
+			"Item"));
+		itemBorder.setLayout(new BorderLayout());
+
+		JPanel item = new JPanel();
+		item.setLayout(new BorderLayout());
+		itemBorder.add(item, BorderLayout.CENTER);
+
+		JScrollPane spItems = new JScrollPane();
+		item.add(spItems, BorderLayout.CENTER);
+
+		itemList = new JList<RoboItem>();
+		itemList.setSelectionModel(new DisabledItemSelectionModel());
+		itemList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+		spItems.setViewportView(itemList);
+
+		buyItems = new JButton("Kaufen");
+		buyItems.addActionListener(this);
+		buyItems.setContentAreaFilled(false);
+		buyItems.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+		item.add(buyItems, BorderLayout.SOUTH);
+
+		return itemBorder;
+	}
+
+	private JPanel createAtkSelection()
+	{
+		JPanel atkBorder = new JPanel();
+		atkBorder.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 1, true),
+			"Attacke"));
+		atkBorder.setLayout(new BorderLayout());
+
+		JPanel atk = new JPanel();
+		atk.setLayout(new GridLayout(0, 2, 5, 5));
+		atkBorder.add(atk, BorderLayout.CENTER);
+
+		btnAtks = new ArrayList<JButton>(4);
+
+		for (int i = 0; i < 4; i++)
+		{
+
+			JButton ak = new JButton("<Leer>");
+			ak.setBorder(BorderFactory.createLineBorder(Color.RED, 1, true));
+			ak.setContentAreaFilled(false);
+			ak.addActionListener(new ActionListener()
+			{
+
+				@Override
+				public void actionPerformed(ActionEvent e)
+				{
+
+					selectAttacks();
+				}
+			});
+
+			atk.add(ak);
+			btnAtks.add(ak);
+		}
+
+		return atkBorder;
+	}
+
+	private void selectDefends()
+	{
+		System.out.println("Def selection");
+		// TODO Marvin: selectDefends
+
+	}
+
+	private void selectAttacks()
+	{
+		System.out.println("Atk selection");
+		// TODO Marvin: selectAttacks
+
+	}
+
+	private void selectItems()
+	{
+		System.out.println("Atk selection");
+		// TODO Marvin: selectItems
+
 	}
 
 	private JPanel createRoboSelection()
@@ -239,6 +398,12 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 
 			System.out.println("next Robo");
 			nextRobot();
+		}
+		else if (source == buyItems)
+		{
+
+			System.out.println("buy items");
+			selectItems();
 		}
 	}
 
