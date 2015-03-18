@@ -517,6 +517,14 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener {
 		clk.setPaused(pause);
 	}
 
+	/**
+	 * Release threads
+	 */
+	public void dispose() {
+
+		clk.destroy();
+	}
+
 	@Override
 	protected void finalize() throws Throwable {
 
