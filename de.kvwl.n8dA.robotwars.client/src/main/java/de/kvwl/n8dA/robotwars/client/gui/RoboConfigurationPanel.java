@@ -13,11 +13,14 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -28,6 +31,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
 import bno.swing2.widget.BTextField;
@@ -49,6 +53,8 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 
 	private int selectedRobot;
 	private Robot[] robots;
+	private List<JButton> btnAtks;
+	private ArrayList<JButton> btnDefs;
 
 	public RoboConfigurationPanel(Robot[] robots) throws IOException
 	{
@@ -69,6 +75,126 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 		setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
 		add(createRoboSelection(), BorderLayout.NORTH);
+		add(createObjectSelection(), BorderLayout.CENTER);
+	}
+
+	private JPanel createObjectSelection()
+	{
+
+		JPanel selBorder = new JPanel();
+		selBorder.setLayout(new BorderLayout());
+		selBorder.add(new JSeparator(JSeparator.HORIZONTAL), BorderLayout.NORTH);
+
+		JPanel selection = new JPanel();
+		selection.setLayout(new GridLayout(1, 3, 5, 5));
+		selBorder.add(selection, BorderLayout.CENTER);
+
+		selection.add(createAtkSelection());
+		selection.add(createItemSelection());
+		selection.add(createDefSelection());
+
+		return selBorder;
+	}
+
+	private JPanel createDefSelection()
+	{
+		JPanel defBorder = new JPanel();
+		defBorder.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 1, true),
+			"Defense"));
+		defBorder.setLayout(new BorderLayout());
+
+		JPanel def = new JPanel();
+		def.setLayout(new GridLayout(0, 2, 5, 5));
+		defBorder.add(def, BorderLayout.CENTER);
+
+		btnDefs = new ArrayList<JButton>(4);
+
+		for (int i = 0; i < 4; i++)
+		{
+
+			JButton df = new JButton("<Leer>");
+			df.setBorder(BorderFactory.createLineBorder(Color.RED, 1, true));
+			df.setContentAreaFilled(false);
+			df.addActionListener(new ActionListener()
+			{
+
+				@Override
+				public void actionPerformed(ActionEvent e)
+				{
+
+					selectDefends();
+				}
+			});
+
+			def.add(df);
+			btnDefs.add(df);
+		}
+
+		return defBorder;
+	}
+
+	private JPanel createItemSelection()
+	{
+		JPanel itemBorder = new JPanel();
+		itemBorder.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 1, true),
+			"Item"));
+		itemBorder.setLayout(new BorderLayout());
+
+		JPanel item = new JPanel();
+		itemBorder.add(item, BorderLayout.CENTER);
+
+		return itemBorder;
+	}
+
+	private JPanel createAtkSelection()
+	{
+		JPanel atkBorder = new JPanel();
+		atkBorder.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 1, true),
+			"Attack"));
+		atkBorder.setLayout(new BorderLayout());
+
+		JPanel atk = new JPanel();
+		atk.setLayout(new GridLayout(0, 2, 5, 5));
+		atkBorder.add(atk, BorderLayout.CENTER);
+
+		btnAtks = new ArrayList<JButton>(4);
+
+		for (int i = 0; i < 4; i++)
+		{
+
+			JButton ak = new JButton("<Leer>");
+			ak.setBorder(BorderFactory.createLineBorder(Color.RED, 1, true));
+			ak.setContentAreaFilled(false);
+			ak.addActionListener(new ActionListener()
+			{
+
+				@Override
+				public void actionPerformed(ActionEvent e)
+				{
+
+					selectAttacks();
+				}
+			});
+
+			atk.add(ak);
+			btnAtks.add(ak);
+		}
+
+		return atkBorder;
+	}
+
+	protected void selectDefends()
+	{
+		System.out.println("Def selection");
+		// TODO Marvin: selectDefends
+
+	}
+
+	protected void selectAttacks()
+	{
+		System.out.println("Atk selection");
+		// TODO Marvin: selectAttacks
+
 	}
 
 	private JPanel createRoboSelection()
