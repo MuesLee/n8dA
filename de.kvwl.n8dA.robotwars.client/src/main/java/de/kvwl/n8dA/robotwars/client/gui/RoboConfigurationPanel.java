@@ -81,7 +81,9 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener {
 	public RoboConfigurationPanel(Robot[] robots, Attack[] attacks,
 			Defense[] defends, RoboItem[] items, long maxCredit)
 			throws IOException {
+
 		this();
+
 		this.attacks = attacks;
 		this.defends = defends;
 		this.items = items;
@@ -588,6 +590,7 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener {
 		listenerList.remove(ConfigurationListener.class, li);
 	}
 
+	// XXX Marvin: Testmain -> entfernen
 	public static void main(String[] args) throws Exception {
 		JFrame disp = new JFrame();
 		disp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
