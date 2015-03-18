@@ -37,6 +37,8 @@ public class Robot extends Entity {
 	 */
 	private boolean loadedAsUserRobot = false;
 
+	private String nickname = "";
+
 	public Robot() {
 		super();
 		uuid = UUID.randomUUID();
@@ -159,6 +161,14 @@ public class Robot extends Entity {
 
 	public void setLoadedAsUserRobot(boolean loadedAsUserRobot) {
 		this.loadedAsUserRobot = loadedAsUserRobot;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 
 }

@@ -454,10 +454,13 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener {
 
 		Robot robo = robots[selectedRobot];
 
-		if (!isValid(robo)) {
+		if (!validate(robo)) {
 
 			return;
 		}
+
+		String nickName = txtRoboName.getText();
+		robo.setNickname(nickName);
 
 		ConfigurationListener[] listeners = listenerList
 				.getListeners(ConfigurationListener.class);
@@ -467,13 +470,19 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener {
 		}
 	}
 
-	private boolean isValid(Robot robo) {
+	private boolean validate(Robot robo) {
 
 		List<Attack> atks = robo.getPossibleAttacks();
 		List<Defense> defs = robo.getPossibleDefends();
 		List<RoboItem> items = robo.getEquippedItems();
 
 		if (atks.size() > 4 || defs.size() > 4) {
+
+			JOptionPane
+					.showMessageDialog(
+							this,
+							"Du hast zu viele Attacken oder Verteidigungen. \nEs sind maximal vier Fähigkeiten erlaubt.",
+							"Zu viele Fähigkeiten", JOptionPane.ERROR_MESSAGE);
 
 			return false;
 		}
@@ -489,6 +498,12 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener {
 		}
 
 		if (!basicAttack) {
+
+			JOptionPane
+					.showMessageDialog(
+							this,
+							"Es muss mindestens eine Basisattacke(keien Energiekosten) ausgewählt sein.",
+							"Keine Basisattacke", JOptionPane.ERROR_MESSAGE);
 
 			return false;
 		}
@@ -508,6 +523,22 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener {
 		}
 
 		if (costs > maxCredit) {
+
+			JOptionPane
+					.showMessageDialog(
+							this,
+							"Du hast nicht genug Credits um dir das leisten zu können.",
+							"Keine Credits", JOptionPane.ERROR_MESSAGE);
+
+			return false;
+		}
+
+		if (txtRoboName.getText().isEmpty()) {
+
+			JOptionPane.showMessageDialog(this,
+					"Du hast noch keinen Namen für deinen Roboter eingegeben.",
+					"Nickname eingeben", JOptionPane.ERROR_MESSAGE);
+
 			return false;
 		}
 

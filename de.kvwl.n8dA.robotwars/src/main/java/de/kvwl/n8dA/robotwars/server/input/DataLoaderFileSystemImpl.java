@@ -521,7 +521,9 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 		Document doc = new Document(root);
 
 		root.addContent(new Element("id").setText("" + id));
-		root.addContent(new Element("name").setText(robot.getName()));
+		root.addContent(new Element("name").setText((robot.getNickname()
+				.isEmpty()) ? (robot.getName() + System.nanoTime()) : robot
+				.getNickname()));
 		root.addContent(new Element("configcosts").setText(""
 				+ robot.getConfigurationPointCosts()));
 		root.addContent(new Element("healthpoints").setText(""
