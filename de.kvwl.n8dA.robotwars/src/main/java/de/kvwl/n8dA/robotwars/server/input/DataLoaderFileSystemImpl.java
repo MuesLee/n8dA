@@ -60,6 +60,8 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 	private Path atkFolder;
 	private Path defFolder;
 
+	private Path userObjectFolder;
+
 	public DataLoaderFileSystemImpl() {
 
 		this(Paths.get("./"));
@@ -84,6 +86,8 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 		actionFolder = objectFolder.resolve("actions");
 		atkFolder = actionFolder.resolve("attacks");
 		defFolder = actionFolder.resolve("defends");
+
+		userObjectFolder = sourceFolder.resolve("userobjects");
 	}
 
 	public void createFolderStructure() throws IOException {
@@ -99,6 +103,8 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 		Files.createDirectories(actionFolder);
 		Files.createDirectories(atkFolder);
 		Files.createDirectories(defFolder);
+
+		Files.createDirectories(userObjectFolder);
 	}
 
 	public Animation readAnimation(Path info) throws JDOMException, IOException {
@@ -338,6 +344,28 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 
 		try {
 			DirectoryStream<Path> objs = Files.newDirectoryStream(robotFolder);
+
+			for (Path obj : objs) {
+
+				robos.add(readRobot(obj.resolve("info.xml"), roboAnis));
+			}
+		} catch (IOException | JDOMException e) {
+			e.printStackTrace();
+		}
+
+		return robos;
+	}
+
+	public List<Robot> loadUserRobots(String userId) {
+
+		List<Animation> roboAnis = loadAnimationsForRobots();
+
+		List<Robot> robos = new LinkedList<Robot>();
+
+		try {
+			DirectoryStream<Path> objs = Files
+					.newDirectoryStream(userObjectFolder.resolve(userId)
+							.resolve("robots"));
 
 			for (Path obj : objs) {
 

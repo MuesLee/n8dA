@@ -13,23 +13,22 @@ import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.gui.Animation;
 
-public class DataLoaderFileSystemImplTest
-{
+public class DataLoaderFileSystemImplTest {
 
 	DataLoaderFileSystemImpl dao;
 
 	@Before
-	public void setUp() throws Exception
-	{
+	public void setUp() throws Exception {
 
-		dao = new DataLoaderFileSystemImpl(Paths.get("./src/test/resources/data/"));
+		dao = new DataLoaderFileSystemImpl(
+				Paths.get("./src/test/resources/data/"));
 	}
 
 	@Test
-	public void readAniXML() throws Exception
-	{
+	public void readAniXML() throws Exception {
 
-		Animation ani = dao.readAnimation(Paths.get("./src/test/resources/animations/test.xml"));
+		Animation ani = dao.readAnimation(Paths
+				.get("./src/test/resources/animations/test.xml"));
 
 		assertEquals("AnimationId", ani.getId());
 		assertEquals(64, ani.getFrameWidth());
@@ -38,18 +37,16 @@ public class DataLoaderFileSystemImplTest
 		long[] frameTimings = ani.getFrameTimings();
 		long[] should = new long[] { 100, 150 };
 
-		for (int i = 0; i < should.length; i++)
-		{
+		for (int i = 0; i < should.length; i++) {
 
 			assertEquals(should[i], frameTimings[i]);
 		}
 
-		//		System.out.println(ani.getPathToFile());
+		// System.out.println(ani.getPathToFile());
 	}
 
 	@Test
-	public void readAnimationTestFilesystem() throws Exception
-	{
+	public void readAnimationTestFilesystem() throws Exception {
 
 		List<Animation> robots = dao.loadAnimationsForRobots();
 		List<Animation> actions = dao.loadAnimationsForRobotActions();
@@ -58,11 +55,9 @@ public class DataLoaderFileSystemImplTest
 		assertEquals(2, actions.size());
 
 		boolean exist = false;
-		for (Animation aR : robots)
-		{
+		for (Animation aR : robots) {
 
-			if (aR.getId().equals("Alienrobot"))
-			{
+			if (aR.getId().equals("Alienrobot")) {
 				exist = true;
 				break;
 			}
@@ -70,11 +65,9 @@ public class DataLoaderFileSystemImplTest
 		assertTrue(exist);
 
 		exist = false;
-		for (Animation aA : actions)
-		{
+		for (Animation aA : actions) {
 
-			if (aA.getId().equals("Kissen"))
-			{
+			if (aA.getId().equals("Kissen")) {
 				exist = true;
 				break;
 			}
@@ -83,8 +76,7 @@ public class DataLoaderFileSystemImplTest
 	}
 
 	@Test
-	public void loadRobotAttacksTest() throws Exception
-	{
+	public void loadRobotAttacksTest() throws Exception {
 
 		List<Attack> attacks = dao.loadRobotAttacks();
 		assertEquals(1, attacks.size());
@@ -94,8 +86,7 @@ public class DataLoaderFileSystemImplTest
 	}
 
 	@Test
-	public void loadRobotDefendsTest() throws Exception
-	{
+	public void loadRobotDefendsTest() throws Exception {
 
 		List<Defense> defends = dao.loadRobotDefends();
 		assertEquals(1, defends.size());
@@ -105,14 +96,23 @@ public class DataLoaderFileSystemImplTest
 	}
 
 	@Test
-	public void loadRobotsTest() throws Exception
-	{
+	public void loadUserRobotsTest() throws Exception {
+
+		List<Robot> list = dao.loadUserRobots("user123");
+
+		assertEquals(1, list.size());
+
+		Robot robot = list.get(0);
+		assertEquals("UserMetalrobot", robot.getName());
+	}
+
+	@Test
+	public void loadRobotsTest() throws Exception {
 
 		List<Robot> robos = dao.loadRobots();
 		assertEquals(2, robos.size());
 
-		for (Robot ro : robos)
-		{
+		for (Robot ro : robos) {
 
 			assertNotNull(ro.getAnimation());
 		}
