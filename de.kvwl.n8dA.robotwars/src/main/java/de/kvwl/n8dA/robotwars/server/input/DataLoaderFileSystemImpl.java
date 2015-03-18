@@ -206,6 +206,7 @@ public class DataLoaderFileSystemImpl implements DataLoader
 		return defense;
 	}
 
+	//TODO Marvin: default Items
 	public Robot readRobot(Path info, List<Animation> robotAnimations) throws JDOMException, IOException
 	{
 

@@ -567,6 +567,9 @@ public class ConfigShop extends JDialog
 		}
 
 		Robot startConfig = new Robot();
+		List<RoboItem> itemsli = startConfig.getEquippedItems();
+		itemsli.add(items[1]);
+		startConfig.setEquippedItems(itemsli);
 
 		getConfiguration(startConfig, 500, items, attacks, defends);
 	}
