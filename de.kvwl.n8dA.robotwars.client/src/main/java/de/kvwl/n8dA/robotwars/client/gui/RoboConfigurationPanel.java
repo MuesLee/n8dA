@@ -20,12 +20,14 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -38,6 +40,9 @@ import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 
 import bno.swing2.widget.BTextField;
+import de.kvwl.n8dA.robotwars.client.RoboBattlePlayerClient;
+import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
+import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
 import de.kvwl.n8dA.robotwars.commons.gui.Animation;
@@ -67,10 +72,14 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 	private JList<RoboItem> itemList;
 	private JButton buyItems;
 
-	public RoboConfigurationPanel(Robot[] robots) throws IOException
+	private RoboBattlePlayerClient client;
+
+	public RoboConfigurationPanel(RoboBattlePlayerClient client) throws IOException
 	{
 		this();
-		setRobots(robots);
+
+		this.client = client;
+		//TODO Marvin: setRobots();
 	}
 
 	public RoboConfigurationPanel()
@@ -212,22 +221,85 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 	private void selectDefends()
 	{
 		System.out.println("Def selection");
-		// TODO Marvin: selectDefends
 
+		modifyRobot();
 	}
 
 	private void selectAttacks()
 	{
 		System.out.println("Atk selection");
-		// TODO Marvin: selectAttacks
 
+		modifyRobot();
 	}
 
 	private void selectItems()
 	{
 		System.out.println("Atk selection");
-		// TODO Marvin: selectItems
 
+		modifyRobot();
+	}
+
+	private void modifyRobot()
+	{
+
+		System.out.println("modify robot");
+
+		if (robots == null || robots.length <= 0)
+		{
+			throw new RuntimeException("Keine Roboter zum Konfigurieren vorhanden.");
+		}
+
+		Robot robo = ConfigShop.getConfiguration(robots[selectedRobot]);
+
+		actualizeModifications(robo);
+	}
+
+	private void actualizeModifications(Robot robo)
+	{
+
+		System.out.println("aktualisiere robot config");
+
+		List<RoboItem> items = robo.getEquippedItems();
+		List<Attack> attacks = robo.getPossibleAttacks();
+		List<Defense> defends = robo.getPossibleDefends();
+
+		//Aktualisiere Items
+		DefaultListModel<RoboItem> itemModel = new DefaultListModel<RoboItem>();
+		for (RoboItem item : items)
+		{
+			itemModel.addElement(item);
+		}
+		itemList.setModel(itemModel);
+
+		//Aktualisiere Verteidigungen
+		Iterator<Defense> defs = defends.iterator();
+		for (JButton def : btnDefs)
+		{
+
+			if (defs.hasNext())
+			{
+				def.setText(defs.next().getName());
+			}
+			else
+			{
+				def.setText("<Leer>");
+			}
+		}
+
+		//Aktualisiere Attacken
+		Iterator<Attack> atks = attacks.iterator();
+		for (JButton atk : btnAtks)
+		{
+
+			if (atks.hasNext())
+			{
+				atk.setText(atks.next().getName());
+			}
+			else
+			{
+				atk.setText("<Leer>");
+			}
+		}
 	}
 
 	private JPanel createRoboSelection()
@@ -350,6 +422,7 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 		lblRoboName.setText(robo.getName());
 
 		setRoboAni(robo.getAnimation());
+		actualizeModifications(robo);
 	}
 
 	private void setRoboAni(Animation ani) throws IOException
