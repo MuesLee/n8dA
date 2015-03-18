@@ -31,7 +31,6 @@ public abstract class BaseDaoSqlite<T> implements BaseDao<T> {
 		return em;
 	}
 
-	@Override
 	public void add(T t) {
 		EntityTransaction tx = getEntityManager().getTransaction();
 		tx.begin();
@@ -39,7 +38,6 @@ public abstract class BaseDaoSqlite<T> implements BaseDao<T> {
 		tx.commit();
 	}
 
-	@Override
 	public void add(List<T> l) {
 		EntityTransaction tx = getEntityManager().getTransaction();
 		tx.begin();
@@ -49,13 +47,11 @@ public abstract class BaseDaoSqlite<T> implements BaseDao<T> {
 		tx.commit();
 	}
 
-	@Override
 	public T findById(String id) {
 		T emp = getEntityManager().find(getEntityBeanTyp(), id);
 		return emp;
 	}
 
-	@Override
 	public void update(T t) {
 		EntityTransaction tx = getEntityManager().getTransaction();
 		tx.begin();
@@ -63,7 +59,6 @@ public abstract class BaseDaoSqlite<T> implements BaseDao<T> {
 		tx.commit();
 	}
 
-	@Override
 	public void update(List<T> l) {
 		EntityTransaction tx = getEntityManager().getTransaction();
 		tx.begin();
@@ -73,7 +68,6 @@ public abstract class BaseDaoSqlite<T> implements BaseDao<T> {
 		tx.commit();
 	}
 
-	@Override
 	public void delete(T t) {
 		EntityTransaction tx = getEntityManager().getTransaction();
 		tx.begin();
@@ -82,7 +76,6 @@ public abstract class BaseDaoSqlite<T> implements BaseDao<T> {
 	}
 
 	@SuppressWarnings("unchecked")
-	@Override
 	public List<T> findAll() {
 		return getEntityManager().createQuery("from " + getEntityBeanTyp().getName())
 				.getResultList();

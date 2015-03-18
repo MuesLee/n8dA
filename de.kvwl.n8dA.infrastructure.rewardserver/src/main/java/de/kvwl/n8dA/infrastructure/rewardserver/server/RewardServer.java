@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import de.kvwl.n8dA.infrastructure.commons.entity.Person;
 import de.kvwl.n8dA.infrastructure.commons.exception.NoSuchPersonException;
 import de.kvwl.n8dA.infrastructure.commons.interfaces.CreditAccesHandler;
-import de.kvwl.n8dA.infrastructure.commons.interfaces.CreditAccess;
 import de.kvwl.n8dA.infrastructure.commons.util.NetworkUtils;
 import de.kvwl.n8dA.infrastructure.rewardserver.dao.UserDaoSqlite;
 
