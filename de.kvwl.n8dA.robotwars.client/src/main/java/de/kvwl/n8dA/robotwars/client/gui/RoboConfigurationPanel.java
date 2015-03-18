@@ -76,6 +76,7 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 	private Attack[] attacks;
 	private Defense[] defends;
 	private RoboItem[] items;
+	private JButton btnStart;
 
 	public RoboConfigurationPanel(Robot[] robots, Attack[] attacks, Defense[] defends, RoboItem[] items, long maxCredit)
 		throws IOException
@@ -101,6 +102,27 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 
 		add(createRoboSelection(), BorderLayout.NORTH);
 		add(createObjectSelection(), BorderLayout.CENTER);
+		add(createButtonsRow(), BorderLayout.SOUTH);
+	}
+
+	private JPanel createButtonsRow()
+	{
+		JPanel border = new JPanel();
+		border.setLayout(new BorderLayout());
+		border.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		border.add(new JSeparator(JSeparator.HORIZONTAL), BorderLayout.NORTH);
+
+		JPanel btnRow = new JPanel();
+		btnRow.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		border.add(btnRow, BorderLayout.CENTER);
+
+		btnStart = new JButton("Start");
+		btnStart.addActionListener(this);
+		btnStart.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+		btnStart.setContentAreaFilled(false);
+		btnRow.add(btnStart);
+
+		return border;
 	}
 
 	private JPanel createObjectSelection()
@@ -444,6 +466,12 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 		roboScene.setAnimation(new AnimatedSceneObject(sprite, defaultTime, time));
 	}
 
+	private void start()
+	{
+		// TODO Marvin: start
+
+	}
+
 	public void pauseAnimation(boolean pause)
 	{
 
@@ -482,6 +510,12 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 
 			System.out.println("buy items");
 			selectItems();
+		}
+		else if (source == btnStart)
+		{
+
+			System.out.println("start");
+			start();
 		}
 	}
 
