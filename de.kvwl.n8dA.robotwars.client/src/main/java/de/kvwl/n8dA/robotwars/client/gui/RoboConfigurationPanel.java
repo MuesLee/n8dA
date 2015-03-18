@@ -73,9 +73,17 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 
 	private long maxCredit;
 
-	public RoboConfigurationPanel(Robot[] robots, long maxCredit) throws IOException
+	private Attack[] attacks;
+	private Defense[] defends;
+	private RoboItem[] items;
+
+	public RoboConfigurationPanel(Robot[] robots, Attack[] attacks, Defense[] defends, RoboItem[] items, long maxCredit)
+		throws IOException
 	{
 		this();
+		this.attacks = attacks;
+		this.defends = defends;
+		this.items = items;
 
 		setRobots(robots);
 	}
@@ -246,7 +254,7 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 			throw new RuntimeException("Keine Roboter zum Konfigurieren vorhanden.");
 		}
 
-		Robot robo = ConfigShop.getConfiguration(robots[selectedRobot], maxCredit);
+		Robot robo = ConfigShop.getConfiguration(robots[selectedRobot], maxCredit, items, attacks, defends);
 
 		actualizeModifications(robo);
 	}

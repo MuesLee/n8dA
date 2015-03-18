@@ -4,9 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.util.List;
 
+import javax.swing.BoxLayout;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 
 import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
@@ -26,11 +28,18 @@ public class ConfigShop extends JDialog
 
 	private JLabel lblCredits;
 
-	private ConfigShop(Robot startConfig, long maxCredits)
+	private RoboItem[] items;
+	private Attack[] attacks;
+	private Defense[] defends;
+
+	private ConfigShop(Robot startConfig, long maxCredits, RoboItem[] items, Attack[] attacks, Defense[] defends)
 	{
 
 		this.config = startConfig;
 		this.maxCredits = maxCredits;
+		this.items = items;
+		this.attacks = attacks;
+		this.defends = defends;
 		this.usedCredits = calculateUsedCredits(config);
 
 		setModalityType(ModalityType.APPLICATION_MODAL);
@@ -114,6 +123,13 @@ public class ConfigShop extends JDialog
 	private JPanel createAttackShop()
 	{
 		JPanel attack = new JPanel();
+		attack.setLayout(new BoxLayout(attack, BoxLayout.Y_AXIS));
+
+		for (int i = 0; i < attacks.length; i++)
+		{
+
+			attack.add(new JSeparator(JSeparator.HORIZONTAL));
+		}
 
 		return attack;
 	}
@@ -142,10 +158,11 @@ public class ConfigShop extends JDialog
 		return config;
 	}
 
-	public static Robot getConfiguration(Robot startConfig, long maxCredits)
+	public static Robot getConfiguration(Robot startConfig, long maxCredits, RoboItem[] items, Attack[] attacks,
+		Defense[] defends)
 	{
 
-		ConfigShop shop = new ConfigShop(startConfig, maxCredits);
+		ConfigShop shop = new ConfigShop(startConfig, maxCredits, items, attacks, defends);
 		shop.setLocationRelativeTo(null);
 		shop.setVisible(true);
 
@@ -157,6 +174,6 @@ public class ConfigShop extends JDialog
 
 		Robot startConfig = new Robot();
 
-		getConfiguration(startConfig, 500);
+		getConfiguration(startConfig, 500, null, null, null);
 	}
 }
