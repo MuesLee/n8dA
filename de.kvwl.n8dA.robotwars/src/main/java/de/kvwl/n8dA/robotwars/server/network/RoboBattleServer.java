@@ -226,14 +226,19 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 	private void handleMessage(Message message) {
 		
 		try {
-			String uuidAsString = message.getStringProperty(ClientProperty.CLIENT_UUID.getName());
-			boolean playerIsRdy = message.getBooleanProperty(ClientProperty.CLIENT_UUID.getName());
+			String uuidAsString = message.getStringProperty(ClientProperty.UUID.getName());
+			boolean playerIsRdy = message.getBooleanProperty(ClientProperty.UUID.getName());
+			boolean clientDisconnected = message.getBooleanProperty(ClientProperty.DISCONNECT.getName());
 			UUID clientUUID = UUID.fromString(uuidAsString);
 			
 			
 			if(playerIsRdy)
 			{
 				battleController.setRobotIsReady(getRobotForUUID(clientUUID));
+			}
+			if(clientDisconnected)
+			{
+				disconnectClient(clientUUID);
 			}
 			
 		} catch (JMSException e) {
@@ -242,13 +247,15 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		}
 	}
 
+
+
 	private void handleObjectMessage(ObjectMessage message) {
 		
 		try {
 			ObjectMessage objectMessage = (ObjectMessage) message;
 			Serializable object = objectMessage.getObject();
 			RobotAction robotAction = (RobotAction) object;
-			String uuidAsString = objectMessage.getStringProperty(ClientProperty.CLIENT_UUID.getName());
+			String uuidAsString = objectMessage.getStringProperty(ClientProperty.UUID.getName());
 			UUID clientUUID = UUID.fromString(uuidAsString);
 			
 			setActionForRobot(robotAction, clientUUID);
@@ -269,6 +276,26 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		
 	}
 
+	private void disconnectClient(UUID clientUUID) {
+		
+		//TODO: Timo: Spiel beenden
+		
+		if(clientUUID.equals(clientUUIDLeft))
+		{
+			clientUUIDLeft = null;
+			battleController.setRobotLeft(null);
+		}
+		else if(clientUUID.equals(clientUUIDRight))
+		{
+			clientUUIDRight = null;
+			battleController.setRobotRight(null);
+		}
+		else {
+			LOG.info("Unknown Client wanted to disconnect:" + clientUUID);
+		}
+	}
+	
+	
 	@Override
 	public List<Robot> getAllPossibleRobots() {
 		

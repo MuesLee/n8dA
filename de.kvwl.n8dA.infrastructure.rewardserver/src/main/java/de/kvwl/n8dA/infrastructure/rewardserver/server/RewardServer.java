@@ -15,7 +15,7 @@ public class RewardServer {
 
 	public void startServer() {
 		userDao = new UserDaoSqlite();
-		//TODO: Delete Test Stuff
+		//TODO: Timo: Test Zeug entfernen
 		testStuff();
 	}
 

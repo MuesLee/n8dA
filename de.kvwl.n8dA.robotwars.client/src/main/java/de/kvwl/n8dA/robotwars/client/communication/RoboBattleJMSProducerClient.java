@@ -17,7 +17,7 @@ import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
 import de.kvwl.n8dA.robotwars.commons.network.messages.ClientProperty;
 import de.kvwl.n8dA.robotwars.commons.utils.NetworkUtils;
 
-public class RoboBattleJMSProducerClient implements AsyncServerCommunicator{
+public class RoboBattleJMSProducerClient implements AsyncServerCommunicator {
 
 	private ActiveMQConnectionFactory connectionFactory;
 	private Connection connection;
@@ -52,7 +52,7 @@ public class RoboBattleJMSProducerClient implements AsyncServerCommunicator{
 
 	private void sendMessage(Message message) {
 		try {
-			message.setStringProperty(ClientProperty.CLIENT_UUID.getName(),
+			message.setStringProperty(ClientProperty.UUID.getName(),
 					clientUUID.toString());
 			producer.send(message);
 		} catch (JMSException e) {
@@ -64,11 +64,14 @@ public class RoboBattleJMSProducerClient implements AsyncServerCommunicator{
 	public void sendReadyToBeginBattleToServer() {
 		try {
 			Message message = session.createMessage();
-			message.setBooleanProperty(ClientProperty.READY_TO_START_THE_BATTLE.getName(), true);
+			message.setBooleanProperty(
+					ClientProperty.READY_TO_START_THE_BATTLE.getName(), true);
+			sendMessage(message);
 		} catch (JMSException e) {
-			
+
 		}
 	}
+
 	@Override
 	public void sendRobotActionToServer(RobotAction robotAction) {
 		try {
@@ -78,8 +81,10 @@ public class RoboBattleJMSProducerClient implements AsyncServerCommunicator{
 			sendMessage(message);
 
 		} catch (JMSException e) {
+			e.printStackTrace();
 		}
 	}
+
 	@Override
 	public void closeConnections() {
 		try {
@@ -92,7 +97,15 @@ public class RoboBattleJMSProducerClient implements AsyncServerCommunicator{
 
 	@Override
 	public void sendDisconnectFromServer() {
-		// TODO implement
-		
+		try {
+			Message message = session.createMessage();
+			message.setBooleanProperty(ClientProperty.DISCONNECT.getName(), true);
+			sendMessage(message);
+
+			closeConnections();
+		} catch (JMSException e) {
+			e.printStackTrace();
+		}
+
 	}
 }

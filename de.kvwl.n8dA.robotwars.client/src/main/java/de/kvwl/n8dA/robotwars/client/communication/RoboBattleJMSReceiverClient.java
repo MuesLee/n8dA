@@ -53,7 +53,7 @@ public class RoboBattleJMSReceiverClient {
 		connection.start();
 		session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 		destination = session.createTopic(NetworkUtils.TOPIC_FOR_CLIENTS);
-		consumer = session.createConsumer(destination, ClientProperty.CLIENT_UUID+"'"+clientUUID.toString()+"' OR " +ClientProperty.CLIENT_UUID+"'"+ ClientProperty.ALL_CLIENTS+"'");
+		consumer = session.createConsumer(destination, ClientProperty.UUID+"'"+clientUUID.toString()+"' OR " +ClientProperty.UUID+"'"+ ClientProperty.ALL_CLIENTS+"'");
 		
 		} catch (Exception e) {
         e.printStackTrace();

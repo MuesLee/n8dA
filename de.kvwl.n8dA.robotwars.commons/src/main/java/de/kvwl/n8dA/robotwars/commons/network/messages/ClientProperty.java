@@ -2,7 +2,7 @@ package de.kvwl.n8dA.robotwars.commons.network.messages;
 
 public enum ClientProperty {
 
-	CLIENT_UUID("CLIENT_UUID"), ALL_CLIENTS ("ALL"), READY_TO_START_THE_BATTLE("RDY2STARTTHEBATTLE");
+	UUID("CLIENT_UUID"), ALL_CLIENTS ("ALL"), READY_TO_START_THE_BATTLE("RDY2STARTTHEBATTLE"), DISCONNECT("DISCONNECT");
 	
 	private String name;
 
