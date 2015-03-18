@@ -40,7 +40,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 
 import bno.swing2.widget.BTextField;
-import de.kvwl.n8dA.robotwars.client.RoboBattlePlayerClient;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
@@ -72,19 +71,17 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 	private JList<RoboItem> itemList;
 	private JButton buyItems;
 
-	private RoboBattlePlayerClient client;
+	private long maxCredit;
 
-	public RoboConfigurationPanel(RoboBattlePlayerClient client) throws IOException
+	public RoboConfigurationPanel(Robot[] robots, long maxCredit) throws IOException
 	{
 		this();
 
-		this.client = client;
-		//TODO Marvin: setRobots();
+		setRobots(robots);
 	}
 
-	public RoboConfigurationPanel()
+	private RoboConfigurationPanel()
 	{
-
 		createGui();
 	}
 
@@ -249,7 +246,7 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 			throw new RuntimeException("Keine Roboter zum Konfigurieren vorhanden.");
 		}
 
-		Robot robo = ConfigShop.getConfiguration(robots[selectedRobot]);
+		Robot robo = ConfigShop.getConfiguration(robots[selectedRobot], maxCredit);
 
 		actualizeModifications(robo);
 	}
