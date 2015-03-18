@@ -36,4 +36,9 @@ public abstract class Entity implements Serializable
 	public void setConfigurationPointCosts(int configurationPointCosts) {
 		this.configurationPointCosts = configurationPointCosts;
 	}
+	
+	@Override
+	public String toString() {
+		return name;
+	}
 }
