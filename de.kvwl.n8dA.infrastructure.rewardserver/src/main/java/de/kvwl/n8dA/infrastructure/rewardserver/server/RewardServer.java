@@ -15,10 +15,21 @@ public class RewardServer {
 
 	public void startServer() {
 		userDao = new UserDaoSqlite();
+		//TODO: Delete Test Stuff
+		testStuff();
+	}
+
+	private void testStuff() {
 		Person user = new Person();
 		user.setName("Derp");
 		userDao.add(user);
 		
+		Person findById = userDao.findById(user.getId());
+		System.out.println(findById.getName());
+		System.out.println(findById.getId());
+		userDao.delete(user);
+		findById = userDao.findById(user.getId());
+		System.out.println(findById);
 	}
 
 }
