@@ -25,11 +25,8 @@ public class RewardServer {
 		userDao.add(user);
 		
 		Person findById = userDao.findById(user.getId());
-		System.out.println(findById.getName());
-		System.out.println(findById.getId());
+		System.out.println(findById.getName() + " " + findById.getId());
 		userDao.delete(user);
-		findById = userDao.findById(user.getId());
-		System.out.println(findById);
 	}
 
 }

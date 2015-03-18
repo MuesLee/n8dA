@@ -13,7 +13,7 @@ import javax.persistence.Persistence;
  */
 public abstract class BaseDaoSqlite<T> implements BaseDao<T> {
 	protected static EntityManagerFactory emf = Persistence
-			.createEntityManagerFactory("n8da_rewards.sqlite");
+			.createEntityManagerFactory("sqlite");
 	private static EntityManager em;
 
 	protected BaseDaoSqlite() {

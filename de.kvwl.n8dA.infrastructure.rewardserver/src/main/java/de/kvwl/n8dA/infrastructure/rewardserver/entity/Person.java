@@ -2,20 +2,16 @@ package de.kvwl.n8dA.infrastructure.rewardserver.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.TableGenerator;
 
 @Entity
 @Table(name="person")
 public class Person {
 
 	@Id
-	@GeneratedValue(generator="sqlite")
-	@TableGenerator(name="sqlite_person", table="sqlite_sequence",
-	    pkColumnName="name", valueColumnName="seq",
-	    pkColumnValue="Person",
-	    initialValue=1, allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private String id;
 
 	private String name;
