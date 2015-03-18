@@ -10,7 +10,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.util.EventListener;
 
-public class RoboScene implements Scene
+public class AnimationScene implements Scene
 {
 	private AnimatedSceneObject roboAnimation;
 
@@ -70,14 +70,14 @@ public class RoboScene implements Scene
 		g.fillRect(0, 0, width, height);
 	}
 
-	public synchronized AnimatedSceneObject getRoboAnimation()
+	public synchronized AnimatedSceneObject getAnimation()
 	{
 		return roboAnimation;
 	}
 
-	public synchronized void setRoboAnimation(AnimatedSceneObject roboAnimation)
+	public synchronized void setAnimation(AnimatedSceneObject animation)
 	{
-		this.roboAnimation = roboAnimation;
+		this.roboAnimation = animation;
 	}
 
 }

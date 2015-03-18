@@ -53,7 +53,7 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 	private static final long serialVersionUID = 1L;
 
 	private SwingStage roboStage;
-	private RoboScene roboScene;
+	private AnimationScene roboScene;
 
 	private JLabel lblRoboName;
 	private BTextField txtRoboName;
@@ -355,7 +355,7 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 		clk.addClockListener(roboStage);
 		stagePanel.add(roboStage);
 
-		roboScene = new RoboScene();
+		roboScene = new AnimationScene();
 		roboStage.setScene(roboScene);
 
 		clk.start();
@@ -433,7 +433,7 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 		long[][] time = new long[][] { ani.getFrameTimings() };
 		long defaultTime = time[0][0];
 
-		roboScene.setRoboAnimation(new AnimatedSceneObject(sprite, defaultTime, time));
+		roboScene.setAnimation(new AnimatedSceneObject(sprite, defaultTime, time));
 	}
 
 	public void pauseAnimation(boolean pause)
