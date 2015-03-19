@@ -1,5 +1,8 @@
 package de.kvwl.n8dA.robotwars.client.gui;
 
+import game.engine.image.ImageUtils;
+import game.engine.image.InternalImage;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -8,7 +11,9 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
@@ -22,10 +27,15 @@ import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 public class BattlePanel extends JPanel
 {
 
+	private static final String IMAGE_PATH = "/de/kvwl/n8dA/robotwars/client/images/";
 	private static final long serialVersionUID = 1L;
 
 	private RoboBattlePlayerClient battleClient;
 	private Robot robot;
+	private SimpleProgressBar life;
+	private SimpleProgressBar energy;
+	private JLabel lblLife;
+	private JLabel lblEnergy;
 
 	public BattlePanel(RoboBattlePlayerClient battleClient, Robot robot)
 	{
@@ -44,6 +54,8 @@ public class BattlePanel extends JPanel
 
 		add(createInfoSection(), BorderLayout.NORTH);
 		add(createActionSelection(), BorderLayout.CENTER);
+
+		updateStats();
 	}
 
 	private JPanel createInfoSection()
@@ -60,6 +72,51 @@ public class BattlePanel extends JPanel
 	private JPanel createRoboStats()
 	{
 		JPanel stats = new JPanel();
+		stats.setLayout(new BoxLayout(stats, BoxLayout.Y_AXIS));
+
+		//Lebensanzeige
+		JPanel pnlLife = new JPanel();
+		pnlLife.setLayout(new BoxLayout(pnlLife, BoxLayout.X_AXIS));
+		stats.add(pnlLife);
+
+		pnlLife.add(new JLabel(new ImageIcon(ImageUtils.getScaledInstance(
+			InternalImage.loadFromPath(IMAGE_PATH, "life.png"), 20, 20, null))));
+
+		life = new SimpleProgressBar();
+		life.setMinimum(0);
+		life.setMaximum(robot.getHealthPoints());
+		life.setValue(life.getMaximum());
+		life.setBackground(Color.GRAY);
+		life.setForeground(Color.RED);
+		pnlLife.add(life);
+
+		pnlLife.add(Box.createHorizontalStrut(5));
+
+		lblLife = new JLabel("" + life.getValue());
+		pnlLife.add(lblLife);
+
+		//Energieanzeige
+		JPanel pnlEnergy = new JPanel();
+		pnlEnergy.setLayout(new BoxLayout(pnlEnergy, BoxLayout.X_AXIS));
+		stats.add(pnlEnergy);
+
+		pnlEnergy.add(new JLabel(new ImageIcon(ImageUtils.getScaledInstance(
+			InternalImage.loadFromPath(IMAGE_PATH, "energy.png"), 20, 20, null))));
+
+		energy = new SimpleProgressBar();
+		energy.setMinimum(0);
+		energy.setMaximum(robot.getEnergyPoints());
+		energy.setValue(energy.getMaximum());
+		energy.setBackground(Color.GRAY);
+		energy.setForeground(Color.BLUE);
+		pnlEnergy.add(energy);
+
+		pnlEnergy.add(Box.createHorizontalStrut(5));
+
+		lblEnergy = new JLabel("" + energy.getValue());
+		pnlEnergy.add(lblEnergy);
+
+		stats.add(Box.createVerticalStrut(30));
 
 		return stats;
 	}
@@ -153,6 +210,16 @@ public class BattlePanel extends JPanel
 		return attacks;
 	}
 
+	private void updateStats()
+	{
+
+		life.setValue(robot.getHealthPoints());
+		lblLife.setText("" + robot.getHealthPoints());
+
+		energy.setValue(robot.getEnergyPoints());
+		lblEnergy.setText("" + robot.getEnergyPoints());
+	}
+
 	// XXX Marvin: Testmain -> entfernen
 	public static void main(String[] args) throws Exception
 	{
@@ -164,6 +231,8 @@ public class BattlePanel extends JPanel
 		disp.setLocationRelativeTo(null);
 
 		Robot r = new Robot();
+		r.setHealthPoints(150);
+		r.setEnergyPoints(80);
 
 		Attack atk = new Attack(RobotActionType.PAPER, 10);
 		atk.setName("Rakete");

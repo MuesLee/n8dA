@@ -21,7 +21,7 @@ public class SimpleProgressBar extends JProgressBar
 		g.fillRect(3, 3, getWidth() - 6, getHeight() - 6);
 
 		g.setColor(getForeground());
-		double percent = (100.0 / getMaximum()) * getValue();
+		double percent = (1.0 / getMaximum()) * getValue();
 		g.fillRect(3, 3, (int) Math.round((getWidth() - 6) * percent), getHeight() - 6);
 	}
 }
