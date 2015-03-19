@@ -5,6 +5,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import de.kvwl.n8dA.infrastructure.commons.interfaces.CreditAccess;
+import de.kvwl.n8dA.infrastructure.commons.util.NetworkUtils;
 import de.kvwl.n8dA.robotwars.client.RoboBattlePlayerClient;
 import de.kvwl.n8dA.robotwars.client.gui.LoginDialog.CanceledException;
 import de.kvwl.n8da.infrastructure.rewards.client.CreditAccessClient;
@@ -26,8 +27,8 @@ public class Main
 
 	private static long getCreditPoints()
 	{
-
-		CreditAccess creditClient = new CreditAccessClient();
+		//TODO: XXX IP Adresse besorgen
+		CreditAccess creditClient = new CreditAccessClient(NetworkUtils.REWARD_SERVER_HOST_IP_ADDRESS);
 		try
 		{
 			creditClient.initConnectionToServer();

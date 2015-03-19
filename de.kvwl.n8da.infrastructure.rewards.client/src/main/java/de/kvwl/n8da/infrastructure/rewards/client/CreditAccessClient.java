@@ -21,31 +21,31 @@ public class CreditAccessClient implements CreditAccess {
 	private static final Logger LOG = LoggerFactory
 			.getLogger(CreditAccessClient.class);
 
-	// TODO Timo: IP:Port dynamisch
-	// mach das mal so, dass die IP:Port angaben oder was es da so
-	// gibt zumindest über die -Dxxx JVM options angegeben werden können
-	private static final String url = "//"
-			+ NetworkUtils.REWARD_SERVER_HOST_IP_ADDRESS + "/"
-			+ NetworkUtils.REWARD_SERVER_NAME;
 	private CreditAccesHandler server;
 	private UUID uuid;
-
-	public CreditAccessClient() {
+	private String ipAdressServer;
+	
+	
+	public CreditAccessClient(String ipAdressServer) {
+		
 		BasicConfigurator.configure();
+		this.ipAdressServer = ipAdressServer;
 		this.uuid = UUID.randomUUID();
 	}
 
 	/**
-	 * Baut eine vorkonfigurierte Verbindung zum Punkteserver auch
+	 * Baut die Verbindung zum Punkteserver auf
 	 */
 	public void initConnectionToServer() throws RemoteException {
 		try {
+			String url = "//"
+					+ ipAdressServer + "/"
+					+ NetworkUtils.REWARD_SERVER_NAME;
 			server = (CreditAccesHandler) Naming.lookup(url);
 			LOG.info("Client: " + uuid + " connected to Server");
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-
 	}
 
 	/**
@@ -58,7 +58,8 @@ public class CreditAccessClient implements CreditAccess {
 
 	// TODO: Timo: Nur zu Testzwecken. Sp�ter entfernen.
 	public static void main(String[] args) {
-		CreditAccessClient client = new CreditAccessClient();
+		
+		CreditAccessClient client = new CreditAccessClient(NetworkUtils.REWARD_SERVER_HOST_IP_ADDRESS);
 		try {
 			client.initConnectionToServer();
 			client.getConfigurationPointsForPerson("Derp");
