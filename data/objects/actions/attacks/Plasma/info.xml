@@ -2,9 +2,9 @@
 <attack>
 	<damage>12</damage>
 	<type>ROCK</type>
-	<animationid>Rakete</animationid>
+	<animationid>Plasma</animationid>
 	<energycosts>3</energycosts>
 	<configcosts>5</configcosts>
-	<name>Rakete</name>
-	<id>16</id>
+	<name>Plasma</name>
+	<id>15</id>
 </attack>

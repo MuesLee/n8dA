@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<robot>
+	<id>4</id>
+	<name>KosmosRoboter</name>
+	<configcosts>0</configcosts>
+	<healthpoints>1</healthpoints>
+	<energypoints>1</energypoints>
+	<animationid>KosmosRoboter</animationid>
+	<defaultitems>
+		
+	</defaultitems>
+	<attacks>
+		
+	</attacks>
+	<defends>
+		
+	</defends>
+</robot>
