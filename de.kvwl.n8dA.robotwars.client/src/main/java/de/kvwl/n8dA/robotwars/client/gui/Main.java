@@ -3,6 +3,8 @@ package de.kvwl.n8dA.robotwars.client.gui;
 import java.rmi.RemoteException;
 
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import de.kvwl.n8dA.infrastructure.commons.exception.NoSuchPersonException;
 import de.kvwl.n8dA.infrastructure.commons.interfaces.CreditAccess;
@@ -12,8 +14,10 @@ import de.kvwl.n8dA.robotwars.client.gui.LoginDialog.CanceledException;
 public class Main
 {
 
-	public static void main(String[] args) throws CanceledException
+	public static void main(String[] args)
 	{
+
+		setLaF();
 
 		RoboBattlePlayerClient battleClient = createBattleClient();
 		long maxCreditPoints = getCreditPoints();
@@ -22,7 +26,7 @@ public class Main
 		clientFrame.setVisible(true);
 	}
 
-	private static long getCreditPoints() throws CanceledException
+	private static long getCreditPoints()
 	{
 
 		//TODO Timo: CreditAccess Implementierung einsetzen
@@ -44,22 +48,59 @@ public class Main
 		{
 			creditClient.initConnectionToServer();
 		}
-		catch (RemoteException e)
+		catch (Exception e)
 		{
 			JOptionPane.showMessageDialog(null,
 				"Die Verbindung zum Punkteserver konnte nicht aufgebaut werden. \n" + e.getMessage(),
 				"Fehler beim Verbindungsaufbau", JOptionPane.ERROR_MESSAGE);
+
+			throw new RuntimeException(e);
 		}
 
-		return LoginDialog.getCreditPoints(creditClient);
+		long credits;
+		try
+		{
+			credits = LoginDialog.getCreditPoints(creditClient);
+		}
+		catch (CanceledException e)
+		{
+			throw new RuntimeException(e);
+		}
+
+		return credits;
 	}
 
 	private static RoboBattlePlayerClient createBattleClient()
 	{
-		RoboBattlePlayerClient client = new RoboBattlePlayerClient();
-		client.init();
+		RoboBattlePlayerClient client;
+		try
+		{
+			client = new RoboBattlePlayerClient();
+			client.init();
+		}
+		catch (Exception e)
+		{
+			JOptionPane.showMessageDialog(null,
+				"Die Verbindung zum Spieleserver konnte nicht aufgebaut werden. \n" + e.getMessage(),
+				"Fehler beim Verbindungsaufbau", JOptionPane.ERROR_MESSAGE);
+
+			throw new RuntimeException(e);
+		}
 
 		return client;
+	}
+
+	private static void setLaF()
+	{
+
+		try
+		{
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		}
+		catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+			| UnsupportedLookAndFeelException e)
+		{
+		}
 	}
 
 }
