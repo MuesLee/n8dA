@@ -36,15 +36,20 @@ public class ClientFrame extends JFrame implements ConfigurationListener
 		openConfiguration();
 	}
 
-	private void openConfiguration()
+	private void closeAnimations()
 	{
-
 		if (roboConfigurationPanel != null)
 		{
 
 			roboConfigurationPanel.dispose();
 			roboConfigurationPanel = null;
 		}
+	}
+
+	private void openConfiguration()
+	{
+
+		closeAnimations();
 
 		try
 		{
@@ -76,12 +81,21 @@ public class ClientFrame extends JFrame implements ConfigurationListener
 		}
 	}
 
+	private void openBattle(Robot robot)
+	{
+		closeAnimations();
+
+		BattlePanel battlePanel = new BattlePanel(battleClient, robot);
+		show(battlePanel);
+	}
+
 	@Override
 	public void configurationCompleted(Robot configuredRobot)
 	{
 
-		// TODO Marvin: configurationCompleted
 		System.out.println("Config fertig -> battle view");
+
+		openBattle(configuredRobot);
 	}
 
 	private void createGui()

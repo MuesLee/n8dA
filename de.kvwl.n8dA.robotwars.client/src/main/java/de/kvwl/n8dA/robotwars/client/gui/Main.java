@@ -27,7 +27,7 @@ public class Main
 
 	private static long getCreditPoints()
 	{
-		//TODO: XXX IP Adresse besorgen
+		//TODO  IP Adresse besorgen
 		CreditAccess creditClient = new CreditAccessClient(NetworkUtils.REWARD_SERVER_HOST_IP_ADDRESS);
 		try
 		{
