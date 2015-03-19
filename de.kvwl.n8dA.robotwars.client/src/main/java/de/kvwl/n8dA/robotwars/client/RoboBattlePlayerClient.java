@@ -159,7 +159,6 @@ public class RoboBattlePlayerClient extends RoboBattleClient
 		producer.sendDisconnectFromServer();
 	}
 
-	//TODO Timo: alle Attacken/Verteidigungen und Roboter wieder mit den Animationen zusammenführen
 	public List<Attack> getAllPossibleAttacksFromServer()
 	{
 		try
