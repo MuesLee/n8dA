@@ -311,6 +311,8 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 			itemModel.addElement(item);
 		}
 		itemList.setModel(itemModel);
+		itemList.revalidate();
+		itemList.repaint();
 
 		// Aktualisiere Verteidigungen
 		Iterator<Defense> defs = defends.iterator();
