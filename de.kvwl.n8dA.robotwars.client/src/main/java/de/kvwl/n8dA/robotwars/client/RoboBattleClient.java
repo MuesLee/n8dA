@@ -4,6 +4,7 @@ import java.rmi.Naming;
 import java.util.UUID;
 
 import javax.jms.MessageListener;
+import javax.swing.JOptionPane;
 
 import org.apache.log4j.BasicConfigurator;
 import org.slf4j.Logger;
@@ -37,7 +38,12 @@ public abstract class RoboBattleClient implements MessageListener {
 		this.uuid = UUID.randomUUID();
 
 		BasicConfigurator.configure();
-
+		
+		String ipAdress = JOptionPane.showInputDialog(null, "Bitte die IP des Servers eingeben!", NetworkUtils.HOST_IP_ADDRESS);
+		NetworkUtils.HOST_IP_ADDRESS = ipAdress;
+		
+		String port = JOptionPane.showInputDialog(null, "Bitte den Service-Port eingeben!", NetworkUtils.HOST_PORT);
+		NetworkUtils.HOST_PORT = port;
 		roboBattleJMSReceiver = new RoboBattleJMSReceiverClient(uuid);
 		producer = new RoboBattleJMSProducerClient(uuid);
 	}

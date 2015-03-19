@@ -40,7 +40,6 @@ public class RewardServer extends UnicastRemoteObject implements CreditAccesHand
 			rewardServer.startServer(NetworkUtils.REWARD_SERVER_REGISTRY_PORT);
 			rewardServer.testStuff();
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		// TODO: Timo: persistence.xml -> drop and create zu
