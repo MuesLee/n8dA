@@ -6,6 +6,8 @@ import game.engine.image.InternalImage;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -24,21 +26,24 @@ import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 
 //TODO Marvin: BattlePanel
-public class BattlePanel extends JPanel
-{
+public class BattlePanel extends JPanel implements ActionListener {
 
 	private static final String IMAGE_PATH = "/de/kvwl/n8dA/robotwars/client/images/";
 	private static final long serialVersionUID = 1L;
 
+	private static final int SELECTION_TIME = 50;
+
 	private RoboBattlePlayerClient battleClient;
 	private Robot robot;
+
 	private SimpleProgressBar life;
 	private SimpleProgressBar energy;
 	private JLabel lblLife;
 	private JLabel lblEnergy;
+	private JPanel pnlTimer;
+	private Countdown countdown;
 
-	public BattlePanel(RoboBattlePlayerClient battleClient, Robot robot)
-	{
+	public BattlePanel(RoboBattlePlayerClient battleClient, Robot robot) {
 
 		this.battleClient = battleClient;
 		this.robot = robot;
@@ -46,8 +51,7 @@ public class BattlePanel extends JPanel
 		createGui();
 	}
 
-	private void createGui()
-	{
+	private void createGui() {
 
 		setLayout(new BorderLayout());
 		setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -58,29 +62,32 @@ public class BattlePanel extends JPanel
 		updateStats();
 	}
 
-	private JPanel createInfoSection()
-	{
+	private JPanel createInfoSection() {
 		JPanel info = new JPanel();
 		info.setLayout(new BorderLayout());
 
 		info.add(createRoboStats(), BorderLayout.SOUTH);
-		info.add(createTimer(), BorderLayout.CENTER);
+
+		pnlTimer = createTimer();
+		info.add(pnlTimer, BorderLayout.CENTER);
 
 		return info;
 	}
 
-	private JPanel createRoboStats()
-	{
+	private JPanel createRoboStats() {
 		JPanel stats = new JPanel();
 		stats.setLayout(new BoxLayout(stats, BoxLayout.Y_AXIS));
 
-		//Lebensanzeige
+		stats.add(Box.createVerticalStrut(30));
+
+		// Lebensanzeige
 		JPanel pnlLife = new JPanel();
 		pnlLife.setLayout(new BoxLayout(pnlLife, BoxLayout.X_AXIS));
 		stats.add(pnlLife);
 
 		pnlLife.add(new JLabel(new ImageIcon(ImageUtils.getScaledInstance(
-			InternalImage.loadFromPath(IMAGE_PATH, "life.png"), 20, 20, null))));
+				InternalImage.loadFromPath(IMAGE_PATH, "life.png"), 20, 20,
+				null))));
 
 		life = new SimpleProgressBar();
 		life.setMinimum(0);
@@ -95,13 +102,14 @@ public class BattlePanel extends JPanel
 		lblLife = new JLabel("" + life.getValue());
 		pnlLife.add(lblLife);
 
-		//Energieanzeige
+		// Energieanzeige
 		JPanel pnlEnergy = new JPanel();
 		pnlEnergy.setLayout(new BoxLayout(pnlEnergy, BoxLayout.X_AXIS));
 		stats.add(pnlEnergy);
 
 		pnlEnergy.add(new JLabel(new ImageIcon(ImageUtils.getScaledInstance(
-			InternalImage.loadFromPath(IMAGE_PATH, "energy.png"), 20, 20, null))));
+				InternalImage.loadFromPath(IMAGE_PATH, "energy.png"), 20, 20,
+				null))));
 
 		energy = new SimpleProgressBar();
 		energy.setMinimum(0);
@@ -121,15 +129,23 @@ public class BattlePanel extends JPanel
 		return stats;
 	}
 
-	private JPanel createTimer()
-	{
+	private JPanel createTimer() {
+
 		JPanel timer = new JPanel();
+		timer.setLayout(new BorderLayout());
+
+		countdown = new Countdown();
+		countdown.addActionListener(this);
+		timer.add(countdown, BorderLayout.CENTER);
+
+		JLabel lblTimerInfo = new JLabel("Wähle deine nächste Aktion");
+		lblTimerInfo.setHorizontalAlignment(JLabel.CENTER);
+		timer.add(lblTimerInfo, BorderLayout.SOUTH);
 
 		return timer;
 	}
 
-	private JPanel createActionSelection()
-	{
+	private JPanel createActionSelection() {
 		JPanel actions = new JPanel();
 		actions.setLayout(new BoxLayout(actions, BoxLayout.X_AXIS));
 
@@ -140,30 +156,28 @@ public class BattlePanel extends JPanel
 		return actions;
 	}
 
-	private JPanel createDefendSelection()
-	{
+	private JPanel createDefendSelection() {
 		JPanel defends = new JPanel();
-		defends.setBorder(BorderFactory.createCompoundBorder(
-			BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 2, true), "Verteidigung"),
-			BorderFactory.createEmptyBorder(3, 3, 3, 3)));
+		defends.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+				.createTitledBorder(
+						BorderFactory.createLineBorder(Color.BLACK, 2, true),
+						"Verteidigung"), BorderFactory.createEmptyBorder(3, 3,
+				3, 3)));
 		defends.setLayout(new GridLayout(2, 2, 5, 5));
 
 		List<Defense> defs = robot.getPossibleDefends();
-		for (int i = 0; i < 4; i++)
-		{
+		for (int i = 0; i < 4; i++) {
 
 			ActionButton def = new ActionButton();
 
-			if (i < defs.size())
-			{
+			if (i < defs.size()) {
 
 				Defense defense = defs.get(i);
 
 				def.setRoboAction(defense);
-				def.setText(String.format("%s (%d E)", defense.getName(), defense.getEnergyCosts()));
-			}
-			else
-			{
+				def.setText(String.format("%s (%d E)", defense.getName(),
+						defense.getEnergyCosts()));
+			} else {
 
 				def.setText("<Leer>");
 				def.setRoboAction(null);
@@ -175,30 +189,27 @@ public class BattlePanel extends JPanel
 		return defends;
 	}
 
-	private JPanel createAttackSelection()
-	{
+	private JPanel createAttackSelection() {
 		JPanel attacks = new JPanel();
-		attacks.setBorder(BorderFactory.createCompoundBorder(
-			BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 2, true), "Angriff"),
-			BorderFactory.createEmptyBorder(3, 3, 3, 3)));
+		attacks.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+				.createTitledBorder(
+						BorderFactory.createLineBorder(Color.BLACK, 2, true),
+						"Angriff"), BorderFactory.createEmptyBorder(3, 3, 3, 3)));
 		attacks.setLayout(new GridLayout(2, 2, 5, 5));
 
 		List<Attack> atks = robot.getPossibleAttacks();
-		for (int i = 0; i < 4; i++)
-		{
+		for (int i = 0; i < 4; i++) {
 
 			ActionButton atk = new ActionButton();
 
-			if (i < atks.size())
-			{
+			if (i < atks.size()) {
 
 				Attack attack = atks.get(i);
 
 				atk.setRoboAction(attack);
-				atk.setText(String.format("%s (%d E)", attack.getName(), attack.getEnergyCosts()));
-			}
-			else
-			{
+				atk.setText(String.format("%s (%d E)", attack.getName(),
+						attack.getEnergyCosts()));
+			} else {
 
 				atk.setText("<Leer>");
 				atk.setRoboAction(null);
@@ -210,8 +221,7 @@ public class BattlePanel extends JPanel
 		return attacks;
 	}
 
-	private void updateStats()
-	{
+	private void updateStats() {
 
 		life.setValue(robot.getHealthPoints());
 		lblLife.setText("" + robot.getHealthPoints());
@@ -220,9 +230,29 @@ public class BattlePanel extends JPanel
 		lblEnergy.setText("" + robot.getEnergyPoints());
 	}
 
+	private void startCountdown() {
+
+		countdown.stopCountdown();
+		countdown.setTime(SELECTION_TIME);
+		countdown.startCountdown();
+	}
+
+	private void countdownOver() {
+		// TODO Marvin: countdownOver
+
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+
+		if (countdown.getTime() == 0) {
+
+			countdownOver();
+		}
+	}
+
 	// XXX Marvin: Testmain -> entfernen
-	public static void main(String[] args) throws Exception
-	{
+	public static void main(String[] args) throws Exception {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 
 		JFrame disp = new JFrame();
@@ -240,6 +270,8 @@ public class BattlePanel extends JPanel
 		r.getPossibleAttacks().add(atk);
 
 		BattlePanel comp = new BattlePanel(null, r);
+		comp.countdown.setTime(15);
+		comp.countdown.startCountdown();
 		disp.add(comp);
 
 		disp.pack();
