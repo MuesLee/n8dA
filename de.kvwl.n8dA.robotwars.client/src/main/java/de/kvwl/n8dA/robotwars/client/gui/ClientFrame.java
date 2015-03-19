@@ -13,7 +13,8 @@ import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
 
-public class ClientFrame extends JFrame implements ConfigurationListener {
+public class ClientFrame extends JFrame implements ConfigurationListener
+{
 
 	private static final long serialVersionUID = 1L;
 
@@ -23,7 +24,8 @@ public class ClientFrame extends JFrame implements ConfigurationListener {
 	private JPanel container;
 	private RoboConfigurationPanel roboConfigurationPanel;
 
-	public ClientFrame(RoboBattlePlayerClient battleClient, long maxCreditPoints) {
+	public ClientFrame(RoboBattlePlayerClient battleClient, long maxCreditPoints)
+	{
 
 		this.battleClient = battleClient;
 		this.maxCreditPoints = maxCreditPoints;
@@ -34,40 +36,40 @@ public class ClientFrame extends JFrame implements ConfigurationListener {
 		openConfiguration();
 	}
 
-	private void openConfiguration() {
+	private void openConfiguration()
+	{
 
-		if (roboConfigurationPanel != null) {
+		if (roboConfigurationPanel != null)
+		{
 
 			roboConfigurationPanel.dispose();
 			roboConfigurationPanel = null;
 		}
 
-		try {
+		try
+		{
 
-			Robot[] robots = battleClient.getAllPossibleRobotsFromServer()
-					.toArray(new Robot[0]);
+			Robot[] robots = battleClient.getAllPossibleRobotsFromServer().toArray(new Robot[0]);
 
-			Attack[] attacks = battleClient.getAllPossibleAttacksFromServer()
-					.toArray(new Attack[0]);
+			Attack[] attacks = battleClient.getAllPossibleAttacksFromServer().toArray(new Attack[0]);
 
-			Defense[] defends = battleClient.getAllPossibleDefendsFromServer()
-					.toArray(new Defense[0]);
+			Defense[] defends = battleClient.getAllPossibleDefendsFromServer().toArray(new Defense[0]);
 
-			RoboItem[] items = battleClient.getAllPossibleItemsFromServer()
-					.toArray(new RoboItem[0]);
+			RoboItem[] items = battleClient.getAllPossibleItemsFromServer().toArray(new RoboItem[0]);
 
 			long maxCredit = maxCreditPoints;
 
-			roboConfigurationPanel = new RoboConfigurationPanel(robots,
-					attacks, defends, items, maxCredit);
+			roboConfigurationPanel = new RoboConfigurationPanel(robots, attacks, defends, items, maxCredit);
 
 			roboConfigurationPanel.addConfigurationListener(this);
 
 			show(roboConfigurationPanel);
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 
-			JOptionPane.showMessageDialog(this, e.getMessage(),
-					"Ein Fehler ist aufgetaucht.", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, e.getMessage(), "Ein Fehler ist aufgetaucht.",
+				JOptionPane.ERROR_MESSAGE);
 
 			e.printStackTrace();
 			System.exit(-1);
@@ -75,12 +77,15 @@ public class ClientFrame extends JFrame implements ConfigurationListener {
 	}
 
 	@Override
-	public void configurationCompleted(Robot configuredRobot) {
+	public void configurationCompleted(Robot configuredRobot)
+	{
 
 		// TODO Marvin: configurationCompleted
+		System.out.println("Config fertig -> battle view");
 	}
 
-	private void createGui() {
+	private void createGui()
+	{
 
 		setLayout(new BorderLayout());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -89,7 +94,8 @@ public class ClientFrame extends JFrame implements ConfigurationListener {
 		container.setLayout(new BorderLayout());
 	}
 
-	private void show(JPanel panel) {
+	private void show(JPanel panel)
+	{
 
 		container.removeAll();
 		container.add(panel);
@@ -100,12 +106,15 @@ public class ClientFrame extends JFrame implements ConfigurationListener {
 		pack();
 	}
 
-	private void createShutdownHook() {
+	private void createShutdownHook()
+	{
 
-		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable()
+		{
 
 			@Override
-			public void run() {
+			public void run()
+			{
 
 				battleClient.disconnectFromServer();
 			}
