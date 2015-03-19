@@ -101,6 +101,7 @@ public class ClientFrame extends JFrame implements ConfigurationListener
 	private void createGui()
 	{
 
+		setTitle("RoboBattle - Client");
 		setLayout(new BorderLayout());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

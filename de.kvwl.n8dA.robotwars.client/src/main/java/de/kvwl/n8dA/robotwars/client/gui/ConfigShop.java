@@ -390,9 +390,9 @@ public class ConfigShop extends JDialog
 			info.setLayout(new BoxLayout(info, BoxLayout.X_AXIS));
 			row.add(info, BorderLayout.CENTER);
 
-			info.add(new JLabel(String.format("Name: %s - Reflektion: %d%% - Energiekosten: %d - Typ: %s", def
-				.getName(), (int) (100 * def.getBonusOnDefenseFactor()), def.getEnergyCosts(), def.getRobotActionType()
-				.getHumanReadableString())));
+			info.add(new JLabel(String.format("Name: %s - Reflektion: %d%% - Energiekosten: %d", def.getName(),
+				(int) (100 * def.getBonusOnDefenseFactor()), def.getEnergyCosts(), def.getRobotActionType()
+					.getHumanReadableString())));
 
 			scroll.add(row);
 		}
@@ -486,7 +486,7 @@ public class ConfigShop extends JDialog
 			info.setLayout(new BoxLayout(info, BoxLayout.X_AXIS));
 			row.add(info, BorderLayout.CENTER);
 
-			info.add(new JLabel(String.format("Name: %s - Schaden: %d - Energiekosten: %d - Typ: %s", atk.getName(),
+			info.add(new JLabel(String.format("Name: %s - Schaden: %d - Energiekosten: %d", atk.getName(),
 				atk.getDamage(), atk.getEnergyCosts(), atk.getRobotActionType().getHumanReadableString())));
 
 			scroll.add(row);
