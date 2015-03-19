@@ -50,6 +50,8 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 	
 	private static final long serialVersionUID = 1L;
 
+	private static String BATTLE_SERVER_REGISTRY_PORT;
+
 	private BattleController battleController;
 	private RoboBattleJMSProducerServer producer;
 	private RoboBattleJMSReceiverServer receiver;
@@ -57,6 +59,8 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 	
 	private UUID clientUUIDLeft;
 	private UUID clientUUIDRight;
+
+	private static String BATTLE_SERVER_FULL_TCP_ADDRESS;
 	
 	protected RoboBattleServer() throws RemoteException {
 		super();
@@ -67,11 +71,13 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 	public static void main(String[] args) {
 		try {
 			BasicConfigurator.configure();
-			String port = JOptionPane.showInputDialog(null, "Bitte den Service-Port eingeben!", NetworkUtils.HOST_PORT);
-			NetworkUtils.HOST_PORT = port;
-			RoboBattleServer server = new RoboBattleServer();
-			server.startServer(NetworkUtils.SERVER_REGISTRY_PORT);
 			
+			
+			BATTLE_SERVER_FULL_TCP_ADDRESS = JOptionPane.showInputDialog(null, "Bitte die vollständige TCP-Adresse des Servers eingeben!", NetworkUtils.BATTLE_SERVER_DEFAULT_FULL_TCP_ADDRESS);
+			RoboBattleServer server = new RoboBattleServer();
+			BATTLE_SERVER_REGISTRY_PORT = JOptionPane.showInputDialog(null, "Bitte den Registry-Port eingeben!", NetworkUtils.BATTLE_SERVER_DEFAULT_REGISTRY_PORT);
+			
+			server.startServer(Integer.parseInt(BATTLE_SERVER_REGISTRY_PORT));
 			
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -114,7 +120,7 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 			adaptor.setDirectory(new File("activemq"));
 			broker.setPersistenceAdapter(adaptor);
 			broker.setUseJmx(true);
-			broker.addConnector(NetworkUtils.FULL_HOST_TCP_ADDRESS);
+			broker.addConnector(BATTLE_SERVER_FULL_TCP_ADDRESS);
 			broker.start();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -135,8 +141,8 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 	
 	private void initJMS()
 	{
-		producer = new RoboBattleJMSProducerServer();
-		receiver = new RoboBattleJMSReceiverServer();
+		producer = new RoboBattleJMSProducerServer(BATTLE_SERVER_FULL_TCP_ADDRESS);
+		receiver = new RoboBattleJMSReceiverServer(BATTLE_SERVER_FULL_TCP_ADDRESS);
 		receiver.setMessageListener(this);
 	}
 

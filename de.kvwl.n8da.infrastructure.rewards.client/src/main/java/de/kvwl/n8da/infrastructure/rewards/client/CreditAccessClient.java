@@ -59,7 +59,7 @@ public class CreditAccessClient implements CreditAccess {
 	// TODO: Timo: Nur zu Testzwecken. Sp�ter entfernen.
 	public static void main(String[] args) {
 		
-		CreditAccessClient client = new CreditAccessClient(NetworkUtils.REWARD_SERVER_HOST_IP_ADDRESS);
+		CreditAccessClient client = new CreditAccessClient("localhost");
 		try {
 			client.initConnectionToServer();
 			client.getConfigurationPointsForPerson("Derp");

@@ -24,14 +24,17 @@ public class RoboBattleJMSProducerServer {
 	private Destination destination;
 	private MessageProducer producer;
 
-	public RoboBattleJMSProducerServer() {
+	private String BATTLE_SERVER_FULL_TCP_ADDRESS;
+	
+	public RoboBattleJMSProducerServer(String BATTLE_SERVER_FULL_TCP_ADDRESS) {
+		this.BATTLE_SERVER_FULL_TCP_ADDRESS = BATTLE_SERVER_FULL_TCP_ADDRESS;
 		initJMSConnection();
 	}
 
 	private void initJMSConnection() {
 		try {
 			connectionFactory = new ActiveMQConnectionFactory(
-					NetworkUtils.FULL_HOST_TCP_ADDRESS);
+					BATTLE_SERVER_FULL_TCP_ADDRESS);
 			connection = connectionFactory.createConnection();
 			connection.start();
 			session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);

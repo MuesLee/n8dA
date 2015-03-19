@@ -1,18 +1,21 @@
 package de.kvwl.n8dA.robotwars.client;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.rmi.Naming;
+import java.util.Properties;
 import java.util.UUID;
 
 import javax.jms.MessageListener;
-import javax.swing.JOptionPane;
 
 import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.jmx.LayoutDynamicMBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.kvwl.n8dA.robotwars.client.communication.AsyncServerCommunicator;
 import de.kvwl.n8dA.robotwars.client.communication.RoboBattleJMSProducerClient;
 import de.kvwl.n8dA.robotwars.client.communication.RoboBattleJMSReceiverClient;
-import de.kvwl.n8dA.robotwars.client.communication.AsyncServerCommunicator;
 import de.kvwl.n8dA.robotwars.commons.interfaces.RoboBattleHandler;
 import de.kvwl.n8dA.robotwars.commons.utils.NetworkUtils;
 
@@ -25,32 +28,65 @@ public abstract class RoboBattleClient implements MessageListener {
 
 	protected final Logger LOG = LoggerFactory
 			.getLogger(RoboBattleClient.class);
-
-	protected static final String url = "//" + NetworkUtils.HOST_IP_ADDRESS
-			+ "/" + NetworkUtils.SERVER_NAME;
+	private static final String PROPERTY_NAME = "config.properties";
+	
 	protected UUID uuid;
 	protected RoboBattleHandler server;
 	protected RoboBattleJMSReceiverClient roboBattleJMSReceiver;
 	protected AsyncServerCommunicator producer;
-
+	private Properties properties;
+	
 	public RoboBattleClient() {
-
+		
 		this.uuid = UUID.randomUUID();
-
+		
 		BasicConfigurator.configure();
 		
-		String ipAdress = JOptionPane.showInputDialog(null, "Bitte die IP des Servers eingeben!", NetworkUtils.HOST_IP_ADDRESS);
-		NetworkUtils.HOST_IP_ADDRESS = ipAdress;
-		
-		String port = JOptionPane.showInputDialog(null, "Bitte den Service-Port eingeben!", NetworkUtils.HOST_PORT);
-		NetworkUtils.HOST_PORT = port;
-		roboBattleJMSReceiver = new RoboBattleJMSReceiverClient(uuid);
-		producer = new RoboBattleJMSProducerClient(uuid);
+	
 	}
 
 	public void init() {
+		String ipAdressServer = "localhost";
+		String BATTLE_SERVER_FULL_TCP_ADDRESS = "tcp://localhost:1527";
+		
+		try {
+			loadProperties();
+			ipAdressServer = properties.getProperty("BATTLE_SERVER_IP_ADDRESS");
+			BATTLE_SERVER_FULL_TCP_ADDRESS = properties.getProperty("BATTLE_SERVER_FULL_TCP_ADDRESS");
+			
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		roboBattleJMSReceiver = new RoboBattleJMSReceiverClient(uuid,BATTLE_SERVER_FULL_TCP_ADDRESS);
+		producer = new RoboBattleJMSProducerClient(uuid,BATTLE_SERVER_FULL_TCP_ADDRESS);
+		
+		String url = "//" + ipAdressServer
+				+ "/" + NetworkUtils.SERVER_NAME;
 		connectToServer(url);
 		listenToJMSReceiver();
+	}
+	
+	public String getProperty(String property)
+	{
+		return properties.getProperty(property);
+	}
+	
+	public void loadProperties() throws IOException
+	{
+		properties = new Properties();
+		try
+		{
+			FileInputStream file = new FileInputStream("./" + PROPERTY_NAME);
+			properties.load(file);
+			file.close();
+		}
+		catch (IOException e)
+		{
+			throw new IOException("Die Datei " + PROPERTY_NAME + " konnte nicht gefunden werden.");
+		}
 	}
 
 	private void connectToServer(String url) {

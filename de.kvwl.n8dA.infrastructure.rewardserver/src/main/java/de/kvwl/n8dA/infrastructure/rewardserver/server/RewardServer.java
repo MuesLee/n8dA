@@ -7,6 +7,8 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
 
+import javax.swing.JOptionPane;
+
 import org.apache.activemq.broker.BrokerService;
 import org.apache.activemq.store.kahadb.KahaDBPersistenceAdapter;
 import org.apache.log4j.BasicConfigurator;
@@ -32,12 +34,20 @@ public class RewardServer extends UnicastRemoteObject implements CreditAccesHand
 	private UserDaoSqlite userDao;
 	private BrokerService broker;
 
+	private static String REWARD_SERVER_FULL_TCP_ADDRESS;
+
+	private static String REWARD_SERVER_REGISTRY_PORT;
+
 	public static void main(String[] args) {
 		RewardServer rewardServer;
 		try {
 			BasicConfigurator.configure();
+			
+			REWARD_SERVER_FULL_TCP_ADDRESS = JOptionPane.showInputDialog(null, "Bitte die vollständige TCP-Adresse des Servers eingeben!", NetworkUtils.REWARD_SERVER_DEFAULT_FULL_TCP_ADRESS);
+			REWARD_SERVER_REGISTRY_PORT = JOptionPane.showInputDialog(null, "Bitte den Registry-Port eingeben!", NetworkUtils.REWARD_SERVER_DEFAULT_REGISTRY_PORT);
+			
 			rewardServer = new RewardServer();
-			rewardServer.startServer(NetworkUtils.REWARD_SERVER_REGISTRY_PORT);
+			rewardServer.startServer(Integer.parseInt(REWARD_SERVER_REGISTRY_PORT));
 			rewardServer.testStuff();
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -83,7 +93,7 @@ public class RewardServer extends UnicastRemoteObject implements CreditAccesHand
 			adaptor.setDirectory(new File("activemq"));
 			broker.setPersistenceAdapter(adaptor);
 			broker.setUseJmx(true);
-			broker.addConnector(NetworkUtils.REWARD_SERVER_FULL_HOST_TCP_ADDRESS);
+			broker.addConnector(REWARD_SERVER_FULL_TCP_ADDRESS);
 			broker.start();
 		} catch (Exception e) {
 			e.printStackTrace();

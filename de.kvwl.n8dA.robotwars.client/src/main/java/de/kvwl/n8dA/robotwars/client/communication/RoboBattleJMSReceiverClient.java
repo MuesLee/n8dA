@@ -24,11 +24,12 @@ public class RoboBattleJMSReceiverClient {
 	private Connection connection;
 	private Session session;
 	private UUID clientUUID;
+	private String BATTLE_SERVER_FULL_TCP_ADDRESS;
 	
 	
-	public RoboBattleJMSReceiverClient(UUID uuid) {
+	public RoboBattleJMSReceiverClient(UUID uuid, String BATTLE_SERVER_FULL_TCP_ADDRESS) {
 		this.clientUUID = uuid;
-		
+		this.BATTLE_SERVER_FULL_TCP_ADDRESS = BATTLE_SERVER_FULL_TCP_ADDRESS;
 		initJMSConnection();
 		
 	}
@@ -48,7 +49,7 @@ public class RoboBattleJMSReceiverClient {
 	{
 		try {
 			
-		connectionFactory = new ActiveMQConnectionFactory(NetworkUtils.FULL_HOST_TCP_ADDRESS);
+		connectionFactory = new ActiveMQConnectionFactory(BATTLE_SERVER_FULL_TCP_ADDRESS);
 		connection = connectionFactory.createConnection();
 		connection.start();
 		session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);

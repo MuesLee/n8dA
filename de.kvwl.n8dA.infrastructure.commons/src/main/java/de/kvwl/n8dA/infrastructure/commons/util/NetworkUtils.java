@@ -5,9 +5,6 @@ import java.rmi.registry.Registry;
 public class NetworkUtils {
 	
 	public static final String REWARD_SERVER_NAME = "RewardServer";
-	public static final int REWARD_SERVER_REGISTRY_PORT = Registry.REGISTRY_PORT;
-	public static final String REWARD_SERVER_HOST_IP_ADDRESS = "localhost";
-	public static final String REWARD_SERVER_FULL_HOST_TCP_ADDRESS = "tcp://"
-			+ REWARD_SERVER_HOST_IP_ADDRESS + ":1528";
-
+	public static final int REWARD_SERVER_DEFAULT_REGISTRY_PORT = Registry.REGISTRY_PORT;
+	public static final String REWARD_SERVER_DEFAULT_FULL_TCP_ADRESS = "tcp://localhost:1529";
 }

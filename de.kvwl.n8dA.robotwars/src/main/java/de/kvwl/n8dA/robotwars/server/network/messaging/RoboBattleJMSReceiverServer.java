@@ -20,10 +20,11 @@ public class RoboBattleJMSReceiverServer {
 	private MessageConsumer consumer;
 	private Connection connection;
 	private Session session;
+	private String BATTLE_SERVER_FULL_TCP_ADDRESS;
 	
 	
-	public RoboBattleJMSReceiverServer() {
-		
+	public RoboBattleJMSReceiverServer(String BATTLE_SERVER_FULL_TCP_ADDRESS) {
+		this.BATTLE_SERVER_FULL_TCP_ADDRESS = BATTLE_SERVER_FULL_TCP_ADDRESS;
 		initJMSConnection();
 		
 	}
@@ -43,7 +44,7 @@ public class RoboBattleJMSReceiverServer {
 	{
 		try {
 			
-		connectionFactory = new ActiveMQConnectionFactory(NetworkUtils.FULL_HOST_TCP_ADDRESS);
+		connectionFactory = new ActiveMQConnectionFactory(BATTLE_SERVER_FULL_TCP_ADDRESS);
 		connection = connectionFactory.createConnection();
 		connection.start();
 		session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);

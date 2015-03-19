@@ -24,18 +24,17 @@ public class RoboBattleJMSProducerClient implements AsyncServerCommunicator {
 	private Session session;
 	private Destination destination;
 	private MessageProducer producer;
-
+	
 	private UUID clientUUID;
 
-	public RoboBattleJMSProducerClient(UUID clientUUID) {
+	public RoboBattleJMSProducerClient(UUID clientUUID,String BATTLE_SERVER_FULL_TCP_ADDRESS) {
 		this.clientUUID = clientUUID;
-		initJMSConnection(clientUUID);
+		initJMSConnection(clientUUID, BATTLE_SERVER_FULL_TCP_ADDRESS);
 	}
 
-	private void initJMSConnection(UUID clientUUID) {
+	private void initJMSConnection(UUID clientUUID, String BATTLE_SERVER_FULL_TCP_ADDRESS) {
 		try {
-			connectionFactory = new ActiveMQConnectionFactory(
-					NetworkUtils.FULL_HOST_TCP_ADDRESS);
+			connectionFactory = new ActiveMQConnectionFactory(BATTLE_SERVER_FULL_TCP_ADDRESS);
 			connection = connectionFactory.createConnection();
 			connection.start();
 			session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
