@@ -22,6 +22,7 @@ import javax.swing.UIManager;
 import de.kvwl.n8dA.robotwars.client.RoboBattlePlayerClient;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
+import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 
@@ -169,6 +170,7 @@ public class BattlePanel extends JPanel implements ActionListener {
 		for (int i = 0; i < 4; i++) {
 
 			ActionButton def = new ActionButton();
+			def.addActionListener(this);
 
 			if (i < defs.size()) {
 
@@ -201,6 +203,7 @@ public class BattlePanel extends JPanel implements ActionListener {
 		for (int i = 0; i < 4; i++) {
 
 			ActionButton atk = new ActionButton();
+			atk.addActionListener(this);
 
 			if (i < atks.size()) {
 
@@ -230,6 +233,23 @@ public class BattlePanel extends JPanel implements ActionListener {
 		lblEnergy.setText("" + robot.getEnergyPoints());
 	}
 
+	private void actionSlection(RobotAction roboAction) {
+
+		if (roboAction == null) {
+			System.out.println("Action selected -> <Leer>");
+			return;
+		}
+
+		if (countdown.getTime() <= 0) {
+			System.out.println("Countdown over -> no selection possible");
+			return;
+		}
+
+		System.out.println("Action selected -> " + roboAction.getName());
+
+		// TODO Marvin: actionSlection
+	}
+
 	private void startCountdown() {
 
 		countdown.stopCountdown();
@@ -238,16 +258,26 @@ public class BattlePanel extends JPanel implements ActionListener {
 	}
 
 	private void countdownOver() {
-		// TODO Marvin: countdownOver
 
+		System.out.println("Countdown over");
+
+		// TODO Marvin: countdownOver
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		if (countdown.getTime() == 0) {
+		Object source = e.getSource();
 
-			countdownOver();
+		if (source == countdown) {
+
+			if (countdown.getTime() == 0) {
+
+				countdownOver();
+			}
+		} else if (source instanceof ActionButton) {
+
+			actionSlection(((ActionButton) source).getRoboAction());
 		}
 	}
 
