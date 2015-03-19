@@ -16,10 +16,12 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
 import de.kvwl.n8dA.robotwars.client.RoboBattlePlayerClient;
+import de.kvwl.n8dA.robotwars.commons.exception.NoFreeSlotInBattleArenaException;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
@@ -50,6 +52,25 @@ public class BattlePanel extends JPanel implements ActionListener {
 		this.robot = robot;
 
 		createGui();
+		setupConnection();
+	}
+
+	private void setupConnection() {
+
+		// TODO Marvin: setupConnection
+		try {
+			battleClient.registerClientWithRobotAtServer(robot);
+			battleClient.sendPlayerIsReadyToBattleToServer();
+		} catch (NoFreeSlotInBattleArenaException e) {
+
+			JOptionPane
+					.showMessageDialog(
+							this,
+							"Zu zeit ist kein Platz für dich in der Arena. \nBitte warte, bis du dran bist.",
+							"Kein freier Platz", JOptionPane.ERROR_MESSAGE);
+
+			System.exit(-1);
+		}
 	}
 
 	private void createGui() {
@@ -133,6 +154,7 @@ public class BattlePanel extends JPanel implements ActionListener {
 	private JPanel createTimer() {
 
 		JPanel timer = new JPanel();
+		timer.setVisible(false);
 		timer.setLayout(new BorderLayout());
 
 		countdown = new Countdown();
@@ -247,12 +269,16 @@ public class BattlePanel extends JPanel implements ActionListener {
 
 		System.out.println("Action selected -> " + roboAction.getName());
 
-		// TODO Marvin: actionSlection
+		battleClient.sendRobotActionToServer(roboAction);
+
+		countdown.stopCountdown();
+		countdown.setVisible(false);
 	}
 
 	private void startCountdown() {
 
 		countdown.stopCountdown();
+		countdown.setVisible(true);
 		countdown.setTime(SELECTION_TIME);
 		countdown.startCountdown();
 	}
@@ -260,6 +286,7 @@ public class BattlePanel extends JPanel implements ActionListener {
 	private void countdownOver() {
 
 		System.out.println("Countdown over");
+		countdown.setVisible(false);
 
 		// TODO Marvin: countdownOver
 	}

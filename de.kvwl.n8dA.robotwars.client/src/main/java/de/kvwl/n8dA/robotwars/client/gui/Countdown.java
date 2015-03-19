@@ -77,6 +77,7 @@ public class Countdown extends JPanel implements ActionListener {
 	public void stopCountdown() {
 
 		timer.stop();
+		seconds = 0;
 	}
 
 	private void fireTimeChangedEvent() {
