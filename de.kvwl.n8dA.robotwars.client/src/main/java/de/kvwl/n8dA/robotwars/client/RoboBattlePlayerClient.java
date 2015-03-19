@@ -26,7 +26,7 @@ public class RoboBattlePlayerClient extends RoboBattleClient {
 	private RobotPosition positionOfOwnRobot;
 
 	public RoboBattlePlayerClient() {
-
+		super();
 	}
 
 	public static void main(String[] args) {

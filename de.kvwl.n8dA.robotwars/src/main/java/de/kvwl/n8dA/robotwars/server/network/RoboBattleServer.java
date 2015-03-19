@@ -14,6 +14,7 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
+import javax.swing.JOptionPane;
 
 import org.apache.activemq.broker.BrokerService;
 import org.apache.activemq.store.kahadb.KahaDBPersistenceAdapter;
@@ -66,9 +67,12 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 	public static void main(String[] args) {
 		try {
 			BasicConfigurator.configure();
+			String port = JOptionPane.showInputDialog(null, "Bitte den Service-Port eingeben!", NetworkUtils.HOST_PORT);
+			NetworkUtils.HOST_PORT = port;
 			RoboBattleServer server = new RoboBattleServer();
 			server.startServer(NetworkUtils.SERVER_REGISTRY_PORT);
-	
+			
+			
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		} catch (Exception e) {

@@ -1,15 +1,13 @@
 package de.kvwl.n8dA.robotwars.client.gui;
 
-import java.rmi.RemoteException;
-
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import de.kvwl.n8dA.infrastructure.commons.exception.NoSuchPersonException;
 import de.kvwl.n8dA.infrastructure.commons.interfaces.CreditAccess;
 import de.kvwl.n8dA.robotwars.client.RoboBattlePlayerClient;
 import de.kvwl.n8dA.robotwars.client.gui.LoginDialog.CanceledException;
+import de.kvwl.n8da.infrastructure.rewards.client.CreditAccessClient;
 
 public class Main
 {
@@ -29,21 +27,7 @@ public class Main
 	private static long getCreditPoints()
 	{
 
-		//TODO Timo: CreditAccess Implementierung einsetzen
-		CreditAccess creditClient = new CreditAccess()
-		{
-
-			@Override
-			public void initConnectionToServer() throws RemoteException
-			{
-			}
-
-			@Override
-			public int getConfigurationPointsForPerson(String name) throws NoSuchPersonException, RemoteException
-			{
-				return 365 + (int) (Math.random() * 100);
-			}
-		};
+		CreditAccess creditClient = new CreditAccessClient();
 		try
 		{
 			creditClient.initConnectionToServer();
