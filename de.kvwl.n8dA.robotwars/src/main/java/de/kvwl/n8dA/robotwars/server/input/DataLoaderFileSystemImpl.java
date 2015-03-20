@@ -635,6 +635,12 @@ public class DataLoaderFileSystemImpl implements DataLoader
 				usedIds.add(id);
 			}
 		}
+		catch (NoSuchFileException e)
+		{
+			//Noch keine User Robots -> keine ids
+
+			return usedIds;
+		}
 		catch (IOException | JDOMException e)
 		{
 			throw new RuntimeException(e);
