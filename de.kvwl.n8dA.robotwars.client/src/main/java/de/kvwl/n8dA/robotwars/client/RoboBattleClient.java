@@ -8,7 +8,6 @@ import java.util.UUID;
 
 import javax.jms.MessageListener;
 
-import org.apache.log4j.BasicConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,7 +38,7 @@ public abstract class RoboBattleClient implements MessageListener {
 
 		this.uuid = UUID.randomUUID();
 
-		BasicConfigurator.configure();
+		//BasicConfigurator.configure();
 
 	}
 

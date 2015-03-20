@@ -3,7 +3,6 @@ package de.kvwl.n8dA.robotwars.server.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.BasicConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,6 +21,7 @@ import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
 import de.kvwl.n8dA.robotwars.server.network.RoboBattleServer;
 import de.kvwl.n8dA.robotwars.server.visualization.AnimationPosition;
 import de.kvwl.n8dA.robotwars.server.visualization.CinematicVisualizer;
+import de.kvwl.n8dA.robotwars.server.visualization.CinematicVisualizerImpl;
 
 public class BattleController
 {
@@ -45,12 +45,11 @@ public class BattleController
 
 	private RoboBattleServer server;
 
-	private CinematicVisualizer cinematicVisualizer;
+	private CinematicVisualizer cinematicVisualizer ;
 
 	public BattleController()
-	{
-		BasicConfigurator.configure();
-		// TODO Marvin: this.cinematicVisualizer =
+	{	
+		this.cinematicVisualizer = new CinematicVisualizerImpl();
 	}
 
 	private void startTheBattle()
@@ -538,11 +537,14 @@ public class BattleController
 	{
 		Robot localRobot = getLocalRobotForRemoteRobot(robot);
 		localRobot.setReadyToFight(true);
-
+		
+		LOG.info("Robot " + robot + " is ready");
+		
 		if (robotLeft != null && robotRight != null)
 		{
 			if (robotLeft.isReadyToFight() && robotRight.isReadyToFight())
 			{
+				LOG.info("All robots are ready. Starting the fight...");
 				startTheBattle();
 			}
 		}

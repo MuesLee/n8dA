@@ -41,7 +41,7 @@ public class RoboBattleJMSProducerClient implements AsyncServerCommunicator {
 			destination = session.createQueue(NetworkUtils.QUEUE_FOR_CLIENTS);
 			producer = session.createProducer(destination);
 
-			producer.setDeliveryMode(DeliveryMode.PERSISTENT);
+			producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
 		} catch (Exception e) {
 			System.out.println("Caught: " + e);
 			e.printStackTrace();

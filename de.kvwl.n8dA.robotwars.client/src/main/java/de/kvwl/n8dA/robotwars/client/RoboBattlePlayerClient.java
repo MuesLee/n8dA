@@ -138,6 +138,8 @@ public class RoboBattlePlayerClient extends RoboBattleClient
 	{
 		try
 		{
+			LOG.info("Message from Server received");
+			
 			int intProperty = message.getIntProperty(GameStateType.getNotificationName());
 			GameStateType gameStateType = GameStateType.values()[intProperty];
 

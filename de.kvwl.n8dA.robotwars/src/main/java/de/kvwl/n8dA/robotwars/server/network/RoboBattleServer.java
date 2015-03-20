@@ -196,29 +196,37 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 	private void handleMessage(Message message)
 	{
 
+		UUID clientUUID = null;
+		String uuidAsString = null;
+		boolean playerIsRdy = false;
+		boolean clientDisconnected = false;
 		try
-		{
-			String uuidAsString = message.getStringProperty(ClientProperty.UUID.getName());
-			boolean playerIsRdy = message.getBooleanProperty(ClientProperty.UUID.getName());
-			boolean clientDisconnected = message.getBooleanProperty(ClientProperty.DISCONNECT.getName());
-			UUID clientUUID = UUID.fromString(uuidAsString);
+		{	
+			
+			uuidAsString = message.getStringProperty(ClientProperty.UUID.getName());
+			playerIsRdy = message.getBooleanProperty(ClientProperty.READY_TO_START_THE_BATTLE.getName());
+			clientDisconnected = message.getBooleanProperty(ClientProperty.DISCONNECT.getName());
+			clientUUID = UUID.fromString(uuidAsString);
 
 			if (playerIsRdy)
 			{
+				LOG.info("Message from UUID: " +clientUUID +". Client is ready");
 				battleController.setRobotIsReady(getRobotForUUID(clientUUID));
 			}
 			if (clientDisconnected)
 			{
+				LOG.info("Message from UUID: " +clientUUID +". Client disconnected");
 				disconnectClient(clientUUID);
 			}
 
 		}
 		catch (JMSException e)
 		{
-
+			LOG.error("Error handling Message from: " + uuidAsString + " Content: Is Ready = " +playerIsRdy + ", disconnected =" +clientDisconnected, e );
 		}
 		catch (UnknownRobotException e)
 		{
+			LOG.error("Unbekannter Roboter", e);
 		}
 	}
 
@@ -227,6 +235,7 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 
 		try
 		{
+			
 			ObjectMessage objectMessage = (ObjectMessage) message;
 			Serializable object = objectMessage.getObject();
 			RobotAction robotAction = (RobotAction) object;
@@ -234,6 +243,7 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 			UUID clientUUID = UUID.fromString(uuidAsString);
 
 			setActionForRobot(robotAction, clientUUID);
+			LOG.info("Message from UUID: " +clientUUID +". Action: " + robotAction);
 
 		}
 		catch (JMSException e)
@@ -312,7 +322,8 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 	}
 
 	public void sendGameStateInfoToClients(GameStateType gameStateType)
-	{
+	{	
+		LOG.info("Sending GameType Update to Clients: " +gameStateType);
 		producer.sendGameStateNotificationToAllClients(gameStateType);
 	}
 
@@ -348,14 +359,21 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 	@Override
 	public void onMessage(Message message)
 	{
-
+		
+		LOG.info("Message received");
+		
 		if (message instanceof ObjectMessage)
 		{
+			LOG.info("Received Message is Object Message");
 			handleObjectMessage((ObjectMessage) message);
 		}
 		else if (message instanceof Message)
 		{
+			LOG.info("Received Message is classic Message");
 			handleMessage(message);
+		}
+		else {
+			LOG.error("Message could not be identified");
 		}
 
 	}
