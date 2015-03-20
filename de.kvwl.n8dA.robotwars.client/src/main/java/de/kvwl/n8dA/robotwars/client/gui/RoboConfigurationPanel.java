@@ -480,8 +480,8 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 	{
 
 		lblRoboName.setText(robo.getName());
-		lblHealth.setText(String.format("Leben: %d", robo.getHealthPoints()));
-		lblEnergy.setText(String.format("Energie: %d", robo.getEnergyPoints()));
+		lblHealth.setText(String.format("Leben: %d", robo.getMaxHealthPoints()));
+		lblEnergy.setText(String.format("Energie: %d", robo.getMaxEnergyPoints()));
 
 		setRoboAni(robo.getAnimation());
 		actualizeModifications(robo);

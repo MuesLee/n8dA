@@ -286,8 +286,13 @@ public class DataLoaderFileSystemImpl implements DataLoader
 		robot.setAnimation(animation);
 		robot.setName(name);
 		robot.setConfigurationPointCosts(configurationPointCosts);
+
 		robot.setEnergyPoints(energyPoints);
+		robot.setMaxEnergyPoints(energyPoints);
+
 		robot.setHealthPoints(healthPoints);
+		robot.setMaxHealthPoints(healthPoints);
+
 		robot.setEquippedItems(defaultItems);
 		robot.setPossibleAttacks(defaultAttacks);
 		robot.setPossibleDefends(defaultDefends);

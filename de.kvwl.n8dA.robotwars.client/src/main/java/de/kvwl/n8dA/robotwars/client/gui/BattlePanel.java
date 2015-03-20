@@ -119,7 +119,7 @@ public class BattlePanel extends JPanel implements ActionListener
 
 		life = new SimpleProgressBar();
 		life.setMinimum(0);
-		life.setMaximum(robot.getHealthPoints());
+		life.setMaximum(robot.getMaxHealthPoints());
 		life.setValue(life.getMaximum());
 		life.setBackground(Color.GRAY);
 		life.setForeground(Color.RED);
@@ -140,7 +140,7 @@ public class BattlePanel extends JPanel implements ActionListener
 
 		energy = new SimpleProgressBar();
 		energy.setMinimum(0);
-		energy.setMaximum(robot.getEnergyPoints());
+		energy.setMaximum(robot.getMaxEnergyPoints());
 		energy.setValue(energy.getMaximum());
 		energy.setBackground(Color.GRAY);
 		energy.setForeground(Color.BLUE);
