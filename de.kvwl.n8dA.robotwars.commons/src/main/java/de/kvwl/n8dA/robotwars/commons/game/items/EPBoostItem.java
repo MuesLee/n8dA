@@ -5,14 +5,18 @@ import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 public class EPBoostItem extends RoboItem {
 
 	private static final long serialVersionUID = 1L;
-
+	
 	private int epBoost = 10;
+	
+	public EPBoostItem() {
+	setName("EP Boost: " + epBoost);
+	}
 	
 	@Override
 	public void performInitialRobotModification(Robot robot) {
-		int energyPoints = robot.getEnergyPoints();
+		int energyPoints = robot.getMaxEnergyPoints();
 		energyPoints += epBoost;
-		robot.setEnergyPoints(energyPoints);
+		robot.setMaxEnergyPoints(energyPoints);
 		
 	}
 

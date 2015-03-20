@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot>
+  <id>-7</id>
+  <name>Homer</name>
+  <configcosts>0</configcosts>
+  <healthpoints>1</healthpoints>
+  <energypoints>1</energypoints>
+  <animationid>GreenRoboter</animationid>
+  <defaultitems />
+  <attacks>
+    <id>16</id>
+    <id>15</id>
+    <id>14</id>
+    <id>17</id>
+  </attacks>
+  <defends>
+    <id>18</id>
+    <id>19</id>
+    <id>20</id>
+  </defends>
+</robot>

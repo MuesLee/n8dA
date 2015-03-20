@@ -16,8 +16,8 @@ public class HPBoostItem extends RoboItem {
 	@Override
 	public void performInitialRobotModification(Robot robot) {
 
-		int currentHealthPoints = robot.getHealthPoints();
-		robot.setHealthPoints(currentHealthPoints + hpBoost);
+		int maxHealthPoints = robot.getMaxHealthPoints();
+		robot.setMaxHealthPoints(maxHealthPoints + hpBoost);
 	}
 
 	@Override
