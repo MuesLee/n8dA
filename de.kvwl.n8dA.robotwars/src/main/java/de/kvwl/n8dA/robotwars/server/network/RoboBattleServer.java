@@ -292,8 +292,6 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 	private void disconnectClient(UUID clientUUID)
 	{
 
-		//TODO: Timo: Spiel beenden
-		// Neuer BattleController?
 		LOG.info("Client disconnected: " + clientUUID);
 
 		if (clientUUID.equals(clientUUIDLeft))
@@ -317,10 +315,13 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 	}
 
 	private void resetGame() {
+		LOG.info("Resetting game....");
+		
 		clientUUIDLeft = null;
 		clientUUIDRight = null;
 		battleController = new BattleController();
 		loadGameData();
+		LOG.info("Resetted game!");
 		
 	}
 
