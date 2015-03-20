@@ -99,14 +99,14 @@ public class BattleControllerTest {
 		assertEquals(expectedGameEnding, actualGameEnding);
 	}
 	@Test
-	public void testCheckForGameResult_Still_on_Mofo() throws Exception {
+	public void testCheckForGameResult_WaitingForInput() throws Exception {
 		
 		robotRight.setHealthPoints(10);
 		robotLeft.setHealthPoints(10);
 		
 		GameStateType actualGameEnding = battleController.getCurrentGameState(robotLeft, robotRight);
 		
-		GameStateType expectedGameEnding = GameStateType.BATTLE_IS_ACTIVE;
+		GameStateType expectedGameEnding = GameStateType.WAITING_FOR_PLAYER_INPUT;
 		
 		assertEquals(expectedGameEnding, actualGameEnding);
 	}
@@ -254,8 +254,8 @@ public class BattleControllerTest {
 		robotRight.setCurrentAction(actionRobotRight);
 		
 		List<AnimationPosition> animations = new ArrayList<>(2);
-		animations.add(new AnimationPosition(new Animation(animationIDRight, null, null, 1, 1), positionLeft));
-		animations.add(new AnimationPosition(new Animation(animationIDLeft, null, null, 1, 1), positionRight));
+		animations.add(new AnimationPosition(new Animation(animationIDRight, null, null, 1, 1), positionRight));
+		animations.add(new AnimationPosition(new Animation(animationIDLeft, null, null, 1, 1), positionLeft));
 		
 		
 		battleController.startAnimationsInOrder(robotLeft, robotRight);
@@ -283,8 +283,8 @@ public class BattleControllerTest {
 		robotRight.setCurrentAction(actionRobotRight);
 
 		List<AnimationPosition> animations = new ArrayList<>(2);
-		animations.add(new AnimationPosition(new Animation(animationIDRight, null, null, 1, 1), positionLeft));
-		animations.add(new AnimationPosition(new Animation(animationIDLeft, null, null, 1, 1), positionRight));
+		animations.add(new AnimationPosition(new Animation(animationIDRight, null, null, 1, 1), positionRight));
+		animations.add(new AnimationPosition(new Animation(animationIDLeft, null, null, 1, 1), positionLeft));
 		
 		
 		battleController.startAnimationsInOrder(robotLeft, robotRight);
