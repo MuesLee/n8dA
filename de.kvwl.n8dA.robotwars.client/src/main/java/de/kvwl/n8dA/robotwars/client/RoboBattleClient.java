@@ -9,7 +9,6 @@ import java.util.UUID;
 import javax.jms.MessageListener;
 
 import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.jmx.LayoutDynamicMBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,7 +55,6 @@ public abstract class RoboBattleClient implements MessageListener {
 			
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

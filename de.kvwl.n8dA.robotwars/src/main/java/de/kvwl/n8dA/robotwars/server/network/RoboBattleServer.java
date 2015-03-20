@@ -225,6 +225,7 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		
 		//TODO: Timo: Spiel beenden
 		// Neuer BattleController?
+		LOG.info("Client disconnected: " + clientUUID);
 		
 		if(clientUUID.equals(clientUUIDLeft))
 		{
