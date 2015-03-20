@@ -12,12 +12,16 @@ import de.kvwl.n8da.infrastructure.rewards.client.CreditAccessClient;
 public class Main
 {
 
+	public static String SOURCE_FOLDER = "./data";
+
 	public static void main(String[] args)
 	{
 
 		setLaF();
 
 		RoboBattlePlayerClient battleClient = createBattleClient();
+		SOURCE_FOLDER = battleClient.getProperty("SOURCE_FOLDER");
+
 		long maxCreditPoints = getCreditPoints(battleClient);
 
 		ClientFrame clientFrame = new ClientFrame(battleClient, maxCreditPoints);
@@ -34,11 +38,12 @@ public class Main
 		}
 		catch (Exception e)
 		{
-			JOptionPane.showMessageDialog(null,
-				"Die Verbindung zum Punkteserver konnte nicht aufgebaut werden. \n" + e.getMessage(),
-				"Fehler beim Verbindungsaufbau", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(
+				null,
+				"Die Verbindung zum Punkteserver konnte nicht aufgebaut werden. Standardwerte werden benutzt.\n"
+					+ e.getMessage(), "Fehler beim Verbindungsaufbau", JOptionPane.ERROR_MESSAGE);
 
-			throw new RuntimeException(e);
+			return Long.valueOf(battleClient.getProperty("DEFAULT_CREDITS"));
 		}
 
 		long credits;

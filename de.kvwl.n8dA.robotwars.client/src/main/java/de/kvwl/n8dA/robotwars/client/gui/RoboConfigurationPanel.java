@@ -17,8 +17,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -490,7 +490,7 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 	private void setRoboAni(Animation ani) throws IOException
 	{
 
-		BufferedImage img = ImageIO.read(new File(ani.getPathToFile()));
+		BufferedImage img = ImageIO.read(Paths.get(Main.SOURCE_FOLDER, ani.getPathToFile()).toFile());
 		int width = ani.getFrameWidth();
 		int height = ani.getFrameHeight();
 		Sprite sprite = new DefaultSprite(img, width, height);

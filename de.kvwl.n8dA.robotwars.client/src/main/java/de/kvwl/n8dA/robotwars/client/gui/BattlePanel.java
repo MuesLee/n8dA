@@ -31,7 +31,6 @@ import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.util.GameStateType;
 import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
 
-//TODO Marvin: BattlePanel
 public class BattlePanel extends JPanel implements ActionListener, BattleClientListener
 {
 
@@ -49,6 +48,7 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 	private JLabel lblEnergy;
 	private JPanel pnlTimer;
 	private Countdown countdown;
+	private JPanel pnlActionSelection;
 
 	public BattlePanel(RoboBattlePlayerClient battleClient, Robot robot)
 	{
@@ -87,7 +87,9 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 		setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
 		add(createInfoSection(), BorderLayout.NORTH);
-		add(createActionSelection(), BorderLayout.CENTER);
+
+		pnlActionSelection = createActionSelection();
+		add(pnlActionSelection, BorderLayout.CENTER);
 
 		updateStats();
 	}
@@ -313,6 +315,20 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 		countdown.startCountdown();
 	}
 
+	private void updateRobot()
+	{
+
+		remove(pnlActionSelection);
+
+		pnlActionSelection = createActionSelection();
+		add(pnlActionSelection);
+
+		updateStats();
+
+		revalidate();
+		repaint();
+	}
+
 	private void countdownOver()
 	{
 
@@ -336,6 +352,8 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 	public void startActionSelection()
 	{
 
+		robot = battleClient.getUpdatedRobot();
+		updateRobot();
 		startCountdown();
 	}
 
