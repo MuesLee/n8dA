@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <robot>
 	<id>0</id>
-	<name>GirlRoboter</name>
+	<name>Herzchen</name>
 	<configcosts>0</configcosts>
-	<healthpoints>1</healthpoints>
-	<energypoints>1</energypoints>
+	<healthpoints>50</healthpoints>
+	<energypoints>150</energypoints>
 	<animationid>GirlRoboter</animationid>
 	<defaultitems>
 		

@@ -5,6 +5,7 @@ import game.engine.image.InternalImage;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -314,7 +315,25 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 		countdown.setTime(SELECTION_TIME);
 		countdown.startCountdown();
 
-		revalidate();
+		repack();
+	}
+
+	private void repack()
+	{
+
+		Container parent = this.getParent();
+
+		while (!(parent instanceof JFrame) || parent == null)
+		{
+
+			parent = parent.getParent();
+		}
+
+		if (parent != null)
+		{
+
+			((JFrame) parent).pack();
+		}
 	}
 
 	private void updateRobot()
