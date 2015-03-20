@@ -47,7 +47,7 @@ public class Robot extends Entity
 	public Robot()
 	{
 		super();
-		uuid = UUID.randomUUID();
+		setUuid(UUID.randomUUID());
 		this.setPossibleAttacks(new ArrayList<Attack>(4));
 		this.setPossibleDefends(new ArrayList<Defense>(4));
 		this.setEquippedItems(new ArrayList<RoboItem>(4));
@@ -108,7 +108,7 @@ public class Robot extends Entity
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((getPossibleAttacks() == null) ? 0 : getPossibleAttacks().hashCode());
 		result = prime * result + ((getPossibleDefends() == null) ? 0 : getPossibleDefends().hashCode());
-		result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
+		result = prime * result + ((getUuid() == null) ? 0 : getUuid().hashCode());
 		return result;
 	}
 
@@ -122,13 +122,13 @@ public class Robot extends Entity
 		if (getClass() != obj.getClass())
 			return false;
 		Robot other = (Robot) obj;
-		if (uuid == null)
+		if (getUuid() == null)
 		{
-			if (other.uuid != null)
+			if (other.getUuid() != null)
 				return false;
 		}
 
-		if (!uuid.equals(other.uuid))
+		if (!getUuid().equals(other.getUuid()))
 			return false;
 		else
 		{
@@ -214,6 +214,14 @@ public class Robot extends Entity
 	public void setMaxHealthPoints(int maxHealthPoints)
 	{
 		this.maxHealthPoints = maxHealthPoints;
+	}
+
+	public UUID getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(UUID uuid) {
+		this.uuid = uuid;
 	}
 
 }

@@ -21,6 +21,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -515,6 +516,7 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 
 		String nickName = txtRoboName.getText();
 		robo.setNickname(nickName);
+		robo.setUuid(UUID.randomUUID());
 
 		ConfigurationListener[] listeners = listenerList.getListeners(ConfigurationListener.class);
 		for (ConfigurationListener lis : listeners)
