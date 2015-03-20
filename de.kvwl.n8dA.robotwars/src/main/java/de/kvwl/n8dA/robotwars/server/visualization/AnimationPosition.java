@@ -53,4 +53,39 @@ public class AnimationPosition
 		this.animation = animation;
 	}
 
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((animation == null) ? 0 : animation.hashCode());
+		result = prime * result
+				+ ((position == null) ? 0 : position.hashCode());
+		return result;
+	}
+
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AnimationPosition other = (AnimationPosition) obj;
+		if (animation == null) {
+			if (other.animation != null)
+				return false;
+		} else if (!animation.equals(other.animation))
+			return false;
+		if (position != other.position)
+			return false;
+		return true;
+	}
+	
+	
+
 }
