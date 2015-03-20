@@ -2,9 +2,9 @@
 <attack>
 	<damage>12</damage>
 	<type>ROCK</type>
-	<animationid>Box</animationid>
+	<animationid>Boxhandschuh</animationid>
 	<energycosts>3</energycosts>
 	<configcosts>5</configcosts>
-	<name>Box</name>
+	<name>Boxhandschuh</name>
 	<id>11</id>
 </attack>

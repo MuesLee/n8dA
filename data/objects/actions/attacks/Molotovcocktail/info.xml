@@ -2,9 +2,9 @@
 <attack>
 	<damage>12</damage>
 	<type>ROCK</type>
-	<animationid>Kreissaege</animationid>
+	<animationid>Molotovcocktail</animationid>
 	<energycosts>3</energycosts>
 	<configcosts>5</configcosts>
-	<name>Kreissaege</name>
-	<id>12</id>
+	<name>Molotovcocktail</name>
+	<id>14</id>
 </attack>

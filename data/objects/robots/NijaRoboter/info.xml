@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <robot>
 	<id>6</id>
-	<name>NIjaRoboter</name>
+	<name>NinjaRoboter</name>
 	<configcosts>0</configcosts>
 	<healthpoints>1</healthpoints>
 	<energypoints>1</energypoints>
-	<animationid>NIjaRoboter</animationid>
+	<animationid>NinjaRoboter</animationid>
 	<defaultitems>
 		
 	</defaultitems>

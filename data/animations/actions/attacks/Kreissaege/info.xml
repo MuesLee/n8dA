@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <animation>
-	<id>Laser</id>
+	<id>Kreissaege</id>
 	<width>64</width>
 	<height>64</height>
 	<times size="1">
