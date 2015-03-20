@@ -6,7 +6,6 @@ import game.engine.image.sprite.Sprite;
 import game.engine.stage.SwingStage;
 import game.engine.stage.scene.object.AnimatedSceneObject;
 import game.engine.time.Clock;
-import game.engine.time.TimeUtils;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -30,7 +29,6 @@ import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -87,9 +85,12 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 
 		this();
 
+		System.out.println("------------------> anzrobos " + robots.length);
+
 		this.attacks = attacks;
 		this.defends = defends;
 		this.items = items;
+		this.maxCredit = maxCredit;
 
 		setRobots(robots);
 	}
@@ -660,12 +661,26 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 	{
 
 		changeRoboIndex(-1);
+		try
+		{
+			setActiveRobot(robots[selectedRobot]);
+		}
+		catch (IOException e)
+		{
+		}
 	}
 
 	public void nextRobot()
 	{
 
 		changeRoboIndex(+1);
+		try
+		{
+			setActiveRobot(robots[selectedRobot]);
+		}
+		catch (IOException e)
+		{
+		}
 	}
 
 	public Robot[] getRobots()
@@ -694,20 +709,20 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 	}
 
 	// XXX Marvin: Testmain -> entfernen
-	public static void main(String[] args) throws Exception
-	{
-		JFrame disp = new JFrame();
-		disp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		disp.setSize(800, 600);
-		disp.setLocationRelativeTo(null);
-
-		RoboConfigurationPanel comp = new RoboConfigurationPanel();
-		comp.setRoboAni(new Animation("1", "D:\\tmp\\GreenRoboterAni.png", new long[] { TimeUtils
-			.NanosecondsOfMilliseconds(100) }, 64, 128));
-
-		disp.add(comp);
-
-		disp.pack();
-		disp.setVisible(true);
-	}
+	//	public static void main(String[] args) throws Exception
+	//	{
+	//		JFrame disp = new JFrame();
+	//		disp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	//		disp.setSize(800, 600);
+	//		disp.setLocationRelativeTo(null);
+	//
+	//		RoboConfigurationPanel comp = new RoboConfigurationPanel();
+	//		comp.setRoboAni(new Animation("1", "D:\\tmp\\GreenRoboterAni.png", new long[] { TimeUtils
+	//			.NanosecondsOfMilliseconds(100) }, 64, 128));
+	//
+	//		disp.add(comp);
+	//
+	//		disp.pack();
+	//		disp.setVisible(true);
+	//	}
 }

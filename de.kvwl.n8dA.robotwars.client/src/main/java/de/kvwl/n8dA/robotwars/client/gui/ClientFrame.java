@@ -30,6 +30,8 @@ public class ClientFrame extends JFrame implements ConfigurationListener
 		this.battleClient = battleClient;
 		this.maxCreditPoints = maxCreditPoints;
 
+		System.out.println("maxCredits " + maxCreditPoints);
+
 		createGui();
 		createShutdownHook();
 
@@ -62,6 +64,7 @@ public class ClientFrame extends JFrame implements ConfigurationListener
 			RoboItem[] items = battleClient.getAllPossibleItemsFromServer().toArray(new RoboItem[0]);
 
 			long maxCredit = maxCreditPoints;
+			System.out.println("config creds -> " + maxCredit);
 
 			roboConfigurationPanel = new RoboConfigurationPanel(robots, attacks, defends, items, maxCredit);
 
@@ -106,11 +109,11 @@ public class ClientFrame extends JFrame implements ConfigurationListener
 
 		container = new JPanel();
 		container.setLayout(new BorderLayout());
+		add(container, BorderLayout.CENTER);
 	}
 
 	private void show(JPanel panel)
 	{
-
 		container.removeAll();
 		container.add(panel);
 

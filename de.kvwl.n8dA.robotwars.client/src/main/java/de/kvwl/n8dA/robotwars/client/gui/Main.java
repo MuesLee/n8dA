@@ -45,6 +45,7 @@ public class Main
 				"Die Verbindung zum Punkteserver konnte nicht aufgebaut werden. Standardwerte werden benutzt.\n"
 					+ e.getMessage(), "Fehler beim Verbindungsaufbau", JOptionPane.ERROR_MESSAGE);
 
+			System.out.println(battleClient.getProperty("DEFAULT_CREDITS"));
 			return Long.valueOf(battleClient.getProperty("DEFAULT_CREDITS"));
 		}
 
