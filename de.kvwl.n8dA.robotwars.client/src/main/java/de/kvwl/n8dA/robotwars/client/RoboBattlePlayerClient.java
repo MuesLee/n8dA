@@ -24,7 +24,6 @@ import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
 public class RoboBattlePlayerClient extends RoboBattleClient
 {
 
-	//TODO Timo: BattleClient Listener
 	private BattleClientListener clientListener;
 	private RobotPosition positionOfOwnRobot;
 
@@ -143,6 +142,8 @@ public class RoboBattlePlayerClient extends RoboBattleClient
 			GameStateType gameStateType = GameStateType.values()[intProperty];
 
 			LOG.info("Client: " + uuid + " received: " + gameStateType.name());
+			
+			handleReceivedGamestateType(gameStateType);
 
 		}
 		catch (ArrayIndexOutOfBoundsException e)
@@ -154,6 +155,27 @@ public class RoboBattlePlayerClient extends RoboBattleClient
 			LOG.error("####Bumm####", e);
 		}
 
+	}
+
+	private void handleReceivedGamestateType(GameStateType gameStateType) {
+		switch (gameStateType) {
+		case BATTLE_IS_ACTIVE:
+			break;
+		case GAME_HASNT_BEGUN:
+			break;
+		case GAME_HAS_BEGUN:
+			break;
+		case DRAW:
+		case VICTORY_LEFT:
+		case VICTORY_RIGHT:
+			clientListener.gameOver(gameStateType);
+			break;
+		case WAITING_FOR_PLAYER_INPUT:
+			clientListener.startActionSelection();
+			break;			
+		default:
+			break;
+		}
 	}
 
 	public void disconnectFromServer()
