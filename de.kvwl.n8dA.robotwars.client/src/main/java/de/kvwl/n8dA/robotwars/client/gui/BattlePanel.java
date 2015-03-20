@@ -57,13 +57,12 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 		this.robot = robot;
 
 		createGui();
-		//		setupConnection();
+		setupConnection();
 	}
 
 	private void setupConnection()
 	{
 
-		// TODO Marvin: setupConnection
 		try
 		{
 			battleClient.setClientListener(this);
@@ -352,7 +351,7 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 		{
 
 			case DRAW:
-				msg = "";
+				msg = "Keiner von Euch hat gewonnen ;(";
 			break;
 
 			case VICTORY_LEFT:
@@ -360,12 +359,12 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 				if (ownPosition == RobotPosition.LEFT)
 				{
 
-					msg = "gewonnen";
+					msg = "Du hast gewonnen :)";
 				}
 				else
 				{
 
-					msg = "verloren";
+					msg = "Du hast verloren :(";
 				}
 			break;
 
@@ -374,12 +373,12 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 				if (ownPosition == RobotPosition.RIGHT)
 				{
 
-					msg = "gewonnen";
+					msg = "Du hast gewonnen :)";
 				}
 				else
 				{
 
-					msg = "verloren";
+					msg = "Du hast verloren :(";
 				}
 			break;
 
@@ -387,6 +386,7 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 				return;
 		}
 
+		JOptionPane.showMessageDialog(this, msg, "Game Over", JOptionPane.INFORMATION_MESSAGE);
 		System.exit(-1);
 	}
 
