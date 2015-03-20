@@ -232,12 +232,14 @@ public class BattleController
 			// Links ATT Rechts ATT
 			if (actionRobotRight instanceof Attack)
 			{
+				LOG.info("Both robots are attacking");
 				computeOutcomeATTvsATT(robotLeft, robotRight);
 			}
 			// Links ATT rechts DEF
 			else
 			{
-				computeOutcomeATTvsATT(robotLeft, robotRight);
+				LOG.info("Robot: " + robotLeft + " attacks Robot: " + robotRight);
+				computeOutcomeATTvsDEF(robotLeft, robotRight);
 			}
 		}
 		// Links DEF Rechts ATT
@@ -245,13 +247,14 @@ public class BattleController
 		{
 			if (actionRobotRight instanceof Attack)
 			{
-				computeOutcomeATTvsATT(robotRight, robotLeft);
+				LOG.info("Robot: " + robotRight + " attacks Robot: " + robotLeft);
+				computeOutcomeATTvsDEF(robotRight, robotLeft);
 			}
 
 			// Links DEF rechts DEF
 			else
 			{
-				// Nichts passiert. Langweilig...
+				LOG.info("Both Robots defended... boring");
 			}
 		}
 
