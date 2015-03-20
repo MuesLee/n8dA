@@ -30,23 +30,23 @@ import de.kvwl.n8dA.robotwars.commons.gui.Animation;
  * 
  * Lädt die Animationen aus eienr Verzeichnisstruktur.<br>
  * <br>
- * Unter dem root Ordner befinden sich die Ordner für die Animationen
- * [animations] und [objects] für die actions/robots.<br>
+ * Unter dem root Ordner befinden sich die Ordner für die Animationen [animations] und [objects] für
+ * die actions/robots.<br>
  * <br>
- * Innerhalb der Animationen wird in [robots] und [actions] unterteilt. Die
- * Actions selber sind in [attacks] und [defends] unterteilt. <br>
+ * Innerhalb der Animationen wird in [robots] und [actions] unterteilt. Die Actions selber sind in
+ * [attacks] und [defends] unterteilt. <br>
  * <br>
- * Jede Animation besteht darunter wieder aus einem Ordner, der die Dateien
- * [info.xml] und [animation.png] <br>
+ * Jede Animation besteht darunter wieder aus einem Ordner, der die Dateien [info.xml] und
+ * [animation.png] <br>
  * <br>
  * Für die objects bestehen die Ordner [robots] und [actions].<br>
  * <br>
  * Die actions sind wiederum unterteilt in [defends] und [attacks].<br>
  * <br>
- * Jedes object besteht darunter wieder aus einem Ordner und darin den Dateien
- * [info.xml]
+ * Jedes object besteht darunter wieder aus einem Ordner und darin den Dateien [info.xml]
  */
-public class DataLoaderFileSystemImpl implements DataLoader {
+public class DataLoaderFileSystemImpl implements DataLoader
+{
 
 	private SAXBuilder builder = new SAXBuilder();
 
@@ -78,18 +78,21 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 
 	private WeakReference<List<Defense>> robotDefends;
 
-	public DataLoaderFileSystemImpl() {
+	public DataLoaderFileSystemImpl()
+	{
 
 		this(Paths.get("./"));
 	}
 
-	public DataLoaderFileSystemImpl(Path sourceFolder) {
+	public DataLoaderFileSystemImpl(Path sourceFolder)
+	{
 
 		this.sourceFolder = sourceFolder;
 		createPaths();
 	}
 
-	private void createPaths() {
+	private void createPaths()
+	{
 
 		animationFolder = sourceFolder.resolve("animations");
 		robotAniFolder = animationFolder.resolve("robots");
@@ -106,7 +109,8 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 		userObjectFolder = sourceFolder.resolve("userobjects");
 	}
 
-	public void createFolderStructure() throws IOException {
+	public void createFolderStructure() throws IOException
+	{
 
 		Files.createDirectories(animationFolder);
 		Files.createDirectories(robotAniFolder);
@@ -123,7 +127,8 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 		Files.createDirectories(userObjectFolder);
 	}
 
-	public Animation readAnimation(Path info) throws JDOMException, IOException {
+	public Animation readAnimation(Path info) throws JDOMException, IOException
+	{
 
 		String id;
 		String relativePathToFile;
@@ -131,10 +136,8 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 		int frameWidth;
 		int frameHeight;
 
-		Path absolutePath = info.getParent().resolve("animation.png")
-				.toAbsolutePath();
-		relativePathToFile = sourceFolder.toAbsolutePath()
-				.relativize(absolutePath).toString();
+		Path absolutePath = info.getParent().resolve("animation.png").toAbsolutePath();
+		relativePathToFile = sourceFolder.toAbsolutePath().relativize(absolutePath).toString();
 
 		Document doc = builder.build(Files.newInputStream(info));
 
@@ -151,18 +154,17 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 
 		frameTimings = new long[Math.max(times.size(), containerSize)];
 
-		for (Element time : times) {
+		for (Element time : times)
+		{
 
-			frameTimings[time.getAttribute("frame").getIntValue()] = Long
-					.valueOf(time.getValue());
+			frameTimings[time.getAttribute("frame").getIntValue()] = Long.valueOf(time.getValue());
 		}
 
-		return new Animation(id, relativePathToFile, frameTimings, frameWidth,
-				frameHeight);
+		return new Animation(id, relativePathToFile, frameTimings, frameWidth, frameHeight);
 	}
 
-	public Attack readAttack(Path info, List<Animation> attackAnimations)
-			throws JDOMException, IOException {
+	public Attack readAttack(Path info, List<Animation> attackAnimations) throws JDOMException, IOException
+	{
 
 		RobotActionType type;
 		int damage;
@@ -178,8 +180,7 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 
 		type = RobotActionType.valueOf(atk.getChild("type").getValue());
 		damage = Integer.valueOf(atk.getChild("damage").getValue());
-		configurationPointCosts = Integer.valueOf(atk.getChild("configcosts")
-				.getValue());
+		configurationPointCosts = Integer.valueOf(atk.getChild("configcosts").getValue());
 		energyCosts = Integer.valueOf(atk.getChild("energycosts").getValue());
 		name = atk.getChild("name").getValue();
 		id = Long.valueOf(atk.getChild("id").getValue());
@@ -196,8 +197,8 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 		return attack;
 	}
 
-	public Defense readDefense(Path info, List<Animation> defenseAnimations)
-			throws JDOMException, IOException {
+	public Defense readDefense(Path info, List<Animation> defenseAnimations) throws JDOMException, IOException
+	{
 
 		RobotActionType type;
 		double bonusOnDefenceFactor;
@@ -212,10 +213,8 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 		Element atk = doc.getRootElement();
 
 		type = RobotActionType.valueOf(atk.getChild("type").getValue());
-		bonusOnDefenceFactor = Double.valueOf(atk.getChild("defensefactor")
-				.getValue());
-		configurationPointCosts = Integer.valueOf(atk.getChild("configcosts")
-				.getValue());
+		bonusOnDefenceFactor = Double.valueOf(atk.getChild("defensefactor").getValue());
+		configurationPointCosts = Integer.valueOf(atk.getChild("configcosts").getValue());
 		energyCosts = Integer.valueOf(atk.getChild("energycosts").getValue());
 		name = atk.getChild("name").getValue();
 		id = Long.valueOf(atk.getChild("id").getValue());
@@ -232,9 +231,9 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 		return defense;
 	}
 
-	public Robot readRobot(Path info, List<Animation> robotAnimations,
-			List<Attack> attacks, List<Defense> defends) throws JDOMException,
-			IOException {
+	public Robot readRobot(Path info, List<Animation> robotAnimations, List<Attack> attacks, List<Defense> defends)
+		throws JDOMException, IOException
+	{
 
 		long id;
 		String animationId;
@@ -254,36 +253,32 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 		animationId = robo.getChild("animationid").getValue();
 		animation = getAnimation(robotAnimations, animationId);
 		name = robo.getChild("name").getValue();
-		configurationPointCosts = Integer.valueOf(robo.getChild("configcosts")
-				.getValue());
-		energyPoints = Integer
-				.valueOf(robo.getChild("energypoints").getValue());
-		healthPoints = Integer
-				.valueOf(robo.getChild("healthpoints").getValue());
+		configurationPointCosts = Integer.valueOf(robo.getChild("configcosts").getValue());
+		energyPoints = Integer.valueOf(robo.getChild("energypoints").getValue());
+		healthPoints = Integer.valueOf(robo.getChild("healthpoints").getValue());
 
-		List<Element> defItems = robo.getChild("defaultitems").getChildren(
-				"item");
+		List<Element> defItems = robo.getChild("defaultitems").getChildren("item");
 		defaultItems = new ArrayList<RoboItem>(defItems.size() + 10);
-		for (Element it : defItems) {
+		for (Element it : defItems)
+		{
 
-			defaultItems.add(getNotRemoveableItemById(Long.valueOf(it
-					.getValue())));
+			defaultItems.add(getNotRemoveableItemById(Long.valueOf(it.getValue())));
 		}
 
 		List<Element> defAtks = robo.getChild("attacks").getChildren("id");
 		defaultAttacks = new ArrayList<Attack>(defAtks.size());
-		for (Element it : defAtks) {
+		for (Element it : defAtks)
+		{
 
-			defaultAttacks.add(getAttack(attacks,
-					Integer.valueOf(it.getValue())));
+			defaultAttacks.add(getAttack(attacks, Integer.valueOf(it.getValue())));
 		}
 
 		List<Element> defDefs = robo.getChild("defends").getChildren("id");
 		defaultDefends = new ArrayList<Defense>(defDefs.size());
-		for (Element it : defDefs) {
+		for (Element it : defDefs)
+		{
 
-			defaultDefends.add(getDefense(defends,
-					Integer.valueOf(it.getValue())));
+			defaultDefends.add(getDefense(defends, Integer.valueOf(it.getValue())));
 		}
 
 		Robot robot = new Robot();
@@ -301,11 +296,14 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 		return robot;
 	}
 
-	private Attack getAttack(List<Attack> attacks, Integer id) {
+	private Attack getAttack(List<Attack> attacks, Integer id)
+	{
 
-		for (Attack atk : attacks) {
+		for (Attack atk : attacks)
+		{
 
-			if (atk.getId() == id) {
+			if (atk.getId() == id)
+			{
 
 				return atk;
 			}
@@ -314,11 +312,14 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 		throw new RuntimeException("Attacke nicht gefunden -> " + id);
 	}
 
-	private Defense getDefense(List<Defense> defense, Integer id) {
+	private Defense getDefense(List<Defense> defense, Integer id)
+	{
 
-		for (Defense def : defense) {
+		for (Defense def : defense)
+		{
 
-			if (def.getId() == id) {
+			if (def.getId() == id)
+			{
 
 				return def;
 			}
@@ -327,14 +328,15 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 		throw new RuntimeException("Attacke nicht gefunden");
 	}
 
-	private RoboItem getNotRemoveableItemById(Long itemId) {
+	private RoboItem getNotRemoveableItemById(Long itemId)
+	{
 
 		RoboItem item = ItemUtil.cloneItemById(itemId);
 
-		if (item == null) {
+		if (item == null)
+		{
 
-			throw new RuntimeException(String.format("Item %d nicht gefunden.",
-					itemId));
+			throw new RuntimeException(String.format("Item %d nicht gefunden.", itemId));
 		}
 
 		item.setRemoveable(false);
@@ -342,41 +344,57 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 		return item;
 	}
 
-	private Animation getAnimation(List<Animation> animations,
-			String animationId) {
+	private Animation getAnimation(List<Animation> animations, String animationId)
+	{
 
-		for (Animation ani : animations) {
+		for (Animation ani : animations)
+		{
 
-			if (ani.getId().equals(animationId)) {
+			if (ani.getId().equals(animationId))
+			{
 
 				return ani;
 			}
 		}
 
-		throw new RuntimeException("Keine Animtaion für " + animationId
-				+ " gefunden");
+		throw new RuntimeException("Keine Animtaion für " + animationId + " gefunden");
 	}
 
-	private List<Animation> loadDefAnimations() {
+	private List<Animation> loadDefAnimations()
+	{
 		return loadAnimationsFromFolder(defAniFolder);
 	}
 
-	private List<Animation> loadAtkAnimations() {
+	private List<Animation> loadAtkAnimations()
+	{
 		return loadAnimationsFromFolder(atkAniFolder);
 	}
 
-	private List<Animation> loadAnimationsFromFolder(Path folder) {
+	private List<Animation> loadAnimationsFromFolder(Path folder)
+	{
 
 		List<Animation> anis = new LinkedList<Animation>();
 
-		try {
+		try
+		{
 			DirectoryStream<Path> dirs = Files.newDirectoryStream(folder);
 
-			for (Path dir : dirs) {
+			for (Path dir : dirs)
+			{
 
-				anis.add(readAnimation(dir.resolve("info.xml")));
+				try
+				{
+					anis.add(readAnimation(dir.resolve("info.xml")));
+				}
+				catch (Exception e)
+				{
+
+					System.out.println("Animation skipped -> " + e.getMessage());
+				}
 			}
-		} catch (IOException | JDOMException e) {
+		}
+		catch (IOException e)
+		{
 			e.printStackTrace();
 		}
 
@@ -384,30 +402,31 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 	}
 
 	@Override
-	public List<Animation> loadAnimationsForRobots() {
+	public List<Animation> loadAnimationsForRobots()
+	{
 
 		List<Animation> robotAnimations;
 
-		if (this.robotAnimations != null
-				&& (robotAnimations = this.robotAnimations.get()) != null) {
+		if (this.robotAnimations != null && (robotAnimations = this.robotAnimations.get()) != null)
+		{
 
 			return robotAnimations;
 		}
 
 		robotAnimations = loadAnimationsFromFolder(robotAniFolder);
-		this.robotAnimations = new WeakReference<List<Animation>>(
-				robotAnimations);
+		this.robotAnimations = new WeakReference<List<Animation>>(robotAnimations);
 
 		return robotAnimations;
 	}
 
 	@Override
-	public List<Animation> loadAnimationsForRobotActions() {
+	public List<Animation> loadAnimationsForRobotActions()
+	{
 
 		List<Animation> actionAnis;
 
-		if (this.robotActionAnimations != null
-				&& (actionAnis = this.robotActionAnimations.get()) != null) {
+		if (this.robotActionAnimations != null && (actionAnis = this.robotActionAnimations.get()) != null)
+		{
 
 			return actionAnis;
 		}
@@ -423,12 +442,13 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 	}
 
 	@Override
-	public List<Robot> loadRobots() {
+	public List<Robot> loadRobots()
+	{
 
 		List<Robot> robos;
 
-		if (this.systemRobots != null
-				&& (robos = this.systemRobots.get()) != null) {
+		if (this.systemRobots != null && (robos = this.systemRobots.get()) != null)
+		{
 
 			return robos;
 		}
@@ -439,15 +459,26 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 
 		robos = new LinkedList<Robot>();
 
-		try {
+		try
+		{
 			DirectoryStream<Path> objs = Files.newDirectoryStream(robotFolder);
 
-			for (Path obj : objs) {
+			for (Path obj : objs)
+			{
 
-				robos.add(readRobot(obj.resolve("info.xml"), roboAnis,
-						robotAttacks, robotDefends));
+				try
+				{
+					robos.add(readRobot(obj.resolve("info.xml"), roboAnis, robotAttacks, robotDefends));
+				}
+				catch (Exception e)
+				{
+
+					System.out.println("Robot skipped -> " + e.getMessage());
+				}
 			}
-		} catch (IOException | JDOMException e) {
+		}
+		catch (IOException e)
+		{
 			e.printStackTrace();
 		}
 
@@ -457,11 +488,13 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 	}
 
 	@Override
-	public List<Robot> loadUserRobots(String userId) {
+	public List<Robot> loadUserRobots(String userId)
+	{
 
 		List<Robot> robos;
 
-		if (this.userRobots != null && (robos = this.userRobots.get()) != null) {
+		if (this.userRobots != null && (robos = this.userRobots.get()) != null)
+		{
 
 			return robos;
 		}
@@ -472,19 +505,27 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 
 		robos = new LinkedList<Robot>();
 
-		try {
-			DirectoryStream<Path> objs = Files
-					.newDirectoryStream(userObjectFolder.resolve(userId)
-							.resolve("robots"));
+		try
+		{
+			DirectoryStream<Path> objs = Files.newDirectoryStream(userObjectFolder.resolve(userId).resolve("robots"));
 
-			for (Path obj : objs) {
+			for (Path obj : objs)
+			{
 
-				Robot userRobot = readRobot(obj.resolve("info.xml"), roboAnis,
-						robotAttacks, robotDefends);
-				userRobot.setLoadedAsUserRobot(true);
-				robos.add(userRobot);
+				try
+				{
+					Robot userRobot = readRobot(obj.resolve("info.xml"), roboAnis, robotAttacks, robotDefends);
+					userRobot.setLoadedAsUserRobot(true);
+					robos.add(userRobot);
+				}
+				catch (Exception e)
+				{
+					System.out.println("User Robot skipped -> " + e.getMessage());
+				}
 			}
-		} catch (IOException | JDOMException e) {
+		}
+		catch (IOException e)
+		{
 			throw new RuntimeException(e);
 		}
 
@@ -494,24 +535,24 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 	}
 
 	@Override
-	public long createUserRobot(Robot robot, String userId) throws IOException,
-			JDOMException {
+	public long createUserRobot(Robot robot, String userId) throws IOException, JDOMException
+	{
 
-		if (robot.isLoadedAsUserRobot()) {
-			throw new RuntimeException(
-					"Robot wurde bereits als userRobot geladen.");
+		if (robot.isLoadedAsUserRobot())
+		{
+			throw new RuntimeException("Robot wurde bereits als userRobot geladen.");
 		}
 
 		List<Long> usedIds = getUsedIdsOf(userId);
 		long id = -1;
 
-		while (usedIds.contains(id)) {
+		while (usedIds.contains(id))
+		{
 
 			id--;
 		}
 
-		Path robotFolder = userObjectFolder.resolve(userId).resolve("robots")
-				.resolve(UUID.randomUUID().toString());
+		Path robotFolder = userObjectFolder.resolve(userId).resolve("robots").resolve(UUID.randomUUID().toString());
 
 		Files.createDirectories(robotFolder);
 
@@ -521,35 +562,32 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 		Document doc = new Document(root);
 
 		root.addContent(new Element("id").setText("" + id));
-		root.addContent(new Element("name").setText((robot.getNickname()
-				.isEmpty()) ? (robot.getName() + System.nanoTime()) : robot
-				.getNickname()));
-		root.addContent(new Element("configcosts").setText(""
-				+ robot.getConfigurationPointCosts()));
-		root.addContent(new Element("healthpoints").setText(""
-				+ robot.getHealthPoints()));
-		root.addContent(new Element("energypoints").setText(""
-				+ robot.getEnergyPoints()));
-		root.addContent(new Element("animationid").setText(""
-				+ robot.getAnimation().getId()));
+		root.addContent(new Element("name").setText((robot.getNickname().isEmpty()) ? (robot.getName() + System
+			.nanoTime()) : robot.getNickname()));
+		root.addContent(new Element("configcosts").setText("" + robot.getConfigurationPointCosts()));
+		root.addContent(new Element("healthpoints").setText("" + robot.getHealthPoints()));
+		root.addContent(new Element("energypoints").setText("" + robot.getEnergyPoints()));
+		root.addContent(new Element("animationid").setText("" + robot.getAnimation().getId()));
 
 		Element defaultItems = new Element("defaultitems");
-		for (RoboItem items : robot.getEquippedItems()) {
+		for (RoboItem items : robot.getEquippedItems())
+		{
 
-			defaultItems.addContent(new Element("item").setText(""
-					+ items.getId()));
+			defaultItems.addContent(new Element("item").setText("" + items.getId()));
 		}
 		root.addContent(defaultItems);
 
 		Element atks = new Element("attacks");
-		for (Attack atk : robot.getPossibleAttacks()) {
+		for (Attack atk : robot.getPossibleAttacks())
+		{
 
 			atks.addContent(new Element("id").setText("" + atk.getId()));
 		}
 		root.addContent(atks);
 
 		Element defs = new Element("defends");
-		for (Defense def : robot.getPossibleDefends()) {
+		for (Defense def : robot.getPossibleDefends())
+		{
 
 			defs.addContent(new Element("id").setText("" + def.getId()));
 		}
@@ -562,25 +600,27 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 		return id;
 	}
 
-	private List<Long> getUsedIdsOf(String userId) {
+	private List<Long> getUsedIdsOf(String userId)
+	{
 
 		List<Long> usedIds = new LinkedList<Long>();
 
-		try {
-			DirectoryStream<Path> objs = Files
-					.newDirectoryStream(userObjectFolder.resolve(userId)
-							.resolve("robots"));
+		try
+		{
+			DirectoryStream<Path> objs = Files.newDirectoryStream(userObjectFolder.resolve(userId).resolve("robots"));
 
-			for (Path obj : objs) {
+			for (Path obj : objs)
+			{
 
-				Document doc = builder.build(Files.newInputStream(obj
-						.resolve("info.xml")));
+				Document doc = builder.build(Files.newInputStream(obj.resolve("info.xml")));
 				Element atk = doc.getRootElement();
 
 				long id = Long.valueOf(atk.getChild("id").getValue());
 				usedIds.add(id);
 			}
-		} catch (IOException | JDOMException e) {
+		}
+		catch (IOException | JDOMException e)
+		{
 			throw new RuntimeException(e);
 		}
 
@@ -588,12 +628,13 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 	}
 
 	@Override
-	public List<Attack> loadRobotAttacks() {
+	public List<Attack> loadRobotAttacks()
+	{
 
 		List<Attack> attacks;
 
-		if (this.robotAttacks != null
-				&& (attacks = this.robotAttacks.get()) != null) {
+		if (this.robotAttacks != null && (attacks = this.robotAttacks.get()) != null)
+		{
 
 			return attacks;
 		}
@@ -601,14 +642,18 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 		List<Animation> atkAnimations = loadAtkAnimations();
 		attacks = new LinkedList<Attack>();
 
-		try {
+		try
+		{
 			DirectoryStream<Path> objs = Files.newDirectoryStream(atkFolder);
 
-			for (Path obj : objs) {
+			for (Path obj : objs)
+			{
 
 				attacks.add(readAttack(obj.resolve("info.xml"), atkAnimations));
 			}
-		} catch (IOException | JDOMException e) {
+		}
+		catch (IOException | JDOMException e)
+		{
 			e.printStackTrace();
 		}
 
@@ -618,12 +663,13 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 	}
 
 	@Override
-	public List<Defense> loadRobotDefends() {
+	public List<Defense> loadRobotDefends()
+	{
 
 		List<Defense> defends;
 
-		if (this.robotDefends != null
-				&& (defends = this.robotDefends.get()) != null) {
+		if (this.robotDefends != null && (defends = this.robotDefends.get()) != null)
+		{
 
 			return defends;
 		}
@@ -631,14 +677,18 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 		List<Animation> defAnimations = loadDefAnimations();
 		defends = new LinkedList<Defense>();
 
-		try {
+		try
+		{
 			DirectoryStream<Path> objs = Files.newDirectoryStream(defFolder);
 
-			for (Path obj : objs) {
+			for (Path obj : objs)
+			{
 
 				defends.add(readDefense(obj.resolve("info.xml"), defAnimations));
 			}
-		} catch (IOException | JDOMException e) {
+		}
+		catch (IOException | JDOMException e)
+		{
 			e.printStackTrace();
 		}
 
