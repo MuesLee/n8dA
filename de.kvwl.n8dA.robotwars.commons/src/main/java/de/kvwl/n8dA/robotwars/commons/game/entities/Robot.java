@@ -100,42 +100,7 @@ public class Robot extends Entity
 		this.energyPoints = energyPoints;
 	}
 
-	@Override
-	public int hashCode()
-	{
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((getPossibleAttacks() == null) ? 0 : getPossibleAttacks().hashCode());
-		result = prime * result + ((getPossibleDefends() == null) ? 0 : getPossibleDefends().hashCode());
-		result = prime * result + ((getUuid() == null) ? 0 : getUuid().hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj)
-	{
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Robot other = (Robot) obj;
-		if (getUuid() == null)
-		{
-			if (other.getUuid() != null)
-				return false;
-		}
-
-		if (!getUuid().equals(other.getUuid()))
-			return false;
-		else
-		{
-			return true;
-		}
-	}
-
+	
 	public List<RoboItem> getEquippedItems()
 	{
 		return equippedItems;
@@ -222,6 +187,41 @@ public class Robot extends Entity
 
 	public void setUuid(UUID uuid) {
 		this.uuid = uuid;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (loadedAsUserRobot ? 1231 : 1237);
+		result = prime * result
+				+ ((nickname == null) ? 0 : nickname.hashCode());
+		result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Robot other = (Robot) obj;
+		if (loadedAsUserRobot != other.loadedAsUserRobot)
+			return false;
+		if (nickname == null) {
+			if (other.nickname != null)
+				return false;
+		} else if (!nickname.equals(other.nickname))
+			return false;
+		if (uuid == null) {
+			if (other.uuid != null)
+				return false;
+		} else if (!uuid.equals(other.uuid))
+			return false;
+		return true;
 	}
 
 }
