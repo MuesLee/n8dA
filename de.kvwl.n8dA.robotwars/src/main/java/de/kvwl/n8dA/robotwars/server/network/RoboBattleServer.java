@@ -300,16 +300,28 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 		{
 			clientUUIDLeft = null;
 			battleController.setRobotLeft(null);
+			sendGameStateInfoToClients(GameStateType.VICTORY_RIGHT);
+			resetGame();
 		}
 		else if (clientUUID.equals(clientUUIDRight))
 		{
 			clientUUIDRight = null;
 			battleController.setRobotRight(null);
+			sendGameStateInfoToClients(GameStateType.VICTORY_LEFT);
+			resetGame();
 		}
 		else
 		{
 			LOG.info("Unknown Client wanted to disconnect:" + clientUUID);
 		}
+	}
+
+	private void resetGame() {
+		clientUUIDLeft = null;
+		clientUUIDRight = null;
+		battleController = new BattleController();
+		loadGameData();
+		
 	}
 
 	public void setActionForRobot(RobotAction robotAction, UUID uuid) throws UnknownRobotException,
