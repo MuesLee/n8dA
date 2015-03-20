@@ -2,7 +2,10 @@ package de.kvwl.n8dA.robotwars.commons.game.actions;
 
 public  class Defense extends RobotAction {
 
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4464781800412941671L;
 	protected double bonusOnDefenseFactor;
 
 	public Defense(RobotActionType robotActionType, double bonusOnDefenseFactor) {

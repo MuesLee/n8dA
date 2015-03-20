@@ -28,6 +28,6 @@
 	<classpathentry kind="lib" path="lib/GameEngine.jar"/>
 	<classpathentry kind="lib" path="lib/Swing2.jar"/>
 	<classpathentry kind="src" path="/de.kvwl.n8dA.infrastructure.commons"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/de.kvwl.n8da.infrastructure.rewards.client"/>
+	<classpathentry kind="src" path="/de.kvwl.n8dA.infrastructure.rewards.client"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -4,10 +4,12 @@ import de.kvwl.n8dA.robotwars.commons.game.entities.Entity;
 import de.kvwl.n8dA.robotwars.commons.gui.Animation;
 
 public abstract class RobotAction extends Entity {
-	
-	private static final long serialVersionUID = 1L;
 
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3093807349848858832L;
+
 
 	public RobotAction(RobotActionType robotActionType) {
 		this.robotActionType = robotActionType;

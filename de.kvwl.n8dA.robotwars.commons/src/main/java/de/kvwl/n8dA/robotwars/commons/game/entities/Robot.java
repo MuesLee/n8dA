@@ -12,12 +12,13 @@ import de.kvwl.n8dA.robotwars.commons.gui.Animation;
 
 public class Robot extends Entity
 {
-
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6832716536424729251L;
 
 	private UUID uuid;
 
-	//TODO Timo: Musste ich anlegen um Lebensanzeigen zu realisieren
 	private int maxHealthPoints;
 	private int maxEnergyPoints;
 

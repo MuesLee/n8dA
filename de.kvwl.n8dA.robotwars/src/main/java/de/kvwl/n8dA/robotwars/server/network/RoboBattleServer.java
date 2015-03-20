@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 import java.util.UUID;
@@ -105,7 +106,11 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 			initJMS();
 
 			loadGameData();
-			LocateRegistry.createRegistry(port);
+			Registry registry = LocateRegistry.getRegistry(port);
+			if(registry == null)
+			{
+				LocateRegistry.createRegistry(port);
+			}
 
 		}
 
@@ -358,8 +363,10 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 	@Override
 	public List<Robot> getAllPossibleRobots()
 	{
-
-		return battleController.getAllRobots();
+		List<Robot> allRobots = battleController.getAllRobots();
+		
+		LOG.debug("All Robots requested: " + allRobots);
+		return allRobots;
 	}
 
 	@Override
@@ -370,14 +377,20 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 
 	@Override
 	public List<Attack> getAllPossibleAttacks()
-	{
-		return battleController.getAllAttacks();
+	{	
+		List<Attack> allAttacks = battleController.getAllAttacks();
+		LOG.debug("All Attacks requested: " + allAttacks);
+		
+		return allAttacks;
 	}
 
 	@Override
 	public List<Defense> getAllPossibleDefends()
-	{
-		return battleController.getAllDefends();
+	{	
+		List<Defense> allDefends = battleController.getAllDefends();
+		LOG.debug("All Defends requested: " + allDefends);
+		
+		return allDefends;
 	}
 
 	@Override

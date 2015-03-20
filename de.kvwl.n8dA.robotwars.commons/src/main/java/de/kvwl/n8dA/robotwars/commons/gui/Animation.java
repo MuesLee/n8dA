@@ -1,7 +1,14 @@
 package de.kvwl.n8dA.robotwars.commons.gui;
 
-public class Animation
+import java.io.Serializable;
+
+public class Animation implements Serializable
 {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7579511131523102751L;
 
 	private String id;
 
@@ -15,7 +22,7 @@ public class Animation
 	private int frameWidth;
 	private int frameHeight;
 
-	public Animation(String id, String pathToFile, long[] frameTimings, int frameWidth, int frameHeight)
+	public Animation(String id, String pathToFile, long[] frameTimings, int frameWidth, int frameHeight) 
 	{
 		super();
 		this.id = id;

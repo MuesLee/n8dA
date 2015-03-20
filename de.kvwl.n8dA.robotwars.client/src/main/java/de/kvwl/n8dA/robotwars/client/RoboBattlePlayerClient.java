@@ -169,6 +169,7 @@ public class RoboBattlePlayerClient extends RoboBattleClient
 		}
 		catch (RemoteException e)
 		{
+			LOG.error("ohoh", e);
 		}
 
 		return null;
