@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot>
+  <id>-3</id>
+  <name>Lumpi</name>
+  <configcosts>0</configcosts>
+  <healthpoints>180</healthpoints>
+  <energypoints>20</energypoints>
+  <animationid>PillenRoboter</animationid>
+  <defaultitems>
+    <item>0</item>
+  </defaultitems>
+  <attacks>
+    <id>9</id>
+    <id>14</id>
+    <id>13</id>
+    <id>16</id>
+  </attacks>
+  <defends>
+    <id>18</id>
+    <id>19</id>
+    <id>20</id>
+    <id>21</id>
+  </defends>
+</robot>

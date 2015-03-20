@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot>
+  <id>-4</id>
+  <name>Termin8t0r</name>
+  <configcosts>0</configcosts>
+  <healthpoints>120</healthpoints>
+  <energypoints>80</energypoints>
+  <animationid>GreenRoboter</animationid>
+  <defaultitems>
+    <item>80</item>
+  </defaultitems>
+  <attacks>
+    <id>16</id>
+    <id>12</id>
+    <id>10</id>
+    <id>15</id>
+  </attacks>
+  <defends>
+    <id>18</id>
+    <id>19</id>
+    <id>20</id>
+    <id>21</id>
+  </defends>
+</robot>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot>
+  <id>-1</id>
+  <name>Domin</name>
+  <configcosts>0</configcosts>
+  <healthpoints>100</healthpoints>
+  <energypoints>100</energypoints>
+  <animationid>AtomRoboter</animationid>
+  <defaultitems>
+    <item>0</item>
+    <item>80</item>
+  </defaultitems>
+  <attacks>
+    <id>16</id>
+    <id>17</id>
+    <id>12</id>
+    <id>9</id>
+  </attacks>
+  <defends>
+    <id>18</id>
+    <id>19</id>
+    <id>23</id>
+    <id>21</id>
+  </defends>
+</robot>

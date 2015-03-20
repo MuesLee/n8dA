@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot>
+  <id>-2</id>
+  <name>Perle</name>
+  <configcosts>0</configcosts>
+  <healthpoints>50</healthpoints>
+  <energypoints>150</energypoints>
+  <animationid>GirlRoboter</animationid>
+  <defaultitems>
+    <item>80</item>
+    <item>0</item>
+    <item>80</item>
+  </defaultitems>
+  <attacks>
+    <id>9</id>
+    <id>10</id>
+    <id>16</id>
+    <id>17</id>
+  </attacks>
+  <defends>
+    <id>18</id>
+    <id>19</id>
+    <id>22</id>
+    <id>21</id>
+  </defends>
+</robot>

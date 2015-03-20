@@ -3,8 +3,8 @@
 	<id>8</id>
 	<name>SmokingRoboter</name>
 	<configcosts>0</configcosts>
-	<healthpoints>1</healthpoints>
-	<energypoints>1</energypoints>
+	<healthpoints>90</healthpoints>
+	<energypoints>110</energypoints>
 	<animationid>SmokingRoboter</animationid>
 	<defaultitems>
 		

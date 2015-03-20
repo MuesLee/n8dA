@@ -8,4 +8,6 @@ public interface BattleClientListener
 	public void startActionSelection();
 
 	public void gameOver(GameStateType result);
+	
+	public void updateRobot();
 }

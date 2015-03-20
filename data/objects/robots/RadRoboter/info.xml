@@ -3,8 +3,8 @@
 	<id>7</id>
 	<name>RadRoboter</name>
 	<configcosts>0</configcosts>
-	<healthpoints>1</healthpoints>
-	<energypoints>1</energypoints>
+	<healthpoints>100</healthpoints>
+	<energypoints>100</energypoints>
 	<animationid>RadRoboter</animationid>
 	<defaultitems>
 		

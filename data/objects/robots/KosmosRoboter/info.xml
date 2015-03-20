@@ -3,8 +3,8 @@
 	<id>4</id>
 	<name>KosmosRoboter</name>
 	<configcosts>0</configcosts>
-	<healthpoints>1</healthpoints>
-	<energypoints>1</energypoints>
+	<healthpoints>100</healthpoints>
+	<energypoints>100</energypoints>
 	<animationid>KosmosRoboter</animationid>
 	<defaultitems>
 		

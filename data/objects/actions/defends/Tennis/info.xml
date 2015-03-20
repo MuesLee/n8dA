@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <defense>
 	<defensefactor>0.3</defensefactor>
-	<type>PAPER</type>
+	<type>SCISSOR</type>
 	<animationid>Tennis</animationid>
 	<energycosts>3</energycosts>
 	<configcosts>5</configcosts>

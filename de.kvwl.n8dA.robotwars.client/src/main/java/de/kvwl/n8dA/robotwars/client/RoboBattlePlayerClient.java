@@ -166,6 +166,7 @@ public class RoboBattlePlayerClient extends RoboBattleClient
 		case GAME_HASNT_BEGUN:
 			break;
 		case GAME_HAS_BEGUN:
+			clientListener.updateRobot();
 			break;
 		case DRAW:
 		case VICTORY_LEFT:

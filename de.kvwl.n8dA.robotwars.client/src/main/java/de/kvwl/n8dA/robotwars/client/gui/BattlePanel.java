@@ -53,6 +53,8 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 	private Countdown countdown;
 	private JPanel pnlActionSelection;
 
+	
+	//TODO Marvin: HP und EP durch Items werden nicht für die Lebens/Energiebalken berücksichtigt
 	public BattlePanel(RoboBattlePlayerClient battleClient, Robot robot, String playerName)
 	{
 
@@ -339,7 +341,7 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 		}
 	}
 
-	private void updateRobot()
+	public void updateRobot()
 	{
 
 		remove(pnlActionSelection);

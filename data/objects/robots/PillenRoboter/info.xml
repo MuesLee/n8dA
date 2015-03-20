@@ -3,8 +3,8 @@
 	<id>5</id>
 	<name>Die Pille</name>
 	<configcosts>0</configcosts>
-	<healthpoints>1</healthpoints>
-	<energypoints>1</energypoints>
+	<healthpoints>180</healthpoints>
+	<energypoints>20</energypoints>
 	<animationid>PillenRoboter</animationid>
 	<defaultitems>
 		

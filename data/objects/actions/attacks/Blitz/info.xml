@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <attack>
 	<damage>12</damage>
-	<type>ROCK</type>
+	<type>SCISSOR</type>
 	<animationid>Blitz</animationid>
 	<energycosts>3</energycosts>
 	<configcosts>5</configcosts>
