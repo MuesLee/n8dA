@@ -273,7 +273,6 @@ public class BattleController
 	 * @param defender
 	 */
 	
-	//TODO Timo: Droege die XMLs um die Ohren hauen
 	void computeOutcomeATTvsDEF(Robot attacker, Robot defender)
 	{
 		Attack attack = (Attack) attacker.getCurrentAction();
