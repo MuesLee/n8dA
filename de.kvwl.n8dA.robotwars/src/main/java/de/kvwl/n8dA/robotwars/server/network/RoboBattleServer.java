@@ -353,6 +353,8 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 	public RobotPosition registerRobotAndClientForBattle(Robot robot, UUID uuid, String playerId) throws RemoteException,
 		NoFreeSlotInBattleArenaException
 	{
+		LOG.info("Robot: " + robot + " played by " + playerId + " on Client: " + uuid + "\nwants tries register at server");
+		
 		if (battleController.getRobotLeft() == null)
 		{
 			battleController.setRobotLeft(robot);
