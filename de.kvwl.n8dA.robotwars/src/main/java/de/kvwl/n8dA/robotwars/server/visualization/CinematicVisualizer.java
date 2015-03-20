@@ -39,4 +39,5 @@ public interface CinematicVisualizer
 	 * @param animations
 	 */
 	public void playAnimationForRobotsSimultaneously(List<AnimationPosition> animations);
+
 }

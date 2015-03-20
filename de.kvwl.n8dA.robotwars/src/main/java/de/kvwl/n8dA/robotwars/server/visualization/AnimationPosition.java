@@ -6,6 +6,7 @@ import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
 public class AnimationPosition
 {
 
+	//TODO Timo: Vollständige Animation einfügen
 	private String animationID;
 
 	private RobotPosition position;
@@ -41,10 +42,11 @@ public class AnimationPosition
 	{
 		this.position = position;
 	}
-	
+
 	@Override
-	public String toString() {
-		return "(" + animationID + " , " +position+")";
+	public String toString()
+	{
+		return "(" + animationID + " , " + position + ")";
 	}
 
 }

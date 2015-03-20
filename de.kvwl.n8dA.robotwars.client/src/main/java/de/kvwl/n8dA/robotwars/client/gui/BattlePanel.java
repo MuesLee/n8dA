@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
+import de.kvwl.n8dA.robotwars.client.BattleClientListener;
 import de.kvwl.n8dA.robotwars.client.RoboBattlePlayerClient;
 import de.kvwl.n8dA.robotwars.commons.exception.NoFreeSlotInBattleArenaException;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
@@ -27,9 +28,11 @@ import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
+import de.kvwl.n8dA.robotwars.commons.game.util.GameStateType;
+import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
 
 //TODO Marvin: BattlePanel
-public class BattlePanel extends JPanel implements ActionListener
+public class BattlePanel extends JPanel implements ActionListener, BattleClientListener
 {
 
 	private static final String IMAGE_PATH = "/de/kvwl/n8dA/robotwars/client/images/";
@@ -54,7 +57,7 @@ public class BattlePanel extends JPanel implements ActionListener
 		this.robot = robot;
 
 		createGui();
-		setupConnection();
+		//		setupConnection();
 	}
 
 	private void setupConnection()
@@ -63,6 +66,7 @@ public class BattlePanel extends JPanel implements ActionListener
 		// TODO Marvin: setupConnection
 		try
 		{
+			battleClient.setClientListener(this);
 			battleClient.registerClientWithRobotAtServer(robot);
 			battleClient.sendPlayerIsReadyToBattleToServer();
 		}
@@ -207,7 +211,8 @@ public class BattlePanel extends JPanel implements ActionListener
 				Defense defense = defs.get(i);
 
 				def.setRoboAction(defense);
-				def.setText(String.format("%s (%d E)", defense.getName(), defense.getEnergyCosts()));
+				def.setText(String.format("%s - %.2f (%d E)", defense.getName(),
+					(100 * defense.getBonusOnDefenseFactor()), defense.getEnergyCosts()));
 			}
 			else
 			{
@@ -243,7 +248,8 @@ public class BattlePanel extends JPanel implements ActionListener
 				Attack attack = atks.get(i);
 
 				atk.setRoboAction(attack);
-				atk.setText(String.format("%s (%d E)", attack.getName(), attack.getEnergyCosts()));
+				atk.setText(String.format("%s - %d S (%d E)", attack.getName(), attack.getDamage(),
+					attack.getEnergyCosts()));
 			}
 			else
 			{
@@ -296,14 +302,14 @@ public class BattlePanel extends JPanel implements ActionListener
 		battleClient.sendRobotActionToServer(roboAction);
 
 		countdown.stopCountdown();
-		countdown.setVisible(false);
+		pnlTimer.setVisible(false);
 	}
 
 	private void startCountdown()
 	{
 
 		countdown.stopCountdown();
-		countdown.setVisible(true);
+		pnlTimer.setVisible(true);
 		countdown.setTime(SELECTION_TIME);
 		countdown.startCountdown();
 	}
@@ -312,7 +318,7 @@ public class BattlePanel extends JPanel implements ActionListener
 	{
 
 		System.out.println("Countdown over");
-		countdown.setVisible(false);
+		pnlTimer.setVisible(false);
 
 		List<Attack> attacks = robot.getPossibleAttacks();
 
@@ -328,6 +334,63 @@ public class BattlePanel extends JPanel implements ActionListener
 	}
 
 	@Override
+	public void startActionSelection()
+	{
+
+		startCountdown();
+	}
+
+	@Override
+	public void gameOver(GameStateType result)
+	{
+
+		RobotPosition ownPosition = battleClient.getPositionOfOwnRobot();
+
+		String msg = "";
+
+		switch (result)
+		{
+
+			case DRAW:
+				msg = "";
+			break;
+
+			case VICTORY_LEFT:
+
+				if (ownPosition == RobotPosition.LEFT)
+				{
+
+					msg = "gewonnen";
+				}
+				else
+				{
+
+					msg = "verloren";
+				}
+			break;
+
+			case VICTORY_RIGHT:
+
+				if (ownPosition == RobotPosition.RIGHT)
+				{
+
+					msg = "gewonnen";
+				}
+				else
+				{
+
+					msg = "verloren";
+				}
+			break;
+
+			default:
+				return;
+		}
+
+		System.exit(-1);
+	}
+
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 
@@ -335,7 +398,6 @@ public class BattlePanel extends JPanel implements ActionListener
 
 		if (source == countdown)
 		{
-
 			if (countdown.getTime() == 0)
 			{
 
@@ -360,7 +422,10 @@ public class BattlePanel extends JPanel implements ActionListener
 		disp.setLocationRelativeTo(null);
 
 		Robot r = new Robot();
+		r.setMaxHealthPoints(500);
 		r.setHealthPoints(150);
+
+		r.setMaxEnergyPoints(100);
 		r.setEnergyPoints(80);
 
 		Attack atk = new Attack(RobotActionType.PAPER, 10);
@@ -369,8 +434,7 @@ public class BattlePanel extends JPanel implements ActionListener
 		r.getPossibleAttacks().add(atk);
 
 		BattlePanel comp = new BattlePanel(null, r);
-		comp.countdown.setTime(15);
-		comp.countdown.startCountdown();
+		comp.startCountdown();
 		disp.add(comp);
 
 		disp.pack();
