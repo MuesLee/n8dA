@@ -474,7 +474,6 @@ public class BattleController
 	}
 
 	
-	//TODO Timo: BUG checken: 2 Nucular Robos connecten. 1. normal. 2. wird für 1. gehalten, geht nicht weiter
 	public Robot getLocalRobotForRemoteRobot(Robot robot) throws UnknownRobotException
 	{
 		Robot robotLeft = getRobotLeft();
