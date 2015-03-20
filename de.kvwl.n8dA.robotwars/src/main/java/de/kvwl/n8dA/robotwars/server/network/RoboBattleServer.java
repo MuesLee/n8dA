@@ -1,6 +1,7 @@
 package de.kvwl.n8dA.robotwars.server.network;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.nio.file.Paths;
@@ -21,6 +22,7 @@ import javax.swing.JOptionPane;
 import org.apache.activemq.broker.BrokerService;
 import org.apache.activemq.store.kahadb.KahaDBPersistenceAdapter;
 import org.apache.log4j.BasicConfigurator;
+import org.jdom2.JDOMException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,6 +65,8 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 	private UUID clientUUIDRight;
 
 	private static String BATTLE_SERVER_FULL_TCP_ADDRESS;
+
+	private DataLoader loader;
 
 	protected RoboBattleServer() throws RemoteException
 	{
@@ -176,9 +180,7 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 
 	private void loadGameData()
 	{
-
-		//TODO Timo: rootfolder setzen
-		DataLoader loader = new DataLoaderFileSystemImpl(Paths.get("../data"));
+		loader = new DataLoaderFileSystemImpl(Paths.get("../data"));
 
 		LOG.debug("Loaded Robots --------------------------------------> " + loader.loadRobots());
 		LOG.debug("Loaded Robots --------------------------------------> " + loader.loadRobotAttacks());
@@ -191,6 +193,11 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 		battleController.setAllRobots(loader.loadRobots());
 		battleController.setAllItems(ItemUtil.getAllRoboItems());
 
+	}
+	
+	public void persistCustomRobot(Robot robot, String userId) throws IOException, JDOMException
+	{
+		loader.createUserRobot(robot, userId);
 	}
 
 	private void handleMessage(Message message)
@@ -328,7 +335,7 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 	}
 
 	@Override
-	public RobotPosition registerRobotAndClientForBattle(Robot robot, UUID uuid) throws RemoteException,
+	public RobotPosition registerRobotAndClientForBattle(Robot robot, UUID uuid, String playerId) throws RemoteException,
 		NoFreeSlotInBattleArenaException
 	{
 		if (battleController.getRobotLeft() == null)

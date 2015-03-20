@@ -15,15 +15,16 @@ import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
 
 public interface RoboBattleHandler extends Remote {
 	
-	public RobotPosition registerRobotAndClientForBattle(Robot robot, UUID uuid) throws RemoteException, NoFreeSlotInBattleArenaException;
+	public RobotPosition registerRobotAndClientForBattle(Robot robot, UUID clientUUID, String playerId) throws RemoteException, NoFreeSlotInBattleArenaException;
 	
 	public Robot getSynchronizedRobot(UUID clientUUID) throws RemoteException, UnknownRobotException;
 	public Robot getSynchronizedRobotOfEnemy(UUID ownUUID) throws RemoteException, UnknownRobotException;
-	
 	
 	public List<Robot> getAllPossibleRobots() throws RemoteException;
 	public List<RoboItem> getAllPossibleItems() throws RemoteException;
 	public List<Attack> getAllPossibleAttacks() throws RemoteException;
 	public List<Defense> getAllPossibleDefends() throws RemoteException;
+	
+	
 	
 }

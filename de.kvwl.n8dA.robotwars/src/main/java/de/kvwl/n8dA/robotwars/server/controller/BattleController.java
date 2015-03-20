@@ -466,7 +466,7 @@ public class BattleController
 		}
 		catch (RobotsArentRdyToFightException e)
 		{
-			LOG.error("War nen Versucht wert..", e);
+			LOG.error("Waiting for action of second robot");
 		}
 	}
 

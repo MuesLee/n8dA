@@ -40,7 +40,7 @@ public class RoboBattlePlayerClient extends RoboBattleClient
 		// XXX Timo: Test Zeug entfernen
 		try
 		{
-			client.registerClientWithRobotAtServer(new Robot());
+			client.registerClientWithRobotAtServer(new Robot(), "Derp");
 		}
 		catch (NoFreeSlotInBattleArenaException e)
 		{
@@ -56,12 +56,12 @@ public class RoboBattlePlayerClient extends RoboBattleClient
 	 * @param robot
 	 * @throws NoFreeSlotInBattleArenaException
 	 */
-	public void registerClientWithRobotAtServer(Robot robot) throws NoFreeSlotInBattleArenaException
+	public void registerClientWithRobotAtServer(Robot robot, String playerId) throws NoFreeSlotInBattleArenaException
 	{
 		try
 		{
 			LOG.info("Client: " + uuid + " wants to register at server");
-			RobotPosition ownRobotsPosition = server.registerRobotAndClientForBattle(robot, uuid);
+			RobotPosition ownRobotsPosition = server.registerRobotAndClientForBattle(robot, uuid, playerId);
 			setPositionOfOwnRobot(ownRobotsPosition);
 			LOG.info("Client: " + uuid + " plays the " + ownRobotsPosition.getDescription() + " robot.");
 
