@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <robot>
 	<id>5</id>
-	<name>KVWLRoboter</name>
+	<name>Die Pille</name>
 	<configcosts>0</configcosts>
 	<healthpoints>1</healthpoints>
 	<energypoints>1</energypoints>
-	<animationid>KVWLRoboter</animationid>
+	<animationid>PillenRoboter</animationid>
 	<defaultitems>
 		
 	</defaultitems>

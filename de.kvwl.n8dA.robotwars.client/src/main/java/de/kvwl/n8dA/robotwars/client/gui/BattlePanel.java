@@ -290,7 +290,7 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 			return;
 		}
 
-		if (roboAction.getConfigurationPointCosts() > robot.getEnergyPoints())
+		if (roboAction.getEnergyCosts() > robot.getEnergyPoints())
 		{
 			System.out.println("Nicht genug Energie");
 			JOptionPane.showMessageDialog(this, "Deine Energie reicht nicht aus, um diese Fähigkeit einzusetzen.",
@@ -313,6 +313,8 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 		pnlTimer.setVisible(true);
 		countdown.setTime(SELECTION_TIME);
 		countdown.startCountdown();
+
+		revalidate();
 	}
 
 	private void updateRobot()
