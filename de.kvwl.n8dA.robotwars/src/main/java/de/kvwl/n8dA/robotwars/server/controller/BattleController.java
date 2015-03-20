@@ -221,6 +221,7 @@ public class BattleController
 	 * @param robotLeft
 	 * @param robotRight
 	 */
+	//TODO Statuseffekte einbauen
 	void computeBattleOutcome(Robot robotLeft, Robot robotRight)
 	{
 
