@@ -272,7 +272,8 @@ public class BattleController
 	 * @param attacker
 	 * @param defender
 	 */
-	//TODO Timo: DEF checken. Scheint immer zu reflektieren
+	
+	//TODO Timo: Droege die XMLs um die Ohren hauen
 	void computeOutcomeATTvsDEF(Robot attacker, Robot defender)
 	{
 		Attack attack = (Attack) attacker.getCurrentAction();
