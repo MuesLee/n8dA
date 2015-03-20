@@ -198,6 +198,8 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 	public void persistCustomRobot(Robot robot, String userId) throws IOException, JDOMException
 	{
 		loader.createUserRobot(robot, userId);
+		
+		LOG.info("Custom Robot:" + robot + " from User:" + userId + " persisted");
 	}
 
 	private void handleMessage(Message message)
@@ -343,6 +345,15 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 			battleController.setRobotLeft(robot);
 			clientUUIDLeft = uuid;
 			LOG.info("Robot registered: " + robot + " ClientUUID: " + uuid);
+			
+			try {
+				persistCustomRobot(robot, playerId);
+			} catch (IOException e) {
+				LOG.error("Error while persisting custom robot", e);
+			} catch (JDOMException e) {
+				LOG.error("Error while persisting custom robot", e);
+			}
+			
 			return RobotPosition.LEFT;
 
 		}
@@ -352,15 +363,21 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 			clientUUIDRight = uuid;
 
 			LOG.info("Robot registered: " + robot + " ClientUUID: " + uuid);
+			
+			try {
+				persistCustomRobot(robot, playerId);
+			} catch (IOException e) {
+				LOG.error("Error while persisting custom robot", e);
+			} catch (JDOMException e) {
+				LOG.error("Error while persisting custom robot", e);
+			}
 
 			return RobotPosition.RIGHT;
-
 		}
 		else
 		{
 			throw new NoFreeSlotInBattleArenaException();
 		}
-
 	}
 
 	@Override
@@ -386,9 +403,12 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 	}
 
 	@Override
-	public List<Robot> getAllPossibleRobots()
+	public List<Robot> getAllPossibleRobots(String playerId)
 	{
 		List<Robot> allRobots = battleController.getAllRobots();
+		
+		List<Robot> loadUserRobots = loader.loadUserRobots(playerId);
+		allRobots.addAll(loadUserRobots);
 		
 		LOG.debug("All Robots requested: " + allRobots);
 		return allRobots;

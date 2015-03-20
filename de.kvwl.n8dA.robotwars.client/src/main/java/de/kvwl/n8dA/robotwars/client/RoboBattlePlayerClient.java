@@ -225,11 +225,11 @@ public class RoboBattlePlayerClient extends RoboBattleClient
 		return null;
 	}
 
-	public List<Robot> getAllPossibleRobotsFromServer()
+	public List<Robot> getAllPossibleRobotsFromServer(String playerId)
 	{
 		try
 		{
-			return server.getAllPossibleRobots();
+			return server.getAllPossibleRobots(playerId);
 		}
 		catch (RemoteException e)
 		{

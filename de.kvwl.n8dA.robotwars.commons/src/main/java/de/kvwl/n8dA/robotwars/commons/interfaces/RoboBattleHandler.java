@@ -20,7 +20,7 @@ public interface RoboBattleHandler extends Remote {
 	public Robot getSynchronizedRobot(UUID clientUUID) throws RemoteException, UnknownRobotException;
 	public Robot getSynchronizedRobotOfEnemy(UUID ownUUID) throws RemoteException, UnknownRobotException;
 	
-	public List<Robot> getAllPossibleRobots() throws RemoteException;
+	public List<Robot> getAllPossibleRobots(String playerId) throws RemoteException;
 	public List<RoboItem> getAllPossibleItems() throws RemoteException;
 	public List<Attack> getAllPossibleAttacks() throws RemoteException;
 	public List<Defense> getAllPossibleDefends() throws RemoteException;
