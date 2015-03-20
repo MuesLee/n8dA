@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<robot>
+	<id>1</id>
+	<name>AtomRoboter</name>
+	<configcosts>0</configcosts>
+	<healthpoints>1</healthpoints>
+	<energypoints>1</energypoints>
+	<animationid>AtomRoboter</animationid>
+	<defaultitems>
+		
+	</defaultitems>
+	<attacks>
+		
+	</attacks>
+	<defends>
+		
+	</defends>
+</robot>

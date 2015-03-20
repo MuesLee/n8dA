@@ -10,11 +10,16 @@ import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
 import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
 import de.kvwl.n8dA.robotwars.commons.gui.Animation;
 
-public class Robot extends Entity {
+public class Robot extends Entity
+{
 
 	private static final long serialVersionUID = 1L;
 
 	private UUID uuid;
+
+	//TODO Timo: Musste ich anlegen um Lebensanzeigen zu realisieren
+	private int maxHealthPoints;
+	private int maxEnergyPoints;
 
 	private int healthPoints;
 	private int energyPoints;
@@ -30,16 +35,16 @@ public class Robot extends Entity {
 	private RobotAction currentAction;
 
 	/**
-	 * Wenn true sollte dieser Roboter nicht erneut als User roboter gespeichert
-	 * werden, da er als solcher bereits geladen wurde. Außerdem werden
-	 * Konfigurationen an solchen Robotern unterdrückt. Änderungen sind nicht
-	 * mehr möglich.
+	 * Wenn true sollte dieser Roboter nicht erneut als User roboter gespeichert werden, da er als
+	 * solcher bereits geladen wurde. Außerdem werden Konfigurationen an solchen Robotern
+	 * unterdrückt. Änderungen sind nicht mehr möglich.
 	 */
 	private boolean loadedAsUserRobot = false;
 
 	private String nickname = "";
 
-	public Robot() {
+	public Robot()
+	{
 		super();
 		uuid = UUID.randomUUID();
 		this.setPossibleAttacks(new ArrayList<Attack>(4));
@@ -47,63 +52,68 @@ public class Robot extends Entity {
 		this.setEquippedItems(new ArrayList<RoboItem>(4));
 	}
 
-	public int getHealthPoints() {
+	public int getHealthPoints()
+	{
 		return healthPoints;
 	}
 
-	public void setHealthPoints(int healthPoints) {
+	public void setHealthPoints(int healthPoints)
+	{
 		this.healthPoints = healthPoints;
 	}
 
-	public RobotAction getCurrentAction() {
+	public RobotAction getCurrentAction()
+	{
 		return currentAction;
 	}
 
-	public void setCurrentAction(RobotAction action) {
+	public void setCurrentAction(RobotAction action)
+	{
 		this.currentAction = action;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 
 		return name + ": " + healthPoints + "HP";
 	}
 
-	public Animation getAnimation() {
+	public Animation getAnimation()
+	{
 		return animation;
 	}
 
-	public void setAnimation(Animation animation) {
+	public void setAnimation(Animation animation)
+	{
 		this.animation = animation;
 	}
 
-	public int getEnergyPoints() {
+	public int getEnergyPoints()
+	{
 		return energyPoints;
 	}
 
-	public void setEnergyPoints(int energyPoints) {
+	public void setEnergyPoints(int energyPoints)
+	{
 		this.energyPoints = energyPoints;
 	}
 
 	@Override
-	public int hashCode() {
+	public int hashCode()
+	{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime
-				* result
-				+ ((getPossibleAttacks() == null) ? 0 : getPossibleAttacks()
-						.hashCode());
-		result = prime
-				* result
-				+ ((getPossibleDefends() == null) ? 0 : getPossibleDefends()
-						.hashCode());
+		result = prime * result + ((getPossibleAttacks() == null) ? 0 : getPossibleAttacks().hashCode());
+		result = prime * result + ((getPossibleDefends() == null) ? 0 : getPossibleDefends().hashCode());
 		result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
 		return result;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj)
+	{
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -111,64 +121,98 @@ public class Robot extends Entity {
 		if (getClass() != obj.getClass())
 			return false;
 		Robot other = (Robot) obj;
-		if (uuid == null) {
+		if (uuid == null)
+		{
 			if (other.uuid != null)
 				return false;
 		}
 
 		if (!uuid.equals(other.uuid))
 			return false;
-		else {
+		else
+		{
 			return true;
 		}
 	}
 
-	public List<RoboItem> getEquippedItems() {
+	public List<RoboItem> getEquippedItems()
+	{
 		return equippedItems;
 	}
 
-	public void setEquippedItems(List<RoboItem> equippedItems) {
+	public void setEquippedItems(List<RoboItem> equippedItems)
+	{
 		this.equippedItems = equippedItems;
 	}
 
-	public boolean isReadyToFight() {
+	public boolean isReadyToFight()
+	{
 		return readyToFight;
 	}
 
-	public void setReadyToFight(boolean readyToFight) {
+	public void setReadyToFight(boolean readyToFight)
+	{
 		this.readyToFight = readyToFight;
 	}
 
-	public List<Attack> getPossibleAttacks() {
+	public List<Attack> getPossibleAttacks()
+	{
 		return possibleAttacks;
 	}
 
-	public void setPossibleAttacks(List<Attack> possibleAttacks) {
+	public void setPossibleAttacks(List<Attack> possibleAttacks)
+	{
 		this.possibleAttacks = possibleAttacks;
 	}
 
-	public List<Defense> getPossibleDefends() {
+	public List<Defense> getPossibleDefends()
+	{
 		return possibleDefends;
 	}
 
-	public void setPossibleDefends(List<Defense> possibleDefends) {
+	public void setPossibleDefends(List<Defense> possibleDefends)
+	{
 		this.possibleDefends = possibleDefends;
 	}
 
-	public boolean isLoadedAsUserRobot() {
+	public boolean isLoadedAsUserRobot()
+	{
 		return loadedAsUserRobot;
 	}
 
-	public void setLoadedAsUserRobot(boolean loadedAsUserRobot) {
+	public void setLoadedAsUserRobot(boolean loadedAsUserRobot)
+	{
 		this.loadedAsUserRobot = loadedAsUserRobot;
 	}
 
-	public String getNickname() {
+	public String getNickname()
+	{
 		return nickname;
 	}
 
-	public void setNickname(String nickname) {
+	public void setNickname(String nickname)
+	{
 		this.nickname = nickname;
+	}
+
+	public int getMaxEnergyPoints()
+	{
+		return maxEnergyPoints;
+	}
+
+	public void setMaxEnergyPoints(int maxEnergyPoints)
+	{
+		this.maxEnergyPoints = maxEnergyPoints;
+	}
+
+	public int getMaxHealthPoints()
+	{
+		return maxHealthPoints;
+	}
+
+	public void setMaxHealthPoints(int maxHealthPoints)
+	{
+		this.maxHealthPoints = maxHealthPoints;
 	}
 
 }

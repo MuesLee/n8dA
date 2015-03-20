@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <attack>
-	<damage>12</damage>
+	<damage>14</damage>
 	<type>ROCK</type>
-	<animationid>Rakete</animationid>
+	<animationid>Flasche</animationid>
 	<energycosts>3</energycosts>
 	<configcosts>5</configcosts>
-	<name>Rakete</name>
+	<name>Flasche</name>
 	<id>16</id>
 </attack>

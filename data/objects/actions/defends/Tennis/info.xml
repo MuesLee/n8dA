@@ -2,9 +2,9 @@
 <defense>
 	<defensefactor>0.3</defensefactor>
 	<type>PAPER</type>
-	<animationid>Kissen</animationid>
+	<animationid>Tennis</animationid>
 	<energycosts>3</energycosts>
 	<configcosts>5</configcosts>
-	<name>Kissen</name>
-	<id>19</id>
+	<name>Tennis</name>
+	<id>1</id>
 </defense>

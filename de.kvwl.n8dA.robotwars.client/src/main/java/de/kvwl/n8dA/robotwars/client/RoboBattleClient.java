@@ -28,62 +28,58 @@ public abstract class RoboBattleClient implements MessageListener {
 	protected final Logger LOG = LoggerFactory
 			.getLogger(RoboBattleClient.class);
 	private static final String PROPERTY_NAME = "config.properties";
-	
+
 	protected UUID uuid;
 	protected RoboBattleHandler server;
 	protected RoboBattleJMSReceiverClient roboBattleJMSReceiver;
 	protected AsyncServerCommunicator producer;
 	private Properties properties;
-	
+
 	public RoboBattleClient() {
-		
+
 		this.uuid = UUID.randomUUID();
-		
+
 		BasicConfigurator.configure();
-		
-	
+
 	}
 
 	public void init() {
 		String ipAdressServer = "localhost";
 		String BATTLE_SERVER_FULL_TCP_ADDRESS = "tcp://localhost:1527";
-		
+
 		try {
 			loadProperties();
 			ipAdressServer = properties.getProperty("BATTLE_SERVER_IP_ADDRESS");
-			BATTLE_SERVER_FULL_TCP_ADDRESS = properties.getProperty("BATTLE_SERVER_FULL_TCP_ADDRESS");
-			
-			
+			BATTLE_SERVER_FULL_TCP_ADDRESS = properties
+					.getProperty("BATTLE_SERVER_FULL_TCP_ADDRESS");
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		roboBattleJMSReceiver = new RoboBattleJMSReceiverClient(uuid,BATTLE_SERVER_FULL_TCP_ADDRESS);
-		producer = new RoboBattleJMSProducerClient(uuid,BATTLE_SERVER_FULL_TCP_ADDRESS);
-		
-		String url = "//" + ipAdressServer
-				+ "/" + NetworkUtils.SERVER_NAME;
+
+		roboBattleJMSReceiver = new RoboBattleJMSReceiverClient(uuid,
+				BATTLE_SERVER_FULL_TCP_ADDRESS);
+		producer = new RoboBattleJMSProducerClient(uuid,
+				BATTLE_SERVER_FULL_TCP_ADDRESS);
+
+		String url = "//" + ipAdressServer + "/" + NetworkUtils.SERVER_NAME;
 		connectToServer(url);
 		listenToJMSReceiver();
 	}
-	
-	public String getProperty(String property)
-	{
+
+	public String getProperty(String property) {
 		return properties.getProperty(property);
 	}
-	
-	public void loadProperties() throws IOException
-	{
+
+	public void loadProperties() throws IOException {
 		properties = new Properties();
-		try
-		{
+		try {
 			FileInputStream file = new FileInputStream("./" + PROPERTY_NAME);
 			properties.load(file);
 			file.close();
-		}
-		catch (IOException e)
-		{
-			throw new IOException("Die Datei " + PROPERTY_NAME + " konnte nicht gefunden werden.");
+		} catch (IOException e) {
+			throw new IOException("Die Datei " + PROPERTY_NAME
+					+ " konnte nicht gefunden werden.");
 		}
 	}
 

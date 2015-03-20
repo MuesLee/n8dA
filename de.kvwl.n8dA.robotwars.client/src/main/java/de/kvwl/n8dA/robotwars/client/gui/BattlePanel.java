@@ -6,6 +6,8 @@ import game.engine.image.InternalImage;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -14,28 +16,36 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
 import de.kvwl.n8dA.robotwars.client.RoboBattlePlayerClient;
+import de.kvwl.n8dA.robotwars.commons.exception.NoFreeSlotInBattleArenaException;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
+import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 
 //TODO Marvin: BattlePanel
-public class BattlePanel extends JPanel
+public class BattlePanel extends JPanel implements ActionListener
 {
 
 	private static final String IMAGE_PATH = "/de/kvwl/n8dA/robotwars/client/images/";
 	private static final long serialVersionUID = 1L;
 
+	private static final int SELECTION_TIME = 50;
+
 	private RoboBattlePlayerClient battleClient;
 	private Robot robot;
+
 	private SimpleProgressBar life;
 	private SimpleProgressBar energy;
 	private JLabel lblLife;
 	private JLabel lblEnergy;
+	private JPanel pnlTimer;
+	private Countdown countdown;
 
 	public BattlePanel(RoboBattlePlayerClient battleClient, Robot robot)
 	{
@@ -44,6 +54,27 @@ public class BattlePanel extends JPanel
 		this.robot = robot;
 
 		createGui();
+		setupConnection();
+	}
+
+	private void setupConnection()
+	{
+
+		// TODO Marvin: setupConnection
+		try
+		{
+			battleClient.registerClientWithRobotAtServer(robot);
+			battleClient.sendPlayerIsReadyToBattleToServer();
+		}
+		catch (NoFreeSlotInBattleArenaException e)
+		{
+
+			JOptionPane.showMessageDialog(this,
+				"Zu zeit ist kein Platz für dich in der Arena. \nBitte warte, bis du dran bist.", "Kein freier Platz",
+				JOptionPane.ERROR_MESSAGE);
+
+			System.exit(-1);
+		}
 	}
 
 	private void createGui()
@@ -64,7 +95,9 @@ public class BattlePanel extends JPanel
 		info.setLayout(new BorderLayout());
 
 		info.add(createRoboStats(), BorderLayout.SOUTH);
-		info.add(createTimer(), BorderLayout.CENTER);
+
+		pnlTimer = createTimer();
+		info.add(pnlTimer, BorderLayout.CENTER);
 
 		return info;
 	}
@@ -74,7 +107,9 @@ public class BattlePanel extends JPanel
 		JPanel stats = new JPanel();
 		stats.setLayout(new BoxLayout(stats, BoxLayout.Y_AXIS));
 
-		//Lebensanzeige
+		stats.add(Box.createVerticalStrut(30));
+
+		// Lebensanzeige
 		JPanel pnlLife = new JPanel();
 		pnlLife.setLayout(new BoxLayout(pnlLife, BoxLayout.X_AXIS));
 		stats.add(pnlLife);
@@ -84,7 +119,7 @@ public class BattlePanel extends JPanel
 
 		life = new SimpleProgressBar();
 		life.setMinimum(0);
-		life.setMaximum(robot.getHealthPoints());
+		life.setMaximum(robot.getMaxHealthPoints());
 		life.setValue(life.getMaximum());
 		life.setBackground(Color.GRAY);
 		life.setForeground(Color.RED);
@@ -95,7 +130,7 @@ public class BattlePanel extends JPanel
 		lblLife = new JLabel("" + life.getValue());
 		pnlLife.add(lblLife);
 
-		//Energieanzeige
+		// Energieanzeige
 		JPanel pnlEnergy = new JPanel();
 		pnlEnergy.setLayout(new BoxLayout(pnlEnergy, BoxLayout.X_AXIS));
 		stats.add(pnlEnergy);
@@ -105,7 +140,7 @@ public class BattlePanel extends JPanel
 
 		energy = new SimpleProgressBar();
 		energy.setMinimum(0);
-		energy.setMaximum(robot.getEnergyPoints());
+		energy.setMaximum(robot.getMaxEnergyPoints());
 		energy.setValue(energy.getMaximum());
 		energy.setBackground(Color.GRAY);
 		energy.setForeground(Color.BLUE);
@@ -123,7 +158,18 @@ public class BattlePanel extends JPanel
 
 	private JPanel createTimer()
 	{
+
 		JPanel timer = new JPanel();
+		timer.setVisible(false);
+		timer.setLayout(new BorderLayout());
+
+		countdown = new Countdown();
+		countdown.addActionListener(this);
+		timer.add(countdown, BorderLayout.CENTER);
+
+		JLabel lblTimerInfo = new JLabel("Wähle deine nächste Aktion");
+		lblTimerInfo.setHorizontalAlignment(JLabel.CENTER);
+		timer.add(lblTimerInfo, BorderLayout.SOUTH);
 
 		return timer;
 	}
@@ -153,6 +199,7 @@ public class BattlePanel extends JPanel
 		{
 
 			ActionButton def = new ActionButton();
+			def.addActionListener(this);
 
 			if (i < defs.size())
 			{
@@ -188,6 +235,7 @@ public class BattlePanel extends JPanel
 		{
 
 			ActionButton atk = new ActionButton();
+			atk.addActionListener(this);
 
 			if (i < atks.size())
 			{
@@ -220,6 +268,87 @@ public class BattlePanel extends JPanel
 		lblEnergy.setText("" + robot.getEnergyPoints());
 	}
 
+	private void actionSlection(RobotAction roboAction)
+	{
+
+		if (roboAction == null)
+		{
+			System.out.println("Action selected -> <Leer>");
+			return;
+		}
+
+		if (countdown.getTime() <= 0)
+		{
+			System.out.println("Countdown over -> no selection possible");
+			return;
+		}
+
+		if (roboAction.getConfigurationPointCosts() > robot.getEnergyPoints())
+		{
+			System.out.println("Nicht genug Energie");
+			JOptionPane.showMessageDialog(this, "Deine Energie reicht nicht aus, um diese Fähigkeit einzusetzen.",
+				"Nicht genug Energie", JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+
+		System.out.println("Action selected -> " + roboAction.getName());
+
+		battleClient.sendRobotActionToServer(roboAction);
+
+		countdown.stopCountdown();
+		countdown.setVisible(false);
+	}
+
+	private void startCountdown()
+	{
+
+		countdown.stopCountdown();
+		countdown.setVisible(true);
+		countdown.setTime(SELECTION_TIME);
+		countdown.startCountdown();
+	}
+
+	private void countdownOver()
+	{
+
+		System.out.println("Countdown over");
+		countdown.setVisible(false);
+
+		List<Attack> attacks = robot.getPossibleAttacks();
+
+		for (Attack atk : attacks)
+		{
+
+			if (atk.getEnergyCosts() <= robot.getEnergyPoints())
+			{
+
+				battleClient.sendRobotActionToServer(atk);
+			}
+		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+
+		Object source = e.getSource();
+
+		if (source == countdown)
+		{
+
+			if (countdown.getTime() == 0)
+			{
+
+				countdownOver();
+			}
+		}
+		else if (source instanceof ActionButton)
+		{
+
+			actionSlection(((ActionButton) source).getRoboAction());
+		}
+	}
+
 	// XXX Marvin: Testmain -> entfernen
 	public static void main(String[] args) throws Exception
 	{
@@ -240,6 +369,8 @@ public class BattlePanel extends JPanel
 		r.getPossibleAttacks().add(atk);
 
 		BattlePanel comp = new BattlePanel(null, r);
+		comp.countdown.setTime(15);
+		comp.countdown.startCountdown();
 		disp.add(comp);
 
 		disp.pack();
