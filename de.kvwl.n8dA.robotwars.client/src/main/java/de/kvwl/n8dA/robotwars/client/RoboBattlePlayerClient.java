@@ -24,9 +24,12 @@ import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
 public class RoboBattlePlayerClient extends RoboBattleClient
 {
 
+	//TODO Timo: BattleClient Listener
+	private BattleClientListener clientListener;
 	private RobotPosition positionOfOwnRobot;
 
-	public RoboBattlePlayerClient() {
+	public RoboBattlePlayerClient()
+	{
 		super();
 	}
 
@@ -223,6 +226,16 @@ public class RoboBattlePlayerClient extends RoboBattleClient
 	public void setPositionOfOwnRobot(RobotPosition positionOfOwnRobot)
 	{
 		this.positionOfOwnRobot = positionOfOwnRobot;
+	}
+
+	public BattleClientListener getClientListener()
+	{
+		return clientListener;
+	}
+
+	public void setClientListener(BattleClientListener clientListener)
+	{
+		this.clientListener = clientListener;
 	}
 
 }
