@@ -43,6 +43,8 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 	private RoboBattlePlayerClient battleClient;
 	private Robot robot;
 
+	private String playerName;
+
 	private SimpleProgressBar life;
 	private SimpleProgressBar energy;
 	private JLabel lblLife;
@@ -51,11 +53,12 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 	private Countdown countdown;
 	private JPanel pnlActionSelection;
 
-	public BattlePanel(RoboBattlePlayerClient battleClient, Robot robot)
+	public BattlePanel(RoboBattlePlayerClient battleClient, Robot robot, String playerName)
 	{
 
 		this.battleClient = battleClient;
 		this.robot = robot;
+		this.playerName = playerName;
 
 		createGui();
 		setupConnection();
@@ -67,7 +70,7 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 		try
 		{
 			battleClient.setClientListener(this);
-			battleClient.registerClientWithRobotAtServer(robot);
+			battleClient.registerClientWithRobotAtServer(robot, playerName);
 			battleClient.sendPlayerIsReadyToBattleToServer();
 		}
 		catch (NoFreeSlotInBattleArenaException e)
@@ -472,7 +475,7 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 		atk.setEnergyCosts(10);
 		r.getPossibleAttacks().add(atk);
 
-		BattlePanel comp = new BattlePanel(null, r);
+		BattlePanel comp = new BattlePanel(null, r, "");
 		comp.startCountdown();
 		disp.add(comp);
 

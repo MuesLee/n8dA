@@ -24,11 +24,14 @@ public class ClientFrame extends JFrame implements ConfigurationListener
 	private JPanel container;
 	private RoboConfigurationPanel roboConfigurationPanel;
 
-	public ClientFrame(RoboBattlePlayerClient battleClient, long maxCreditPoints)
+	private String playerName;
+
+	public ClientFrame(RoboBattlePlayerClient battleClient, long maxCreditPoints, String playerName)
 	{
 
 		this.battleClient = battleClient;
 		this.maxCreditPoints = maxCreditPoints;
+		this.playerName = playerName;
 
 		System.out.println("maxCredits " + maxCreditPoints);
 
@@ -83,11 +86,11 @@ public class ClientFrame extends JFrame implements ConfigurationListener
 		}
 	}
 
-	private void openBattle(Robot robot)
+	private void openBattle(Robot robot, String playerName)
 	{
 		closeAnimations();
 
-		BattlePanel battlePanel = new BattlePanel(battleClient, robot);
+		BattlePanel battlePanel = new BattlePanel(battleClient, robot, playerName);
 		show(battlePanel);
 	}
 
@@ -97,7 +100,7 @@ public class ClientFrame extends JFrame implements ConfigurationListener
 
 		System.out.println("Config fertig -> battle view");
 
-		openBattle(configuredRobot);
+		openBattle(configuredRobot, playerName);
 	}
 
 	private void createGui()

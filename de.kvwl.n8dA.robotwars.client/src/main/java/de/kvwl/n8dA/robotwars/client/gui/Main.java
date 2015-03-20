@@ -24,13 +24,13 @@ public class Main
 
 		SOURCE_FOLDER = battleClient.getProperty("SOURCE_FOLDER");
 
-		long maxCreditPoints = getCreditPoints(battleClient);
+		LoginResult result = getCreditPoints(battleClient);
 
-		ClientFrame clientFrame = new ClientFrame(battleClient, maxCreditPoints);
+		ClientFrame clientFrame = new ClientFrame(battleClient, result.getCredits(), result.getPlayerName());
 		clientFrame.setVisible(true);
 	}
 
-	private static long getCreditPoints(RoboBattlePlayerClient battleClient)
+	private static LoginResult getCreditPoints(RoboBattlePlayerClient battleClient)
 	{
 		String rewardServerIpAdress = battleClient.getProperty("REWARD_SERVER_IP_ADDRESS");
 		CreditAccess creditClient = new CreditAccessClient(rewardServerIpAdress);
@@ -46,20 +46,22 @@ public class Main
 					+ e.getMessage(), "Fehler beim Verbindungsaufbau", JOptionPane.ERROR_MESSAGE);
 
 			System.out.println(battleClient.getProperty("DEFAULT_CREDITS"));
-			return Long.valueOf(battleClient.getProperty("DEFAULT_CREDITS"));
+
+			LoginResult result = new LoginResult();
+			result.setCredits(Long.valueOf(battleClient.getProperty("DEFAULT_CREDITS")));
+			result.setPlayerName("unregistered");
+
+			return result;
 		}
 
-		long credits;
 		try
 		{
-			credits = LoginDialog.getCreditPoints(creditClient);
+			return LoginDialog.getCreditPoints(creditClient);
 		}
 		catch (CanceledException e)
 		{
 			throw new RuntimeException(e);
 		}
-
-		return credits;
 	}
 
 	private static RoboBattlePlayerClient createBattleClient()

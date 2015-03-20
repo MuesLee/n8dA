@@ -151,7 +151,7 @@ public class LoginDialog extends JDialog implements ActionListener
 		}
 	}
 
-	public static long getCreditPoints(CreditAccess creditClient) throws CanceledException
+	public static LoginResult getCreditPoints(CreditAccess creditClient) throws CanceledException
 	{
 
 		LoginDialog login = new LoginDialog(creditClient);
@@ -162,7 +162,11 @@ public class LoginDialog extends JDialog implements ActionListener
 			throw new CanceledException();
 		}
 
-		return login.getCredits();
+		LoginResult result = new LoginResult();
+		result.setCredits(login.getCredits());
+		result.setPlayerName(login.getLoginName());
+
+		return result;
 	}
 
 	public static class CanceledException extends Exception
