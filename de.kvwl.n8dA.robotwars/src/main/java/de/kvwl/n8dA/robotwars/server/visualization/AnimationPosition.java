@@ -1,32 +1,24 @@
 package de.kvwl.n8dA.robotwars.server.visualization;
 
 import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
+import de.kvwl.n8dA.robotwars.commons.gui.Animation;
 
 // Welche Animation wird für welchen Roboter ausgeführt
 public class AnimationPosition
 {
 
-	//TODO Timo: Vollständige Animation einfügen
-	private String animationID;
+	private Animation animation;
 
 	private RobotPosition position;
 
-	public AnimationPosition(String animationID, RobotPosition position)
+	public AnimationPosition(Animation animation, RobotPosition position)
 	{
 		super();
-		this.animationID = animationID;
+		this.setAnimation(animation);
 		this.position = position;
 	}
 
-	public String getAnimationID()
-	{
-		return animationID;
-	}
 
-	public void setAnimationID(String animationID)
-	{
-		this.animationID = animationID;
-	}
 
 	/**
 	 * Get the position of the Robot which starts the animation
@@ -46,7 +38,19 @@ public class AnimationPosition
 	@Override
 	public String toString()
 	{
-		return "(" + animationID + " , " + position + ")";
+		return "(" + animation + " , " + position + ")";
+	}
+
+
+
+	public Animation getAnimation() {
+		return animation;
+	}
+
+
+
+	public void setAnimation(Animation animation) {
+		this.animation = animation;
 	}
 
 }

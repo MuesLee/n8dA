@@ -3,6 +3,7 @@ package de.kvwl.n8dA.robotwars.server.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.BasicConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,7 +49,7 @@ public class BattleController
 
 	public BattleController()
 	{
-
+		BasicConfigurator.configure();
 		// TODO Marvin: this.cinematicVisualizer =
 	}
 
@@ -125,25 +126,25 @@ public class BattleController
 				double random = Math.random();
 				if (random >= 0.5)
 				{
-					animationPosition1 = new AnimationPosition(actionRobotLeft.getAnimation().getId(),
+					animationPosition1 = new AnimationPosition(actionRobotLeft.getAnimation(),
 						RobotPosition.LEFT);
-					animationPosition2 = new AnimationPosition(actionRobotRight.getAnimation().getId(),
+					animationPosition2 = new AnimationPosition(actionRobotRight.getAnimation(),
 						RobotPosition.RIGHT);
 
 				}
 				else
 				{
-					animationPosition1 = new AnimationPosition(actionRobotRight.getAnimation().getId(),
+					animationPosition1 = new AnimationPosition(actionRobotRight.getAnimation(),
 						RobotPosition.RIGHT);
-					animationPosition2 = new AnimationPosition(actionRobotLeft.getAnimation().getId(),
+					animationPosition2 = new AnimationPosition(actionRobotLeft.getAnimation(),
 						RobotPosition.LEFT);
 				}
 			}
 			// Links ATT rechts DEF
 			else
 			{
-				animationPosition1 = new AnimationPosition(actionRobotLeft.getAnimation().getId(), RobotPosition.LEFT);
-				animationPosition2 = new AnimationPosition(actionRobotRight.getAnimation().getId(), RobotPosition.RIGHT);
+				animationPosition1 = new AnimationPosition(actionRobotLeft.getAnimation(), RobotPosition.LEFT);
+				animationPosition2 = new AnimationPosition(actionRobotRight.getAnimation(), RobotPosition.RIGHT);
 			}
 		}
 		// Links DEF Rechts ATT
@@ -151,15 +152,15 @@ public class BattleController
 		{
 			if (actionRobotRight instanceof Attack)
 			{
-				animationPosition1 = new AnimationPosition(actionRobotRight.getAnimation().getId(), RobotPosition.RIGHT);
-				animationPosition2 = new AnimationPosition(actionRobotLeft.getAnimation().getId(), RobotPosition.LEFT);
+				animationPosition1 = new AnimationPosition(actionRobotRight.getAnimation(), RobotPosition.RIGHT);
+				animationPosition2 = new AnimationPosition(actionRobotLeft.getAnimation(), RobotPosition.LEFT);
 			}
 
 			// Links DEF rechts DEF
 			else
 			{
-				animationPosition1 = new AnimationPosition(actionRobotRight.getAnimation().getId(), RobotPosition.RIGHT);
-				animationPosition2 = new AnimationPosition(actionRobotLeft.getAnimation().getId(), RobotPosition.LEFT);
+				animationPosition1 = new AnimationPosition(actionRobotRight.getAnimation(), RobotPosition.RIGHT);
+				animationPosition2 = new AnimationPosition(actionRobotLeft.getAnimation(), RobotPosition.LEFT);
 				order.add(animationPosition1);
 				order.add(animationPosition2);
 				cinematicVisualizer.playAnimationForRobotsSimultaneously(order);

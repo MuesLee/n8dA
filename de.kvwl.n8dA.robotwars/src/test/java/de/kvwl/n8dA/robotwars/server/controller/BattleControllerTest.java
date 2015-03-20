@@ -226,8 +226,8 @@ public class BattleControllerTest {
 		robotRight.setCurrentAction(actionRobotRight);
 		
 		List<AnimationPosition> animations = new ArrayList<>(2);
-		animations.add(new AnimationPosition(animationIDLeft, positionLeft));
-		animations.add(new AnimationPosition(animationIDRight, positionRight));
+		animations.add(new AnimationPosition(new Animation(animationIDLeft, null, null, 1, 1), positionLeft));
+		animations.add(new AnimationPosition(new Animation(animationIDRight, null, null, 1, 1), positionRight));
 		
 		battleController.startAnimationsInOrder(robotLeft, robotRight);
 		
@@ -254,8 +254,9 @@ public class BattleControllerTest {
 		robotRight.setCurrentAction(actionRobotRight);
 		
 		List<AnimationPosition> animations = new ArrayList<>(2);
-		animations.add(new AnimationPosition(animationIDRight, positionRight));
-		animations.add(new AnimationPosition(animationIDLeft, positionLeft));
+		animations.add(new AnimationPosition(new Animation(animationIDRight, null, null, 1, 1), positionLeft));
+		animations.add(new AnimationPosition(new Animation(animationIDLeft, null, null, 1, 1), positionRight));
+		
 		
 		battleController.startAnimationsInOrder(robotLeft, robotRight);
 		
@@ -282,8 +283,9 @@ public class BattleControllerTest {
 		robotRight.setCurrentAction(actionRobotRight);
 
 		List<AnimationPosition> animations = new ArrayList<>(2);
-		animations.add(new AnimationPosition(animationIDRight, positionRight));
-		animations.add(new AnimationPosition(animationIDLeft, positionLeft));
+		animations.add(new AnimationPosition(new Animation(animationIDRight, null, null, 1, 1), positionLeft));
+		animations.add(new AnimationPosition(new Animation(animationIDLeft, null, null, 1, 1), positionRight));
+		
 		
 		battleController.startAnimationsInOrder(robotLeft, robotRight);
 		
@@ -314,8 +316,9 @@ public class BattleControllerTest {
 		robotRight.setCurrentAction(actionRobotRight);
 
 		List<AnimationPosition> animations = new ArrayList<>(2);
-		animations.add(new AnimationPosition(animationIDRight, positionRight));
-		animations.add(new AnimationPosition(animationIDLeft, positionLeft));
+		animations.add(new AnimationPosition(new Animation(animationIDRight, null, null, 1, 1), positionLeft));
+		animations.add(new AnimationPosition(new Animation(animationIDLeft, null, null, 1, 1), positionRight));
+		
 		
 		battleController.startAnimationsInOrder(robotLeft, robotRight);
 		
