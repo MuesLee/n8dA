@@ -137,6 +137,12 @@ public class DataLoaderFileSystemImpl implements DataLoader
 		int frameHeight;
 
 		Path absolutePath = info.getParent().resolve("animation.png").toAbsolutePath();
+		if (!Files.exists(absolutePath))
+		{
+
+			throw new IOException("Animation not found");
+		}
+
 		relativePathToFile = sourceFolder.toAbsolutePath().relativize(absolutePath).toString();
 
 		Document doc = builder.build(Files.newInputStream(info));
