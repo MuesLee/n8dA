@@ -31,7 +31,7 @@ public class BattleController
 
 	private static final Logger LOG = LoggerFactory.getLogger(BattleController.class);
 
-	private static final int ENERGY_REGENERATION_RATE = 0;
+	private static final int ENERGY_REGENERATION_RATE = 2;
 
 	private Robot robotLeft;
 	private Robot robotRight;
