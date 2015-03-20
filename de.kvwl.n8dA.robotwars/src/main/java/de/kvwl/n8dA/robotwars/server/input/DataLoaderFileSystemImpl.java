@@ -81,7 +81,7 @@ public class DataLoaderFileSystemImpl implements DataLoader
 	public DataLoaderFileSystemImpl()
 	{
 
-		this(Paths.get("./"));
+		this(Paths.get("./data"));
 	}
 
 	public DataLoaderFileSystemImpl(Path sourceFolder)
@@ -654,10 +654,18 @@ public class DataLoaderFileSystemImpl implements DataLoader
 			for (Path obj : objs)
 			{
 
-				attacks.add(readAttack(obj.resolve("info.xml"), atkAnimations));
+				try
+				{
+					attacks.add(readAttack(obj.resolve("info.xml"), atkAnimations));
+				}
+				catch (Exception e)
+				{
+
+					System.out.println("Skipped attack -> " + e.getMessage());
+				}
 			}
 		}
-		catch (IOException | JDOMException e)
+		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
@@ -689,10 +697,17 @@ public class DataLoaderFileSystemImpl implements DataLoader
 			for (Path obj : objs)
 			{
 
-				defends.add(readDefense(obj.resolve("info.xml"), defAnimations));
+				try
+				{
+					defends.add(readDefense(obj.resolve("info.xml"), defAnimations));
+				}
+				catch (Exception e)
+				{
+					System.out.println("Defense skipped -> " + e.getMessage());
+				}
 			}
 		}
-		catch (IOException | JDOMException e)
+		catch (IOException e)
 		{
 			e.printStackTrace();
 		}

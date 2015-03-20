@@ -1,5 +1,7 @@
 package de.kvwl.n8dA.infrastructure.commons.interfaces;
 
+import java.net.MalformedURLException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
 import de.kvwl.n8dA.infrastructure.commons.exception.NoSuchPersonException;
@@ -12,8 +14,8 @@ import de.kvwl.n8dA.infrastructure.commons.exception.NoSuchPersonException;
  */
 public interface CreditAccess
 {
-	void initConnectionToServer() throws RemoteException;
-	
+	void initConnectionToServer() throws RemoteException, MalformedURLException, NotBoundException;
+
 	int getConfigurationPointsForPerson(String name) throws NoSuchPersonException, RemoteException;
-	
+
 }

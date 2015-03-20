@@ -1,6 +1,8 @@
 package de.kvwl.n8da.infrastructure.rewards.client;
 
+import java.net.MalformedURLException;
 import java.rmi.Naming;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.UUID;
 
@@ -16,18 +18,18 @@ import de.kvwl.n8dA.infrastructure.commons.util.NetworkUtils;
 /**
  * GUI-loser Client als Verbindung zum zentralen Punkte-Server.
  */
-public class CreditAccessClient implements CreditAccess {
+public class CreditAccessClient implements CreditAccess
+{
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(CreditAccessClient.class);
+	private static final Logger LOG = LoggerFactory.getLogger(CreditAccessClient.class);
 
 	private CreditAccesHandler server;
 	private UUID uuid;
 	private String ipAdressServer;
-	
-	
-	public CreditAccessClient(String ipAdressServer) {
-		
+
+	public CreditAccessClient(String ipAdressServer)
+	{
+
 		BasicConfigurator.configure();
 		this.ipAdressServer = ipAdressServer;
 		this.uuid = UUID.randomUUID();
@@ -35,37 +37,41 @@ public class CreditAccessClient implements CreditAccess {
 
 	/**
 	 * Baut die Verbindung zum Punkteserver auf
+	 * 
+	 * @throws NotBoundException
+	 * @throws MalformedURLException
 	 */
-	public void initConnectionToServer() throws RemoteException {
-		try {
-			String url = "//"
-					+ ipAdressServer + "/"
-					+ NetworkUtils.REWARD_SERVER_NAME;
-			server = (CreditAccesHandler) Naming.lookup(url);
-			LOG.info("Client: " + uuid + " connected to Server");
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
+	public void initConnectionToServer() throws RemoteException, MalformedURLException, NotBoundException
+	{
+		String url = "//" + ipAdressServer + "/" + NetworkUtils.REWARD_SERVER_NAME;
+		server = (CreditAccesHandler) Naming.lookup(url);
+		LOG.info("Client: " + uuid + " connected to Server");
 	}
 
 	/**
 	 * Ruft den Punktestand f�r den �bergebenen Namen vom Server ab
 	 */
-	public int getConfigurationPointsForPerson(String name)
-			throws NoSuchPersonException, RemoteException {
+	public int getConfigurationPointsForPerson(String name) throws NoSuchPersonException, RemoteException
+	{
 		return server.getConfigurationPointsForPerson(name);
 	}
 
 	// TODO: Timo: Nur zu Testzwecken. Sp�ter entfernen.
-	public static void main(String[] args) {
-		
+	public static void main(String[] args) throws Exception
+	{
+
 		CreditAccessClient client = new CreditAccessClient("localhost");
-		try {
+		try
+		{
 			client.initConnectionToServer();
 			client.getConfigurationPointsForPerson("Derp");
-		} catch (RemoteException e) {
+		}
+		catch (RemoteException e)
+		{
 			LOG.error("Remote Error", e);
-		} catch (NoSuchPersonException e) {
+		}
+		catch (NoSuchPersonException e)
+		{
 			LOG.error("Unbekannte Person", e);
 		}
 	}

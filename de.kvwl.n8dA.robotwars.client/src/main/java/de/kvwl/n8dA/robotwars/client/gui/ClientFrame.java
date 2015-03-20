@@ -53,10 +53,9 @@ public class ClientFrame extends JFrame implements ConfigurationListener
 
 		try
 		{
+			Attack[] attacks = battleClient.getAllPossibleAttacksFromServer().toArray(new Attack[0]);
 
 			Robot[] robots = battleClient.getAllPossibleRobotsFromServer().toArray(new Robot[0]);
-
-			Attack[] attacks = battleClient.getAllPossibleAttacksFromServer().toArray(new Attack[0]);
 
 			Defense[] defends = battleClient.getAllPossibleDefendsFromServer().toArray(new Defense[0]);
 

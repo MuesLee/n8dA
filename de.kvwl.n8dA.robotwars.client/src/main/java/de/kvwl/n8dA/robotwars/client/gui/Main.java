@@ -20,6 +20,8 @@ public class Main
 		setLaF();
 
 		RoboBattlePlayerClient battleClient = createBattleClient();
+		battleClient.sendPlayerIsReadyToBattleToServer();
+
 		SOURCE_FOLDER = battleClient.getProperty("SOURCE_FOLDER");
 
 		long maxCreditPoints = getCreditPoints(battleClient);
