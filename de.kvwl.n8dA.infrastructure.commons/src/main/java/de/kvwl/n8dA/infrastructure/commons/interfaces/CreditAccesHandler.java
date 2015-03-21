@@ -9,5 +9,7 @@ public interface CreditAccesHandler extends Remote{
 	
 	public int getConfigurationPointsForPerson(String name)
 			throws NoSuchPersonException, RemoteException;
+	
+	public void persistConfigurationPointsForPerson(String name, int points) throws RemoteException;
 
 }

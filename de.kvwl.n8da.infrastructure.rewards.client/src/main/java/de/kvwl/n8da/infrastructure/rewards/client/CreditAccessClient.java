@@ -76,4 +76,10 @@ public class CreditAccessClient implements CreditAccess
 		}
 	}
 
+	@Override
+	public void persistConfigurationPointsForPerson(String name, int points)
+			throws RemoteException {
+		server.persistConfigurationPointsForPerson(name, points);
+	}
+
 }

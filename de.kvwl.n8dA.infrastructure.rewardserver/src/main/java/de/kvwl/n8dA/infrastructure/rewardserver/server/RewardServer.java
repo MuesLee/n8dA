@@ -129,4 +129,23 @@ public class RewardServer extends UnicastRemoteObject implements CreditAccesHand
 		return points;
 	}
 
+	@Override
+	public void persistConfigurationPointsForPerson(String name, int points)
+			throws RemoteException {
+		
+		Person person = userDao.findById(name);
+		
+		if(person == null)
+		{
+			person = new Person();
+			person.setName(name);
+			person.setPoints(points);
+			userDao.add(person);
+		}
+		else {
+			person.setPoints(points);
+			userDao.update(person);
+		}
+	}
+
 }

@@ -16,5 +16,7 @@ public interface CreditAccess
 	void initConnectionToServer() throws RemoteException, MalformedURLException, NotBoundException;
 
 	int getConfigurationPointsForPerson(String name) throws NoSuchPersonException, RemoteException;
+	
+	void persistConfigurationPointsForPerson(String name, int points) throws RemoteException;
 
 }
