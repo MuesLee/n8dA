@@ -16,6 +16,7 @@ import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
+import de.kvwl.n8dA.robotwars.commons.game.items.RoboModificator;
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.StatusEffect;
 import de.kvwl.n8dA.robotwars.commons.game.util.GameStateType;
 import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
@@ -337,12 +338,18 @@ public class BattleController
 	private void performEachRoundsModificationOfRobot(Robot robot)
 	{
 		List<RoboItem> equippedItems = robot.getEquippedItems();
-
-		for (RoboItem roboItem : equippedItems)
+		
+		for (RoboModificator roboMod : equippedItems)
 		{
-			roboItem.performEachRoundsModification(robot);
-			LOG.info("Robot " + robot + " has received an upgrade: " + roboItem);
+			roboMod.performEachRoundsModification(robot);
+			LOG.info("Robot " + robot + " has received an upgrade: " + roboMod);
 		}
+		
+		List<StatusEffect> roboStats = robot.getStatusEffects();
+		for (RoboModificator statusEffect : roboStats) {
+			statusEffect.performEachRoundsModification(robot);
+		}
+		
 	}
 
 	private void checkForGameEnding(Robot robotLeft, Robot robotRight)
