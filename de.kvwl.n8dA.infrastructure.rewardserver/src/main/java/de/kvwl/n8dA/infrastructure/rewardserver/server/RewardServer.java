@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 import javax.swing.JOptionPane;
@@ -67,8 +68,13 @@ public class RewardServer extends UnicastRemoteObject implements CreditAccesHand
 		try {
 			userDao = new UserDaoSqlite();
 			startActiveMQBroker();
-
-			LocateRegistry.createRegistry(port);
+			
+			
+			Registry registry = LocateRegistry.getRegistry(port);
+			if(registry == null)
+			{
+				LocateRegistry.createRegistry(port);
+			}
 		}
 
 		catch (RemoteException ex) {
