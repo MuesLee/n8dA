@@ -16,6 +16,7 @@ import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
+import de.kvwl.n8dA.robotwars.commons.game.statuseffects.StatusEffect;
 import de.kvwl.n8dA.robotwars.commons.game.util.GameStateType;
 import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
 import de.kvwl.n8dA.robotwars.server.network.RoboBattleServer;
@@ -378,6 +379,13 @@ public class BattleController
 
 		LOG.info("Robot: " + robot + " has received " + damage + " damage.");
 		int healthPoints = robot.getHealthPoints();
+		
+		List<StatusEffect> statusEffects = robot.getStatusEffects();
+		if(!statusEffects.isEmpty())
+		{
+			
+		}
+		
 		healthPoints -= damage;
 
 		robot.setHealthPoints(healthPoints);
