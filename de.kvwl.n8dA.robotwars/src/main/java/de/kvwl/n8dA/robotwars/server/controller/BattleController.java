@@ -290,7 +290,7 @@ public class BattleController
 
 			// Voller Schaden für DEF
 			LOG.info("Weak defense!");
-			dealDamageToRobot(defender, attackDamage);
+			dealDamageToRobot(defender, attackDamage, attack.getRobotActionType());
 		}
 		else if (defenseType.beats(attackType))
 		{
@@ -298,14 +298,14 @@ public class BattleController
 			// teilweise Reflektion an ATT, keinen Schaden für DEF
 			LOG.info("Strong defense!");
 			int reflectedDamage = (int) (attackDamage * STRONG_DEFENSE_REFLECTION_FACTOR);
-			dealDamageToRobot(attacker, reflectedDamage);
+			dealDamageToRobot(attacker, reflectedDamage,attack.getRobotActionType());
 
 		}
 		else
 		{
 			LOG.info("Neutral defense!");
 			int postBlockDamage = (int) (attackDamage * NEUTRAL_DEFENSE_BLOCK_FACTOR);
-			dealDamageToRobot(defender, postBlockDamage);
+			dealDamageToRobot(defender, postBlockDamage, attack.getRobotActionType());
 		}
 	}
 
@@ -317,8 +317,8 @@ public class BattleController
 		int damageLeft = attackLeft.getDamage();
 		int damageRight = attackRight.getDamage();
 
-		dealDamageToRobot(attackerLeft, damageRight);
-		dealDamageToRobot(attackerRight, damageLeft);
+		dealDamageToRobot(attackerLeft, damageRight, attackRight.getRobotActionType());
+		dealDamageToRobot(attackerRight, damageLeft, attackLeft.getRobotActionType());
 	}
 
 	private void performInitialModificationOfRobot(Robot robot)
@@ -373,7 +373,7 @@ public class BattleController
 
 	}
 
-	private void dealDamageToRobot(Robot robot, int damage)
+	private void dealDamageToRobot(Robot robot, int damage, RobotActionType robotActionType)
 	{
 
 		LOG.info("Robot: " + robot + " has received " + damage + " damage.");

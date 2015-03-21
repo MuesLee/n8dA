@@ -7,6 +7,7 @@ import java.util.UUID;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
+import de.kvwl.n8dA.robotwars.commons.game.actions.StatusEffect;
 import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
 import de.kvwl.n8dA.robotwars.commons.gui.Animation;
 
@@ -32,6 +33,8 @@ public class Robot extends Entity
 	private List<Defense> possibleDefends;
 
 	private List<RoboItem> equippedItems;
+	
+	private List<StatusEffect> statusEffects;
 
 	private RobotAction currentAction;
 
@@ -51,6 +54,7 @@ public class Robot extends Entity
 		this.setPossibleAttacks(new ArrayList<Attack>(4));
 		this.setPossibleDefends(new ArrayList<Defense>(4));
 		this.setEquippedItems(new ArrayList<RoboItem>(4));
+		this.statusEffects = new ArrayList<StatusEffect>(3);
 	}
 
 	public int getHealthPoints()
@@ -222,6 +226,19 @@ public class Robot extends Entity
 		} else if (!uuid.equals(other.uuid))
 			return false;
 		return true;
+	}
+
+	public List<StatusEffect> getStatusEffects() {
+		return statusEffects;
+	}
+	
+	public void addStatusEffect(StatusEffect statusEffect)
+	{
+		statusEffects.add(statusEffect);
+	}
+
+	public void setStatusEffects(List<StatusEffect> statusEffects) {
+		this.statusEffects = statusEffects;
 	}
 
 }
