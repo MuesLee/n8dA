@@ -374,17 +374,26 @@ public class BattleController
 
 	}
 
+	/**
+	 * Modifies the given damage if the robot has relevant status effects and deals the computed damage to it. 
+	 * 
+	 * @param robot
+	 * @param damage
+	 * @param robotActionType
+	 */
 	private void dealDamageToRobot(Robot robot, int damage, RobotActionType robotActionType)
 	{
+		LOG.info("Robot: " + robot + " would receive " + damage + " damage.");
 
-		LOG.info("Robot: " + robot + " has received " + damage + " damage.");
 		int healthPoints = robot.getHealthPoints();
 		
 		List<StatusEffect> statusEffects = robot.getStatusEffects();
-		if(!statusEffects.isEmpty())
-		{
-			
+		for (StatusEffect statusEffect : statusEffects) {
+			double damageModificator = statusEffect.getDamageModificatorForRoboActionType(robotActionType);
+			damage = (int) (damage * damageModificator);
+			LOG.info("Robot: " + robot + " modifies the damage by " + damageModificator +" because of: " + statusEffect.getName());
 		}
+		
 		
 		healthPoints -= damage;
 

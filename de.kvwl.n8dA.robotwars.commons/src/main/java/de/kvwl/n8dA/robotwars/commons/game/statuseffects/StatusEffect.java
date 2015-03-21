@@ -1,9 +1,15 @@
 package de.kvwl.n8dA.robotwars.commons.game.statuseffects;
 
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
+import de.kvwl.n8dA.robotwars.commons.game.entities.Entity;
+import de.kvwl.n8dA.robotwars.commons.game.items.RoboModificator;
 
-public abstract class StatusEffect {
+public abstract class StatusEffect extends Entity implements RoboModificator{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int startDuration;
 	private int roundsLeft;
 
@@ -32,6 +38,11 @@ public abstract class StatusEffect {
 	public double getDamageModificatorForRoboActionType(
 			RobotActionType robotActionType) {
 		return 1.0;
+	}
+	
+	public void decreaseRoundsLeft(int sub)
+	{
+		roundsLeft-=sub;
 	}
 
 }
