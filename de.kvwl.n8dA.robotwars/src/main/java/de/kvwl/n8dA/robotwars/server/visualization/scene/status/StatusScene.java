@@ -10,7 +10,6 @@ import game.engine.stage.scene.Scene;
 import game.engine.stage.scene.object.ImageSceneObject;
 import game.engine.stage.scene.object.Point;
 
-//TODO Marvin: Status Scene
 public class StatusScene implements Scene {
 
 	private static final double SIDE_SPACE = 0.04;
