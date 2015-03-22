@@ -1,11 +1,18 @@
 package de.kvwl.n8dA.robotwars.server.visualization.scene;
 
+import java.awt.Graphics2D;
+import java.awt.Image;
+
 import de.kvwl.n8dA.robotwars.server.visualization.Position;
 import de.kvwl.n8dA.robotwars.server.visualization.scene.status.StatusScene;
 import game.engine.frame.SwingGameFrame;
+import game.engine.image.InternalImage;
+import game.engine.stage.scene.FPSScene;
 import game.engine.stage.scene.Scene;
 
 public class SceneTest {
+
+	private static final String IMAGE_PATH = "/de/kvwl/n8dA/robotwars/server/images/";
 
 	public static void main(String[] args) {
 
@@ -14,14 +21,27 @@ public class SceneTest {
 		SwingGameFrame disp = new SwingGameFrame();
 		disp.setLocationRelativeTo(null);
 
-		disp.setScene(scene);
+		disp.setScene(new FPSScene(scene));
 
 		disp.setVisible(true);
 	}
 
 	private static Scene getStatusScene() {
 
-		final StatusScene scene = new StatusScene();
+		final StatusScene scene = new StatusScene() {
+
+			@Override
+			public void paintScene(Graphics2D g2d, int width, int height,
+					long elapsedTime) {
+
+				Image bg = InternalImage.loadFromPath(IMAGE_PATH,
+						"arena_bg.png");
+				g2d.drawImage(bg, 0, 0, width, height, 0, 0, bg.getWidth(null),
+						bg.getHeight(null), null);
+
+				super.paintScene(g2d, width, height, elapsedTime);
+			}
+		};
 
 		new Thread(new Runnable() {
 

@@ -17,7 +17,7 @@ public class StatusScene implements Scene {
 	private static final double TOP_SPACE = 0.01;
 	private static final double BAR_HEIGHT = 0.03;
 
-	private static final String IMAGE_PATH = "/de/kvwl/n8dA/robotwars/client/images/";
+	private static final String IMAGE_PATH = "/de/kvwl/n8dA/robotwars/commons/images/";
 
 	private HealthPoints healthLeft = new HealthPoints();
 	private HealthPoints healthRight = new HealthPoints();
