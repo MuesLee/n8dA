@@ -2,7 +2,7 @@
 <defense>
 	<defensefactor>0.3</defensefactor>
 	<type>SCISSOR</type>
-	<animationid>Tennis</animationid>
+	<animationid>Tennisschläger</animationid>
 	<energycosts>3</energycosts>
 	<configcosts>5</configcosts>
 	<name>Tennis</name>
