@@ -155,24 +155,27 @@ public class ConfigShop extends JDialog {
 			return;
 		}
 
-		boolean foundBasicAttack = false;
-		for (Attack a : possibleAttacks) {
-
-			if (a.getEnergyCosts() <= 0) {
-
-				foundBasicAttack = true;
-				break;
-			}
-		}
-
-		if (!foundBasicAttack) {
-			JOptionPane
-					.showMessageDialog(
-							this,
-							"Es muss mindestens eine Basisattacke(keien Energiekosten) ausgewählt sein.",
-							"Keine Basisattacke", JOptionPane.ERROR_MESSAGE);
-			return;
-		}
+		// Wird noch einmal geprüft, bevor das Spiel startet - Verlassen des
+		// Shops wird somit möglich auch wenn keine Änderungen vorgenommen
+		// wurden
+		// boolean foundBasicAttack = false;
+		// for (Attack a : possibleAttacks) {
+		//
+		// if (a.getEnergyCosts() <= 0) {
+		//
+		// foundBasicAttack = true;
+		// break;
+		// }
+		// }
+		//
+		// if (!foundBasicAttack) {
+		// JOptionPane
+		// .showMessageDialog(
+		// this,
+		// "Es muss mindestens eine Basisattacke(keien Energiekosten) ausgewählt sein.",
+		// "Keine Basisattacke", JOptionPane.ERROR_MESSAGE);
+		// return;
+		// }
 
 		dispose();
 	}
