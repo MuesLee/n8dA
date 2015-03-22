@@ -11,8 +11,7 @@ import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.StatusEffect;
 import de.kvwl.n8dA.robotwars.commons.gui.Animation;
 
-public class Robot extends Entity
-{
+public class Robot extends Entity {
 	/**
 	 * 
 	 */
@@ -33,22 +32,22 @@ public class Robot extends Entity
 	private List<Defense> possibleDefends;
 
 	private List<RoboItem> equippedItems;
-	
+
 	private List<StatusEffect> statusEffects;
 
 	private RobotAction currentAction;
 
 	/**
-	 * Wenn true sollte dieser Roboter nicht erneut als User roboter gespeichert werden, da er als
-	 * solcher bereits geladen wurde. Außerdem werden Konfigurationen an solchen Robotern
-	 * unterdrückt. Änderungen sind nicht mehr möglich.
+	 * Wenn true sollte dieser Roboter nicht erneut als User roboter gespeichert
+	 * werden, da er als solcher bereits geladen wurde. Außerdem werden
+	 * Konfigurationen an solchen Robotern unterdrückt. Änderungen sind nicht
+	 * mehr möglich.
 	 */
 	private boolean loadedAsUserRobot = false;
 
 	private String nickname = "";
 
-	public Robot()
-	{
+	public Robot() {
 		super();
 		setUuid(UUID.randomUUID());
 		this.setPossibleAttacks(new ArrayList<Attack>(4));
@@ -57,131 +56,106 @@ public class Robot extends Entity
 		this.statusEffects = new ArrayList<StatusEffect>(3);
 	}
 
-	public int getHealthPoints()
-	{
+	public int getHealthPoints() {
 		return healthPoints;
 	}
 
-	public void setHealthPoints(int healthPoints)
-	{
-		this.healthPoints = healthPoints;
+	public void setHealthPoints(int healthPoints) {
+		this.healthPoints = Math.min(healthPoints, maxHealthPoints);
 	}
 
-	public RobotAction getCurrentAction()
-	{
+	public RobotAction getCurrentAction() {
 		return currentAction;
 	}
 
-	public void setCurrentAction(RobotAction action)
-	{
+	public void setCurrentAction(RobotAction action) {
 		this.currentAction = action;
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 
 		return name + ": " + healthPoints + "HP";
 	}
 
-	public Animation getAnimation()
-	{
+	public Animation getAnimation() {
 		return animation;
 	}
 
-	public void setAnimation(Animation animation)
-	{
+	public void setAnimation(Animation animation) {
 		this.animation = animation;
 	}
 
-	public int getEnergyPoints()
-	{
+	public int getEnergyPoints() {
 		return energyPoints;
 	}
 
-	public void setEnergyPoints(int energyPoints)
-	{
-		this.energyPoints = energyPoints;
+	public void setEnergyPoints(int energyPoints) {
+
+		this.energyPoints = Math.min(energyPoints, maxEnergyPoints);
 	}
 
-	
-	public List<RoboItem> getEquippedItems()
-	{
+	public List<RoboItem> getEquippedItems() {
 		return equippedItems;
 	}
 
-	public void setEquippedItems(List<RoboItem> equippedItems)
-	{
+	public void setEquippedItems(List<RoboItem> equippedItems) {
 		this.equippedItems = equippedItems;
 	}
 
-	public boolean isReadyToFight()
-	{
+	public boolean isReadyToFight() {
 		return readyToFight;
 	}
 
-	public void setReadyToFight(boolean readyToFight)
-	{
+	public void setReadyToFight(boolean readyToFight) {
 		this.readyToFight = readyToFight;
 	}
 
-	public List<Attack> getPossibleAttacks()
-	{
+	public List<Attack> getPossibleAttacks() {
 		return possibleAttacks;
 	}
 
-	public void setPossibleAttacks(List<Attack> possibleAttacks)
-	{
+	public void setPossibleAttacks(List<Attack> possibleAttacks) {
 		this.possibleAttacks = possibleAttacks;
 	}
 
-	public List<Defense> getPossibleDefends()
-	{
+	public List<Defense> getPossibleDefends() {
 		return possibleDefends;
 	}
 
-	public void setPossibleDefends(List<Defense> possibleDefends)
-	{
+	public void setPossibleDefends(List<Defense> possibleDefends) {
 		this.possibleDefends = possibleDefends;
 	}
 
-	public boolean isLoadedAsUserRobot()
-	{
+	public boolean isLoadedAsUserRobot() {
 		return loadedAsUserRobot;
 	}
 
-	public void setLoadedAsUserRobot(boolean loadedAsUserRobot)
-	{
+	public void setLoadedAsUserRobot(boolean loadedAsUserRobot) {
 		this.loadedAsUserRobot = loadedAsUserRobot;
 	}
 
-	public String getNickname()
-	{
+	public String getNickname() {
 		return nickname;
 	}
 
-	public void setNickname(String nickname)
-	{
+	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
 
-	public int getMaxEnergyPoints()
-	{
+	public int getMaxEnergyPoints() {
 		return maxEnergyPoints;
 	}
 
-	public void setMaxEnergyPoints(int maxEnergyPoints)
-	{
+	public void setMaxEnergyPoints(int maxEnergyPoints) {
 		this.maxEnergyPoints = maxEnergyPoints;
 	}
 
-	public int getMaxHealthPoints()
-	{
+	public int getMaxHealthPoints() {
 		return maxHealthPoints;
 	}
 
-	public void setMaxHealthPoints(int maxHealthPoints)
-	{
+	public void setMaxHealthPoints(int maxHealthPoints) {
 		this.maxHealthPoints = maxHealthPoints;
 	}
 
@@ -231,9 +205,8 @@ public class Robot extends Entity
 	public List<StatusEffect> getStatusEffects() {
 		return statusEffects;
 	}
-	
-	public void addStatusEffect(StatusEffect statusEffect)
-	{
+
+	public void addStatusEffect(StatusEffect statusEffect) {
 		statusEffects.add(statusEffect);
 	}
 
