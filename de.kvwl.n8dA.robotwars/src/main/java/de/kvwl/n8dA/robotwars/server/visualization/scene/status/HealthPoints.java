@@ -1,5 +1,7 @@
 package de.kvwl.n8dA.robotwars.server.visualization.scene.status;
 
+import game.engine.stage.scene.object.SceneObject;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
@@ -9,7 +11,6 @@ import java.awt.RenderingHints;
 import java.awt.font.LineMetrics;
 
 import de.kvwl.n8dA.robotwars.server.visualization.Position;
-import game.engine.stage.scene.object.SceneObject;
 
 public class HealthPoints extends SceneObject {
 
@@ -30,7 +31,7 @@ public class HealthPoints extends SceneObject {
 
 		setRedneringHints(g2d);
 
-		g2d.setColor(Color.BLACK);
+		g2d.setColor(Color.LIGHT_GRAY);
 		g2d.fillRect(0, 0, getWidth(), getHeight());
 
 		double percent = (1.0 / maxValue) * value;
@@ -98,9 +99,15 @@ public class HealthPoints extends SceneObject {
 		b = (int) (maxColor.getBlue() * percent + minColor.getBlue()
 				* (1 - percent)) % 256;
 
-		Color c = new Color(r, g, b);
+		Color c = new Color(range(0, r, 255), range(0, g, 255),
+				range(0, b, 255));
 
 		return c;
+	}
+
+	private int range(int min, int soll, int max) {
+
+		return Math.min(Math.max(min, soll), max);
 	}
 
 	private void setRedneringHints(Graphics2D g2d) {
