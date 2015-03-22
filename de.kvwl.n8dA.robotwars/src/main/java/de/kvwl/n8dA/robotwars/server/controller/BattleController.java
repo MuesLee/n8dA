@@ -50,6 +50,10 @@ public class BattleController {
 	private CinematicVisualizer cinematicVisualizer;
 
 	public BattleController() {
+
+		// TODO Anzeigen und ggf. schließen. Wird das Fenster nicht korrekt
+		// geschlossen, können die Grafikeinstellungen des Systems nicht
+		// zurückgesetzt werden
 		this.cinematicVisualizer = new CinematicVisualizerImpl();
 	}
 
