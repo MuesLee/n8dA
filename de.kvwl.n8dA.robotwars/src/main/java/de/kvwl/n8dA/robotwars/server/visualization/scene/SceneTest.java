@@ -26,6 +26,7 @@ public class SceneTest {
 		new Thread(new Runnable() {
 
 			int value = 100;
+			double round = 0;
 
 			@Override
 			public void run() {
@@ -34,6 +35,11 @@ public class SceneTest {
 					try {
 						Thread.sleep(100);
 					} catch (InterruptedException e) {
+					}
+
+					round += 0.25;
+					if (round >= 21) {
+						round = 1;
 					}
 
 					value -= 1;
@@ -46,6 +52,8 @@ public class SceneTest {
 						scene.setEnergyPoints(Position.RIGHT, value);
 						scene.setHealthPoints(Position.RIGHT, value);
 					}
+
+					scene.setRound((int) round);
 
 					scene.setEnergyPoints(Position.LEFT, value);
 					scene.setHealthPoints(Position.LEFT, value);

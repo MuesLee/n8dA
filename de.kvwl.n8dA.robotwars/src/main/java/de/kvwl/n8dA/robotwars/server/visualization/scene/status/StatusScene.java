@@ -13,6 +13,7 @@ import game.engine.stage.scene.object.Point;
 //TODO Marvin: Status Scene
 public class StatusScene implements Scene {
 
+	private static final double SIDE_SPACE = 0.04;
 	private static final double BAR_WIDTH = 0.33;
 	private static final double TOP_SPACE = 0.01;
 	private static final double BAR_HEIGHT = 0.03;
@@ -38,6 +39,8 @@ public class StatusScene implements Scene {
 	private ImageSceneObject imgEnergyRight = new ImageSceneObject(
 			ImageUtils.BufferedImage(InternalImage.loadFromPath(IMAGE_PATH,
 					"energy.png")));
+
+	private RoundLabel lblRound = new RoundLabel();
 
 	public StatusScene() {
 
@@ -65,12 +68,27 @@ public class StatusScene implements Scene {
 
 		imgHealthLeft.paintOnScene(g2d, elapsedTime);
 		imgHealthRight.paintOnScene(g2d, elapsedTime);
+
+		lblRound.paintOnScene(g2d, elapsedTime);
 	}
 
 	private void revalidate(int width, int height) {
 
 		revalidateIcons(width, height);
 		revalidateBars(width, height);
+		revalidateRoundLabel(width, height);
+	}
+
+	private void revalidateRoundLabel(int width, int height) {
+
+		double _x = width * SIDE_SPACE * 2 + width * BAR_WIDTH;
+		double _y = height * TOP_SPACE;
+
+		double _width = width - _x * 2;
+		double _height = height * (1 / BAR_WIDTH) * 0.04;
+
+		lblRound.setSize((int) _width, (int) _height);
+		lblRound.setTopLeftPosition(new Point((int) _x, (int) _y));
 	}
 
 	private void revalidateIcons(int width, int height) {
@@ -102,8 +120,8 @@ public class StatusScene implements Scene {
 		double _width = width * BAR_WIDTH;
 		double _height = height * BAR_HEIGHT;
 
-		double _x = width * 0.04;
-		double _y = height * 0.01;
+		double _x = width * SIDE_SPACE;
+		double _y = height * TOP_SPACE;
 
 		healthLeft.setSize((int) _width, (int) _height);
 		healthLeft.setTopLeftPosition(new Point((int) _x, (int) _y));
@@ -168,5 +186,15 @@ public class StatusScene implements Scene {
 
 			energyRight.setMaxValue(value);
 		}
+	}
+
+	public int getRound() {
+
+		return lblRound.getRound();
+	}
+
+	public void setRound(int round) {
+
+		lblRound.setRound(round);
 	}
 }
