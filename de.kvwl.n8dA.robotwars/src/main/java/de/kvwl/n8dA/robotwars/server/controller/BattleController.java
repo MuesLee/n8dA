@@ -397,8 +397,10 @@ public class BattleController {
 		energyRobotLeft += energyReg;
 		energyRobotRight += energyReg;
 
-		robotLeft.setEnergyPoints(energyRobotLeft);
-		robotRight.setEnergyPoints(energyRobotRight);
+		robotLeft.setEnergyPoints(Math.min(energyRobotLeft,
+				robotLeft.getMaxEnergyPoints()));
+		robotRight.setEnergyPoints(Math.min(energyRobotRight,
+				robotRight.getMaxEnergyPoints()));
 
 		LOG.info("Robots regenerated energy: " + energyReg);
 	}
