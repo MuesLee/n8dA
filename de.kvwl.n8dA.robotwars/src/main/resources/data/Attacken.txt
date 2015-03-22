@@ -1,6 +1,0 @@
-0,Raketenwerfer, Schere, 0, 10
-1,Laser,Stein,0,10
-2,Boxhandschuh,Papier,0,10
-3,Bombe,Schere,3,20
-4,Plasmakugel,Stein,3,20
-5,Kreissäge,Papier,3,20

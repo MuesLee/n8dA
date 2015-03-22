@@ -1,6 +1,0 @@
-50,Windstoß,Schere,5,0.5
-51,Laserschild,Stein,5,0.5
-52,Holzschild,Papier,5,0.5
-53,Tennisschläger,Schere,8,1
-54,Spiegel,Stein,8,1
-55,Kissen,Papier,8,1
