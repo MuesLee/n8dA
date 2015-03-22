@@ -25,13 +25,13 @@ import de.kvwl.n8dA.robotwars.server.visualization.AnimationPosition;
 import de.kvwl.n8dA.robotwars.server.visualization.CinematicVisualizer;
 import de.kvwl.n8dA.robotwars.server.visualization.CinematicVisualizerImpl;
 
-public class BattleController
-{
+public class BattleController {
 
 	static final double NEUTRAL_DEFENSE_BLOCK_FACTOR = 0.5;
 	static final double STRONG_DEFENSE_REFLECTION_FACTOR = 0.5;
 
-	private static final Logger LOG = LoggerFactory.getLogger(BattleController.class);
+	private static final Logger LOG = LoggerFactory
+			.getLogger(BattleController.class);
 
 	private static final int ENERGY_REGENERATION_RATE = 2;
 
@@ -47,15 +47,13 @@ public class BattleController
 
 	private RoboBattleServer server;
 
-	private CinematicVisualizer cinematicVisualizer ;
+	private CinematicVisualizer cinematicVisualizer;
 
-	public BattleController()
-	{	
+	public BattleController() {
 		this.cinematicVisualizer = new CinematicVisualizerImpl();
 	}
 
-	private void startTheBattle()
-	{
+	private void startTheBattle() {
 		LOG.info("The Battle has begun!");
 
 		performInitialModificationOfRobot(robotLeft);
@@ -66,23 +64,22 @@ public class BattleController
 		setCurrentGameState(GameStateType.WAITING_FOR_PLAYER_INPUT);
 	}
 
-	public void fightNextBattleRound() throws RobotsArentRdyToFightException
-	{
+	public void fightNextBattleRound() throws RobotsArentRdyToFightException {
 
 		LOG.debug("Next Battleround triggered");
 
 		RobotAction actionRobotLeft = robotLeft.getCurrentAction();
 		RobotAction actionRobotRight = robotRight.getCurrentAction();
 
-		if (actionRobotLeft == null || actionRobotRight == null)
-		{
+		if (actionRobotLeft == null || actionRobotRight == null) {
 			throw new RobotsArentRdyToFightException();
 		}
 
 		LOG.info("Battleround started");
 		setCurrentGameState(GameStateType.BATTLE_IS_ACTIVE);
 
-		regenerateEnergyOfRobots(robotLeft, robotRight, ENERGY_REGENERATION_RATE);
+		regenerateEnergyOfRobots(robotLeft, robotRight,
+				ENERGY_REGENERATION_RATE);
 		performEachRoundsModificationOfRobot(robotLeft);
 		performEachRoundsModificationOfRobot(robotRight);
 
@@ -110,8 +107,7 @@ public class BattleController
 	 * @param actionRobotRight
 	 * @return Array containing RobotActions in order. null if both are defends
 	 */
-	void startAnimationsInOrder(Robot robotLeft, Robot robotRight)
-	{
+	void startAnimationsInOrder(Robot robotLeft, Robot robotRight) {
 		RobotAction actionRobotRight = robotRight.getCurrentAction();
 		RobotAction actionRobotLeft = robotLeft.getCurrentAction();
 
@@ -119,49 +115,48 @@ public class BattleController
 		AnimationPosition animationPosition1;
 		AnimationPosition animationPosition2;
 
-		if (actionRobotLeft instanceof Attack)
-		{
+		if (actionRobotLeft instanceof Attack) {
 			// Links ATT Rechts ATT
-			if (actionRobotRight instanceof Attack)
-			{
+			if (actionRobotRight instanceof Attack) {
 				double random = Math.random();
-				if (random >= 0.5)
-				{
-					animationPosition1 = new AnimationPosition(actionRobotLeft.getAnimation(),
-						RobotPosition.LEFT);
-					animationPosition2 = new AnimationPosition(actionRobotRight.getAnimation(),
-						RobotPosition.RIGHT);
+				if (random >= 0.5) {
+					animationPosition1 = new AnimationPosition(
+							actionRobotLeft.getAnimation(), RobotPosition.LEFT);
+					animationPosition2 = new AnimationPosition(
+							actionRobotRight.getAnimation(),
+							RobotPosition.RIGHT);
 
-				}
-				else
-				{
-					animationPosition1 = new AnimationPosition(actionRobotRight.getAnimation(),
-						RobotPosition.RIGHT);
-					animationPosition2 = new AnimationPosition(actionRobotLeft.getAnimation(),
-						RobotPosition.LEFT);
+				} else {
+					animationPosition1 = new AnimationPosition(
+							actionRobotRight.getAnimation(),
+							RobotPosition.RIGHT);
+					animationPosition2 = new AnimationPosition(
+							actionRobotLeft.getAnimation(), RobotPosition.LEFT);
 				}
 			}
 			// Links ATT rechts DEF
-			else
-			{
-				animationPosition1 = new AnimationPosition(actionRobotLeft.getAnimation(), RobotPosition.LEFT);
-				animationPosition2 = new AnimationPosition(actionRobotRight.getAnimation(), RobotPosition.RIGHT);
+			else {
+				animationPosition1 = new AnimationPosition(
+						actionRobotLeft.getAnimation(), RobotPosition.LEFT);
+				animationPosition2 = new AnimationPosition(
+						actionRobotRight.getAnimation(), RobotPosition.RIGHT);
 			}
 		}
 		// Links DEF Rechts ATT
-		else
-		{
-			if (actionRobotRight instanceof Attack)
-			{
-				animationPosition1 = new AnimationPosition(actionRobotRight.getAnimation(), RobotPosition.RIGHT);
-				animationPosition2 = new AnimationPosition(actionRobotLeft.getAnimation(), RobotPosition.LEFT);
+		else {
+			if (actionRobotRight instanceof Attack) {
+				animationPosition1 = new AnimationPosition(
+						actionRobotRight.getAnimation(), RobotPosition.RIGHT);
+				animationPosition2 = new AnimationPosition(
+						actionRobotLeft.getAnimation(), RobotPosition.LEFT);
 			}
 
 			// Links DEF rechts DEF
-			else
-			{
-				animationPosition1 = new AnimationPosition(actionRobotRight.getAnimation(), RobotPosition.RIGHT);
-				animationPosition2 = new AnimationPosition(actionRobotLeft.getAnimation(), RobotPosition.LEFT);
+			else {
+				animationPosition1 = new AnimationPosition(
+						actionRobotRight.getAnimation(), RobotPosition.RIGHT);
+				animationPosition2 = new AnimationPosition(
+						actionRobotLeft.getAnimation(), RobotPosition.LEFT);
 				order.add(animationPosition1);
 				order.add(animationPosition2);
 				cinematicVisualizer.playAnimationForRobotsSimultaneously(order);
@@ -175,19 +170,15 @@ public class BattleController
 		cinematicVisualizer.playAnimationForRobotsWithDelayAfterFirst(order);
 	}
 
-	GameStateType getCurrentGameState(Robot robotLeft, Robot robotRight)
-	{
+	GameStateType getCurrentGameState(Robot robotLeft, Robot robotRight) {
 
 		GameStateType result = GameStateType.WAITING_FOR_PLAYER_INPUT;
 
-		if (robotLeft == null || robotRight == null)
-		{
+		if (robotLeft == null || robotRight == null) {
 			return GameStateType.GAME_HASNT_BEGUN;
-		}
-		else
-		{
-			if (robotLeft.getCurrentAction() != null && robotRight.getCurrentAction() != null)
-			{
+		} else {
+			if (robotLeft.getCurrentAction() != null
+					&& robotRight.getCurrentAction() != null) {
 				result = GameStateType.BATTLE_IS_ACTIVE;
 			}
 		}
@@ -195,21 +186,14 @@ public class BattleController
 		int healthPointsLeft = robotLeft.getHealthPoints();
 		int healthPointsRight = robotRight.getHealthPoints();
 
-		if (healthPointsLeft <= 0)
-		{
-			if (healthPointsRight <= 0)
-			{
+		if (healthPointsLeft <= 0) {
+			if (healthPointsRight <= 0) {
 				result = GameStateType.DRAW;
-			}
-			else
-			{
+			} else {
 				result = GameStateType.VICTORY_RIGHT;
 			}
-		}
-		else
-		{
-			if (healthPointsRight <= 0)
-			{
+		} else {
+			if (healthPointsRight <= 0) {
 				result = GameStateType.VICTORY_LEFT;
 			}
 		}
@@ -218,45 +202,41 @@ public class BattleController
 	}
 
 	/**
-	 * Computes effects of RobotActions Clears currentAction of Robots Consumes robots energy
+	 * Computes effects of RobotActions Clears currentAction of Robots Consumes
+	 * robots energy
 	 * 
 	 * @param robotLeft
 	 * @param robotRight
 	 */
-	//TODO Statuseffekte einbauen
-	void computeBattleOutcome(Robot robotLeft, Robot robotRight)
-	{
+	// TODO Timo: Statuseffekte einbauen
+	void computeBattleOutcome(Robot robotLeft, Robot robotRight) {
 
 		RobotAction actionRobotRight = robotRight.getCurrentAction();
 		RobotAction actionRobotLeft = robotLeft.getCurrentAction();
 
-		if (actionRobotLeft instanceof Attack)
-		{
+		if (actionRobotLeft instanceof Attack) {
 			// Links ATT Rechts ATT
-			if (actionRobotRight instanceof Attack)
-			{
+			if (actionRobotRight instanceof Attack) {
 				LOG.info("Both robots are attacking");
 				computeOutcomeATTvsATT(robotLeft, robotRight);
 			}
 			// Links ATT rechts DEF
-			else
-			{
-				LOG.info("Robot: " + robotLeft + " attacks Robot: " + robotRight);
+			else {
+				LOG.info("Robot: " + robotLeft + " attacks Robot: "
+						+ robotRight);
 				computeOutcomeATTvsDEF(robotLeft, robotRight);
 			}
 		}
 		// Links DEF Rechts ATT
-		else
-		{
-			if (actionRobotRight instanceof Attack)
-			{
-				LOG.info("Robot: " + robotRight + " attacks Robot: " + robotLeft);
+		else {
+			if (actionRobotRight instanceof Attack) {
+				LOG.info("Robot: " + robotRight + " attacks Robot: "
+						+ robotLeft);
 				computeOutcomeATTvsDEF(robotRight, robotLeft);
 			}
 
 			// Links DEF rechts DEF
-			else
-			{
+			else {
 				LOG.info("Both Robots defended... boring");
 			}
 		}
@@ -269,147 +249,142 @@ public class BattleController
 	}
 
 	/**
-	 * ATT vs Strong DEF -> Some dmg reflected, no dmg to DEF ATT vs Weak DEF -> full dmg to DEF ATT
-	 * vs. neutral DEF -> some dmg blocked, some dmg to DEF
+	 * ATT vs Strong DEF -> Some dmg reflected, no dmg to DEF ATT vs Weak DEF ->
+	 * full dmg to DEF ATT vs. neutral DEF -> some dmg blocked, some dmg to DEF
 	 * 
 	 * @param attacker
 	 * @param defender
 	 */
-	
-	void computeOutcomeATTvsDEF(Robot attacker, Robot defender)
-	{
+
+	void computeOutcomeATTvsDEF(Robot attacker, Robot defender) {
 		Attack attack = (Attack) attacker.getCurrentAction();
 		Defense defense = (Defense) defender.getCurrentAction();
 
 		RobotActionType attackType = attack.getRobotActionType();
 		RobotActionType defenseType = defense.getRobotActionType();
 
-		LOG.info("Robot: " + attacker + " attacks with: " + attack + "\nRobot: " + defender + " defends with: "
-			+ defense);
+		LOG.info("Robot: " + attacker + " attacks with: " + attack
+				+ "\nRobot: " + defender + " defends with: " + defense);
 		int attackDamage = attack.getDamage();
-		if (attackType.beats(defenseType))
-		{
+		if (attackType.beats(defenseType)) {
 
 			// Voller Schaden für DEF
 			LOG.info("Weak defense!");
-			dealDamageToRobot(defender, attackDamage, attack.getRobotActionType());
-		}
-		else if (defenseType.beats(attackType))
-		{
+			dealDamageToRobot(defender, attackDamage,
+					attack.getRobotActionType());
+		} else if (defenseType.beats(attackType)) {
 
 			// teilweise Reflektion an ATT, keinen Schaden für DEF
 			LOG.info("Strong defense!");
 			int reflectedDamage = (int) (attackDamage * STRONG_DEFENSE_REFLECTION_FACTOR);
-			dealDamageToRobot(attacker, reflectedDamage,attack.getRobotActionType());
+			dealDamageToRobot(attacker, reflectedDamage,
+					attack.getRobotActionType());
 
-		}
-		else
-		{
+		} else {
 			LOG.info("Neutral defense!");
 			int postBlockDamage = (int) (attackDamage * NEUTRAL_DEFENSE_BLOCK_FACTOR);
-			dealDamageToRobot(defender, postBlockDamage, attack.getRobotActionType());
+			dealDamageToRobot(defender, postBlockDamage,
+					attack.getRobotActionType());
 		}
 	}
 
-	void computeOutcomeATTvsATT(Robot attackerLeft, Robot attackerRight)
-	{
+	void computeOutcomeATTvsATT(Robot attackerLeft, Robot attackerRight) {
 		Attack attackLeft = (Attack) attackerLeft.getCurrentAction();
 		Attack attackRight = (Attack) attackerRight.getCurrentAction();
 
 		int damageLeft = attackLeft.getDamage();
 		int damageRight = attackRight.getDamage();
 
-		dealDamageToRobot(attackerLeft, damageRight, attackRight.getRobotActionType());
-		dealDamageToRobot(attackerRight, damageLeft, attackLeft.getRobotActionType());
+		dealDamageToRobot(attackerLeft, damageRight,
+				attackRight.getRobotActionType());
+		dealDamageToRobot(attackerRight, damageLeft,
+				attackLeft.getRobotActionType());
 	}
 
-	private void performInitialModificationOfRobot(Robot robot)
-	{
+	private void performInitialModificationOfRobot(Robot robot) {
 
 		List<RoboItem> equippedItems = robot.getEquippedItems();
 
-		for (RoboItem roboItem : equippedItems)
-		{
+		for (RoboItem roboItem : equippedItems) {
 			roboItem.performInitialRobotModification(robot);
-			LOG.info("Robot " + robot + " has received an initial upgrade: " + roboItem);
+			LOG.info("Robot " + robot + " has received an initial upgrade: "
+					+ roboItem);
 		}
 	}
 
-	private void performEachRoundsModificationOfRobot(Robot robot)
-	{
+	private void performEachRoundsModificationOfRobot(Robot robot) {
 		List<RoboItem> equippedItems = robot.getEquippedItems();
-		
-		for (RoboModificator roboMod : equippedItems)
-		{
+
+		for (RoboModificator roboMod : equippedItems) {
 			roboMod.performEachRoundsModification(robot);
 			LOG.info("Robot " + robot + " has received an upgrade: " + roboMod);
 		}
-		
+
 		List<StatusEffect> roboStats = robot.getStatusEffects();
 		for (RoboModificator statusEffect : roboStats) {
 			statusEffect.performEachRoundsModification(robot);
 		}
-		
+
 	}
 
-	private void checkForGameEnding(Robot robotLeft, Robot robotRight)
-	{
+	private void checkForGameEnding(Robot robotLeft, Robot robotRight) {
 
 		setCurrentGameState(getCurrentGameState(robotLeft, robotRight));
 
-		switch (getCurrentGameState())
-		{
+		switch (getCurrentGameState()) {
 
-			case DRAW:
-			case VICTORY_LEFT:
-			case VICTORY_RIGHT:
-				endGame(getCurrentGameState());
+		case DRAW:
+		case VICTORY_LEFT:
+		case VICTORY_RIGHT:
+			endGame(getCurrentGameState());
 			break;
-			case WAITING_FOR_PLAYER_INPUT:
-			case BATTLE_IS_ACTIVE:
+		case WAITING_FOR_PLAYER_INPUT:
+		case BATTLE_IS_ACTIVE:
 			break;
-			case GAME_HASNT_BEGUN:
+		case GAME_HASNT_BEGUN:
 			break;
-			default:
+		default:
 			break;
 		}
 
 	}
 
-	private void endGame(GameStateType currentGameState)
-	{
+	private void endGame(GameStateType currentGameState) {
 
 	}
 
 	/**
-	 * Modifies the given damage if the robot has relevant status effects and deals the computed damage to it. 
+	 * Modifies the given damage if the robot has relevant status effects and
+	 * deals the computed damage to it.
 	 * 
 	 * @param robot
 	 * @param damage
 	 * @param robotActionType
 	 */
-	private void dealDamageToRobot(Robot robot, int damage, RobotActionType robotActionType)
-	{
+	private void dealDamageToRobot(Robot robot, int damage,
+			RobotActionType robotActionType) {
 		LOG.info("Robot: " + robot + " would receive " + damage + " damage.");
 
 		int healthPoints = robot.getHealthPoints();
-		
+
 		List<StatusEffect> statusEffects = robot.getStatusEffects();
 		for (StatusEffect statusEffect : statusEffects) {
-			double damageModificator = statusEffect.getDamageModificatorForRoboActionType(robotActionType);
+			double damageModificator = statusEffect
+					.getDamageModificatorForRoboActionType(robotActionType);
 			damage = (int) (damage * damageModificator);
-			LOG.info("Robot: " + robot + " modifies the damage by " + damageModificator +" because of: " + statusEffect.getName());
+			LOG.info("Robot: " + robot + " modifies the damage by "
+					+ damageModificator + " because of: "
+					+ statusEffect.getName());
 		}
-		
-		
+
 		healthPoints -= damage;
 
 		robot.setHealthPoints(healthPoints);
 		LOG.info("Robot: " + robot + " has " + healthPoints + " HP left.");
 	}
 
-	private void regenerateEnergyOfRobots(Robot robotLeft, Robot robotRight, int energyReg)
-	{
+	private void regenerateEnergyOfRobots(Robot robotLeft, Robot robotRight,
+			int energyReg) {
 
 		int energyRobotLeft = robotLeft.getEnergyPoints();
 		int energyRobotRight = robotRight.getEnergyPoints();
@@ -423,8 +398,7 @@ public class BattleController
 		LOG.info("Robots regenerated energy: " + energyReg);
 	}
 
-	private void consumeEnergyForRobotAction(Robot robot)
-	{
+	private void consumeEnergyForRobotAction(Robot robot) {
 		RobotAction actionRobot = robot.getCurrentAction();
 
 		int energyRobot = robot.getEnergyPoints();
@@ -434,34 +408,32 @@ public class BattleController
 
 		robot.setEnergyPoints(energyRobot);
 
-		LOG.info("Robot " + robot + " has lost " + actionsEnergyCosts + " Energy.");
+		LOG.info("Robot " + robot + " has lost " + actionsEnergyCosts
+				+ " Energy.");
 		LOG.info("Robot " + robot + " has " + energyRobot + " EP left.");
 	}
 
-	public Robot getRobotLeft()
-	{
+	public Robot getRobotLeft() {
 		return robotLeft;
 	}
 
-	public void setRobotLeft(Robot robotLeft)
-	{
+	public void setRobotLeft(Robot robotLeft) {
 		this.robotLeft = robotLeft;
 	}
 
-	public Robot getRobotRight()
-	{
+	public Robot getRobotRight() {
 		return robotRight;
 	}
 
-	public void setRobotRight(Robot robotRight)
-	{
+	public void setRobotRight(Robot robotRight) {
 		this.robotRight = robotRight;
 	}
 
 	/**
 	 * Sets an action as the next Action of a robot.
 	 * 
-	 * Also triggers the next battle round, if an action was set for both robots.
+	 * Also triggers the next battle round, if an action was set for both
+	 * robots.
 	 * 
 	 * @param robotAction
 	 * @param robot
@@ -469,86 +441,70 @@ public class BattleController
 	 * @throws RobotHasInsufficientEnergyException
 	 * @throws WrongGameStateException
 	 */
-	public void setActionForRobot(RobotAction robotAction, Robot robot) throws UnknownRobotException,
-		RobotHasInsufficientEnergyException, WrongGameStateException
-	{
+	public void setActionForRobot(RobotAction robotAction, Robot robot)
+			throws UnknownRobotException, RobotHasInsufficientEnergyException,
+			WrongGameStateException {
 
-		if (!getCurrentGameState().equals(GameStateType.WAITING_FOR_PLAYER_INPUT))
-		{
+		if (!getCurrentGameState().equals(
+				GameStateType.WAITING_FOR_PLAYER_INPUT)) {
 			throw new WrongGameStateException();
 		}
 
 		Robot localRobot = getLocalRobotForRemoteRobot(robot);
 
-		if (localRobot.getEnergyPoints() >= robotAction.getEnergyCosts())
-		{
+		if (localRobot.getEnergyPoints() >= robotAction.getEnergyCosts()) {
 			localRobot.setCurrentAction(robotAction);
-		}
-		else
-		{
+		} else {
 			throw new RobotHasInsufficientEnergyException();
 		}
 
-		try
-		{
+		try {
 			fightNextBattleRound();
-		}
-		catch (RobotsArentRdyToFightException e)
-		{
+		} catch (RobotsArentRdyToFightException e) {
 			LOG.error("Waiting for action of second robot");
 		}
 	}
 
-	
-	public Robot getLocalRobotForRemoteRobot(Robot robot) throws UnknownRobotException
-	{
+	public Robot getLocalRobotForRemoteRobot(Robot robot)
+			throws UnknownRobotException {
 		Robot robotLeft = getRobotLeft();
-		if (robot.equals(robotLeft))
-		{
+		if (robot.equals(robotLeft)) {
 			return robotLeft;
 		}
 
 		Robot robotRight = getRobotRight();
-		if (robot.equals(robotRight))
-		{
+		if (robot.equals(robotRight)) {
 			return robotRight;
 		}
 
 		throw new UnknownRobotException();
 	}
 
-	public List<Robot> getAllRobots()
-	{
+	public List<Robot> getAllRobots() {
 		return allRobots;
 	}
 
-	public void setAllRobots(List<Robot> allRobots)
-	{
+	public void setAllRobots(List<Robot> allRobots) {
 		this.allRobots = allRobots;
 	}
 
-	public List<RoboItem> getAllItems()
-	{
+	public List<RoboItem> getAllItems() {
 		return allItems;
 	}
 
-	public void setAllItems(List<RoboItem> allItems)
-	{
+	public void setAllItems(List<RoboItem> allItems) {
 		this.allItems = allItems;
 	}
 
-	public RoboBattleServer getServer()
-	{
+	public RoboBattleServer getServer() {
 		return server;
 	}
 
-	public void setServer(RoboBattleServer server)
-	{
+	public void setServer(RoboBattleServer server) {
 		this.server = server;
 	}
 
-	public GameStateType getCurrentGameState()
-	{
+	public GameStateType getCurrentGameState() {
 		return currentGameState;
 	}
 
@@ -557,46 +513,38 @@ public class BattleController
 	 * 
 	 * @param currentGameState
 	 */
-	public void setCurrentGameState(GameStateType currentGameState)
-	{
+	public void setCurrentGameState(GameStateType currentGameState) {
 		this.currentGameState = currentGameState;
 		server.sendGameStateInfoToClients(currentGameState);
 	}
 
-	public void setRobotIsReady(Robot robot) throws UnknownRobotException
-	{
+	public void setRobotIsReady(Robot robot) throws UnknownRobotException {
 		Robot localRobot = getLocalRobotForRemoteRobot(robot);
 		localRobot.setReadyToFight(true);
-		
+
 		LOG.info("Robot " + robot + " is ready");
-		
-		if (robotLeft != null && robotRight != null)
-		{
-			if (robotLeft.isReadyToFight() && robotRight.isReadyToFight())
-			{
+
+		if (robotLeft != null && robotRight != null) {
+			if (robotLeft.isReadyToFight() && robotRight.isReadyToFight()) {
 				LOG.info("All robots are ready. Starting the fight...");
 				startTheBattle();
 			}
 		}
 	}
 
-	public List<Defense> getAllDefends()
-	{
+	public List<Defense> getAllDefends() {
 		return allDefends;
 	}
 
-	public void setAllDefends(List<Defense> allDefends)
-	{
+	public void setAllDefends(List<Defense> allDefends) {
 		this.allDefends = allDefends;
 	}
 
-	public List<Attack> getAllAttacks()
-	{
+	public List<Attack> getAllAttacks() {
 		return allAttacks;
 	}
 
-	public void setAllAttacks(List<Attack> allAttacks)
-	{
+	public void setAllAttacks(List<Attack> allAttacks) {
 		this.allAttacks = allAttacks;
 	}
 }

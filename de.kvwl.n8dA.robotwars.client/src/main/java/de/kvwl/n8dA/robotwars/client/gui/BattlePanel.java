@@ -19,7 +19,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
 
 import de.kvwl.n8dA.robotwars.client.BattleClientListener;
 import de.kvwl.n8dA.robotwars.client.RoboBattlePlayerClient;
@@ -27,8 +26,8 @@ import de.kvwl.n8dA.robotwars.commons.exception.NoFreeSlotInBattleArenaException
 import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
-import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
+import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
 import de.kvwl.n8dA.robotwars.commons.game.util.GameStateType;
 import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
 
@@ -55,8 +54,6 @@ public class BattlePanel extends JPanel implements ActionListener,
 
 	// TODO Timo/Marvin: Tooltip für Aktionen. Für weitere Informationen z.B.
 	// Statuseffekte
-	// TODO Marvin: HP und EP durch Items werden nicht für die
-	// Lebens/Energiebalken berücksichtigt
 	public BattlePanel(RoboBattlePlayerClient battleClient, Robot robot,
 			String playerName) {
 
@@ -96,7 +93,7 @@ public class BattlePanel extends JPanel implements ActionListener,
 		pnlActionSelection = createActionSelection();
 		add(pnlActionSelection, BorderLayout.CENTER);
 
-		updateStats();
+		updateStats(true);
 	}
 
 	private JPanel createInfoSection() {
@@ -263,13 +260,38 @@ public class BattlePanel extends JPanel implements ActionListener,
 		return attacks;
 	}
 
-	private void updateStats() {
+	private void updateStats(boolean interpretItems) {
 
-		life.setValue(robot.getHealthPoints());
-		lblLife.setText("" + robot.getHealthPoints());
+		Robot tmp = new Robot();
 
-		energy.setValue(robot.getEnergyPoints());
-		lblEnergy.setText("" + robot.getEnergyPoints());
+		tmp.setMaxHealthPoints(robot.getMaxHealthPoints());
+		tmp.setHealthPoints(robot.getHealthPoints());
+
+		tmp.setMaxEnergyPoints(robot.getMaxEnergyPoints());
+		tmp.setEnergyPoints(robot.getEnergyPoints());
+
+		if (interpretItems) {
+
+			List<RoboItem> items = robot.getEquippedItems();
+
+			for (RoboItem i : items) {
+
+				i.performInitialRobotModification(tmp);
+			}
+		}
+
+		System.out.println(String.format(
+				"New Stats: Health: %d(%d), Energy: %d(%d)",
+				tmp.getHealthPoints(), tmp.getMaxHealthPoints(),
+				tmp.getEnergyPoints(), tmp.getMaxEnergyPoints()));
+
+		life.setMaximum(tmp.getMaxHealthPoints());
+		life.setValue(tmp.getHealthPoints());
+		lblLife.setText("" + tmp.getHealthPoints());
+
+		energy.setMaximum(tmp.getMaxEnergyPoints());
+		energy.setValue(tmp.getEnergyPoints());
+		lblEnergy.setText("" + tmp.getEnergyPoints());
 	}
 
 	private void actionSlection(RobotAction roboAction) {
@@ -329,12 +351,17 @@ public class BattlePanel extends JPanel implements ActionListener,
 
 	public void updateRobot() {
 
+		updateRobot(false);
+	}
+
+	public void updateRobot(boolean interpretItems) {
+
 		remove(pnlActionSelection);
 
 		pnlActionSelection = createActionSelection();
 		add(pnlActionSelection);
 
-		updateStats();
+		updateStats(interpretItems);
 
 		revalidate();
 		repaint();
@@ -360,7 +387,7 @@ public class BattlePanel extends JPanel implements ActionListener,
 	public void startActionSelection() {
 
 		robot = battleClient.getUpdatedRobot();
-		updateRobot();
+		updateRobot(false);
 		startCountdown();
 	}
 
@@ -423,4 +450,5 @@ public class BattlePanel extends JPanel implements ActionListener,
 			actionSlection(((ActionButton) source).getRoboAction());
 		}
 	}
+
 }
