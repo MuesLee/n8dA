@@ -52,8 +52,6 @@ public class BattlePanel extends JPanel implements ActionListener,
 	private Countdown countdown;
 	private JPanel pnlActionSelection;
 
-	// TODO Timo/Marvin: Tooltip für Aktionen. Für weitere Informationen z.B.
-	// Statuseffekte
 	public BattlePanel(RoboBattlePlayerClient battleClient, Robot robot,
 			String playerName) {
 
@@ -220,6 +218,7 @@ public class BattlePanel extends JPanel implements ActionListener,
 						defense.getName(),
 						(100 * defense.getBonusOnDefenseFactor()),
 						defense.getEnergyCosts()));
+				def.setToolTipText(defense.getDescription());
 			} else {
 
 				def.setText("<Leer>");
@@ -253,6 +252,7 @@ public class BattlePanel extends JPanel implements ActionListener,
 				atk.setRoboAction(attack);
 				atk.setText(String.format("%s - %d S (%d E)", attack.getName(),
 						attack.getDamage(), attack.getEnergyCosts()));
+				atk.setToolTipText(attack.getDescription());
 			} else {
 
 				atk.setText("<Leer>");
