@@ -70,6 +70,11 @@ public class BattlePanel extends JPanel implements ActionListener,
 		try {
 			battleClient.setClientListener(this);
 			battleClient.registerClientWithRobotAtServer(robot, playerName);
+
+			// Roboter mit angewendeten Modifikationen abfragen
+			this.robot = battleClient.getUpdatedRobot();
+			updateRobot();
+
 			battleClient.sendPlayerIsReadyToBattleToServer();
 		} catch (NoFreeSlotInBattleArenaException e) {
 
@@ -93,7 +98,7 @@ public class BattlePanel extends JPanel implements ActionListener,
 		pnlActionSelection = createActionSelection();
 		add(pnlActionSelection, BorderLayout.CENTER);
 
-		updateStats(true);
+		updateStats(false);
 	}
 
 	private JPanel createInfoSection() {

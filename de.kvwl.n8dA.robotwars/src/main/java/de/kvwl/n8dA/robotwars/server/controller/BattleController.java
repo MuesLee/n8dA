@@ -56,8 +56,9 @@ public class BattleController {
 	private void startTheBattle() {
 		LOG.info("The Battle has begun!");
 
-		performInitialModificationOfRobot(robotLeft);
-		performInitialModificationOfRobot(robotRight);
+		// Wird beim registrieren eines robots durchgeführt
+		// performInitialModificationOfRobot(robotLeft);
+		// performInitialModificationOfRobot(robotRight);
 
 		setCurrentGameState(GameStateType.GAME_HAS_BEGUN);
 		cinematicVisualizer.battleIsAboutToStart();
@@ -301,7 +302,7 @@ public class BattleController {
 				attackLeft.getRobotActionType());
 	}
 
-	private void performInitialModificationOfRobot(Robot robot) {
+	public void performInitialModificationOfRobot(Robot robot) {
 
 		List<RoboItem> equippedItems = robot.getEquippedItems();
 
