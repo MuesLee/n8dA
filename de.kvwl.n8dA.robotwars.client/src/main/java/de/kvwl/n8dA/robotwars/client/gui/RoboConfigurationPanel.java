@@ -453,6 +453,14 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener {
 
 	private void setActiveRobot(Robot robo) throws IOException {
 
+		if (robo.isLoadedAsUserRobot()) {
+			txtRoboName.setText(robo.getName());
+			txtRoboName.setEditable(false);
+		} else {
+			txtRoboName.setEditable(true);
+			txtRoboName.setText("");
+		}
+
 		lblRoboName.setText(robo.getName());
 		lblHealth
 				.setText(String.format("Leben: %d", robo.getMaxHealthPoints()));
