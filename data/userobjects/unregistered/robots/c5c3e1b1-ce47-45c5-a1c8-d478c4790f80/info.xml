@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot>
+  <id>-2</id>
+  <name>Die Bratpfanne</name>
+  <configcosts>0</configcosts>
+  <healthpoints>50</healthpoints>
+  <energypoints>150</energypoints>
+  <animationid>GirlRoboter</animationid>
+  <defaultitems />
+  <attacks>
+    <id>13</id>
+    <id>16</id>
+    <id>14</id>
+    <id>9</id>
+  </attacks>
+  <defends>
+    <id>19</id>
+    <id>18</id>
+    <id>23</id>
+    <id>20</id>
+  </defends>
+</robot>

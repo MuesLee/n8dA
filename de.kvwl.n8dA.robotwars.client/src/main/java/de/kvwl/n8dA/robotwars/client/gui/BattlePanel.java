@@ -32,8 +32,8 @@ import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.util.GameStateType;
 import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
 
-public class BattlePanel extends JPanel implements ActionListener, BattleClientListener
-{
+public class BattlePanel extends JPanel implements ActionListener,
+		BattleClientListener {
 
 	private static final String IMAGE_PATH = "/de/kvwl/n8dA/robotwars/client/images/";
 	private static final long serialVersionUID = 1L;
@@ -53,10 +53,12 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 	private Countdown countdown;
 	private JPanel pnlActionSelection;
 
-	//TODO Timo/Marvin: Tooltip für Aktionen. Für weitere Informationen z.B. Statuseffekte
-	//TODO Marvin: HP und EP durch Items werden nicht für die Lebens/Energiebalken berücksichtigt
-	public BattlePanel(RoboBattlePlayerClient battleClient, Robot robot, String playerName)
-	{
+	// TODO Timo/Marvin: Tooltip für Aktionen. Für weitere Informationen z.B.
+	// Statuseffekte
+	// TODO Marvin: HP und EP durch Items werden nicht für die
+	// Lebens/Energiebalken berücksichtigt
+	public BattlePanel(RoboBattlePlayerClient battleClient, Robot robot,
+			String playerName) {
 
 		this.battleClient = battleClient;
 		this.robot = robot;
@@ -66,28 +68,25 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 		setupConnection();
 	}
 
-	private void setupConnection()
-	{
+	private void setupConnection() {
 
-		try
-		{
+		try {
 			battleClient.setClientListener(this);
 			battleClient.registerClientWithRobotAtServer(robot, playerName);
 			battleClient.sendPlayerIsReadyToBattleToServer();
-		}
-		catch (NoFreeSlotInBattleArenaException e)
-		{
+		} catch (NoFreeSlotInBattleArenaException e) {
 
-			JOptionPane.showMessageDialog(this,
-				"Zu zeit ist kein Platz für dich in der Arena. \nBitte warte, bis du dran bist.", "Kein freier Platz",
-				JOptionPane.ERROR_MESSAGE);
+			JOptionPane
+					.showMessageDialog(
+							this,
+							"Zu zeit ist kein Platz für dich in der Arena. \nBitte warte, bis du dran bist.",
+							"Kein freier Platz", JOptionPane.ERROR_MESSAGE);
 
 			System.exit(-1);
 		}
 	}
 
-	private void createGui()
-	{
+	private void createGui() {
 
 		setLayout(new BorderLayout());
 		setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -100,8 +99,7 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 		updateStats();
 	}
 
-	private JPanel createInfoSection()
-	{
+	private JPanel createInfoSection() {
 		JPanel info = new JPanel();
 		info.setLayout(new BorderLayout());
 
@@ -113,8 +111,7 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 		return info;
 	}
 
-	private JPanel createRoboStats()
-	{
+	private JPanel createRoboStats() {
 		JPanel stats = new JPanel();
 		stats.setLayout(new BoxLayout(stats, BoxLayout.Y_AXIS));
 
@@ -126,7 +123,8 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 		stats.add(pnlLife);
 
 		pnlLife.add(new JLabel(new ImageIcon(ImageUtils.getScaledInstance(
-			InternalImage.loadFromPath(IMAGE_PATH, "life.png"), 20, 20, null))));
+				InternalImage.loadFromPath(IMAGE_PATH, "life.png"), 20, 20,
+				null))));
 
 		life = new SimpleProgressBar();
 		life.setMinimum(0);
@@ -147,7 +145,8 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 		stats.add(pnlEnergy);
 
 		pnlEnergy.add(new JLabel(new ImageIcon(ImageUtils.getScaledInstance(
-			InternalImage.loadFromPath(IMAGE_PATH, "energy.png"), 20, 20, null))));
+				InternalImage.loadFromPath(IMAGE_PATH, "energy.png"), 20, 20,
+				null))));
 
 		energy = new SimpleProgressBar();
 		energy.setMinimum(0);
@@ -167,8 +166,7 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 		return stats;
 	}
 
-	private JPanel createTimer()
-	{
+	private JPanel createTimer() {
 
 		JPanel timer = new JPanel();
 		timer.setVisible(false);
@@ -185,8 +183,7 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 		return timer;
 	}
 
-	private JPanel createActionSelection()
-	{
+	private JPanel createActionSelection() {
 		JPanel actions = new JPanel();
 		actions.setLayout(new BoxLayout(actions, BoxLayout.X_AXIS));
 
@@ -197,32 +194,31 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 		return actions;
 	}
 
-	private JPanel createDefendSelection()
-	{
+	private JPanel createDefendSelection() {
 		JPanel defends = new JPanel();
-		defends.setBorder(BorderFactory.createCompoundBorder(
-			BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 2, true), "Verteidigung"),
-			BorderFactory.createEmptyBorder(3, 3, 3, 3)));
+		defends.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+				.createTitledBorder(
+						BorderFactory.createLineBorder(Color.BLACK, 2, true),
+						"Verteidigung"), BorderFactory.createEmptyBorder(3, 3,
+				3, 3)));
 		defends.setLayout(new GridLayout(2, 2, 5, 5));
 
 		List<Defense> defs = robot.getPossibleDefends();
-		for (int i = 0; i < 4; i++)
-		{
+		for (int i = 0; i < 4; i++) {
 
 			ActionButton def = new ActionButton();
 			def.addActionListener(this);
 
-			if (i < defs.size())
-			{
+			if (i < defs.size()) {
 
 				Defense defense = defs.get(i);
 
 				def.setRoboAction(defense);
-				def.setText(String.format("%s - %.2f (%d E)", defense.getName(),
-					(100 * defense.getBonusOnDefenseFactor()), defense.getEnergyCosts()));
-			}
-			else
-			{
+				def.setText(String.format("%s - %.2f (%d E)",
+						defense.getName(),
+						(100 * defense.getBonusOnDefenseFactor()),
+						defense.getEnergyCosts()));
+			} else {
 
 				def.setText("<Leer>");
 				def.setRoboAction(null);
@@ -234,32 +230,28 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 		return defends;
 	}
 
-	private JPanel createAttackSelection()
-	{
+	private JPanel createAttackSelection() {
 		JPanel attacks = new JPanel();
-		attacks.setBorder(BorderFactory.createCompoundBorder(
-			BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 2, true), "Angriff"),
-			BorderFactory.createEmptyBorder(3, 3, 3, 3)));
+		attacks.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+				.createTitledBorder(
+						BorderFactory.createLineBorder(Color.BLACK, 2, true),
+						"Angriff"), BorderFactory.createEmptyBorder(3, 3, 3, 3)));
 		attacks.setLayout(new GridLayout(2, 2, 5, 5));
 
 		List<Attack> atks = robot.getPossibleAttacks();
-		for (int i = 0; i < 4; i++)
-		{
+		for (int i = 0; i < 4; i++) {
 
 			ActionButton atk = new ActionButton();
 			atk.addActionListener(this);
 
-			if (i < atks.size())
-			{
+			if (i < atks.size()) {
 
 				Attack attack = atks.get(i);
 
 				atk.setRoboAction(attack);
-				atk.setText(String.format("%s - %d S (%d E)", attack.getName(), attack.getDamage(),
-					attack.getEnergyCosts()));
-			}
-			else
-			{
+				atk.setText(String.format("%s - %d S (%d E)", attack.getName(),
+						attack.getDamage(), attack.getEnergyCosts()));
+			} else {
 
 				atk.setText("<Leer>");
 				atk.setRoboAction(null);
@@ -271,8 +263,7 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 		return attacks;
 	}
 
-	private void updateStats()
-	{
+	private void updateStats() {
 
 		life.setValue(robot.getHealthPoints());
 		lblLife.setText("" + robot.getHealthPoints());
@@ -281,26 +272,25 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 		lblEnergy.setText("" + robot.getEnergyPoints());
 	}
 
-	private void actionSlection(RobotAction roboAction)
-	{
+	private void actionSlection(RobotAction roboAction) {
 
-		if (roboAction == null)
-		{
+		if (roboAction == null) {
 			System.out.println("Action selected -> <Leer>");
 			return;
 		}
 
-		if (countdown.getTime() <= 0)
-		{
+		if (countdown.getTime() <= 0) {
 			System.out.println("Countdown over -> no selection possible");
 			return;
 		}
 
-		if (roboAction.getEnergyCosts() > robot.getEnergyPoints())
-		{
+		if (roboAction.getEnergyCosts() > robot.getEnergyPoints()) {
 			System.out.println("Nicht genug Energie");
-			JOptionPane.showMessageDialog(this, "Deine Energie reicht nicht aus, um diese Fähigkeit einzusetzen.",
-				"Nicht genug Energie", JOptionPane.WARNING_MESSAGE);
+			JOptionPane
+					.showMessageDialog(
+							this,
+							"Deine Energie reicht nicht aus, um diese Fähigkeit einzusetzen.",
+							"Nicht genug Energie", JOptionPane.WARNING_MESSAGE);
 			return;
 		}
 
@@ -312,8 +302,7 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 		pnlTimer.setVisible(false);
 	}
 
-	private void startCountdown()
-	{
+	private void startCountdown() {
 
 		countdown.stopCountdown();
 		pnlTimer.setVisible(true);
@@ -323,26 +312,22 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 		repack();
 	}
 
-	private void repack()
-	{
+	private void repack() {
 
 		Container parent = this.getParent();
 
-		while (!(parent instanceof JFrame) || parent == null)
-		{
+		while (!(parent instanceof JFrame) || parent == null) {
 
 			parent = parent.getParent();
 		}
 
-		if (parent != null)
-		{
+		if (parent != null) {
 
 			((JFrame) parent).pack();
 		}
 	}
 
-	public void updateRobot()
-	{
+	public void updateRobot() {
 
 		remove(pnlActionSelection);
 
@@ -355,19 +340,16 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 		repaint();
 	}
 
-	private void countdownOver()
-	{
+	private void countdownOver() {
 
 		System.out.println("Countdown over");
 		pnlTimer.setVisible(false);
 
 		List<Attack> attacks = robot.getPossibleAttacks();
 
-		for (Attack atk : attacks)
-		{
+		for (Attack atk : attacks) {
 
-			if (atk.getEnergyCosts() <= robot.getEnergyPoints())
-			{
+			if (atk.getEnergyCosts() <= robot.getEnergyPoints()) {
 
 				battleClient.sendRobotActionToServer(atk);
 			}
@@ -375,8 +357,7 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 	}
 
 	@Override
-	public void startActionSelection()
-	{
+	public void startActionSelection() {
 
 		robot = battleClient.getUpdatedRobot();
 		updateRobot();
@@ -384,104 +365,62 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 	}
 
 	@Override
-	public void gameOver(GameStateType result)
-	{
+	public void gameOver(GameStateType result) {
 
 		RobotPosition ownPosition = battleClient.getPositionOfOwnRobot();
 
 		String msg = "";
 
-		switch (result)
-		{
+		switch (result) {
 
-			case DRAW:
-				msg = "Keiner von Euch hat gewonnen ;(";
+		case DRAW:
+			msg = "Keiner von Euch hat gewonnen ;(";
 			break;
 
-			case VICTORY_LEFT:
+		case VICTORY_LEFT:
 
-				if (ownPosition == RobotPosition.LEFT)
-				{
+			if (ownPosition == RobotPosition.LEFT) {
 
-					msg = "Du hast gewonnen :)";
-				}
-				else
-				{
+				msg = "Du hast gewonnen :)";
+			} else {
 
-					msg = "Du hast verloren :(";
-				}
+				msg = "Du hast verloren :(";
+			}
 			break;
 
-			case VICTORY_RIGHT:
+		case VICTORY_RIGHT:
 
-				if (ownPosition == RobotPosition.RIGHT)
-				{
+			if (ownPosition == RobotPosition.RIGHT) {
 
-					msg = "Du hast gewonnen :)";
-				}
-				else
-				{
+				msg = "Du hast gewonnen :)";
+			} else {
 
-					msg = "Du hast verloren :(";
-				}
+				msg = "Du hast verloren :(";
+			}
 			break;
 
-			default:
-				return;
+		default:
+			return;
 		}
 
-		JOptionPane.showMessageDialog(this, msg, "Game Over", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(this, msg, "Game Over",
+				JOptionPane.INFORMATION_MESSAGE);
 		System.exit(-1);
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e)
-	{
+	public void actionPerformed(ActionEvent e) {
 
 		Object source = e.getSource();
 
-		if (source == countdown)
-		{
-			if (countdown.getTime() == 0)
-			{
+		if (source == countdown) {
+			if (countdown.getTime() == 0) {
 
 				countdownOver();
 			}
-		}
-		else if (source instanceof ActionButton)
-		{
+		} else if (source instanceof ActionButton) {
 
 			actionSlection(((ActionButton) source).getRoboAction());
 		}
-	}
-
-	// XXX Marvin: Testmain -> entfernen
-	public static void main(String[] args) throws Exception
-	{
-		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-
-		JFrame disp = new JFrame();
-		disp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		disp.setSize(800, 600);
-		disp.setLocationRelativeTo(null);
-
-		Robot r = new Robot();
-		r.setMaxHealthPoints(500);
-		r.setHealthPoints(150);
-
-		r.setMaxEnergyPoints(100);
-		r.setEnergyPoints(80);
-
-		Attack atk = new Attack(RobotActionType.PAPER, 10);
-		atk.setName("Rakete");
-		atk.setEnergyCosts(10);
-		r.getPossibleAttacks().add(atk);
-
-		BattlePanel comp = new BattlePanel(null, r, "");
-		comp.startCountdown();
-		disp.add(comp);
-
-		disp.pack();
-		disp.setVisible(true);
 	}
 }
