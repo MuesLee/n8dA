@@ -78,7 +78,7 @@ public class StatusScene implements Scene {
 		double _width = width * BAR_HEIGHT;
 		double _height = height * BAR_HEIGHT;
 
-		double _x = width * 0.00;
+		double _x = width * 0.01;
 		double _y = height * TOP_SPACE;
 
 		imgHealthLeft.setSize((int) _width, (int) _height);
