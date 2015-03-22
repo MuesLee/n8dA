@@ -48,7 +48,7 @@ import de.kvwl.n8dA.robotwars.commons.gui.Animation;
 
 public class RoboConfigurationPanel extends JPanel implements ActionListener {
 
-	private static final String IMAGE_PATH = "/de/kvwl/n8dA/robotwars/client/images/";
+	private static final String IMAGE_PATH = "/de/kvwl/n8dA/robotwars/commons/images/";
 	private static final long serialVersionUID = 1L;
 
 	private SwingStage roboStage;

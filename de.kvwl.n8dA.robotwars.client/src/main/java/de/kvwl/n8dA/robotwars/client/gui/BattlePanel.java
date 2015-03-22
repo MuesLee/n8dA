@@ -34,7 +34,7 @@ import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
 public class BattlePanel extends JPanel implements ActionListener,
 		BattleClientListener {
 
-	private static final String IMAGE_PATH = "/de/kvwl/n8dA/robotwars/client/images/";
+	private static final String IMAGE_PATH = "/de/kvwl/n8dA/robotwars/commons/images/";
 	private static final long serialVersionUID = 1L;
 
 	private static final int SELECTION_TIME = 50;
