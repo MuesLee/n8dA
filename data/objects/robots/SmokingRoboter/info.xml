@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <robot>
 	<id>8</id>
-	<name>SmokingRoboter</name>
+	<name>Repo-Bot</name>
 	<configcosts>0</configcosts>
 	<healthpoints>90</healthpoints>
 	<energypoints>110</energypoints>

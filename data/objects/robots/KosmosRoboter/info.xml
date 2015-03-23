@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <robot>
 	<id>4</id>
-	<name>KosmosRoboter</name>
+	<name>Space Fighter</name>
 	<configcosts>0</configcosts>
 	<healthpoints>100</healthpoints>
 	<energypoints>100</energypoints>

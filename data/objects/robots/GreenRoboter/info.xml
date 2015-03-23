@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <robot>
 	<id>3</id>
-	<name>GreenRoboter</name>
+	<name>Digital</name>
 	<configcosts>0</configcosts>
 	<healthpoints>120</healthpoints>
 	<energypoints>80</energypoints>
