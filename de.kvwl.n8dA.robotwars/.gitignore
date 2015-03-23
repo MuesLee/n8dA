@@ -3,3 +3,4 @@
 /activemq/
 /activemq-data/
 *.class
+*/.directory
