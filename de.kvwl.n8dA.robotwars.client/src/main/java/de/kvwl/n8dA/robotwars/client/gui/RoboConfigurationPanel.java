@@ -564,7 +564,7 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener {
 			JOptionPane
 					.showMessageDialog(
 							this,
-							"Du hast nicht genug Credits um dir das leisten zu können.",
+							"Du hast nicht genügend Credits um dir das leisten zu können.",
 							"Keine Credits", JOptionPane.ERROR_MESSAGE);
 
 			return false;
