@@ -4,6 +4,6 @@
 	<width>64</width>
 	<height>128</height>
 	<times size="1">
-		<time frame="0">100000000</time>
+		<time frame="0">250000000</time>
 	</times>
 </animation>
