@@ -45,7 +45,6 @@ public class RewardServer extends UnicastRemoteObject implements CreditAccesHand
 	private static String REWARD_SERVER_REGISTRY_PORT;
 
 
-	//TODO Timo: RMI Codebase...
 	protected RewardServer() throws RemoteException {
 		
 		
