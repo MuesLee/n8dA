@@ -82,6 +82,12 @@ public class Person implements Serializable {
 	public void setGames(Set<GamePerson> games) {
 		this.games = games;
 	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return  name;
+	}
 
 	
 

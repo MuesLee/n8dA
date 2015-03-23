@@ -2,22 +2,16 @@ package de.kvwl.n8dA.infrastructure.commons.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.AssociationOverride;
-import javax.persistence.AssociationOverrides;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
+import javax.persistence.NamedQuery;
 import javax.persistence.Transient;
 
-
+@NamedQuery(name = "findAllGamesForPersonName", query = "SELECT gp FROM GamePerson gp JOIN gp.person p WHERE p.name = :personName")
 @Entity
-@AssociationOverrides({
-	@AssociationOverride(name = "pk.game", 
-		joinColumns = @JoinColumn(name = "Game_Name")),
-	@AssociationOverride(name = "pk.person", 
-		joinColumns = @JoinColumn(name = "Person_Name")) })
 public class GamePerson implements Serializable {
 	
 	@Transient
@@ -55,6 +49,27 @@ public class GamePerson implements Serializable {
 
 	public void setPoints(Integer points) {
 		this.points = points;
+	}
+
+	public Person getPerson() {
+		return person;
+	}
+
+	public void setPerson(Person person) {
+		this.person = person;
+	}
+
+	public Game getGame() {
+		return game;
+	}
+
+	public void setGame(Game game) {
+		this.game = game;
+	}
+	
+	@Override
+	public String toString() {
+		return "Person: " + person +", Game:" + game + ", Points: " + points;
 	}
 
 }

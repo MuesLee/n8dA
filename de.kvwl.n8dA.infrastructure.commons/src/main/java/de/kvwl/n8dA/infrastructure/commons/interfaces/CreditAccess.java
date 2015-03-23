@@ -17,6 +17,6 @@ public interface CreditAccess
 
 	int getConfigurationPointsForPerson(String name) throws NoSuchPersonException, RemoteException;
 	
-	void persistConfigurationPointsForPerson(String name, int points) throws RemoteException;
+	void persistConfigurationPointsForPerson(String personName, String gameName, int points) throws RemoteException;
 
 }

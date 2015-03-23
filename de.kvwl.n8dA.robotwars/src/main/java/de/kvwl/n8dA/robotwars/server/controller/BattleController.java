@@ -61,10 +61,6 @@ public class BattleController {
 	private void startTheBattle() {
 		LOG.info("The Battle has begun!");
 
-		// Wird beim registrieren eines robots durchgeführt
-		// performInitialModificationOfRobot(robotLeft);
-		// performInitialModificationOfRobot(robotRight);
-
 		setCurrentGameState(GameStateType.GAME_HAS_BEGUN);
 		cinematicVisualizer.battleIsAboutToStart();
 		setCurrentGameState(GameStateType.WAITING_FOR_PLAYER_INPUT);

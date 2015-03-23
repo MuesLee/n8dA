@@ -7,6 +7,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
@@ -16,11 +17,13 @@ import org.apache.log4j.BasicConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.kvwl.n8dA.infrastructure.commons.entity.GamePerson;
 import de.kvwl.n8dA.infrastructure.commons.entity.Person;
 import de.kvwl.n8dA.infrastructure.commons.exception.NoSuchPersonException;
 import de.kvwl.n8dA.infrastructure.commons.interfaces.CreditAccesHandler;
 import de.kvwl.n8dA.infrastructure.commons.util.NetworkUtils;
-import de.kvwl.n8dA.infrastructure.rewardserver.dao.UserDaoHSQL;
+import de.kvwl.n8dA.infrastructure.rewardserver.dao.GamePersonDaoHSQL;
+import de.kvwl.n8dA.infrastructure.rewardserver.dao.PersonDaoHSQL;
 
 public class RewardServer extends UnicastRemoteObject implements CreditAccesHandler {
 
@@ -32,7 +35,8 @@ public class RewardServer extends UnicastRemoteObject implements CreditAccesHand
 	private static final Logger LOG = LoggerFactory
 			.getLogger(RewardServer.class);
 
-	private UserDaoHSQL userDao;
+	private PersonDaoHSQL personDao;
+	private GamePersonDaoHSQL gamePersonDao;
 	private BrokerService broker;
 
 	private static String REWARD_SERVER_FULL_TCP_ADDRESS;
@@ -61,12 +65,13 @@ public class RewardServer extends UnicastRemoteObject implements CreditAccesHand
 	private void testStuff() {
 		Person user = new Person();
 		user.setName("Derp");
-		userDao.add(user);
+		personDao.add(user);
 	}
 
 	public void startServer(int port) {
 		try {
-			userDao = new UserDaoHSQL();
+			personDao = new PersonDaoHSQL();
+			gamePersonDao = new GamePersonDaoHSQL();
 			startActiveMQBroker();
 			
 			
@@ -121,30 +126,43 @@ public class RewardServer extends UnicastRemoteObject implements CreditAccesHand
 		
 		LOG.info("ConfigPoints requested for " + name);
 		
-		Person person= userDao.findById(name);
+		Person person= personDao.findById(name);
 		int points = person.getPoints();
 		
 		LOG.info(points + " ConfigPoints returned for " + name);
 		
 		return points;
 	}
+	
+	public List<GamePerson> getAllGamesForPersonName(String personName)
+	{
+		LOG.info("All Games requested for " + personName);
+		
+		 List<GamePerson> findAllGamesByPersonName = gamePersonDao.findAllGamesByPersonName(personName);
+		 
+			LOG.info(findAllGamesByPersonName + " returned for " + personName);
+		 
+		 return findAllGamesByPersonName;
+	}
 
 	@Override
-	public void persistConfigurationPointsForPerson(String name, int points)
+	public void persistConfigurationPointsForPerson(String personName, String gameName, int points)
 			throws RemoteException {
 		
-		Person person = userDao.findById(name);
+		LOG.info("Persist request for: " +personName + ". With " + points + " points for game: " + gameName);
+		
+		Person person = personDao.findById(personName);
 		
 		if(person == null)
 		{
 			person = new Person();
-			person.setName(name);
+			person.setName(personName);
 			person.setPoints(points);
-			userDao.add(person);
+			personDao.add(person);
 		}
 		else {
 			person.setPoints(points);
-			userDao.update(person);
+			personDao.update(person);
 		}
 	}
 

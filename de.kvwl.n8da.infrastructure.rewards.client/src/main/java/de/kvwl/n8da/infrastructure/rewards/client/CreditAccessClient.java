@@ -4,12 +4,14 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.List;
 import java.util.UUID;
 
 import org.apache.log4j.BasicConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.kvwl.n8dA.infrastructure.commons.entity.GamePerson;
 import de.kvwl.n8dA.infrastructure.commons.exception.NoSuchPersonException;
 import de.kvwl.n8dA.infrastructure.commons.interfaces.CreditAccesHandler;
 import de.kvwl.n8dA.infrastructure.commons.interfaces.CreditAccess;
@@ -64,7 +66,14 @@ public class CreditAccessClient implements CreditAccess
 		try
 		{
 			client.initConnectionToServer();
+			client.persistConfigurationPointsForPerson("Derp","test", 5);
 			client.getConfigurationPointsForPerson("Derp");
+			
+			client.getAllGamesForPersonName("Derp");
+			
+			
+		
+			
 		}
 		catch (RemoteException e)
 		{
@@ -77,9 +86,16 @@ public class CreditAccessClient implements CreditAccess
 	}
 
 	@Override
-	public void persistConfigurationPointsForPerson(String name, int points)
+	public void persistConfigurationPointsForPerson(String personName, String gameName, int points)
 			throws RemoteException {
-		server.persistConfigurationPointsForPerson(name, points);
+		server.persistConfigurationPointsForPerson(personName,gameName, points);
 	}
+	
+	public List<GamePerson> getAllGamesForPersonName(String personName) throws RemoteException
+	{
+		return server.getAllGamesForPersonName(personName);
+	}
+	
+	
 
 }

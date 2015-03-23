@@ -76,6 +76,11 @@ public class Game implements Serializable {
 		this.persons = persons;
 	}
 	
+	@Override
+	public String toString() {
+		return  name;
+	}
+	
 	
 	
 	
