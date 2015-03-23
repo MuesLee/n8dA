@@ -2,6 +2,8 @@ package de.kvwl.n8dA.robotwars.server.visualization;
 
 import game.engine.frame.FullScreenGameFrame;
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.List;
 
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
@@ -19,6 +21,24 @@ public class CinematicVisualizerImpl extends FullScreenGameFrame implements
 	public CinematicVisualizerImpl(GraphicsConfiguration config) {
 
 		super(config.getDevice(), config.getDisplayMode(), "RoboBattle");
+		setup();
+	}
+
+	private void setup() {
+
+		addKeyListener(new KeyAdapter() {
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+
+				switch (e.getKeyCode()) {
+				case KeyEvent.VK_ESCAPE:
+					setVisible(false);
+					dispose();
+					break;
+				}
+			}
+		});
 	}
 
 	@Override
