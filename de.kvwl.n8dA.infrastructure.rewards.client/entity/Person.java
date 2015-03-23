@@ -6,54 +6,48 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name="game")
-public class Game implements Serializable {
-
-
+@Table(name="person")
+public class Person implements Serializable {
+	
+	
 	/**
 	 * 
 	 */
 	@Transient
-	private static final long serialVersionUID = 5094107165241692619L;
+	private static final long serialVersionUID = 3693628157384738362L;
 
 	@Id
-	@Column(name="Game_Name")
+	@Column(name="Person_Name")
 	private String name;
 	
-	@OneToMany(mappedBy = "game", fetch =FetchType.EAGER)
-	private Set<GamePerson> persons =  new HashSet<GamePerson>();
-	
-	public Game() {
+	@OneToMany(mappedBy = "person")
+	private Set<GamePerson> games = new HashSet<GamePerson>();
+
+	public Person() {
 	}
 	
-	public Game(String name) {
+	
+	public Person(String name) {
 		super();
 		this.name = name;
 	}
 
-	public String getName() {
-		return name;
-	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((getPersons() == null) ? 0 : getPersons().hashCode());
 		return result;
 	}
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -63,36 +57,40 @@ public class Game implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Game other = (Game) obj;
+		Person other = (Person) obj;
 		if (name == null) {
 			if (other.name != null)
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		if (getPersons() == null) {
-			if (other.getPersons() != null)
-				return false;
-		} else if (!getPersons().equals(other.getPersons()))
-			return false;
 		return true;
 	}
 
 
-	public Set<GamePerson> getPersons() {
-		return persons;
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 
-	public void setPersons(Set<GamePerson> persons) {
-		this.persons = persons;
+	public Set<GamePerson> getGames() {
+		return games;
+	}
+
+
+	public void setGames(Set<GamePerson> games) {
+		this.games = games;
 	}
 	
 	@Override
 	public String toString() {
+		// TODO Auto-generated method stub
 		return  name;
 	}
+
 	
-	
-	
-	
+
 }

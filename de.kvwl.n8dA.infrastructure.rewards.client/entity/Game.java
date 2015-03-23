@@ -6,7 +6,6 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -27,7 +26,7 @@ public class Game implements Serializable {
 	@Column(name="Game_Name")
 	private String name;
 	
-	@OneToMany(mappedBy = "game", fetch =FetchType.EAGER)
+	@OneToMany(mappedBy = "game")
 	private Set<GamePerson> persons =  new HashSet<GamePerson>();
 	
 	public Game() {

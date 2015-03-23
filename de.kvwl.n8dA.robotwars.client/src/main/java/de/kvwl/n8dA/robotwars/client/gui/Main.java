@@ -5,9 +5,9 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import de.kvwl.n8dA.infrastructure.commons.interfaces.CreditAccess;
+import de.kvwl.n8dA.infrastructure.rewards.client.CreditAccessClient;
 import de.kvwl.n8dA.robotwars.client.RoboBattlePlayerClient;
 import de.kvwl.n8dA.robotwars.client.gui.LoginDialog.CanceledException;
-import de.kvwl.n8da.infrastructure.rewards.client.CreditAccessClient;
 
 public class Main
 {

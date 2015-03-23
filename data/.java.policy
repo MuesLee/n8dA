@@ -1,0 +1,6 @@
+// "-" BEDEUTET ALLE VERZEICHNISSE UNTER DEM ANGEGEBENEN
+grant codeBase "file: ABSOLUTER PFAD ZUM LOKALEN GIT REPO/-" {
+
+permission java.security.AllPermission;
+
+};

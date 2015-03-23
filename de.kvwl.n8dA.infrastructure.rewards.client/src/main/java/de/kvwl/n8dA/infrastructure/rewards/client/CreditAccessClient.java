@@ -1,4 +1,4 @@
-package de.kvwl.n8da.infrastructure.rewards.client;
+package de.kvwl.n8dA.infrastructure.rewards.client;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -31,7 +31,7 @@ public class CreditAccessClient implements CreditAccess
 	
 	public CreditAccessClient(String ipAdressServer)
 	{
-
+		System.setSecurityManager(new SecurityManager());
 		BasicConfigurator.configure();
 		this.ipAdressServer = ipAdressServer;
 		this.uuid = UUID.randomUUID();
@@ -69,7 +69,7 @@ public class CreditAccessClient implements CreditAccess
 			
 			client.persistConfigurationPointsForPerson("Derp","TestGame", 5);
 			client.persistConfigurationPointsForPerson("Derp","TestGame", 6);
-			client.getAllGamesForPersonName("Derp");
+			System.out.println(client.getAllGamesForPersonName("Derp"));
 		}
 		catch (RemoteException e)
 		{

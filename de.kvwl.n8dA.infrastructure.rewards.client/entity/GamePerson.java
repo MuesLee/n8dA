@@ -5,7 +5,6 @@ import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
@@ -34,12 +33,12 @@ public class GamePerson implements Serializable {
 	@EmbeddedId
 	private GamePersonId pk = new GamePersonId();
 
-	@ManyToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch =FetchType.EAGER)
+	@ManyToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
 	@MapsId("gameName")
 	@JoinColumn(name = "Game_Name")
 	private Game game;
 	
-	@ManyToOne(cascade=CascadeType.ALL, fetch =FetchType.EAGER)
+	@ManyToOne(cascade=CascadeType.ALL)
 	@MapsId("personName")
 	  @JoinColumn(name = "Person_Name")
 	private Person person;
