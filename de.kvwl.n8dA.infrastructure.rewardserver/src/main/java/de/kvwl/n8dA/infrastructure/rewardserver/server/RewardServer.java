@@ -29,8 +29,6 @@ import de.kvwl.n8dA.infrastructure.rewardserver.dao.PersonDaoHSQL;
 
 public class RewardServer extends UnicastRemoteObject implements CreditAccesHandler {
 
-	protected RewardServer() throws RemoteException {
-	}
 
 	private static final long serialVersionUID = 1L;
 
@@ -46,11 +44,16 @@ public class RewardServer extends UnicastRemoteObject implements CreditAccesHand
 
 	private static String REWARD_SERVER_REGISTRY_PORT;
 
+	protected RewardServer() throws RemoteException {
+		
+		
+	}
+
 	public static void main(String[] args) {
 		RewardServer rewardServer;
 		try {
 			BasicConfigurator.configure();
-			
+				
 			REWARD_SERVER_FULL_TCP_ADDRESS = JOptionPane.showInputDialog(null, "Bitte die vollständige TCP-Adresse des Servers eingeben!", NetworkUtils.REWARD_SERVER_DEFAULT_FULL_TCP_ADRESS);
 			REWARD_SERVER_REGISTRY_PORT = JOptionPane.showInputDialog(null, "Bitte den Registry-Port eingeben!", NetworkUtils.REWARD_SERVER_DEFAULT_REGISTRY_PORT);
 			
@@ -64,7 +67,7 @@ public class RewardServer extends UnicastRemoteObject implements CreditAccesHand
 		// create-or-extend-tables ändern
 
 	}
-
+	
 	private void testStuff() {
 	
 		Game game = new Game("TestGame");

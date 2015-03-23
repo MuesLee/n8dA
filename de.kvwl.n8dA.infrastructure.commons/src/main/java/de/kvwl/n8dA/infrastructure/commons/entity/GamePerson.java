@@ -23,8 +23,12 @@ import javax.persistence.Transient;
 @Entity
 public class GamePerson implements Serializable {
 	
+	/**
+	 * 
+	 */
 	@Transient
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -2034939944782906644L;
+
 	
 	@EmbeddedId
 	private GamePersonId pk = new GamePersonId();

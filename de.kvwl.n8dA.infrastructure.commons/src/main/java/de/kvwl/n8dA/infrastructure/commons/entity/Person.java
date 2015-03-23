@@ -9,13 +9,19 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="person")
 public class Person implements Serializable {
-
-	private static final long serialVersionUID = 1L;
 	
+	
+	/**
+	 * 
+	 */
+	@Transient
+	private static final long serialVersionUID = 3693628157384738362L;
+
 	@Id
 	@Column(name="Person_Name")
 	private String name;

@@ -28,7 +28,7 @@ public class CreditAccessClient implements CreditAccess
 	private CreditAccesHandler server;
 	private UUID uuid;
 	private String ipAdressServer;
-
+	
 	public CreditAccessClient(String ipAdressServer)
 	{
 
@@ -68,11 +68,8 @@ public class CreditAccessClient implements CreditAccess
 			client.initConnectionToServer();
 			
 			client.persistConfigurationPointsForPerson("Derp","TestGame", 5);
+			client.persistConfigurationPointsForPerson("Derp","TestGame", 6);
 			client.getAllGamesForPersonName("Derp");
-			
-			
-		
-			
 		}
 		catch (RemoteException e)
 		{

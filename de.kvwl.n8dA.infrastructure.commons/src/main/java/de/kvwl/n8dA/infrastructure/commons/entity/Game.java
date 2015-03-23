@@ -9,12 +9,18 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="game")
 public class Game implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 
+	 */
+	@Transient
+	private static final long serialVersionUID = 5094107165241692619L;
 
 	@Id
 	@Column(name="Game_Name")

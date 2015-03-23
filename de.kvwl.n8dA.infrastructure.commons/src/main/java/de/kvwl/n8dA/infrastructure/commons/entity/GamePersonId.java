@@ -3,11 +3,18 @@ package de.kvwl.n8dA.infrastructure.commons.entity;
 import java.io.Serializable;
 
 import javax.persistence.Embeddable;
+import javax.persistence.Transient;
 
 @Embeddable
 public class GamePersonId implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	
+
+	/**
+	 * 
+	 */
+	@Transient
+	private static final long serialVersionUID = -6804291918524983882L;
 
 	private String gameName;
 
