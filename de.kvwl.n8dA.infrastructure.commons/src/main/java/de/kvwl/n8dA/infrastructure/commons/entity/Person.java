@@ -13,10 +13,9 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name="person")
+@Table(name = "person")
 public class Person implements Serializable {
-	
-	
+
 	/**
 	 * 
 	 */
@@ -24,23 +23,20 @@ public class Person implements Serializable {
 	private static final long serialVersionUID = 3693628157384738362L;
 
 	@Id
-	@Column(name="Person_Name")
+	@Column(name = "Person_Name")
 	private String name;
-	
-	@OneToMany(mappedBy = "person", fetch =FetchType.EAGER)
+
+	@OneToMany(mappedBy = "person", fetch = FetchType.EAGER)
 	private Set<GamePerson> games = new HashSet<GamePerson>();
 
 	public Person() {
 	}
-	
-	
+
 	public Person(String name) {
 		super();
 		this.name = name;
 	}
 
-
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -48,7 +44,6 @@ public class Person implements Serializable {
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -67,7 +62,6 @@ public class Person implements Serializable {
 		return true;
 	}
 
-
 	public String getName() {
 		return name;
 	}
@@ -76,22 +70,17 @@ public class Person implements Serializable {
 		this.name = name;
 	}
 
-
 	public Set<GamePerson> getGames() {
 		return games;
 	}
 
-
 	public void setGames(Set<GamePerson> games) {
 		this.games = games;
 	}
-	
+
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return  name;
+		return name;
 	}
-
-	
 
 }
