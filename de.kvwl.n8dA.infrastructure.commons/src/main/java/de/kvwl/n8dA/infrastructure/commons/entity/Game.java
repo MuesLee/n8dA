@@ -11,24 +11,22 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="person")
-public class Person implements Serializable {
+@Table(name="game")
+public class Game implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@Column(name="Person_Name")
+	@Column(name="Game_Name")
 	private String name;
 	
-	@OneToMany(mappedBy = "person")
-	private Set<GamePerson> games = new HashSet<GamePerson>();
-
-	private int points;
-
-	public Person() {
+	@OneToMany(mappedBy = "game")
+	private Set<GamePerson> persons =  new HashSet<GamePerson>();
+	
+	public Game() {
 	}
 	
-	
+
 	public String getName() {
 		return name;
 	}
@@ -37,20 +35,12 @@ public class Person implements Serializable {
 		this.name = name;
 	}
 
-	public int getPoints() {
-		return points;
-	}
-
-	public void setPoints(int points) {
-		this.points = points;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + points;
+		result = prime * result + ((getPersons() == null) ? 0 : getPersons().hashCode());
 		return result;
 	}
 
@@ -62,27 +52,31 @@ public class Person implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Person other = (Person) obj;
+		Game other = (Game) obj;
 		if (name == null) {
 			if (other.name != null)
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		if (points != other.points)
+		if (getPersons() == null) {
+			if (other.getPersons() != null)
+				return false;
+		} else if (!getPersons().equals(other.getPersons()))
 			return false;
 		return true;
 	}
 
 
-	public Set<GamePerson> getGames() {
-		return games;
+	public Set<GamePerson> getPersons() {
+		return persons;
 	}
 
 
-	public void setGames(Set<GamePerson> games) {
-		this.games = games;
+	public void setPersons(Set<GamePerson> persons) {
+		this.persons = persons;
 	}
-
 	
-
+	
+	
+	
 }

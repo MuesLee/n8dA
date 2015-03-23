@@ -2,6 +2,6 @@ package de.kvwl.n8dA.infrastructure.rewardserver.dao;
 
 import de.kvwl.n8dA.infrastructure.commons.entity.Person;
 
-public class UserDaoSqlite extends BaseDaoSqlite<Person> {
+public class UserDaoHSQL extends BaseDaoHSQL<Person> {
 
 }

@@ -20,7 +20,7 @@ import de.kvwl.n8dA.infrastructure.commons.entity.Person;
 import de.kvwl.n8dA.infrastructure.commons.exception.NoSuchPersonException;
 import de.kvwl.n8dA.infrastructure.commons.interfaces.CreditAccesHandler;
 import de.kvwl.n8dA.infrastructure.commons.util.NetworkUtils;
-import de.kvwl.n8dA.infrastructure.rewardserver.dao.UserDaoSqlite;
+import de.kvwl.n8dA.infrastructure.rewardserver.dao.UserDaoHSQL;
 
 public class RewardServer extends UnicastRemoteObject implements CreditAccesHandler {
 
@@ -32,7 +32,7 @@ public class RewardServer extends UnicastRemoteObject implements CreditAccesHand
 	private static final Logger LOG = LoggerFactory
 			.getLogger(RewardServer.class);
 
-	private UserDaoSqlite userDao;
+	private UserDaoHSQL userDao;
 	private BrokerService broker;
 
 	private static String REWARD_SERVER_FULL_TCP_ADDRESS;
@@ -66,7 +66,7 @@ public class RewardServer extends UnicastRemoteObject implements CreditAccesHand
 
 	public void startServer(int port) {
 		try {
-			userDao = new UserDaoSqlite();
+			userDao = new UserDaoHSQL();
 			startActiveMQBroker();
 			
 			

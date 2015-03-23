@@ -8,15 +8,15 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 /**
- * Implementation of BaseDao for an SQLite DB
+ * Implementation of BaseDao for an HSQL DB
  *
  */
-public abstract class BaseDaoSqlite<T> implements BaseDao<T> {
+public abstract class BaseDaoHSQL<T> implements BaseDao<T> {
 	protected static EntityManagerFactory emf = Persistence
-			.createEntityManagerFactory("sqlite");
+			.createEntityManagerFactory("hsql");
 	private static EntityManager em;
 
-	protected BaseDaoSqlite() {
+	protected BaseDaoHSQL() {
 	}
 
 	@SuppressWarnings("unchecked")
