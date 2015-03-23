@@ -23,36 +23,25 @@ public class Person implements Serializable {
 	@OneToMany(mappedBy = "person")
 	private Set<GamePerson> games = new HashSet<GamePerson>();
 
-	private int points;
-
 	public Person() {
 	}
 	
 	
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
+	public Person(String name) {
+		super();
 		this.name = name;
 	}
 
-	public int getPoints() {
-		return points;
-	}
 
-	public void setPoints(int points) {
-		this.points = points;
-	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + points;
 		return result;
 	}
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -68,9 +57,16 @@ public class Person implements Serializable {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		if (points != other.points)
-			return false;
 		return true;
+	}
+
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 

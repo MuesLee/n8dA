@@ -66,9 +66,8 @@ public class CreditAccessClient implements CreditAccess
 		try
 		{
 			client.initConnectionToServer();
-			client.persistConfigurationPointsForPerson("Derp","test", 5);
-			client.getConfigurationPointsForPerson("Derp");
 			
+			client.persistConfigurationPointsForPerson("Derp","TestGame", 5);
 			client.getAllGamesForPersonName("Derp");
 			
 			
@@ -78,10 +77,6 @@ public class CreditAccessClient implements CreditAccess
 		catch (RemoteException e)
 		{
 			LOG.error("Remote Error", e);
-		}
-		catch (NoSuchPersonException e)
-		{
-			LOG.error("Unbekannte Person", e);
 		}
 	}
 

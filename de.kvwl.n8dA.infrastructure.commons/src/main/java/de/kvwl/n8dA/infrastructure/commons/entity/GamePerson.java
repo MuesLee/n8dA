@@ -2,15 +2,24 @@ package de.kvwl.n8dA.infrastructure.commons.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Transient;
 
-@NamedQuery(name = "findAllGamesForPersonName", query = "SELECT gp FROM GamePerson gp JOIN gp.person p WHERE p.name = :personName")
+
+@NamedQueries ({
+	@NamedQuery(name = "findAllGamesForPersonName", query = "SELECT gp FROM GamePerson gp JOIN gp.person p WHERE p.name = :personName"),
+	@NamedQuery(name = "findAllPersonsForGameName", query = "SELECT gp FROM GamePerson gp JOIN gp.game g WHERE g.name = :gameName"),
+	@NamedQuery(name = "findPersonInGame", query = "SELECT gp FROM GamePerson gp JOIN gp.game g JOIN gp.person p WHERE g.name = :gameName AND p.name = :personName")
+})
+
+
 @Entity
 public class GamePerson implements Serializable {
 	
@@ -20,12 +29,12 @@ public class GamePerson implements Serializable {
 	@EmbeddedId
 	private GamePersonId pk = new GamePersonId();
 
-	@ManyToOne
+	@ManyToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
 	@MapsId("gameName")
 	@JoinColumn(name = "Game_Name")
 	private Game game;
 	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@MapsId("personName")
 	  @JoinColumn(name = "Person_Name")
 	private Person person;
@@ -34,6 +43,16 @@ public class GamePerson implements Serializable {
 
 	public GamePerson() {
 	}
+	
+	
+
+	public GamePerson(Game game, Person person, Integer points) {
+		super();
+		this.game = game;
+		this.person = person;
+		this.points = points;
+	}
+
 
 	public GamePersonId getPk() {
 		return pk;

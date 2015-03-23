@@ -26,6 +26,10 @@ public class Game implements Serializable {
 	public Game() {
 	}
 	
+	public Game(String name) {
+		super();
+		this.name = name;
+	}
 
 	public String getName() {
 		return name;
