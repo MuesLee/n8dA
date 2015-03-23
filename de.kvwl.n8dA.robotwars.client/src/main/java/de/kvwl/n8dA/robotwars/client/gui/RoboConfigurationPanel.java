@@ -539,7 +539,7 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener {
 			JOptionPane
 					.showMessageDialog(
 							this,
-							"Es muss mindestens eine Basisattacke(keien Energiekosten) ausgewählt sein.",
+							"Es muss mindestens eine Basisattacke(keine Energiekosten) ausgewählt sein.",
 							"Keine Basisattacke", JOptionPane.ERROR_MESSAGE);
 
 			return false;
