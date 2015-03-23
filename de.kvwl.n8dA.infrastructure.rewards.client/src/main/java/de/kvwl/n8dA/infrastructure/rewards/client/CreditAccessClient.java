@@ -53,7 +53,7 @@ public class CreditAccessClient implements CreditAccess {
 		 * used; all the ones indicated in the security properties file will be
 		 * ignored.
 		 */
-		// System.setSecurityManager(new SecurityManager());
+		System.setSecurityManager(new SecurityManager());
 		BasicConfigurator.configure();
 		this.ipAdressServer = ipAdressServer;
 		this.uuid = UUID.randomUUID();
