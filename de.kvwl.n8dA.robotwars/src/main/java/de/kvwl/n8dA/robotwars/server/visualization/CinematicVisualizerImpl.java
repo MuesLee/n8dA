@@ -68,4 +68,9 @@ public class CinematicVisualizerImpl extends FullScreenGameFrame implements
 
 	}
 
+	@Override
+	public void prepareForNextRound() {
+
+	}
+
 }
