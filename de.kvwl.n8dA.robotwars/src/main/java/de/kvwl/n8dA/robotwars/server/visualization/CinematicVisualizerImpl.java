@@ -8,10 +8,13 @@ import java.util.List;
 
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
+import de.kvwl.n8dA.robotwars.server.visualization.scene.GameScene;
 
 // TODO Marvin: CinematicVisualizer implementieren
 public class CinematicVisualizerImpl extends FullScreenGameFrame implements
 		CinematicVisualizer {
+
+	private GameScene gameScene = new GameScene();
 
 	public CinematicVisualizerImpl() {
 
@@ -26,6 +29,11 @@ public class CinematicVisualizerImpl extends FullScreenGameFrame implements
 
 	private void setup() {
 
+		setScene(gameScene);
+		registerExitKey();
+	}
+
+	private void registerExitKey() {
 		addKeyListener(new KeyAdapter() {
 
 			@Override
