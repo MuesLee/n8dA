@@ -8,18 +8,21 @@ import java.util.LinkedList;
 import java.util.List;
 
 import de.kvwl.n8dA.robotwars.server.visualization.scene.background.BackgroundScene;
+import de.kvwl.n8dA.robotwars.server.visualization.scene.robot.RobotScene;
 import de.kvwl.n8dA.robotwars.server.visualization.scene.status.StatusScene;
 
 public class GameScene implements Scene {
 
 	StatusScene status = new StatusScene();
 	BackgroundScene background = new BackgroundScene();
+	RobotScene robots = new RobotScene();
 
 	@Override
 	public void paintScene(Graphics2D g2d, int width, int height,
 			long elapsedTime) {
 
 		background.paintScene(g2d, width, height, elapsedTime);
+		robots.paintScene(g2d, width, height, elapsedTime);
 		status.paintScene(g2d, width, height, elapsedTime);
 	}
 
@@ -30,6 +33,7 @@ public class GameScene implements Scene {
 
 		addListener(status.getEventListeners(), lis);
 		addListener(background.getEventListeners(), lis);
+		addListener(robots.getEventListeners(), lis);
 
 		return lis.toArray(new EventListener[lis.size()]);
 	}

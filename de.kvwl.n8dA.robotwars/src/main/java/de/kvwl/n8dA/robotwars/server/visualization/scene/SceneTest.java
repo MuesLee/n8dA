@@ -2,21 +2,29 @@ package de.kvwl.n8dA.robotwars.server.visualization.scene;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import de.kvwl.n8dA.robotwars.server.visualization.Position;
+import de.kvwl.n8dA.robotwars.server.visualization.scene.robot.RobotScene;
 import de.kvwl.n8dA.robotwars.server.visualization.scene.status.StatusScene;
 import game.engine.frame.SwingGameFrame;
 import game.engine.image.InternalImage;
+import game.engine.image.sprite.DefaultSprite;
 import game.engine.stage.scene.FPSScene;
 import game.engine.stage.scene.Scene;
+import game.engine.stage.scene.object.AnimatedSceneObject;
+import game.engine.time.TimeUtils;
 
 public class SceneTest {
 
 	private static final String IMAGE_PATH = "/de/kvwl/n8dA/robotwars/server/images/";
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 
-		Scene scene = getGameScene();
+		Scene scene = getRoboScene();
 
 		SwingGameFrame disp = new SwingGameFrame();
 		disp.setLocationRelativeTo(null);
@@ -26,6 +34,39 @@ public class SceneTest {
 		disp.setVisible(true);
 	}
 
+	private static Scene getRoboScene() throws IOException {
+
+		RobotScene scene = new RobotScene() {
+
+			@Override
+			public void paintScene(Graphics2D g2d, int width, int height,
+					long elapsedTime) {
+
+				Image bg = InternalImage.loadFromPath(IMAGE_PATH,
+						"arena_bg.png");
+				g2d.drawImage(bg, 0, 0, width, height, 0, 0, bg.getWidth(null),
+						bg.getHeight(null), null);
+
+				super.paintScene(g2d, width, height, elapsedTime);
+			}
+		};
+
+		scene.setLeftRobo(new AnimatedSceneObject(
+				new DefaultSprite(
+						ImageIO.read(new File(
+								"../data/animations/robots/PillenRoboter/animation.png")),
+						64, 128), TimeUtils.NanosecondsOfMilliseconds(100)));
+
+		scene.setRightRobo(new AnimatedSceneObject(
+				new DefaultSprite(
+						ImageIO.read(new File(
+								"../data/animations/robots/GreenRoboter/animation.png")),
+						64, 128), TimeUtils.NanosecondsOfMilliseconds(100)));
+
+		return scene;
+	}
+
+	@SuppressWarnings("unused")
 	private static Scene getGameScene() {
 
 		return new GameScene();
