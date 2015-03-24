@@ -16,7 +16,7 @@ public class SceneTest {
 
 	public static void main(String[] args) {
 
-		Scene scene = getStatusScene();
+		Scene scene = getGameScene();
 
 		SwingGameFrame disp = new SwingGameFrame();
 		disp.setLocationRelativeTo(null);
@@ -26,6 +26,12 @@ public class SceneTest {
 		disp.setVisible(true);
 	}
 
+	private static Scene getGameScene() {
+
+		return new GameScene();
+	}
+
+	@SuppressWarnings("unused")
 	private static Scene getStatusScene() {
 
 		final StatusScene scene = new StatusScene() {
