@@ -2,8 +2,11 @@ package de.kvwl.n8dA.robotwars.server.visualization.scene;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.EventListener;
 
 import javax.imageio.ImageIO;
 
@@ -50,20 +53,40 @@ public class SceneTest {
 
 				super.paintScene(g2d, width, height, elapsedTime);
 				stats.paintScene(g2d, width, height, elapsedTime);
+
+			}
+
+			@Override
+			public EventListener[] getEventListeners() {
+
+				return new EventListener[] { new KeyAdapter() {
+					public void keyReleased(java.awt.event.KeyEvent e) {
+
+						if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+
+							playDamageAnimation(Position.LEFT, false);
+						}
+					};
+				} };
 			}
 		};
 
-		scene.setLeftRobo(new AnimatedSceneObject(
-				new DefaultSprite(
-						ImageIO.read(new File(
-								"../data/animations/robots/PillenRoboter/animation.png")),
-						64, 128), TimeUtils.NanosecondsOfMilliseconds(100)));
+		scene.setRobo(
+				new AnimatedSceneObject(
+						new DefaultSprite(
+								ImageIO.read(new File(
+										"../data/animations/robots/PillenRoboter/animation.png")),
+								64, 128), TimeUtils
+								.NanosecondsOfMilliseconds(100)), Position.LEFT);
 
-		scene.setRightRobo(new AnimatedSceneObject(
-				new DefaultSprite(
-						ImageIO.read(new File(
-								"../data/animations/robots/GreenRoboter/animation.png")),
-						64, 128), TimeUtils.NanosecondsOfMilliseconds(100)));
+		scene.setRobo(
+				new AnimatedSceneObject(
+						new DefaultSprite(
+								ImageIO.read(new File(
+										"../data/animations/robots/GreenRoboter/animation.png")),
+								64, 128), TimeUtils
+								.NanosecondsOfMilliseconds(100)),
+				Position.RIGHT);
 
 		return scene;
 	}

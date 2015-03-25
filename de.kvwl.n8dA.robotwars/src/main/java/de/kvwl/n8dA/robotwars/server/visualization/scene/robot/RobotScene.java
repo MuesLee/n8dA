@@ -7,8 +7,12 @@ import game.engine.stage.scene.object.Point;
 import java.awt.Graphics2D;
 import java.util.EventListener;
 
+import de.kvwl.n8dA.robotwars.server.visualization.Position;
+
 //TODO Marvin: RobotsScene
 public class RobotScene implements Scene {
+
+	private static final int ANZ_BLINK_FOR_DAMAGE = 3;
 
 	private static final double HEIGHT = 0.55;
 	private static final double SPACE_SIDE = 0.035;
@@ -28,7 +32,6 @@ public class RobotScene implements Scene {
 	private void paintRobos(Graphics2D g2d, int width, int height,
 			long elapsedTime) {
 
-		System.out.println(leftRobo + " " + rightRobo);
 		if (leftRobo != null) {
 			leftRobo.paintOnScene(g2d, elapsedTime);
 		}
@@ -72,12 +75,26 @@ public class RobotScene implements Scene {
 		return null;
 	}
 
-	public void setLeftRobo(AnimatedSceneObject leftRobo) {
-		this.leftRobo.setRobo(leftRobo);
+	public void playDamageAnimation(Position pos, boolean wait) {
+
+		if (pos == Position.LEFT) {
+
+			leftRobo.blink(ANZ_BLINK_FOR_DAMAGE, wait);
+		} else {
+
+			rightRobo.blink(ANZ_BLINK_FOR_DAMAGE, wait);
+		}
 	}
 
-	public void setRightRobo(AnimatedSceneObject rightRobo) {
-		this.rightRobo.setRobo(rightRobo);
+	public void setRobo(AnimatedSceneObject leftRobo, Position pos) {
+
+		if (pos == Position.LEFT) {
+
+			this.leftRobo.setRobo(leftRobo);
+		} else {
+
+			this.rightRobo.setRobo(leftRobo);
+		}
 	}
 
 }

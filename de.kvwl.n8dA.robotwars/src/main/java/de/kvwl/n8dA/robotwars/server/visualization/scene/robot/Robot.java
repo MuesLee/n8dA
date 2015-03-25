@@ -46,7 +46,9 @@ public class Robot extends SceneObject {
 				timeSinceLastSwitch %= BLINK_TIME;
 				blinks -= anzBlinks;
 
-				blinkAnimationFinished();
+				if (blinks <= 0) {
+					blinkAnimationFinished();
+				}
 			} else {
 
 				timeSinceLastSwitch += time;
@@ -59,12 +61,9 @@ public class Robot extends SceneObject {
 
 	private void blinkAnimationFinished() {
 
-		if (blinks <= 0) {
+		synchronized (blinkWait) {
 
-			synchronized (blinkWait) {
-
-				blinkWait.notifyAll();
-			}
+			blinkWait.notifyAll();
 		}
 	}
 
