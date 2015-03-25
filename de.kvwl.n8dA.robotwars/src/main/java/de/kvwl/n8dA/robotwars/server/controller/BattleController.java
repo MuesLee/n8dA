@@ -54,7 +54,11 @@ public class BattleController {
 		// TODO Timo: Anzeigen und ggf. schließen. Wird das Fenster nicht
 		// korrekt
 		// geschlossen, können die Grafikeinstellungen des Systems nicht
-		// zurückgesetzt werden
+		// zurückgesetzt werden. Wird das Fenster nicht explizit geschlossen,
+		// kann es sein, dass extrem viele ressourcen verschwendet werden.
+		// Jenachdem wann der GC das Fenster entsorgt und somit die
+		// Zeichenroutinen beendet. Am besten das Fenster immer offen lassen und
+		// nur die Werte anpassen.
 		this.cinematicVisualizer = new CinematicVisualizerImpl();
 	}
 
