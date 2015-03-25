@@ -3,7 +3,6 @@ package de.kvwl.n8dA.robotwars.server.visualization.scene.robot;
 import game.engine.stage.scene.Scene;
 import game.engine.stage.scene.object.AnimatedSceneObject;
 import game.engine.stage.scene.object.Point;
-import game.engine.stage.scene.object.Size;
 
 import java.awt.Graphics2D;
 import java.util.EventListener;
@@ -15,8 +14,8 @@ public class RobotScene implements Scene {
 	private static final double SPACE_SIDE = 0.035;
 	private static final double SPACE_BOTTOM = 0.08;
 
-	private AnimatedSceneObject leftRobo;
-	private AnimatedSceneObject rightRobo;
+	private Robot leftRobo = new Robot();
+	private Robot rightRobo = new Robot();
 
 	@Override
 	public void paintScene(Graphics2D g2d, int width, int height,
@@ -51,13 +50,8 @@ public class RobotScene implements Scene {
 
 		int _height = (int) Math.min((height * HEIGHT), width * 2);
 
-		Size tileSizeLeft = leftRobo.getTileSize();
-		Size tileSizeRight = rightRobo.getTileSize();
-
-		int _widtLeft = (int) (_height * (tileSizeLeft.getWidth() / (double) tileSizeLeft
-				.getHeight()));
-		int _widtRight = (int) (_height * (tileSizeRight.getWidth() / (double) tileSizeRight
-				.getHeight()));
+		int _widtLeft = (int) (_height * leftRobo.getRatio());
+		int _widtRight = (int) (_height * rightRobo.getRatio());
 
 		if (leftRobo != null) {
 
@@ -79,11 +73,11 @@ public class RobotScene implements Scene {
 	}
 
 	public void setLeftRobo(AnimatedSceneObject leftRobo) {
-		this.leftRobo = leftRobo;
+		this.leftRobo.setRobo(leftRobo);
 	}
 
 	public void setRightRobo(AnimatedSceneObject rightRobo) {
-		this.rightRobo = rightRobo;
+		this.rightRobo.setRobo(rightRobo);
 	}
 
 }
