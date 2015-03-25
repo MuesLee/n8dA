@@ -3,6 +3,7 @@ package de.kvwl.n8dA.robotwars.server.visualization.scene.robot;
 import game.engine.stage.scene.Scene;
 import game.engine.stage.scene.object.AnimatedSceneObject;
 import game.engine.stage.scene.object.Point;
+import game.engine.stage.scene.object.Size;
 
 import java.awt.Graphics2D;
 import java.util.EventListener;
@@ -11,7 +12,7 @@ import java.util.EventListener;
 public class RobotScene implements Scene {
 
 	private static final double HEIGHT = 0.55;
-	private static final double SPACE_SIDE = 0.07;
+	private static final double SPACE_SIDE = 0.035;
 	private static final double SPACE_BOTTOM = 0.08;
 
 	private AnimatedSceneObject leftRobo;
@@ -40,29 +41,35 @@ public class RobotScene implements Scene {
 
 	private void revalidate(int width, int height) {
 
-		int _width = 0;
-		int _height = 0;
+		revalidateRobots(width, height);
+	}
 
-		int _y;
-		int _x;
+	private void revalidateRobots(int width, int height) {
 
-		_y = (int) (height * SPACE_BOTTOM);
-		_x = (int) (width * SPACE_SIDE);
+		int _y = (int) (height * SPACE_BOTTOM);
+		int _x = (int) (width * SPACE_SIDE);
 
-		_height = (int) Math.min((height * HEIGHT), width * 2);
-		_width = (int) (_height * 0.5);
+		int _height = (int) Math.min((height * HEIGHT), width * 2);
+
+		Size tileSizeLeft = leftRobo.getTileSize();
+		Size tileSizeRight = rightRobo.getTileSize();
+
+		int _widtLeft = (int) (_height * (tileSizeLeft.getWidth() / (double) tileSizeLeft
+				.getHeight()));
+		int _widtRight = (int) (_height * (tileSizeRight.getWidth() / (double) tileSizeRight
+				.getHeight()));
 
 		if (leftRobo != null) {
 
 			leftRobo.setTopLeftPosition(new Point(_x, height - _height - _y));
-			leftRobo.setSize(_width, _height);
+			leftRobo.setSize(_widtLeft, _height);
 		}
 
 		if (rightRobo != null) {
 
-			rightRobo.setTopLeftPosition(new Point(width - _width - _x, height
-					- _height - _y));
-			rightRobo.setSize(_width, _height);
+			rightRobo.setTopLeftPosition(new Point(width - _widtRight - _x,
+					height - _height - _y));
+			rightRobo.setSize(_widtRight, _height);
 		}
 	}
 

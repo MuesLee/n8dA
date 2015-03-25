@@ -36,6 +36,7 @@ public class SceneTest {
 
 	private static Scene getRoboScene() throws IOException {
 
+		final StatusScene stats = new StatusScene();
 		RobotScene scene = new RobotScene() {
 
 			@Override
@@ -48,6 +49,7 @@ public class SceneTest {
 						bg.getHeight(null), null);
 
 				super.paintScene(g2d, width, height, elapsedTime);
+				stats.paintScene(g2d, width, height, elapsedTime);
 			}
 		};
 
