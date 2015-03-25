@@ -98,6 +98,18 @@ public class SceneTest {
 					case KeyEvent.VK_RIGHT:
 						scene.playDamageAnimation(Position.RIGHT, true);
 						break;
+					case KeyEvent.VK_UP:
+						stats.startHealthPointAnimation(Position.LEFT,
+								Math.random() * 50, true);
+						stats.startEnergyPointAnimation(Position.RIGHT,
+								Math.random() * 50 + 50, true);
+						break;
+					case KeyEvent.VK_DOWN:
+						stats.startHealthPointAnimation(Position.LEFT,
+								Math.random() * 50 + 50, true);
+						stats.startEnergyPointAnimation(Position.RIGHT,
+								Math.random() * 50, true);
+						break;
 					}
 				}
 			}

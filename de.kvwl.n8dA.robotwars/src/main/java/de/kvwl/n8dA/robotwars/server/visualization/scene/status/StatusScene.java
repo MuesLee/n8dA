@@ -143,6 +143,18 @@ public class StatusScene implements Scene {
 		return null;
 	}
 
+	public void startHealthPointAnimation(Position pos, double value,
+			boolean wait) {
+
+		if (pos == Position.LEFT) {
+
+			healthLeft.startValueAnimation(value, wait);
+		} else {
+
+			healthRight.startValueAnimation(value, wait);
+		}
+	}
+
 	public void setHealthPoints(Position pos, int value) {
 
 		if (pos == Position.LEFT) {
@@ -162,6 +174,18 @@ public class StatusScene implements Scene {
 		} else {
 
 			healthRight.setMaxValue(value);
+		}
+	}
+
+	public void startEnergyPointAnimation(Position pos, double value,
+			boolean wait) {
+
+		if (pos == Position.LEFT) {
+
+			energyLeft.startValueAnimation(value, wait);
+		} else {
+
+			energyRight.startValueAnimation(value, wait);
 		}
 	}
 

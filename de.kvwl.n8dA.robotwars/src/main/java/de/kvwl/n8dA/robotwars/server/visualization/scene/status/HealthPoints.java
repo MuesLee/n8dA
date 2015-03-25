@@ -1,6 +1,7 @@
 package de.kvwl.n8dA.robotwars.server.visualization.scene.status;
 
 import game.engine.stage.scene.object.SceneObject;
+import game.engine.time.TimeUtils;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -16,18 +17,26 @@ public class HealthPoints extends SceneObject {
 
 	private static int BORDER_WIDTH = 2;
 
+	private static long VALUE_TIME = TimeUtils.NanosecondsOfMilliseconds(100);
+	private static double VALUE_TIME_DIFF_BONUS = 0.1;
+
 	private Color maxColor = new Color(0, 255, 0);
 	private Color minColor = new Color(255, 0, 0);
 
 	private double maxValue = 100;
 	private double value = 100;
 
-	private Position pos = Position.LEFT;
+	private double aimValue = 100;
+	private double missingTime = 0;
+	private Object valueWait = new Object();
 
+	private Position pos = Position.LEFT;
 	private boolean paintValueString = true;
 
 	@Override
 	protected void paint(Graphics2D g2d, long time) {
+
+		calculateValue(time);
 
 		setRedneringHints(g2d);
 
@@ -88,6 +97,43 @@ public class HealthPoints extends SceneObject {
 		}
 	}
 
+	private void calculateValue(long time) {
+
+		if (value == aimValue) {
+			return;
+		}
+
+		double missingValue = Math.abs(value - aimValue);
+
+		double valuePerTime = (double) VALUE_TIME
+				/ Math.max(1, (missingValue * VALUE_TIME_DIFF_BONUS));
+		double elapsedValue = (time + missingTime) / valuePerTime;
+
+		double usedValue = Math.min(elapsedValue, missingValue);
+		missingTime = (time + missingTime) - (elapsedValue * valuePerTime);
+
+		if (value < aimValue) {
+
+			value += usedValue;
+		} else {
+
+			value -= usedValue;
+		}
+
+		if (value == aimValue) {
+
+			reachedValue();
+		}
+	}
+
+	private void reachedValue() {
+
+		synchronized (valueWait) {
+
+			valueWait.notifyAll();
+		}
+	}
+
 	private Color getColorForValue(double percent) {
 
 		int r, g, b;
@@ -115,6 +161,27 @@ public class HealthPoints extends SceneObject {
 				RenderingHints.VALUE_ANTIALIAS_ON);
 	}
 
+	public void startValueAnimation(double value, boolean wait) {
+
+		this.aimValue = value;
+
+		if (this.aimValue == this.value) {
+			return;
+		}
+
+		if (wait) {
+
+			synchronized (valueWait) {
+
+				try {
+					valueWait.wait();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
 	public double getMaxValue() {
 		return maxValue;
 	}
@@ -128,7 +195,11 @@ public class HealthPoints extends SceneObject {
 	}
 
 	public void setValue(double value) {
+
 		this.value = value;
+		this.aimValue = value;
+
+		reachedValue();
 	}
 
 	public Color getMaxColor() {
