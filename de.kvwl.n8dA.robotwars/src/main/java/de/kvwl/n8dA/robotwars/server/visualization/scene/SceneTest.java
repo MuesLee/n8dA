@@ -7,6 +7,8 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.EventListener;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import javax.imageio.ImageIO;
 
@@ -39,8 +41,10 @@ public class SceneTest {
 
 	private static Scene getRoboScene() throws IOException {
 
+		final Queue<Integer> anis = new LinkedList<Integer>();
+
 		final StatusScene stats = new StatusScene();
-		RobotScene scene = new RobotScene() {
+		final RobotScene scene = new RobotScene() {
 
 			@Override
 			public void paintScene(Graphics2D g2d, int width, int height,
@@ -62,14 +66,43 @@ public class SceneTest {
 				return new EventListener[] { new KeyAdapter() {
 					public void keyReleased(java.awt.event.KeyEvent e) {
 
-						if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+						synchronized (anis) {
 
-							playDamageAnimation(Position.LEFT, false);
+							anis.add(e.getKeyCode());
 						}
 					};
 				} };
 			}
 		};
+
+		Thread animations = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+
+				while (true) {
+					Integer anim;
+
+					synchronized (anis) {
+						anim = anis.poll();
+					}
+
+					if (anim == null) {
+						continue;
+					}
+
+					switch (anim.intValue()) {
+					case KeyEvent.VK_LEFT:
+						scene.playDamageAnimation(Position.LEFT, true);
+						break;
+					case KeyEvent.VK_RIGHT:
+						scene.playDamageAnimation(Position.RIGHT, true);
+						break;
+					}
+				}
+			}
+		});
+		animations.start();
 
 		scene.setRobo(
 				new AnimatedSceneObject(
