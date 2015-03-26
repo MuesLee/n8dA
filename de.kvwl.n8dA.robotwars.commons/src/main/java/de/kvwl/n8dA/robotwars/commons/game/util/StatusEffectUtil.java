@@ -26,7 +26,7 @@ public class StatusEffectUtil
 		return statusEffects;
 	}
 
-	public static StatusEffect cloneStatusEffectById(Long statusEffectId)
+	public static StatusEffect cloneStatusEffectById(long statusEffectId)
 	{
 
 		List<StatusEffect> StatusEffects = getAllStatusEffects();
