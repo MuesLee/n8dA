@@ -1,6 +1,9 @@
 package de.kvwl.n8dA.robotwars.commons.game.actions;
 
+import java.util.List;
+
 import de.kvwl.n8dA.robotwars.commons.game.entities.Entity;
+import de.kvwl.n8dA.robotwars.commons.game.statuseffects.StatusEffect;
 import de.kvwl.n8dA.robotwars.commons.gui.Animation;
 
 //TODO Timo: Beschreibung der Actions anpassen. -> Reaktion auf Tooltipwunsch
@@ -17,8 +20,10 @@ public abstract class RobotAction extends Entity {
 	protected RobotActionType robotActionType;
 	protected Animation animation;
 	protected int energyCosts;
-	private String description;
+	protected String description;
 
+	protected List<StatusEffect> statusEffects;
+	
 	public boolean beats(RobotAction otherAction) {
 		return this.robotActionType.beats(otherAction.getRobotActionType());
 	}
@@ -59,5 +64,13 @@ public abstract class RobotAction extends Entity {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public List<StatusEffect> getStatusEffects() {
+		return statusEffects;
+	}
+
+	public void setStatusEffects(List<StatusEffect> statusEffects) {
+		this.statusEffects = statusEffects;
 	}
 }
