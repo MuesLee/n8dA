@@ -26,6 +26,7 @@ import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.StatusEffect;
 import de.kvwl.n8dA.robotwars.commons.game.util.ItemUtil;
+import de.kvwl.n8dA.robotwars.commons.game.util.StatusEffectUtil;
 import de.kvwl.n8dA.robotwars.commons.gui.Animation;
 
 /**
@@ -182,6 +183,7 @@ public class DataLoaderFileSystemImpl implements DataLoader
 		long id;
 		Animation animation;
 		String animationId;
+		List<StatusEffect> statusEffects;
 
 		Document doc = builder.build(Files.newInputStream(info));
 		Element atk = doc.getRootElement();
@@ -194,6 +196,7 @@ public class DataLoaderFileSystemImpl implements DataLoader
 		id = Long.valueOf(atk.getChild("id").getValue());
 		animationId = atk.getChild("animationid").getValue();
 		animation = getAnimation(attackAnimations, animationId);
+		statusEffects = readEffects(atk);
 
 		Attack attack = new Attack(type, damage);
 		attack.setConfigurationPointCosts(configurationPointCosts);
@@ -201,6 +204,7 @@ public class DataLoaderFileSystemImpl implements DataLoader
 		attack.setName(name);
 		attack.setAnimation(animation);
 		attack.setId(id);
+		attack.setStatusEffects(statusEffects);
 
 		return attack;
 	}
@@ -216,18 +220,20 @@ public class DataLoaderFileSystemImpl implements DataLoader
 		long id;
 		Animation animation;
 		String animationId;
+		List<StatusEffect> statusEffects;
 
 		Document doc = builder.build(Files.newInputStream(info));
-		Element atk = doc.getRootElement();
+		Element def = doc.getRootElement();
 
-		type = RobotActionType.valueOf(atk.getChild("type").getValue());
-		bonusOnDefenceFactor = Double.valueOf(atk.getChild("defensefactor").getValue());
-		configurationPointCosts = Integer.valueOf(atk.getChild("configcosts").getValue());
-		energyCosts = Integer.valueOf(atk.getChild("energycosts").getValue());
-		name = atk.getChild("name").getValue();
-		id = Long.valueOf(atk.getChild("id").getValue());
-		animationId = atk.getChild("animationid").getValue();
+		type = RobotActionType.valueOf(def.getChild("type").getValue());
+		bonusOnDefenceFactor = Double.valueOf(def.getChild("defensefactor").getValue());
+		configurationPointCosts = Integer.valueOf(def.getChild("configcosts").getValue());
+		energyCosts = Integer.valueOf(def.getChild("energycosts").getValue());
+		name = def.getChild("name").getValue();
+		id = Long.valueOf(def.getChild("id").getValue());
+		animationId = def.getChild("animationid").getValue();
 		animation = getAnimation(defenseAnimations, animationId);
+		statusEffects = readEffects(def);
 
 		Defense defense = new Defense(type, bonusOnDefenceFactor);
 		defense.setConfigurationPointCosts(configurationPointCosts);
@@ -235,6 +241,7 @@ public class DataLoaderFileSystemImpl implements DataLoader
 		defense.setName(name);
 		defense.setAnimation(animation);
 		defense.setId(id);
+		defense.setStatusEffects(statusEffects);
 
 		return defense;
 	}
@@ -313,7 +320,6 @@ public class DataLoaderFileSystemImpl implements DataLoader
 		return robot;
 	}
 
-	//TODO Marvin: implemetnieren
 	private List<StatusEffect> readEffects(Element obj)
 	{
 
@@ -330,7 +336,9 @@ public class DataLoaderFileSystemImpl implements DataLoader
 		{
 
 			Integer efId = Integer.valueOf(id.getValue());
+			StatusEffect efClone = StatusEffectUtil.cloneStatusEffectById(efId);
 
+			ef.add(efClone);
 		}
 
 		return ef;
