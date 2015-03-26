@@ -23,11 +23,13 @@ import game.engine.stage.scene.Scene;
 import game.engine.stage.scene.object.AnimatedSceneObject;
 import game.engine.time.TimeUtils;
 
-public class SceneTest {
+public class SceneTest
+{
 
 	private static final String IMAGE_PATH = "/de/kvwl/n8dA/robotwars/server/images/";
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws Exception
+	{
 
 		Scene scene = getRoboScene();
 
@@ -39,21 +41,21 @@ public class SceneTest {
 		disp.setVisible(true);
 	}
 
-	private static Scene getRoboScene() throws IOException {
+	private static Scene getRoboScene() throws IOException
+	{
 
 		final Queue<Integer> anis = new LinkedList<Integer>();
 
 		final StatusScene stats = new StatusScene();
-		final RobotScene scene = new RobotScene() {
+		final RobotScene scene = new RobotScene()
+		{
 
 			@Override
-			public void paintScene(Graphics2D g2d, int width, int height,
-					long elapsedTime) {
+			public void paintScene(Graphics2D g2d, int width, int height, long elapsedTime)
+			{
 
-				Image bg = InternalImage.loadFromPath(IMAGE_PATH,
-						"arena_bg.png");
-				g2d.drawImage(bg, 0, 0, width, height, 0, 0, bg.getWidth(null),
-						bg.getHeight(null), null);
+				Image bg = InternalImage.loadFromPath(IMAGE_PATH, "arena_bg.png");
+				g2d.drawImage(bg, 0, 0, width, height, 0, 0, bg.getWidth(null), bg.getHeight(null), null);
 
 				super.paintScene(g2d, width, height, elapsedTime);
 				stats.paintScene(g2d, width, height, elapsedTime);
@@ -61,12 +63,16 @@ public class SceneTest {
 			}
 
 			@Override
-			public EventListener[] getEventListeners() {
+			public EventListener[] getEventListeners()
+			{
 
-				return new EventListener[] { new KeyAdapter() {
-					public void keyReleased(java.awt.event.KeyEvent e) {
+				return new EventListener[] { new KeyAdapter()
+				{
+					public void keyReleased(java.awt.event.KeyEvent e)
+					{
 
-						synchronized (anis) {
+						synchronized (anis)
+						{
 
 							anis.add(e.getKeyCode());
 						}
@@ -75,40 +81,42 @@ public class SceneTest {
 			}
 		};
 
-		Thread animations = new Thread(new Runnable() {
+		Thread animations = new Thread(new Runnable()
+		{
 
 			@Override
-			public void run() {
+			public void run()
+			{
 
-				while (true) {
+				while (true)
+				{
 					Integer anim;
 
-					synchronized (anis) {
+					synchronized (anis)
+					{
 						anim = anis.poll();
 					}
 
-					if (anim == null) {
+					if (anim == null)
+					{
 						continue;
 					}
 
-					switch (anim.intValue()) {
-					case KeyEvent.VK_LEFT:
-						scene.playDamageAnimation(Position.LEFT, true);
+					switch (anim.intValue())
+					{
+						case KeyEvent.VK_LEFT:
+							scene.playDamageAnimation(Position.LEFT, true);
 						break;
-					case KeyEvent.VK_RIGHT:
-						scene.playDamageAnimation(Position.RIGHT, true);
+						case KeyEvent.VK_RIGHT:
+							scene.playDamageAnimation(Position.RIGHT, true);
 						break;
-					case KeyEvent.VK_UP:
-						stats.startHealthPointAnimation(Position.LEFT,
-								Math.random() * 50, true);
-						stats.startEnergyPointAnimation(Position.RIGHT,
-								Math.random() * 50 + 50, true);
+						case KeyEvent.VK_UP:
+							stats.startHealthPointAnimation(Position.LEFT, Math.random() * 50, true);
+							stats.startEnergyPointAnimation(Position.RIGHT, Math.random() * 50 + 50, true);
 						break;
-					case KeyEvent.VK_DOWN:
-						stats.startHealthPointAnimation(Position.LEFT,
-								Math.random() * 50 + 50, true);
-						stats.startEnergyPointAnimation(Position.RIGHT,
-								Math.random() * 50, true);
+						case KeyEvent.VK_DOWN:
+							stats.startHealthPointAnimation(Position.LEFT, Math.random() * 50 + 50, true);
+							stats.startEnergyPointAnimation(Position.RIGHT, Math.random() * 50, true);
 						break;
 					}
 				}
@@ -117,74 +125,77 @@ public class SceneTest {
 		animations.start();
 
 		scene.setRobo(
-				new AnimatedSceneObject(
-						new DefaultSprite(
-								ImageIO.read(new File(
-										"../data/animations/robots/PillenRoboter/animation.png")),
-								64, 128), TimeUtils
-								.NanosecondsOfMilliseconds(100)), Position.LEFT);
+			new AnimatedSceneObject(new DefaultSprite(ImageIO.read(new File(
+				"../data/animations/robots/PillenRoboter/animation.png")), 64, 128), TimeUtils
+				.NanosecondsOfMilliseconds(100)), Position.LEFT);
 
 		scene.setRobo(
-				new AnimatedSceneObject(
-						new DefaultSprite(
-								ImageIO.read(new File(
-										"../data/animations/robots/GreenRoboter/animation.png")),
-								64, 128), TimeUtils
-								.NanosecondsOfMilliseconds(100)),
-				Position.RIGHT);
+			new AnimatedSceneObject(new DefaultSprite(ImageIO.read(new File(
+				"../data/animations/robots/GreenRoboter/animation.png")), 64, 128), TimeUtils
+				.NanosecondsOfMilliseconds(100)), Position.RIGHT);
 
 		return scene;
 	}
 
 	@SuppressWarnings("unused")
-	private static Scene getGameScene() {
+	private static Scene getGameScene()
+	{
 
 		return new GameScene();
 	}
 
 	@SuppressWarnings("unused")
-	private static Scene getStatusScene() {
+	private static Scene getStatusScene()
+	{
 
-		final StatusScene scene = new StatusScene() {
+		final StatusScene scene = new StatusScene()
+		{
 
 			@Override
-			public void paintScene(Graphics2D g2d, int width, int height,
-					long elapsedTime) {
+			public void paintScene(Graphics2D g2d, int width, int height, long elapsedTime)
+			{
 
-				Image bg = InternalImage.loadFromPath(IMAGE_PATH,
-						"arena_bg.png");
-				g2d.drawImage(bg, 0, 0, width, height, 0, 0, bg.getWidth(null),
-						bg.getHeight(null), null);
+				Image bg = InternalImage.loadFromPath(IMAGE_PATH, "arena_bg.png");
+				g2d.drawImage(bg, 0, 0, width, height, 0, 0, bg.getWidth(null), bg.getHeight(null), null);
 
 				super.paintScene(g2d, width, height, elapsedTime);
 			}
 		};
 
-		new Thread(new Runnable() {
+		new Thread(new Runnable()
+		{
 
 			int value = 100;
 			double round = 0;
 
 			@Override
-			public void run() {
+			public void run()
+			{
 
-				while (true) {
-					try {
+				while (true)
+				{
+					try
+					{
 						Thread.sleep(100);
-					} catch (InterruptedException e) {
+					}
+					catch (InterruptedException e)
+					{
 					}
 
 					round += 0.25;
-					if (round >= 21) {
+					if (round >= 21)
+					{
 						round = 1;
 					}
 
 					value -= 1;
-					if (value < 0) {
+					if (value < 0)
+					{
 						value = 100;
 					}
 
-					if (Math.random() > 0.5) {
+					if (Math.random() > 0.5)
+					{
 
 						scene.setEnergyPoints(Position.RIGHT, value);
 						scene.setHealthPoints(Position.RIGHT, value);
