@@ -13,6 +13,8 @@ import java.util.Queue;
 import javax.imageio.ImageIO;
 
 import de.kvwl.n8dA.robotwars.server.visualization.Position;
+import de.kvwl.n8dA.robotwars.server.visualization.scene.robot.Action;
+import de.kvwl.n8dA.robotwars.server.visualization.scene.robot.ActionType;
 import de.kvwl.n8dA.robotwars.server.visualization.scene.robot.RobotScene;
 import de.kvwl.n8dA.robotwars.server.visualization.scene.status.StatusScene;
 import game.engine.frame.SwingGameFrame;
@@ -117,6 +119,23 @@ public class SceneTest
 						case KeyEvent.VK_DOWN:
 							stats.startHealthPointAnimation(Position.LEFT, Math.random() * 50 + 50, true);
 							stats.startEnergyPointAnimation(Position.RIGHT, Math.random() * 50, true);
+						break;
+						case KeyEvent.VK_SPACE:
+							Action acLeft = null;
+							Action acRight = null;
+							try
+							{
+								acLeft = new Action(new AnimatedSceneObject(new DefaultSprite(ImageIO.read(new File(
+									"../data/animations/actions/defends/Spiegel/animation.png")), 64, 128),
+									TimeUtils.NanosecondsOfMilliseconds(100)), ActionType.ReflectingDefense);
+								acRight = new Action(new AnimatedSceneObject(new DefaultSprite(ImageIO.read(new File(
+									"../data/animations/actions/attacks/Laser/animation.png")), 64, 64),
+									TimeUtils.NanosecondsOfMilliseconds(100)), ActionType.Attack);
+							}
+							catch (IOException e)
+							{
+							}
+							scene.playActionAnimation(acLeft, acRight, true);
 						break;
 					}
 				}
