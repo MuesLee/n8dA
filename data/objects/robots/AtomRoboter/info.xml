@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<robot>
+	<id>1</id>
+	<name>Nucular</name>
+	<configcosts>0</configcosts>
+	<healthpoints>100</healthpoints>
+	<energypoints>100</energypoints>
+	<animationid>AtomRoboter</animationid>
+	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->
+        <id>2</id>
+    </statuseffects>
+	<defaultitems>
+		
+	</defaultitems>
+	<attacks>
+		
+	</attacks>
+	<defends>
+		
+	</defends>
+</robot>

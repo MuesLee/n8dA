@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<robot>
+	<id>5</id>
+	<name>Die Pille</name>
+	<configcosts>0</configcosts>
+	<healthpoints>180</healthpoints>
+	<energypoints>20</energypoints>
+	<animationid>PillenRoboter</animationid>
+	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->
+        <id>2</id>
+    </statuseffects>
+	<defaultitems>
+		
+	</defaultitems>
+	<attacks>
+		
+	</attacks>
+	<defends>
+		
+	</defends>
+</robot>

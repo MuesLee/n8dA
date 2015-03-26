@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<attack>
+	<damage>12</damage>
+	<type>PAPER</type>
+	<animationid>Bombe</animationid>
+	<energycosts>3</energycosts>
+	<configcosts>5</configcosts>
+	<name>Bombe</name>
+	<id>10</id>
+	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->
+        <id>2</id>
+    </statuseffects>
+</attack>

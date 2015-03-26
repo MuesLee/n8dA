@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<robot>
+	<id>2</id>
+	<name>Alienrobot</name>
+	<configcosts>0</configcosts>
+	<healthpoints>100</healthpoints>
+	<energypoints>100</energypoints>
+	<animationid>Alienrobot</animationid>
+	<defaultitems>
+		<item>80</item>
+		<item>80</item>
+	</defaultitems>
+	<attacks>
+		<id>0</id>
+	</attacks>
+	<defends>
+		<id>1</id>
+	</defends>
+</robot>

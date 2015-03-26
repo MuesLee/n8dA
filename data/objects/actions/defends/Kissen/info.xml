@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<defense>
+	<defensefactor>0.3</defensefactor>
+	<type>PAPER</type>
+	<animationid>Kissen</animationid>
+	<energycosts>3</energycosts>
+	<configcosts>5</configcosts>
+	<name>Kissen</name>
+	<id>19</id>
+	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->
+        <id>2</id>
+    </statuseffects>
+</defense>

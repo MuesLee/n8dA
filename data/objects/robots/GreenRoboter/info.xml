@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<robot>
+	<id>3</id>
+	<name>Digital</name>
+	<configcosts>0</configcosts>
+	<healthpoints>120</healthpoints>
+	<energypoints>80</energypoints>
+	<animationid>GreenRoboter</animationid>
+	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->
+        <id>2</id>
+    </statuseffects>
+	<defaultitems>
+		
+	</defaultitems>
+	<attacks>
+		
+	</attacks>
+	<defends>
+		
+	</defends>
+</robot>
