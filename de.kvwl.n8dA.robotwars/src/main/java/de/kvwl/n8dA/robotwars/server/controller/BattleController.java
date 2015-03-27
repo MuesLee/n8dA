@@ -108,7 +108,8 @@ public class BattleController
 		cinematicVisualizer.roundIsAboutToStart();
 
 		computeBattleOutcome(robotLeft, robotRight);
-
+		cinematicVisualizer.updateStats(robotLeft, RobotPosition.LEFT, true, true);
+		cinematicVisualizer.updateStats(robotRight, RobotPosition.RIGHT, true, true);
 		checkForGameEnding(robotLeft, robotRight);
 	}
 
@@ -349,6 +350,8 @@ public class BattleController
 
 		for (RoboModificator roboMod : equippedItems)
 		{
+			if (roboMod == null)
+				continue;
 			roboMod.performEachRoundsModification(robot);
 			LOG.info("Robot " + robot + " has received an upgrade: " + roboMod);
 		}
@@ -356,6 +359,8 @@ public class BattleController
 		List<StatusEffect> roboStats = robot.getStatusEffects();
 		for (RoboModificator statusEffect : roboStats)
 		{
+			if (statusEffect == null)
+				continue;
 			statusEffect.performEachRoundsModification(robot);
 		}
 

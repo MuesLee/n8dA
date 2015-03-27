@@ -122,11 +122,14 @@ public class GameScene implements Scene, CinematicVisualizer
 			throw new RuntimeException("Unbekannte Position");
 		}
 
+		status.setMaxHealthPoints(position, robo.getMaxHealthPoints());
+		status.setMaxEnergyPoints(position, robo.getMaxEnergyPoints());
+
 		if (animated)
 		{
 
-			status.startHealthPointAnimation(position, robo.getEnergyPoints(), wait);
-			status.startEnergyPointAnimation(position, robo.getHealthPoints(), wait);
+			status.startHealthPointAnimation(position, robo.getHealthPoints(), wait);
+			status.startEnergyPointAnimation(position, robo.getEnergyPoints(), wait);
 		}
 		else
 		{

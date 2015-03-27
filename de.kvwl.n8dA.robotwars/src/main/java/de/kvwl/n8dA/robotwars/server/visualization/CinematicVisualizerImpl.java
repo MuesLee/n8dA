@@ -1,6 +1,7 @@
 package de.kvwl.n8dA.robotwars.server.visualization;
 
 import game.engine.frame.FullScreenGameFrame;
+import game.engine.frame.SwingGameFrame;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -11,7 +12,7 @@ import de.kvwl.n8dA.robotwars.server.input.DataLoader;
 import de.kvwl.n8dA.robotwars.server.visualization.scene.GameScene;
 import de.kvwl.n8dA.robotwars.server.visualization.scene.robot.Action;
 
-public class CinematicVisualizerImpl extends FullScreenGameFrame implements CinematicVisualizer
+public class CinematicVisualizerImpl extends SwingGameFrame implements CinematicVisualizer
 {
 
 	private GameScene gameScene = new GameScene();
@@ -19,13 +20,14 @@ public class CinematicVisualizerImpl extends FullScreenGameFrame implements Cine
 	public CinematicVisualizerImpl()
 	{
 
-		this(GraphicsConfiguration.getDefaultConfig());
+		this(GraphicsConfiguration.getSystemDefault());
 	}
 
 	public CinematicVisualizerImpl(GraphicsConfiguration config)
 	{
 
-		super(config.getDevice(), config.getDisplayMode(), "RoboBattle");
+		//		super(config.getDevice(), config.getDisplayMode(), "RoboBattle");
+		super();
 		setup();
 	}
 
