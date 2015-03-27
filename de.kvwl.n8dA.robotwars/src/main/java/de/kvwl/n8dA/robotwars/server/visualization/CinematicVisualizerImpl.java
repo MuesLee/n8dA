@@ -1,6 +1,7 @@
 package de.kvwl.n8dA.robotwars.server.visualization;
 
 import game.engine.frame.SwingGameFrame;
+import game.engine.image.InternalImage;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -16,6 +17,7 @@ public class CinematicVisualizerImpl extends SwingGameFrame implements
 		CinematicVisualizer {
 
 	private static final long serialVersionUID = 1L;
+	private static final String IMAGE_PATH = "/de/kvwl/n8dA/robotwars/commons/images/";
 
 	private static CinematicVisualizerImpl instance;
 
@@ -30,11 +32,13 @@ public class CinematicVisualizerImpl extends SwingGameFrame implements
 
 		// super(config.getDevice(), config.getDisplayMode(), "RoboBattle");
 		super();
+
 		setup();
 	}
 
 	private void setup() {
 
+		setIconImage(InternalImage.loadFromPath(IMAGE_PATH, "icon.png"));
 		setScene(gameScene);
 		registerExitKey();
 	}

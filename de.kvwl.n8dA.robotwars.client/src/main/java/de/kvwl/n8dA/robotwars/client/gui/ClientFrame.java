@@ -1,5 +1,7 @@
 package de.kvwl.n8dA.robotwars.client.gui;
 
+import game.engine.image.InternalImage;
+
 import java.awt.BorderLayout;
 import java.io.IOException;
 
@@ -16,6 +18,7 @@ import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
 public class ClientFrame extends JFrame implements ConfigurationListener {
 
 	private static final long serialVersionUID = 1L;
+	private static final String IMAGE_PATH = "/de/kvwl/n8dA/robotwars/commons/images/";
 
 	private RoboBattlePlayerClient battleClient;
 	private long maxCreditPoints;
@@ -100,6 +103,7 @@ public class ClientFrame extends JFrame implements ConfigurationListener {
 
 	private void createGui() {
 
+		setIconImage(InternalImage.loadFromPath(IMAGE_PATH, "icon.png"));
 		setTitle("RoboBattle - Client");
 		setLayout(new BorderLayout());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

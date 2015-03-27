@@ -1,5 +1,7 @@
 package de.kvwl.n8dA.robotwars.client.gui;
 
+import game.engine.image.InternalImage;
+
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -16,10 +18,10 @@ import bno.swing2.widget.BTextField;
 import de.kvwl.n8dA.infrastructure.commons.exception.NoSuchPersonException;
 import de.kvwl.n8dA.infrastructure.commons.interfaces.CreditAccess;
 
-public class LoginDialog extends JDialog implements ActionListener
-{
+public class LoginDialog extends JDialog implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
+	private static final String IMAGE_PATH = "/de/kvwl/n8dA/robotwars/commons/images/";
 
 	private long credits = 0;
 	private boolean canceled = false;
@@ -32,8 +34,7 @@ public class LoginDialog extends JDialog implements ActionListener
 
 	private BTextField tfName;
 
-	private LoginDialog(CreditAccess creditClient)
-	{
+	private LoginDialog(CreditAccess creditClient) {
 
 		this.creditClient = creditClient;
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -42,9 +43,9 @@ public class LoginDialog extends JDialog implements ActionListener
 		createGui();
 	}
 
-	private void createGui()
-	{
+	private void createGui() {
 
+		setIconImage(InternalImage.loadFromPath(IMAGE_PATH, "icon.png"));
 		setTitle("Login");
 		setLayout(new BorderLayout());
 
@@ -52,8 +53,7 @@ public class LoginDialog extends JDialog implements ActionListener
 		add(createButtonRow(), BorderLayout.SOUTH);
 	}
 
-	private JPanel createLogin()
-	{
+	private JPanel createLogin() {
 		JPanel login = new JPanel();
 		login.setLayout(new BorderLayout());
 
@@ -69,8 +69,7 @@ public class LoginDialog extends JDialog implements ActionListener
 		return login;
 	}
 
-	private JPanel createButtonRow()
-	{
+	private JPanel createButtonRow() {
 
 		JPanel btns = new JPanel();
 		btns.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -86,78 +85,70 @@ public class LoginDialog extends JDialog implements ActionListener
 		return btns;
 	}
 
-	private void cancel()
-	{
+	private void cancel() {
 
 		canceled = true;
 		credits = 0;
 		dispose();
 	}
 
-	private void login()
-	{
+	private void login() {
 
-		try
-		{
+		try {
 			canceled = false;
-			credits = creditClient.getConfigurationPointsForPerson(getLoginName());
+			credits = creditClient
+					.getConfigurationPointsForPerson(getLoginName());
 			dispose();
-		}
-		catch (NoSuchPersonException e)
-		{
+		} catch (NoSuchPersonException e) {
 
-			JOptionPane.showMessageDialog(this, "Der angegebene Benutzer '" + getLoginName()
-				+ "' ist nicht bekannt. \n" + e.getMessage(), "Login nicht gefunden", JOptionPane.WARNING_MESSAGE);
-		}
-		catch (RemoteException e)
-		{
-			JOptionPane.showMessageDialog(this, "Es ist ein unbekannter Fehler aufgetreten. \n" + e.getMessage(),
-				"Feheler bei dem Verbindungsaufbau", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this,
+					"Der angegebene Benutzer '" + getLoginName()
+							+ "' ist nicht bekannt. \n" + e.getMessage(),
+					"Login nicht gefunden", JOptionPane.WARNING_MESSAGE);
+		} catch (RemoteException e) {
+			JOptionPane.showMessageDialog(
+					this,
+					"Es ist ein unbekannter Fehler aufgetreten. \n"
+							+ e.getMessage(),
+					"Feheler bei dem Verbindungsaufbau",
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
-	private String getLoginName()
-	{
+	private String getLoginName() {
 
 		return tfName.getText();
 	}
 
-	private long getCredits()
-	{
+	private long getCredits() {
 		return credits;
 	}
 
-	private boolean isCanceled()
-	{
+	private boolean isCanceled() {
 
 		return canceled;
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e)
-	{
+	public void actionPerformed(ActionEvent e) {
 
 		Object source = e.getSource();
 
-		if (source == btnOK)
-		{
+		if (source == btnOK) {
 
 			login();
-		}
-		else if (source == btnCancel)
-		{
+		} else if (source == btnCancel) {
 
 			cancel();
 		}
 	}
 
-	public static LoginResult getCreditPoints(CreditAccess creditClient) throws CanceledException
-	{
+	public static LoginResult getCreditPoints(CreditAccess creditClient)
+			throws CanceledException {
 
 		LoginDialog login = new LoginDialog(creditClient);
 
-		if (login.isCanceled())
-		{
+		if (login.isCanceled()) {
 
 			throw new CanceledException();
 		}
@@ -169,8 +160,7 @@ public class LoginDialog extends JDialog implements ActionListener
 		return result;
 	}
 
-	public static class CanceledException extends Exception
-	{
+	public static class CanceledException extends Exception {
 
 		private static final long serialVersionUID = 1L;
 
