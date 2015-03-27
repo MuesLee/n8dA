@@ -6,7 +6,6 @@ import game.engine.stage.scene.object.Point;
 import game.engine.time.TimeUtils;
 
 import java.awt.Graphics2D;
-import java.security.acl.Acl;
 import java.util.EventListener;
 
 import de.kvwl.n8dA.robotwars.server.visualization.Position;
@@ -26,6 +25,7 @@ public class RobotScene implements Scene
 	private static final double AC_DEF_HEIGHT = HEIGHT * 0.8;
 	private static final double DEF_OVERLAP = 0.4;
 	private static final double ATK_OVERLAP = DEF_OVERLAP * 0.5;
+	private static final double NEAR_FOR_DEFENSE = 0.7;
 
 	private Robot leftRobo = new Robot();
 	private Robot rightRobo = new Robot();
@@ -195,15 +195,49 @@ public class RobotScene implements Scene
 		if (acLeft != null)
 		{
 
+			//Standard Verteidigungsposition
 			_x = (int) (leftRobo.getX() + leftRobo.getWidth() * (1 - DEF_OVERLAP));
 
 			if (!acLeft.getType().isDefendingType())
 			{
 
+				//Für den Angriff Position nach der Zeit vorsetzen
 				acLeft.setDone(Math.min(acLeft.getDone() + elapsedAni, 1));
 
 				double possibleWidth = (rightRobo.getX() + rightRobo.getWidth() * ATK_OVERLAP) - _x - acLeft.getWidth();
 				_x += (int) (acLeft.getDone() * possibleWidth);
+			}
+			else
+			{
+				acLeft.setVisible(false);
+
+				boolean isOtherDefendingOrNull = acRight == null || acRight.getType().isDefendingType();
+				boolean isAtkNear = acRight != null && acRight.getDone() > NEAR_FOR_DEFENSE;
+				boolean isAtkFinished = acRight != null && acRight.getDone() >= 1;
+
+				//Verteidigung mit der Zeit ausblenden
+				if (isOtherDefendingOrNull || isAtkNear)
+				{
+
+					acLeft.setVisible(true);
+					acLeft.setDone(Math.min(acLeft.getDone() + elapsedAni, 1));
+				}
+
+				if (isAtkFinished)
+				{
+
+					acRight.setVisible(false);
+
+					if (acLeft.getType() == ActionType.ReflectingDefense)
+					{
+
+						acLeft = acRight;
+						acRight = null;
+
+						acLeft.setVisible(true);
+						acLeft.setDone(0);
+					}
+				}
 			}
 
 			acLeft.setTopLeftPosition(new Point(_x, acLeft.getTopLeftPosition().getY()));
