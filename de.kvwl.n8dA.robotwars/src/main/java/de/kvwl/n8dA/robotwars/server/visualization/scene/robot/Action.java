@@ -6,7 +6,9 @@ import game.engine.stage.scene.object.Size;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.io.IOException;
 
+import de.kvwl.n8dA.robotwars.server.input.DataLoaderFileSystemImpl;
 import de.kvwl.n8dA.robotwars.server.visualization.AnimationPosition;
 
 public class Action extends SceneObject
@@ -18,10 +20,6 @@ public class Action extends SceneObject
 	private double done = 0;
 	private boolean visible = true;
 	private DamagePhase damageDone = DamagePhase.Not;
-
-	public Action()
-	{
-	}
 
 	public Action(AnimatedSceneObject ani, ActionType type)
 	{
@@ -103,10 +101,12 @@ public class Action extends SceneObject
 		Not, Now, End;
 	}
 
-	public static Action create(AnimationPosition ani)
+	public static Action create(AnimationPosition ani, ActionType type) throws IOException
 	{
 
-		Action ac = new Action();
+		AnimatedSceneObject anima = DataLoaderFileSystemImpl.createAnimatedSceneObject(ani.getAnimation());
+
+		Action ac = new Action(anima, type);
 		ac.setDone(0);
 		ac.setDamage(DamagePhase.Not);
 		ac.setVisible(true);
