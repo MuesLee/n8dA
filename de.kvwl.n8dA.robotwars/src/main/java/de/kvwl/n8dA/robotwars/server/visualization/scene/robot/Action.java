@@ -10,7 +10,7 @@ import java.awt.geom.AffineTransform;
 import java.io.IOException;
 
 import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
-import de.kvwl.n8dA.robotwars.server.input.DataLoaderFileSystemImpl;
+import de.kvwl.n8dA.robotwars.server.input.DataLoader;
 import de.kvwl.n8dA.robotwars.server.visualization.AnimationPosition;
 
 public class Action extends SceneObject
@@ -135,10 +135,10 @@ public class Action extends SceneObject
 		this.inverted = inverted;
 	}
 
-	public static Action create(AnimationPosition ani, ActionType type) throws IOException
+	public static Action create(AnimationPosition ani, ActionType type, DataLoader loader) throws IOException
 	{
 
-		AnimatedSceneObject anima = DataLoaderFileSystemImpl.createAnimatedSceneObject(ani.getAnimation());
+		AnimatedSceneObject anima = loader.createAnimatedSceneObject(ani.getAnimation());
 
 		Action ac = new Action(anima, type);
 		ac.setDone(0);

@@ -126,11 +126,11 @@ public class SceneTest
 							try
 							{
 								acRight = new Action(new AnimatedSceneObject(new DefaultSprite(ImageIO.read(new File(
-									"../data/animations/actions/defends/Holzschild/animation.png")), 64, 128),
+									"../data/animations/actions/defends/Tennis/animation.png")), 64, 128),
 									TimeUtils.NanosecondsOfMilliseconds(100)), ActionType.ReflectingDefense);
 
 								acLeft = new Action(new AnimatedSceneObject(new DefaultSprite(ImageIO.read(new File(
-									"../data/animations/actions/attacks/Kreissaege/animation.png")), 64, 64),
+									"../data/animations/actions/attacks/Rakete/animation.png")), 64, 64),
 									TimeUtils.NanosecondsOfMilliseconds(100)), ActionType.Attack);
 								acLeft.invert();
 							}
@@ -147,12 +147,12 @@ public class SceneTest
 
 		scene.setRobo(
 			new AnimatedSceneObject(new DefaultSprite(ImageIO.read(new File(
-				"../data/animations/robots/PillenRoboter/animation.png")), 64, 128), TimeUtils
+				"../data/animations/robots/RadRoboter/animation.png")), 64, 128), TimeUtils
 				.NanosecondsOfMilliseconds(100)), Position.LEFT);
 
 		scene.setRobo(
 			new AnimatedSceneObject(new DefaultSprite(ImageIO.read(new File(
-				"../data/animations/robots/GreenRoboter/animation.png")), 64, 128), TimeUtils
+				"../data/animations/robots/KosmosRoboter/animation.png")), 64, 128), TimeUtils
 				.NanosecondsOfMilliseconds(100)), Position.RIGHT);
 
 		return scene;

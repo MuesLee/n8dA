@@ -20,6 +20,7 @@ import de.kvwl.n8dA.robotwars.commons.game.items.RoboModificator;
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.StatusEffect;
 import de.kvwl.n8dA.robotwars.commons.game.util.GameStateType;
 import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
+import de.kvwl.n8dA.robotwars.server.input.DataLoader;
 import de.kvwl.n8dA.robotwars.server.network.RoboBattleServer;
 import de.kvwl.n8dA.robotwars.server.visualization.AnimationPosition;
 import de.kvwl.n8dA.robotwars.server.visualization.CinematicVisualizer;
@@ -51,8 +52,9 @@ public class BattleController
 	private RoboBattleServer server;
 
 	private CinematicVisualizer cinematicVisualizer;
+	private DataLoader loader;
 
-	public BattleController()
+	public BattleController(DataLoader loader)
 	{
 
 		// TODO Timo: Anzeigen und ggf. schließen. Wird das Fenster nicht
@@ -63,6 +65,8 @@ public class BattleController
 		// Jenachdem wann der GC das Fenster entsorgt und somit die
 		// Zeichenroutinen beendet. Am besten das Fenster immer offen lassen und
 		// nur die Werte anpassen.
+
+		this.loader = loader;
 
 		CinematicVisualizerImpl impl = new CinematicVisualizerImpl(GraphicsConfiguration.getSystemDefault());
 		this.cinematicVisualizer = impl;
@@ -259,16 +263,16 @@ public class BattleController
 			if (attacker.getRobotPosition().equals(RobotPosition.LEFT))
 			{
 				acLeft = Action.create(new AnimationPosition(attacker.getCurrentAction().getAnimation(),
-					RobotPosition.LEFT), ActionType.Attack);
+					RobotPosition.LEFT), ActionType.Attack, loader);
 				acRight = Action.create(new AnimationPosition(defender.getCurrentAction().getAnimation(),
-					RobotPosition.RIGHT), actionTypeDefender);
+					RobotPosition.RIGHT), actionTypeDefender, loader);
 			}
 			else
 			{
-				acLeft = Action.create(new AnimationPosition(defender.getCurrentAction().getAnimation(),
-					RobotPosition.LEFT), ActionType.Attack);
 				acRight = Action.create(new AnimationPosition(attacker.getCurrentAction().getAnimation(),
-					RobotPosition.RIGHT), actionTypeDefender);
+					RobotPosition.RIGHT), ActionType.Attack, loader);
+				acLeft = Action.create(new AnimationPosition(defender.getCurrentAction().getAnimation(),
+					RobotPosition.LEFT), actionTypeDefender, loader);
 			}
 
 			cinematicVisualizer.playFightanimation(acLeft, acRight, true);
@@ -288,9 +292,9 @@ public class BattleController
 		try
 		{
 			acLeft = Action.create(new AnimationPosition(defenderLeft.getCurrentAction().getAnimation(),
-				RobotPosition.LEFT), ActionType.Defense);
+				RobotPosition.LEFT), ActionType.Defense, loader);
 			acRight = Action.create(new AnimationPosition(defenderRight.getCurrentAction().getAnimation(),
-				RobotPosition.RIGHT), ActionType.Defense);
+				RobotPosition.RIGHT), ActionType.Defense, loader);
 		}
 		catch (IOException e)
 		{
@@ -315,9 +319,9 @@ public class BattleController
 		try
 		{
 			acLeft = Action.create(new AnimationPosition(attackerLeft.getCurrentAction().getAnimation(),
-				RobotPosition.LEFT), ActionType.Attack);
+				RobotPosition.LEFT), ActionType.Attack, loader);
 			acRight = Action.create(new AnimationPosition(attackerRight.getCurrentAction().getAnimation(),
-				RobotPosition.RIGHT), ActionType.Attack);
+				RobotPosition.RIGHT), ActionType.Attack, loader);
 		}
 		catch (IOException e)
 		{

@@ -30,10 +30,9 @@ public class CreditAccessClient implements CreditAccess
 	private String ipAdressServer;
 
 	public CreditAccessClient(String ipAdressServer)
-	{	
-		
+	{
+
 		System.out.println(System.getProperty("user.home"));
-		
 
 		// TODO Timo: Bau das mal auf Startparameter um
 		/*
@@ -57,8 +56,8 @@ public class CreditAccessClient implements CreditAccess
 		 * used; all the ones indicated in the security properties file will be
 		 * ignored.
 		 */
-		
-		System.setSecurityManager(new SecurityManager());
+
+		//		System.setSecurityManager(new SecurityManager());
 		BasicConfigurator.configure();
 		this.ipAdressServer = ipAdressServer;
 		this.uuid = UUID.randomUUID();
