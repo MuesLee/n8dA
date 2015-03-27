@@ -19,16 +19,17 @@ import de.kvwl.n8dA.robotwars.server.visualization.scene.robot.RobotScene;
 import de.kvwl.n8dA.robotwars.server.visualization.scene.status.StatusScene;
 
 //TODO Marvin: Game Scene optional
-public class GameScene implements Scene, CinematicVisualizer
-{
+public class GameScene implements Scene, CinematicVisualizer {
 
 	private StatusScene status = new StatusScene();
 	private BackgroundScene background = new BackgroundScene();
 	private RobotScene robots = new RobotScene();
 
+	private int round = 0;
+
 	@Override
-	public void paintScene(Graphics2D g2d, int width, int height, long elapsedTime)
-	{
+	public void paintScene(Graphics2D g2d, int width, int height,
+			long elapsedTime) {
 
 		background.paintScene(g2d, width, height, elapsedTime);
 		robots.paintScene(g2d, width, height, elapsedTime);
@@ -36,8 +37,7 @@ public class GameScene implements Scene, CinematicVisualizer
 	}
 
 	@Override
-	public EventListener[] getEventListeners()
-	{
+	public EventListener[] getEventListeners() {
 
 		List<EventListener> lis = new LinkedList<EventListener>();
 
@@ -48,76 +48,63 @@ public class GameScene implements Scene, CinematicVisualizer
 		return lis.toArray(new EventListener[lis.size()]);
 	}
 
-	private void addListener(EventListener[] eventListeners, List<EventListener> lis)
-	{
+	private void addListener(EventListener[] eventListeners,
+			List<EventListener> lis) {
 
-		if (eventListeners == null || lis == null)
-		{
+		if (eventListeners == null || lis == null) {
 			return;
 		}
 
-		for (int i = 0; i < eventListeners.length; i++)
-		{
+		for (int i = 0; i < eventListeners.length; i++) {
 			lis.add(eventListeners[i]);
 		}
 	}
 
 	@Override
-	public void battleIsAboutToStart()
-	{
+	public void battleIsAboutToStart() {
 
+		round = 0;
 	}
 
 	@Override
-	public void robotHasEnteredTheArena(Robot robot, RobotPosition position, DataLoader loader)
-	{
+	public void robotHasEnteredTheArena(Robot robot, RobotPosition position,
+			DataLoader loader) {
 
 		Position pos;
 
-		if (position == RobotPosition.LEFT)
-		{
+		if (position == RobotPosition.LEFT) {
 
 			pos = Position.LEFT;
-		}
-		else if (position == RobotPosition.RIGHT)
-		{
+		} else if (position == RobotPosition.RIGHT) {
 
 			pos = Position.RIGHT;
-		}
-		else
-		{
+		} else {
 			throw new RuntimeException("Unbekannte Position");
 		}
 
-		try
-		{
-			robots.setRobo(loader.createAnimatedSceneObject(robot.getAnimation()), pos);
-		}
-		catch (IOException e)
-		{
-			throw new RuntimeException("Roboter nicht gefunden. Laden nicht möglich.");
+		try {
+			robots.setRobo(
+					loader.createAnimatedSceneObject(robot.getAnimation()), pos);
+		} catch (IOException e) {
+			throw new RuntimeException(
+					"Roboter nicht gefunden. Laden nicht möglich.");
 		}
 
 		updateStats(false, false, position, robot);
 	}
 
-	private void updateStats(boolean animated, boolean wait, RobotPosition pos, Robot robo)
-	{
+	private void updateStats(boolean animated, boolean wait, RobotPosition pos,
+			Robot robo) {
 
 		Position position;
 
-		if (pos == RobotPosition.LEFT)
-		{
+		if (pos == RobotPosition.LEFT) {
 
 			position = Position.LEFT;
-		}
-		else if (pos == RobotPosition.RIGHT)
-		{
+		} else if (pos == RobotPosition.RIGHT) {
 
 			position = Position.RIGHT;
-		}
-		else
-		{
+		} else {
 
 			throw new RuntimeException("Unbekannte Position");
 		}
@@ -125,14 +112,13 @@ public class GameScene implements Scene, CinematicVisualizer
 		status.setMaxHealthPoints(position, robo.getMaxHealthPoints());
 		status.setMaxEnergyPoints(position, robo.getMaxEnergyPoints());
 
-		if (animated)
-		{
+		if (animated) {
 
-			status.startHealthPointAnimation(position, robo.getHealthPoints(), wait);
-			status.startEnergyPointAnimation(position, robo.getEnergyPoints(), wait);
-		}
-		else
-		{
+			status.startHealthPointAnimation(position, robo.getHealthPoints(),
+					wait);
+			status.startEnergyPointAnimation(position, robo.getEnergyPoints(),
+					wait);
+		} else {
 
 			status.setHealthPoints(position, robo.getHealthPoints());
 			status.setEnergyPoints(position, robo.getEnergyPoints());
@@ -140,27 +126,26 @@ public class GameScene implements Scene, CinematicVisualizer
 	}
 
 	@Override
-	public void playFightanimation(Action acLeft, Action acRight, boolean wait)
-	{
+	public void playFightanimation(Action acLeft, Action acRight, boolean wait) {
 
 		robots.playActionAnimation(acLeft, acRight, wait);
 	}
 
 	@Override
-	public void prepareForNextRound()
-	{
+	public void prepareForNextRound() {
+
+		round++;
+		status.setRound(round);
+	}
+
+	@Override
+	public void roundIsAboutToStart() {
 
 	}
 
 	@Override
-	public void roundIsAboutToStart()
-	{
-
-	}
-
-	@Override
-	public void updateStats(Robot robot, RobotPosition position, boolean animated, boolean wait)
-	{
+	public void updateStats(Robot robot, RobotPosition position,
+			boolean animated, boolean wait) {
 
 		updateStats(animated, wait, position, robot);
 	}
