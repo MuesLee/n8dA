@@ -213,7 +213,7 @@ public class RobotScene implements Scene
 
 				boolean isOtherDefendingOrNull = acRight == null || acRight.getType().isDefendingType();
 				boolean isAtkNear = acRight != null && acRight.getDone() > NEAR_FOR_DEFENSE;
-				boolean isAtkFinished = acRight != null && acRight.getDone() >= 1;
+				boolean isAtkFinished = !isOtherDefendingOrNull && acRight.getDone() >= 1;
 
 				//Verteidigung mit der Zeit ausblenden
 				if (isOtherDefendingOrNull || isAtkNear)
@@ -255,6 +255,39 @@ public class RobotScene implements Scene
 
 				double possibleWidth = _x - (leftRobo.getX() + leftRobo.getWidth() * (1 - ATK_OVERLAP));
 				_x -= (int) (acRight.getDone() * possibleWidth);
+			}
+			else
+			{
+
+				acRight.setVisible(false);
+
+				boolean isOtherDefendingOrNull = acLeft == null || acLeft.getType().isDefendingType();
+				boolean isAtkNear = acLeft != null && acLeft.getDone() > NEAR_FOR_DEFENSE;
+				boolean isAtkFinished = !isOtherDefendingOrNull && acLeft.getDone() >= 1;
+
+				//Verteidigung mit der Zeit ausblenden
+				if (isOtherDefendingOrNull || isAtkNear)
+				{
+
+					acRight.setVisible(true);
+					acRight.setDone(Math.min(acLeft.getDone() + elapsedAni, 1));
+				}
+
+				if (isAtkFinished)
+				{
+
+					acLeft.setVisible(false);
+
+					if (acRight.getType() == ActionType.ReflectingDefense)
+					{
+
+						acRight = acLeft;
+						acLeft = null;
+
+						acRight.setVisible(true);
+						acRight.setDone(0);
+					}
+				}
 			}
 
 			acRight.setTopLeftPosition(new Point(_x, acRight.getTopLeftPosition().getY()));
