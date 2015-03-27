@@ -10,7 +10,6 @@ import java.util.EventListener;
 
 import de.kvwl.n8dA.robotwars.server.visualization.Position;
 
-//TODO Marvin: RobotsScene
 public class RobotScene implements Scene
 {
 
