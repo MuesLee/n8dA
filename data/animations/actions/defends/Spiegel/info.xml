@@ -2,7 +2,7 @@
 <animation>
 	<id>Spiegel</id>
 	<width>64</width>
-	<height>64</height>
+	<height>128</height>
 	<times size="1">
 		<time frame="0">0</time>
 	</times>

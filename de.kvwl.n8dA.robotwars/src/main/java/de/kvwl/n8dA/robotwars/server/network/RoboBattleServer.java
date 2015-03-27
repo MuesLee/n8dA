@@ -71,6 +71,7 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 	protected RoboBattleServer() throws RemoteException
 	{
 		super();
+		loader = new DataLoaderFileSystemImpl(Paths.get("../data"));
 		this.battleController = new BattleController(loader);
 		this.battleController.setServer(this);
 	}
@@ -84,9 +85,9 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 			BATTLE_SERVER_FULL_TCP_ADDRESS = JOptionPane.showInputDialog(null,
 				"Bitte die vollständige TCP-Adresse des Servers eingeben!",
 				NetworkUtils.BATTLE_SERVER_DEFAULT_FULL_TCP_ADDRESS);
-			RoboBattleServer server = new RoboBattleServer();
 			BATTLE_SERVER_REGISTRY_PORT = JOptionPane.showInputDialog(null, "Bitte den Registry-Port eingeben!",
 				NetworkUtils.BATTLE_SERVER_DEFAULT_REGISTRY_PORT);
+			RoboBattleServer server = new RoboBattleServer();
 
 			server.startServer(Integer.parseInt(BATTLE_SERVER_REGISTRY_PORT));
 
@@ -186,7 +187,6 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 
 	private void loadGameData()
 	{
-		loader = new DataLoaderFileSystemImpl(Paths.get("../data"));
 
 		LOG.debug("Loaded Robots --------------------------------------> " + loader.loadRobots());
 		LOG.debug("Loaded Robots --------------------------------------> " + loader.loadRobotAttacks());
