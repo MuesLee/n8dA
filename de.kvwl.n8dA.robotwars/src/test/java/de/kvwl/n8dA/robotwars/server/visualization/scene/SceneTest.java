@@ -129,7 +129,7 @@ public class SceneTest
 									"../data/animations/actions/defends/Spiegel/animation.png")), 64, 128),
 									TimeUtils.NanosecondsOfMilliseconds(100)), ActionType.ReflectingDefense);
 								acRight = new Action(new AnimatedSceneObject(new DefaultSprite(ImageIO.read(new File(
-									"../data/animations/actions/attacks/Laser/animation.png")), 64, 64),
+									"../data/animations/actions/attacks/Boxhandschuh/animation.png")), 64, 64),
 									TimeUtils.NanosecondsOfMilliseconds(100)), ActionType.Attack);
 							}
 							catch (IOException e)

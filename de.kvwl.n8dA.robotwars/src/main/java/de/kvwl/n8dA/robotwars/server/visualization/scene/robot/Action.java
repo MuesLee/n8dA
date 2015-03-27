@@ -6,8 +6,10 @@ import game.engine.stage.scene.object.Size;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.io.IOException;
 
+import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
 import de.kvwl.n8dA.robotwars.server.input.DataLoaderFileSystemImpl;
 import de.kvwl.n8dA.robotwars.server.visualization.AnimationPosition;
 
@@ -15,16 +17,20 @@ public class Action extends SceneObject
 {
 
 	private AnimatedSceneObject animation = null;
+
 	private ActionType type = ActionType.Defense;
 
 	private double done = 0;
 	private boolean visible = true;
 	private DamagePhase damageDone = DamagePhase.Not;
 
+	private boolean inverted = false;
+
 	public Action(AnimatedSceneObject ani, ActionType type)
 	{
 
 		animation = ani;
+
 		this.type = type;
 	}
 
@@ -37,6 +43,23 @@ public class Action extends SceneObject
 			g.setColor(Color.MAGENTA);
 			g.fillRect(0, 0, getWidth(), getHeight());
 			return;
+		}
+
+		if (inverted)
+		{
+			double hWidth = getWidth() * 0.5;
+			double hHeight = getHeight() * 0.5;
+
+			AffineTransform beforeTransform = g.getTransform();
+
+			AffineTransform transform = new AffineTransform();
+			transform.concatenate(beforeTransform);
+			transform.translate(hWidth, hHeight);
+
+			transform.scale(-1, 1);
+
+			transform.translate(-hWidth, -hHeight);
+			g.setTransform(transform);
 		}
 
 		animation.setSize(getSize());
@@ -96,9 +119,20 @@ public class Action extends SceneObject
 		this.damageDone = damageDone;
 	}
 
-	public static enum DamagePhase {
+	public void invert()
+	{
 
-		Not, Now, End;
+		setInverted(!isInverted());
+	}
+
+	public boolean isInverted()
+	{
+		return inverted;
+	}
+
+	public void setInverted(boolean inverted)
+	{
+		this.inverted = inverted;
 	}
 
 	public static Action create(AnimationPosition ani, ActionType type) throws IOException
@@ -111,6 +145,17 @@ public class Action extends SceneObject
 		ac.setDamage(DamagePhase.Not);
 		ac.setVisible(true);
 
+		if (ani.getPosition() == RobotPosition.LEFT)
+		{
+
+			ac.invert();
+		}
+
 		return ac;
+	}
+
+	public static enum DamagePhase {
+
+		Not, Now, End;
 	}
 }
