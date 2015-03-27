@@ -413,6 +413,8 @@ public class BattleController
 		List<StatusEffect> statusEffects = robot.getStatusEffects();
 		for (StatusEffect statusEffect : statusEffects)
 		{
+			if (statusEffect == null)
+				continue;
 			double damageModificator = statusEffect.getDamageModificatorForRoboActionType(robotActionType);
 			damage = (int) (damage * damageModificator);
 			LOG.info("Robot: " + robot + " modifies the damage by " + damageModificator + " because of: "

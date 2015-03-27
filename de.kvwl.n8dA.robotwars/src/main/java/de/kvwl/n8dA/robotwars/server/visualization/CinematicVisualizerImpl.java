@@ -12,6 +12,7 @@ import de.kvwl.n8dA.robotwars.server.input.DataLoader;
 import de.kvwl.n8dA.robotwars.server.visualization.scene.GameScene;
 import de.kvwl.n8dA.robotwars.server.visualization.scene.robot.Action;
 
+//TODO Marvin Wechsel zu Fullscreen
 public class CinematicVisualizerImpl extends SwingGameFrame implements CinematicVisualizer
 {
 
