@@ -7,10 +7,10 @@ import game.engine.stage.scene.object.SceneObject;
 import game.engine.stage.scene.object.Size;
 import game.engine.time.TimeUtils;
 
-public class Robot extends SceneObject {
+public class Robot extends SceneObject
+{
 
-	private static final long BLINK_TIME = TimeUtils
-			.NanosecondsOfMilliseconds(100);
+	private static final long BLINK_TIME = TimeUtils.NanosecondsOfMilliseconds(100);
 
 	private AnimatedSceneObject robo;
 
@@ -20,91 +20,127 @@ public class Robot extends SceneObject {
 	private Object blinkWait = new Object();
 
 	@Override
-	protected void paint(Graphics2D g2d, long time) {
+	protected void paint(Graphics2D g2d, long time)
+	{
 
 		checkVisibility(time);
 
-		if (visible) {
+		if (visible)
+		{
 
 			revalidate();
 			paintRobot(g2d, time);
 		}
 	}
 
-	private void checkVisibility(long time) {
+	private void checkVisibility(long time)
+	{
 
-		if (blinks > 0) {
+		if (blinks > 0)
+		{
 
-			if (timeSinceLastSwitch >= BLINK_TIME) {
+			if (timeSinceLastSwitch >= BLINK_TIME)
+			{
 
 				long anzBlinks = timeSinceLastSwitch / BLINK_TIME;
 
-				if (anzBlinks % 2 != 0) {
+				if (anzBlinks % 2 != 0)
+				{
 					visible = !visible;
 				}
 
 				timeSinceLastSwitch %= BLINK_TIME;
 				blinks -= anzBlinks;
 
-				if (blinks <= 0) {
+				if (blinks <= 0)
+				{
 					blinkAnimationFinished();
 				}
-			} else {
+			}
+			else
+			{
 
 				timeSinceLastSwitch += time;
 			}
-		} else {
+		}
+		else
+		{
 
 			visible = true;
 		}
 	}
 
-	private void blinkAnimationFinished() {
+	private void blinkAnimationFinished()
+	{
 
-		synchronized (blinkWait) {
+		synchronized (blinkWait)
+		{
 
 			blinkWait.notifyAll();
 		}
 	}
 
-	private void revalidate() {
+	private void revalidate()
+	{
+		if (robo == null)
+		{
+
+			return;
+		}
 
 		robo.setSize(getWidth(), getHeight());
 	}
 
-	private void paintRobot(Graphics2D g2d, long time) {
+	private void paintRobot(Graphics2D g2d, long time)
+	{
 
-		if (robo != null) {
+		if (robo != null)
+		{
 
 			robo.paintOnScene(g2d, time);
 		}
 	}
 
-	public void blink(int times, boolean wait) {
+	public void blink(int times, boolean wait)
+	{
 
-		if (times < 1) {
+		if (times < 1)
+		{
 			return;
 		}
 
 		blinks += 2 * (times + 1);
 
-		if (wait) {
-			synchronized (blinkWait) {
+		if (wait)
+		{
+			synchronized (blinkWait)
+			{
 
-				try {
+				try
+				{
 					blinkWait.wait();
-				} catch (InterruptedException e) {
+				}
+				catch (InterruptedException e)
+				{
 					e.printStackTrace();
 				}
 			}
 		}
 	}
 
-	public void setRobo(AnimatedSceneObject robo) {
+	public void setRobo(AnimatedSceneObject robo)
+	{
 		this.robo = robo;
 	}
 
-	public double getRatio() {
+	public double getRatio()
+	{
+
+		if (robo == null)
+		{
+
+			return 0.5;
+		}
 
 		Size tS = robo.getTileSize();
 

@@ -125,12 +125,14 @@ public class SceneTest
 							Action acRight = null;
 							try
 							{
-								acLeft = new Action(new AnimatedSceneObject(new DefaultSprite(ImageIO.read(new File(
-									"../data/animations/actions/defends/Spiegel/animation.png")), 64, 128),
-									TimeUtils.NanosecondsOfMilliseconds(100)), ActionType.ReflectingDefense);
 								acRight = new Action(new AnimatedSceneObject(new DefaultSprite(ImageIO.read(new File(
-									"../data/animations/actions/attacks/Boxhandschuh/animation.png")), 64, 64),
+									"../data/animations/actions/defends/Holzschild/animation.png")), 64, 128),
+									TimeUtils.NanosecondsOfMilliseconds(100)), ActionType.ReflectingDefense);
+
+								acLeft = new Action(new AnimatedSceneObject(new DefaultSprite(ImageIO.read(new File(
+									"../data/animations/actions/attacks/Kreissaege/animation.png")), 64, 64),
 									TimeUtils.NanosecondsOfMilliseconds(100)), ActionType.Attack);
+								acLeft.invert();
 							}
 							catch (IOException e)
 							{
