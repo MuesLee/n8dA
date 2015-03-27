@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
+import de.kvwl.n8dA.robotwars.server.input.DataLoader;
 import de.kvwl.n8dA.robotwars.server.visualization.scene.GameScene;
 import de.kvwl.n8dA.robotwars.server.visualization.scene.robot.Action;
 
@@ -63,10 +64,10 @@ public class CinematicVisualizerImpl extends FullScreenGameFrame implements Cine
 	}
 
 	@Override
-	public void robotHasEnteredTheArena(Robot robot, RobotPosition position)
+	public void robotHasEnteredTheArena(Robot robot, RobotPosition position, DataLoader loader)
 	{
 
-		gameScene.robotHasEnteredTheArena(robot, position);
+		gameScene.robotHasEnteredTheArena(robot, position, loader);
 	}
 
 	@Override

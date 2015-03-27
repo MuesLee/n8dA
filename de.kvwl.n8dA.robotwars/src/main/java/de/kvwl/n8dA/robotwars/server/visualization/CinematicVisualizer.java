@@ -2,6 +2,7 @@ package de.kvwl.n8dA.robotwars.server.visualization;
 
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
+import de.kvwl.n8dA.robotwars.server.input.DataLoader;
 import de.kvwl.n8dA.robotwars.server.visualization.scene.robot.Action;
 
 public interface CinematicVisualizer
@@ -19,7 +20,7 @@ public interface CinematicVisualizer
 	 * @param robot
 	 * @param position
 	 */
-	public void robotHasEnteredTheArena(Robot robot, RobotPosition position);
+	public void robotHasEnteredTheArena(Robot robot, RobotPosition position, DataLoader loader);
 
 	/**
 	 * Eine Kanpanimation abspielen. Reflection usw. wird automatisch beachtet

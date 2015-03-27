@@ -10,7 +10,7 @@ import java.util.List;
 
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
-import de.kvwl.n8dA.robotwars.server.input.DataLoaderFileSystemImpl;
+import de.kvwl.n8dA.robotwars.server.input.DataLoader;
 import de.kvwl.n8dA.robotwars.server.visualization.CinematicVisualizer;
 import de.kvwl.n8dA.robotwars.server.visualization.Position;
 import de.kvwl.n8dA.robotwars.server.visualization.scene.background.BackgroundScene;
@@ -69,7 +69,7 @@ public class GameScene implements Scene, CinematicVisualizer
 	}
 
 	@Override
-	public void robotHasEnteredTheArena(Robot robot, RobotPosition position)
+	public void robotHasEnteredTheArena(Robot robot, RobotPosition position, DataLoader loader)
 	{
 
 		Position pos;
@@ -91,7 +91,7 @@ public class GameScene implements Scene, CinematicVisualizer
 
 		try
 		{
-			robots.setRobo(DataLoaderFileSystemImpl.createAnimatedSceneObject(robot.getAnimation()), pos);
+			robots.setRobo(loader.createAnimatedSceneObject(robot.getAnimation()), pos);
 		}
 		catch (IOException e)
 		{
