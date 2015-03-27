@@ -340,6 +340,7 @@ public class ConfigShop extends JDialog
 				{
 
 					use.setSelected(true);
+					break;
 				}
 				else
 				{
@@ -437,6 +438,7 @@ public class ConfigShop extends JDialog
 				{
 
 					use.setSelected(true);
+					break;
 				}
 				else
 				{
