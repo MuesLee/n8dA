@@ -62,6 +62,7 @@ public class RobotScene implements Scene
 
 		revalidateRobots(width, height);
 		revalidateActions(width, height, elapsedTime);
+
 	}
 
 	private void revalidateRobots(int width, int height)
@@ -251,6 +252,7 @@ public class RobotScene implements Scene
 						acLeft = acRight;
 						acRight = null;
 
+						acLeft.invert();
 						acLeft.setVisible(true);
 						acLeft.setDone(0);
 						acLeft.setDamage(DamagePhase.Not);
@@ -319,6 +321,7 @@ public class RobotScene implements Scene
 						acRight = acLeft;
 						acLeft = null;
 
+						acRight.invert();
 						acRight.setVisible(true);
 						acRight.setDone(0);
 						acRight.setDamage(DamagePhase.Not);
