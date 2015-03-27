@@ -457,6 +457,7 @@ public class BattleController
 
 	public void setRobotLeft(Robot robotLeft)
 	{
+		cinematicVisualizer.robotHasEnteredTheArena(robotLeft, RobotPosition.LEFT, loader);
 		this.robotLeft = robotLeft;
 	}
 
@@ -467,6 +468,7 @@ public class BattleController
 
 	public void setRobotRight(Robot robotRight)
 	{
+		cinematicVisualizer.robotHasEnteredTheArena(robotRight, RobotPosition.RIGHT, loader);
 		this.robotRight = robotRight;
 	}
 
