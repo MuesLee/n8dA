@@ -21,7 +21,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.WeakHashMap;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -50,6 +52,8 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener {
 
 	private static final String IMAGE_PATH = "/de/kvwl/n8dA/robotwars/commons/images/";
 	private static final long serialVersionUID = 1L;
+
+	private Map<String, BufferedImage> animations = new WeakHashMap<String, BufferedImage>();
 
 	private SwingStage roboStage;
 	private AnimationScene roboScene;
@@ -473,8 +477,14 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener {
 
 	private void setRoboAni(Animation ani) throws IOException {
 
-		BufferedImage img = ImageIO.read(Paths.get(Main.SOURCE_FOLDER,
-				ani.getPathToFile()).toFile());
+		BufferedImage img = animations.get(ani.getId());
+		if (img == null) {
+
+			img = ImageIO.read(Paths.get(Main.SOURCE_FOLDER,
+					ani.getPathToFile()).toFile());
+			animations.put(ani.getId(), img);
+		}
+
 		int width = ani.getFrameWidth();
 		int height = ani.getFrameHeight();
 		Sprite sprite = new DefaultSprite(img, width, height);
