@@ -7,6 +7,8 @@ import game.engine.stage.scene.object.Size;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import de.kvwl.n8dA.robotwars.server.visualization.AnimationPosition;
+
 public class Action extends SceneObject
 {
 
@@ -99,5 +101,16 @@ public class Action extends SceneObject
 	public static enum DamagePhase {
 
 		Not, Now, End;
+	}
+
+	public static Action create(AnimationPosition ani)
+	{
+
+		Action ac = new Action();
+		ac.setDone(0);
+		ac.setDamage(DamagePhase.Not);
+		ac.setVisible(true);
+
+		return ac;
 	}
 }

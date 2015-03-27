@@ -90,4 +90,11 @@ public class CinematicVisualizerImpl extends FullScreenGameFrame implements Cine
 		gameScene.playFightanimation(acLeft, acRight, wait);
 	}
 
+	@Override
+	public void updateStats(Robot robot, RobotPosition position, boolean animated, boolean wait)
+	{
+
+		gameScene.updateStats(robot, position, animated, wait);
+	}
+
 }
