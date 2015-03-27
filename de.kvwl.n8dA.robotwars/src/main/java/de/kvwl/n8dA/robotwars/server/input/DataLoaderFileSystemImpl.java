@@ -1,5 +1,10 @@
 package de.kvwl.n8dA.robotwars.server.input;
 
+import game.engine.image.sprite.DefaultSprite;
+import game.engine.image.sprite.Sprite;
+import game.engine.stage.scene.object.AnimatedSceneObject;
+
+import java.io.File;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.nio.file.DirectoryStream;
@@ -11,6 +16,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
+
+import javax.imageio.ImageIO;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -770,4 +777,15 @@ public class DataLoaderFileSystemImpl implements DataLoader
 		return defends;
 	}
 
+	public static AnimatedSceneObject createAnimatedSceneObject(Animation ani) throws IOException
+	{
+
+		long[] timings = ani.getFrameTimings();
+
+		Sprite sprite = new DefaultSprite(ImageIO.read(new File(ani.getPathToFile())), ani.getFrameWidth(),
+			ani.getFrameHeight());
+		long[][] time = new long[][] { timings };
+
+		return new AnimatedSceneObject(sprite, time[0][0], time);
+	}
 }

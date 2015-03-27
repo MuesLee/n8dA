@@ -1,9 +1,8 @@
 package de.kvwl.n8dA.robotwars.server.visualization;
 
-import java.util.List;
-
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
+import de.kvwl.n8dA.robotwars.server.visualization.scene.robot.Action;
 
 public interface CinematicVisualizer
 {
@@ -14,7 +13,8 @@ public interface CinematicVisualizer
 	public void battleIsAboutToStart();
 
 	/**
-	 * Ein Roboter hat sich auf dem Server angemeldet und tritt der Arena bei
+	 * Ein Roboter hat sich auf dem Server angemeldet und tritt der Arena bei. Nur das Bild wird
+	 * gesetzt.
 	 * 
 	 * @param robot
 	 * @param position
@@ -22,17 +22,21 @@ public interface CinematicVisualizer
 	public void robotHasEnteredTheArena(Robot robot, RobotPosition position);
 
 	/**
-	 * Nach 70% der Animationszeit der ersten Animation, soll (falls vorhanden) die zweite Animation
-	 * starten.
-	 */
-	public void playAnimationForRobotsWithDelayAfterFirst(List<AnimationPosition> animations);
-
-	/**
-	 * Beide Animationen sollen parallel starten
+	 * Eine Kanpanimation abspielen. Reflection usw. wird automatisch beachtet
 	 * 
 	 * @param animations
 	 */
-	public void playAnimationForRobotsSimultaneously(List<AnimationPosition> animations);
+	public void playFightanimation(Action acLeft, Action acRight, boolean wait);
+
+	/**
+	 * Update leben und energie eines roboters
+	 * 
+	 * @param robot
+	 * @param position
+	 * @param animated
+	 * @param wait
+	 */
+	public void updateStats(Robot robot, RobotPosition position, boolean animated, boolean wait);
 
 	/**
 	 * Phase von beginn der Aktionsauswahl bis zum Beginn einer Runde.

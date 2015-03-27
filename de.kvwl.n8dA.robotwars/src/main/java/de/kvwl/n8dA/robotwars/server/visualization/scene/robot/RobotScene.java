@@ -9,6 +9,7 @@ import java.awt.Graphics2D;
 import java.util.EventListener;
 
 import de.kvwl.n8dA.robotwars.server.visualization.Position;
+import de.kvwl.n8dA.robotwars.server.visualization.scene.robot.Action.DamagePhase;
 
 public class RobotScene implements Scene
 {
@@ -205,9 +206,26 @@ public class RobotScene implements Scene
 
 				double possibleWidth = (rightRobo.getX() + rightRobo.getWidth() * ATK_OVERLAP) - _x - acLeft.getWidth();
 				_x += (int) (acLeft.getDone() * possibleWidth);
+
+				if (acLeft.getDone() >= 1 && acLeft.getDamage() == DamagePhase.Not)
+				{
+					acLeft.setVisible(false);
+
+					if ((acRight == null || acRight.getType().isDamageConsuming()))
+					{
+
+						playAcDamageAnimation(acLeft, Position.RIGHT);
+					}
+					else
+					{
+
+						acLeft.setDamage(DamagePhase.End);
+					}
+				}
 			}
 			else
 			{
+				acLeft.setDamage(DamagePhase.End);
 				acLeft.setVisible(false);
 
 				boolean isOtherDefendingOrNull = acRight == null || acRight.getType().isDefendingType();
@@ -235,6 +253,7 @@ public class RobotScene implements Scene
 
 						acLeft.setVisible(true);
 						acLeft.setDone(0);
+						acLeft.setDamage(DamagePhase.Not);
 					}
 				}
 			}
@@ -250,14 +269,31 @@ public class RobotScene implements Scene
 			if (!acRight.getType().isDefendingType())
 			{
 
+				//Angriff berechnen
 				acRight.setDone(Math.min(acRight.getDone() + elapsedAni, 1));
 
 				double possibleWidth = _x - (leftRobo.getX() + leftRobo.getWidth() * (1 - ATK_OVERLAP));
 				_x -= (int) (acRight.getDone() * possibleWidth);
+
+				if (acRight.getDone() >= 1 && acRight.getDamage() == DamagePhase.Not)
+				{
+					acRight.setVisible(false);
+
+					if ((acLeft == null || acLeft.getType().isDamageConsuming()))
+					{
+
+						playAcDamageAnimation(acRight, Position.LEFT);
+					}
+					else
+					{
+
+						acRight.setDamage(DamagePhase.End);
+					}
+				}
 			}
 			else
 			{
-
+				acRight.setDamage(DamagePhase.End);
 				acRight.setVisible(false);
 
 				boolean isOtherDefendingOrNull = acLeft == null || acLeft.getType().isDefendingType();
@@ -285,6 +321,7 @@ public class RobotScene implements Scene
 
 						acRight.setVisible(true);
 						acRight.setDone(0);
+						acRight.setDamage(DamagePhase.Not);
 					}
 				}
 			}
@@ -295,13 +332,31 @@ public class RobotScene implements Scene
 		checkActionState();
 	}
 
+	private void playAcDamageAnimation(final Action ac, final Position pos)
+	{
+		ac.setDamage(DamagePhase.Now);
+
+		new Thread(new Runnable()
+		{
+
+			@Override
+			public void run()
+			{
+
+				playDamageAnimation(pos, true);
+				ac.setDamage(DamagePhase.End);
+			}
+		}).start();
+	}
+
 	private void checkActionState()
 	{
 		boolean ready = true;
 
 		if (acLeft != null)
 		{
-			if (acLeft.getDone() < 1)
+
+			if (acLeft.getDone() < 1 || acLeft.getDamage() != DamagePhase.End)
 			{
 				ready = false;
 			}
@@ -309,7 +364,8 @@ public class RobotScene implements Scene
 
 		if (acRight != null)
 		{
-			if (acRight.getDone() < 1)
+
+			if (acRight.getDone() < 1 || acRight.getDamage() != DamagePhase.End)
 			{
 				ready = false;
 			}

@@ -15,6 +15,7 @@ public class Action extends SceneObject
 
 	private double done = 0;
 	private boolean visible = true;
+	private DamagePhase damageDone = DamagePhase.Not;
 
 	public Action()
 	{
@@ -85,4 +86,18 @@ public class Action extends SceneObject
 		this.visible = visible;
 	}
 
+	public DamagePhase getDamage()
+	{
+		return damageDone;
+	}
+
+	public void setDamage(DamagePhase damageDone)
+	{
+		this.damageDone = damageDone;
+	}
+
+	public static enum DamagePhase {
+
+		Not, Now, End;
+	}
 }

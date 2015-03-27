@@ -4,45 +4,51 @@ import game.engine.frame.FullScreenGameFrame;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.List;
 
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
 import de.kvwl.n8dA.robotwars.server.visualization.scene.GameScene;
+import de.kvwl.n8dA.robotwars.server.visualization.scene.robot.Action;
 
-// TODO Marvin: CinematicVisualizer implementieren
-public class CinematicVisualizerImpl extends FullScreenGameFrame implements
-		CinematicVisualizer {
+public class CinematicVisualizerImpl extends FullScreenGameFrame implements CinematicVisualizer
+{
 
 	private GameScene gameScene = new GameScene();
 
-	public CinematicVisualizerImpl() {
+	public CinematicVisualizerImpl()
+	{
 
 		this(GraphicsConfiguration.getDefaultConfig());
 	}
 
-	public CinematicVisualizerImpl(GraphicsConfiguration config) {
+	public CinematicVisualizerImpl(GraphicsConfiguration config)
+	{
 
 		super(config.getDevice(), config.getDisplayMode(), "RoboBattle");
 		setup();
 	}
 
-	private void setup() {
+	private void setup()
+	{
 
 		setScene(gameScene);
 		registerExitKey();
 	}
 
-	private void registerExitKey() {
-		addKeyListener(new KeyAdapter() {
+	private void registerExitKey()
+	{
+		addKeyListener(new KeyAdapter()
+		{
 
 			@Override
-			public void keyReleased(KeyEvent e) {
+			public void keyReleased(KeyEvent e)
+			{
 
-				switch (e.getKeyCode()) {
-				case KeyEvent.VK_ESCAPE:
-					setVisible(false);
-					dispose();
+				switch (e.getKeyCode())
+				{
+					case KeyEvent.VK_ESCAPE:
+						setVisible(false);
+						dispose();
 					break;
 				}
 			}
@@ -50,35 +56,38 @@ public class CinematicVisualizerImpl extends FullScreenGameFrame implements
 	}
 
 	@Override
-	public void battleIsAboutToStart() {
+	public void battleIsAboutToStart()
+	{
 
+		gameScene.battleIsAboutToStart();
 	}
 
 	@Override
-	public void robotHasEnteredTheArena(Robot robot, RobotPosition position) {
+	public void robotHasEnteredTheArena(Robot robot, RobotPosition position)
+	{
 
+		gameScene.robotHasEnteredTheArena(robot, position);
 	}
 
 	@Override
-	public void roundIsAboutToStart() {
+	public void roundIsAboutToStart()
+	{
 
+		gameScene.roundIsAboutToStart();
 	}
 
 	@Override
-	public void playAnimationForRobotsWithDelayAfterFirst(
-			List<AnimationPosition> animations) {
+	public void prepareForNextRound()
+	{
 
+		gameScene.prepareForNextRound();
 	}
 
 	@Override
-	public void playAnimationForRobotsSimultaneously(
-			List<AnimationPosition> animations) {
+	public void playFightanimation(Action acLeft, Action acRight, boolean wait)
+	{
 
-	}
-
-	@Override
-	public void prepareForNextRound() {
-
+		gameScene.playFightanimation(acLeft, acRight, wait);
 	}
 
 }
