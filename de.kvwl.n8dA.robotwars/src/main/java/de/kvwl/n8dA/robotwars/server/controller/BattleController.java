@@ -1,6 +1,6 @@
 package de.kvwl.n8dA.robotwars.server.controller;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -24,6 +24,8 @@ import de.kvwl.n8dA.robotwars.server.network.RoboBattleServer;
 import de.kvwl.n8dA.robotwars.server.visualization.AnimationPosition;
 import de.kvwl.n8dA.robotwars.server.visualization.CinematicVisualizer;
 import de.kvwl.n8dA.robotwars.server.visualization.CinematicVisualizerImpl;
+import de.kvwl.n8dA.robotwars.server.visualization.scene.robot.Action;
+import de.kvwl.n8dA.robotwars.server.visualization.scene.robot.ActionType;
 
 public class BattleController {
 
@@ -68,6 +70,7 @@ public class BattleController {
 		setCurrentGameState(GameStateType.GAME_HAS_BEGUN);
 		cinematicVisualizer.battleIsAboutToStart();
 		setCurrentGameState(GameStateType.WAITING_FOR_PLAYER_INPUT);
+		cinematicVisualizer.prepareForNextRound();
 	}
 
 	public void fightNextBattleRound() throws RobotsArentRdyToFightException {
@@ -91,90 +94,11 @@ public class BattleController {
 
 		cinematicVisualizer.roundIsAboutToStart();
 
-		// ruft in der Methode cinematicVisualizer auf
-		startAnimationsInOrder(robotLeft, robotRight);
 		computeBattleOutcome(robotLeft, robotRight);
 
 		checkForGameEnding(robotLeft, robotRight);
 	}
 
-	/**
-	 * <p>
-	 * 2 Attacks -> Random Order
-	 * </p>
-	 * <p>
-	 * 1 Attack, 1 Defend -> 1st Attack, 2nd Defend
-	 * </p>
-	 * <p>
-	 * 2 Defends -> Simultaneously
-	 * </p>
-	 * 
-	 * @param actionRobotLeft
-	 * @param actionRobotRight
-	 * @return Array containing RobotActions in order. null if both are defends
-	 */
-	void startAnimationsInOrder(Robot robotLeft, Robot robotRight) {
-		RobotAction actionRobotRight = robotRight.getCurrentAction();
-		RobotAction actionRobotLeft = robotLeft.getCurrentAction();
-
-		ArrayList<AnimationPosition> order = new ArrayList<AnimationPosition>(2);
-		AnimationPosition animationPosition1;
-		AnimationPosition animationPosition2;
-
-		if (actionRobotLeft instanceof Attack) {
-			// Links ATT Rechts ATT
-			if (actionRobotRight instanceof Attack) {
-				double random = Math.random();
-				if (random >= 0.5) {
-					animationPosition1 = new AnimationPosition(
-							actionRobotLeft.getAnimation(), RobotPosition.LEFT);
-					animationPosition2 = new AnimationPosition(
-							actionRobotRight.getAnimation(),
-							RobotPosition.RIGHT);
-
-				} else {
-					animationPosition1 = new AnimationPosition(
-							actionRobotRight.getAnimation(),
-							RobotPosition.RIGHT);
-					animationPosition2 = new AnimationPosition(
-							actionRobotLeft.getAnimation(), RobotPosition.LEFT);
-				}
-			}
-			// Links ATT rechts DEF
-			else {
-				animationPosition1 = new AnimationPosition(
-						actionRobotLeft.getAnimation(), RobotPosition.LEFT);
-				animationPosition2 = new AnimationPosition(
-						actionRobotRight.getAnimation(), RobotPosition.RIGHT);
-			}
-		}
-		// Links DEF Rechts ATT
-		else {
-			if (actionRobotRight instanceof Attack) {
-				animationPosition1 = new AnimationPosition(
-						actionRobotRight.getAnimation(), RobotPosition.RIGHT);
-				animationPosition2 = new AnimationPosition(
-						actionRobotLeft.getAnimation(), RobotPosition.LEFT);
-			}
-
-			// Links DEF rechts DEF
-			else {
-				animationPosition1 = new AnimationPosition(
-						actionRobotRight.getAnimation(), RobotPosition.RIGHT);
-				animationPosition2 = new AnimationPosition(
-						actionRobotLeft.getAnimation(), RobotPosition.LEFT);
-				order.add(animationPosition1);
-				order.add(animationPosition2);
-				cinematicVisualizer.playAnimationForRobotsSimultaneously(order);
-				return;
-			}
-		}
-
-		order.add(animationPosition1);
-		order.add(animationPosition2);
-
-		cinematicVisualizer.playAnimationForRobotsWithDelayAfterFirst(order);
-	}
 
 	GameStateType getCurrentGameState(Robot robotLeft, Robot robotRight) {
 
@@ -243,6 +167,7 @@ public class BattleController {
 
 			// Links DEF rechts DEF
 			else {
+				computeOutcomeDEFvsDEF(robotLeft, robotRight);
 				LOG.info("Both Robots defended... boring");
 			}
 		}
@@ -271,11 +196,18 @@ public class BattleController {
 
 		LOG.info("Robot: " + attacker + " attacks with: " + attack
 				+ "\nRobot: " + defender + " defends with: " + defense);
+		
+		ActionType actionTypeDefender =null;
+		Action acLeft = null;
+		Action acRight = null;
+
+		
 		int attackDamage = attack.getDamage();
 		if (attackType.beats(defenseType)) {
 
 			// Voller Schaden für DEF
 			LOG.info("Weak defense!");
+			actionTypeDefender = ActionType.DefenseWithDamage;
 			dealDamageToRobot(defender, attackDamage,
 					attack.getRobotActionType());
 		} else if (defenseType.beats(attackType)) {
@@ -283,17 +215,54 @@ public class BattleController {
 			// teilweise Reflektion an ATT, keinen Schaden für DEF
 			LOG.info("Strong defense!");
 			int reflectedDamage = (int) (attackDamage * STRONG_DEFENSE_REFLECTION_FACTOR);
+			actionTypeDefender = ActionType.ReflectingDefense;
 			dealDamageToRobot(attacker, reflectedDamage,
 					attack.getRobotActionType());
 
 		} else {
 			LOG.info("Neutral defense!");
 			int postBlockDamage = (int) (attackDamage * NEUTRAL_DEFENSE_BLOCK_FACTOR);
+			actionTypeDefender = ActionType.DefenseWithDamage;
 			dealDamageToRobot(defender, postBlockDamage,
 					attack.getRobotActionType());
 		}
+		
+		
+		//Spiele Entsprechende Animation
+		try {
+			
+			if(attacker.getRobotPosition().equals(RobotPosition.LEFT))
+			{
+				acLeft = Action.create(new AnimationPosition(attacker.getCurrentAction().getAnimation(), RobotPosition.LEFT), ActionType.Attack);
+				acRight = Action.create(new AnimationPosition(defender.getCurrentAction().getAnimation(), RobotPosition.RIGHT), actionTypeDefender);
+			}
+			else {
+				acLeft = Action.create(new AnimationPosition(defender.getCurrentAction().getAnimation(), RobotPosition.LEFT), ActionType.Attack);
+				acRight = Action.create(new AnimationPosition(attacker.getCurrentAction().getAnimation(), RobotPosition.RIGHT), actionTypeDefender);
+			}
+			
+			cinematicVisualizer.playFightanimation(acLeft, acRight, true);
+			
+		} catch (IOException e) {
+			LOG.error("boom", e);
+		}
+		
+		
 	}
 
+	void computeOutcomeDEFvsDEF(Robot defenderLeft, Robot defenderRight)
+	{
+		Action acLeft = null;
+		Action acRight = null;
+		try {
+			acLeft = Action.create(new AnimationPosition(defenderLeft.getCurrentAction().getAnimation(), RobotPosition.LEFT), ActionType.Defense);
+			acRight = Action.create(new AnimationPosition(defenderRight.getCurrentAction().getAnimation(), RobotPosition.RIGHT), ActionType.Defense);
+		} catch (IOException e) {
+			LOG.error("boom", e);
+		}
+		cinematicVisualizer.playFightanimation(acLeft, acRight, true);
+	}
+	
 	void computeOutcomeATTvsATT(Robot attackerLeft, Robot attackerRight) {
 		Attack attackLeft = (Attack) attackerLeft.getCurrentAction();
 		Attack attackRight = (Attack) attackerRight.getCurrentAction();
@@ -305,6 +274,17 @@ public class BattleController {
 				attackRight.getRobotActionType());
 		dealDamageToRobot(attackerRight, damageLeft,
 				attackLeft.getRobotActionType());
+		
+		Action acLeft = null;
+		Action acRight = null;
+		try {
+			acLeft = Action.create(new AnimationPosition(attackerLeft.getCurrentAction().getAnimation(), RobotPosition.LEFT), ActionType.Attack);
+			acRight = Action.create(new AnimationPosition(attackerRight.getCurrentAction().getAnimation(), RobotPosition.RIGHT), ActionType.Attack);
+		} catch (IOException e) {
+			LOG.error("boom", e);
+		}
+		cinematicVisualizer.playFightanimation(acLeft, acRight, true);
+		
 	}
 
 	public void performInitialModificationOfRobot(Robot robot) {
@@ -345,6 +325,7 @@ public class BattleController {
 			endGame(getCurrentGameState());
 			break;
 		case WAITING_FOR_PLAYER_INPUT:
+			cinematicVisualizer.prepareForNextRound();
 		case BATTLE_IS_ACTIVE:
 			break;
 		case GAME_HASNT_BEGUN:

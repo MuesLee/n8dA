@@ -338,6 +338,7 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		battleController.performInitialModificationOfRobot(robot);
 
 		if (battleController.getRobotLeft() == null) {
+			robot.setRobotPosition(RobotPosition.LEFT);
 			battleController.setRobotLeft(robot);
 			clientUUIDLeft = uuid;
 			LOG.info("Robot registered: " + robot + " ClientUUID: " + uuid);
@@ -353,6 +354,7 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 			return RobotPosition.LEFT;
 
 		} else if (battleController.getRobotRight() == null) {
+			robot.setRobotPosition(RobotPosition.RIGHT);
 			battleController.setRobotRight(robot);
 			clientUUIDRight = uuid;
 

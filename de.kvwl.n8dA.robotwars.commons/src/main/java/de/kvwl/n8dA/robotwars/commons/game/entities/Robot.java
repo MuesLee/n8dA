@@ -9,6 +9,7 @@ import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
 import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.StatusEffect;
+import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
 import de.kvwl.n8dA.robotwars.commons.gui.Animation;
 
 public class Robot extends Entity {
@@ -36,6 +37,8 @@ public class Robot extends Entity {
 	private List<StatusEffect> statusEffects;
 
 	private RobotAction currentAction;
+	
+	private RobotPosition robotPosition;
 
 	/**
 	 * Wenn true sollte dieser Roboter nicht erneut als User roboter gespeichert
@@ -212,6 +215,14 @@ public class Robot extends Entity {
 
 	public void setStatusEffects(List<StatusEffect> statusEffects) {
 		this.statusEffects = statusEffects;
+	}
+
+	public RobotPosition getRobotPosition() {
+		return robotPosition;
+	}
+
+	public void setRobotPosition(RobotPosition robotPosition) {
+		this.robotPosition = robotPosition;
 	}
 
 }

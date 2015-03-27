@@ -1,5 +1,5 @@
 // "-" BEDEUTET ALLE VERZEICHNISSE UNTER DEM ANGEGEBENEN
-grant codeBase "file: ABSOLUTER PFAD ZUM LOKALEN GIT REPO/-" {
+grant codeBase "file:/WORKSPACE/-" {
 
 permission java.security.AllPermission;
 
