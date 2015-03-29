@@ -3,8 +3,8 @@
 	<id>2</id>
 	<name>BlueRoboter</name>
 	<configcosts>0</configcosts>
-	<healthpoints>100</healthpoints>
-	<energypoints>100</energypoints>
+	<healthpoints>200</healthpoints>
+	<energypoints>10</energypoints>
 	<animationid>BlueRoboter</animationid>
 	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->
         <id>2</id>

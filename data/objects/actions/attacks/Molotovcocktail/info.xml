@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <attack>
-	<damage>12</damage>
+	<damage>20</damage>
 	<type>PAPER</type>
 	<animationid>Molotovcocktail</animationid>
-	<energycosts>3</energycosts>
+	<energycosts>6</energycosts>
 	<configcosts>5</configcosts>
 	<name>Molotovcocktail</name>
 	<id>14</id>

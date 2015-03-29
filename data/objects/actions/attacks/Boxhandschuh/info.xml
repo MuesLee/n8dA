@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <attack>
-	<damage>12</damage>
+	<damage>10</damage>
 	<type>ROCK</type>
 	<animationid>Boxhandschuh</animationid>
-	<energycosts>3</energycosts>
-	<configcosts>5</configcosts>
+	<energycosts>0</energycosts>
+	<configcosts>0</configcosts>
 	<name>Boxhandschuh</name>
 	<id>11</id>
 	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->

@@ -3,8 +3,8 @@
 	<id>7</id>
 	<name>B(l)ender</name>
 	<configcosts>0</configcosts>
-	<healthpoints>100</healthpoints>
-	<energypoints>100</energypoints>
+	<healthpoints>200</healthpoints>
+	<energypoints>10</energypoints>
 	<animationid>RadRoboter</animationid>
 	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->
         <id>2</id>

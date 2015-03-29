@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <attack>
-	<damage>12</damage>
+	<damage>20</damage>
 	<type>ROCK</type>
 	<animationid>Kreissaege</animationid>
-	<energycosts>3</energycosts>
+	<energycosts>6</energycosts>
 	<configcosts>5</configcosts>
 	<name>Kreissäge</name>
 	<id>12</id>
