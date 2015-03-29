@@ -4,7 +4,7 @@
 	<type>SCISSOR</type>
 	<animationid>Plasma</animationid>
 	<energycosts>6</energycosts>
-	<configcosts>5</configcosts>
+	<configcosts>200</configcosts>
 	<name>Plasma</name>
 	<id>15</id>
 	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->

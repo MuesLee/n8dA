@@ -4,7 +4,7 @@
 	<type>PAPER</type>
 	<animationid>Holzschild</animationid>
 	<energycosts>3</energycosts>
-	<configcosts>5</configcosts>
+	<configcosts>100</configcosts>
 	<name>Holzschild</name>
 	<id>18</id>
 	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->

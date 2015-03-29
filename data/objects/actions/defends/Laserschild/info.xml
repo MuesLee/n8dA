@@ -4,7 +4,7 @@
 	<type>ROCK</type>
 	<animationid>Laserschild</animationid>
 	<energycosts>3</energycosts>
-	<configcosts>5</configcosts>
+	<configcosts>100</configcosts>
 	<name>Laserschild</name>
 	<id>20</id>
 	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->

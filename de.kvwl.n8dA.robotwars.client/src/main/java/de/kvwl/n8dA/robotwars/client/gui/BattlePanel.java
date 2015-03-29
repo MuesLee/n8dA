@@ -31,6 +31,8 @@ import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
 import de.kvwl.n8dA.robotwars.commons.game.util.GameStateType;
 import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
 
+
+//TODO Marvin: Nach Klick auf Aktion: Verdeutlichen, dass Aktion abgeschickt wurde und auf das Kampfergebnis gewartet wird
 public class BattlePanel extends JPanel implements ActionListener,
 		BattleClientListener {
 
@@ -398,7 +400,10 @@ public class BattlePanel extends JPanel implements ActionListener,
 
 	@Override
 	public void gameOver(GameStateType result) {
-
+		
+		robot = battleClient.getUpdatedRobot();
+		updateRobot();
+		
 		RobotPosition ownPosition = battleClient.getPositionOfOwnRobot();
 
 		String msg = "";

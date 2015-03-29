@@ -4,7 +4,7 @@
 	<type>SCISSOR</type>
 	<animationid>Tennis</animationid>
 	<energycosts>3</energycosts>
-	<configcosts>5</configcosts>
+	<configcosts>100</configcosts>
 	<name>Tennisschläger</name>
 	<id>22</id>
 	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->
