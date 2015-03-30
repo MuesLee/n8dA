@@ -8,6 +8,7 @@ public class EPRegItem extends RoboItem {
 	private int epReg = 10;
 
 	public EPRegItem() {
+		setId(53);
 		setName("EP Reg: " + epReg);
 	}
 

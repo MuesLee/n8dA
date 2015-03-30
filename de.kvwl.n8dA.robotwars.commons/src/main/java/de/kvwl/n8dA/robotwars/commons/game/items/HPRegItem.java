@@ -10,6 +10,7 @@ public class HPRegItem extends RoboItem {
 
 	public HPRegItem() {
 		setName("HP Reg: " + hpReg);
+		setId(51);
 	}
 
 	@Override

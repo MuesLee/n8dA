@@ -3,7 +3,7 @@ package de.kvwl.n8dA.robotwars.commons.game.statuseffects;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 
-public class ResistanceScissor extends StatusEffect{
+public class ResistanceScissor extends TypeResistance{
 
 
 	/**
@@ -14,6 +14,7 @@ public class ResistanceScissor extends StatusEffect{
 	public ResistanceScissor(int startDuration, int roundsLeft) {
 		super(startDuration, roundsLeft);
 		setName("Resistance to Scissor");
+		setId(82);
 	}
 	
 	public ResistanceScissor() {

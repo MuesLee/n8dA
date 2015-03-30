@@ -1,6 +1,7 @@
 package de.kvwl.n8dA.robotwars.server.controller;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -365,6 +366,43 @@ public class BattleController {
 
 	}
 
+	
+	/**
+	 * Inflicts the given robot with the status effects of the given robotAction
+	 * This method considers the current active status effects for infliction:
+	 * 
+	 * Resistance + Vulnerability = No Status Effect
+	 * Vulnerabilty + Vulnerability = Longer Duration
+	 * Resistance + Resistance = Longer Duration
+	 * 
+	 * @param robot
+	 * @param robotAction
+	 */
+	private void inflictStatusEffects(Robot robot, RobotAction robotAction)
+	{
+		//TODO Timo: InflictSE Weiter implementieren
+		
+		List<StatusEffect> actionsStatusEffects = robotAction.getStatusEffects();
+		
+		if(actionsStatusEffects == null || actionsStatusEffects.isEmpty())
+			return;
+		
+		List<StatusEffect> activeStatusEffects = robot.getStatusEffects();
+		
+		for (StatusEffect newStatusEffect : actionsStatusEffects) {
+			
+			
+			for (Iterator<StatusEffect> iterator = activeStatusEffects.iterator(); iterator
+					.hasNext();) {
+				
+				StatusEffect activeStatusEffect = iterator.next();
+				activeStatusEffect = activeStatusEffect.resolve(newStatusEffect);
+			}
+		}
+		
+		
+	}
+	
 	/**
 	 * Modifies the given damage if the robot has relevant status effects and
 	 * deals the computed damage to it.

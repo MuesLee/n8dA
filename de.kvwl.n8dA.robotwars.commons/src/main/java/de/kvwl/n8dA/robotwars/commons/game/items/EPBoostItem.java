@@ -10,6 +10,7 @@ public class EPBoostItem extends RoboItem {
 
 	public EPBoostItem() {
 		setName("EP Boost: " + epBoost);
+		setId(52);
 	}
 
 	@Override

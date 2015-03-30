@@ -3,7 +3,7 @@ package de.kvwl.n8dA.robotwars.commons.game.statuseffects;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 
-public class ResistancePaper extends StatusEffect{
+public class ResistancePaper extends TypeResistance{
 
 
 
@@ -12,6 +12,7 @@ public class ResistancePaper extends StatusEffect{
 	public ResistancePaper(int startDuration, int roundsLeft) {
 		super(startDuration, roundsLeft);
 		setName("Resistance to Paper");
+		setId(80);
 	}
 	
 	public ResistancePaper() {

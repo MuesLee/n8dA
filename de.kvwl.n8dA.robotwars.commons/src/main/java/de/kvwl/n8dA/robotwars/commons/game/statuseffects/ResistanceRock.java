@@ -3,7 +3,7 @@ package de.kvwl.n8dA.robotwars.commons.game.statuseffects;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 
-public class ResistanceRock extends StatusEffect{
+public class ResistanceRock extends TypeResistance{
 
 
 
@@ -13,6 +13,7 @@ public class ResistanceRock extends StatusEffect{
 	public ResistanceRock(int startDuration, int roundsLeft) {
 		super(startDuration, roundsLeft);
 		setName("Resistance to Rock");
+		setId(81);
 	}
 	
 	public ResistanceRock() {

@@ -9,7 +9,7 @@ public class HPBoostItem extends RoboItem {
 	private int hpBoost = 10;
 
 	public HPBoostItem() {
-		setId(80L);
+		setId(50);
 		setName("HP Boost: " + hpBoost);
 	}
 
