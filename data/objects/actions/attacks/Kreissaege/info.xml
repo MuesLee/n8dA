@@ -4,7 +4,7 @@
 	<type>ROCK</type>
 	<animationid>Kreissaege</animationid>
 	<energycosts>6</energycosts>
-	<configcosts>5</configcosts>
+	<configcosts>200</configcosts>
 	<name>Kreissäge</name>
 	<id>12</id>
 	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->

@@ -4,7 +4,7 @@
 	<type>ROCK</type>
 	<animationid>Spritze</animationid>
 	<energycosts>6</energycosts>
-	<configcosts>5</configcosts>
+	<configcosts>200</configcosts>
 	<name>Spritze</name>
 	<id>17</id>
 	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->

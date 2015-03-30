@@ -4,7 +4,7 @@
 	<type>SCISSOR</type>
 	<animationid>Wind</animationid>
 	<energycosts>3</energycosts>
-	<configcosts>5</configcosts>
+	<configcosts>100</configcosts>
 	<name>Wind</name>
 	<id>23</id>
 	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->

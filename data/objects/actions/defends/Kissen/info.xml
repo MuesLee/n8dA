@@ -4,7 +4,7 @@
 	<type>PAPER</type>
 	<animationid>Kissen</animationid>
 	<energycosts>3</energycosts>
-	<configcosts>5</configcosts>
+	<configcosts>100</configcosts>
 	<name>Kissen</name>
 	<id>19</id>
 	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->

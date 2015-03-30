@@ -363,7 +363,6 @@ public class BattleController {
 	}
 
 	private void endGame(GameStateType currentGameState) {
-
 	}
 
 	
