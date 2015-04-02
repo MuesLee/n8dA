@@ -441,8 +441,14 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 
 		System.out.println("Game Over -> " + result);
 
-		robot = battleClient.getUpdatedRobot();
-		updateRobot();
+		Robot robotTmp = battleClient.getUpdatedRobot();
+
+		if (robotTmp != null)
+		{
+
+			robot = robotTmp;
+			updateRobot();
+		}
 
 		RobotPosition ownPosition = battleClient.getPositionOfOwnRobot();
 
