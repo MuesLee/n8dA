@@ -9,6 +9,7 @@ import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -208,7 +209,7 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 			BorderFactory.createEmptyBorder(3, 3, 3, 3)));
 		defends.setLayout(new GridLayout(2, 2, 5, 5));
 
-		List<Defense> defs = robot.getPossibleDefends();
+		List<Defense> defs = (robot != null) ? robot.getPossibleDefends() : new ArrayList<Defense>(0);
 		for (int i = 0; i < 4; i++)
 		{
 
@@ -246,7 +247,7 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 			BorderFactory.createEmptyBorder(3, 3, 3, 3)));
 		attacks.setLayout(new GridLayout(2, 2, 5, 5));
 
-		List<Attack> atks = robot.getPossibleAttacks();
+		List<Attack> atks = (robot != null) ? robot.getPossibleAttacks() : new ArrayList<Attack>(0);
 		for (int i = 0; i < 4; i++)
 		{
 
@@ -278,6 +279,11 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 
 	private void updateStats(boolean interpretItems)
 	{
+
+		if (robot == null)
+		{
+			return;
+		}
 
 		Robot tmp = new Robot();
 
@@ -432,6 +438,8 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 	@Override
 	public void gameOver(GameStateType result)
 	{
+
+		System.out.println("Game Over -> " + result);
 
 		robot = battleClient.getUpdatedRobot();
 		updateRobot();
