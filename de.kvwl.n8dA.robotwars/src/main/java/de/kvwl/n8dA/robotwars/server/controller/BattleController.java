@@ -1,7 +1,6 @@
 package de.kvwl.n8dA.robotwars.server.controller;
 
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -107,7 +106,7 @@ public class BattleController
 		computeBattleOutcome(robotLeft, robotRight);
 		cinematicVisualizer.updateStats(robotLeft, RobotPosition.LEFT, true, true);
 		cinematicVisualizer.updateStats(robotRight, RobotPosition.RIGHT, true, true);
-		checkForGameEnding(robotLeft, robotRight);
+		updateGameState(robotLeft, robotRight);
 	}
 
 	GameStateType getCurrentGameState(Robot robotLeft, Robot robotRight)
@@ -363,7 +362,13 @@ public class BattleController
 
 	}
 
-	private void checkForGameEnding(Robot robotLeft, Robot robotRight)
+	/**
+	 * Computes and updates the GameState and calls necessary functions depending on the new GameState
+	 * 
+	 * @param robotLeft
+	 * @param robotRight
+	 */
+	private void updateGameState(Robot robotLeft, Robot robotRight)
 	{
 
 		setCurrentGameState(getCurrentGameState(robotLeft, robotRight));
@@ -390,19 +395,17 @@ public class BattleController
 
 	private void endGame(GameStateType currentGameState)
 	{
+		
 	}
 
 	/**
 	 * Inflicts the given robot with the status effects of the given robotAction This method
 	 * considers the current active status effects for infliction:
 	 * 
-	 * Resistance + Vulnerability = No Status Effect Vulnerabilty + Vulnerability = Longer Duration
-	 * Resistance + Resistance = Longer Duration
-	 * 
 	 * @param robot
 	 * @param robotAction
 	 */
-	private void inflictStatusEffects(Robot robot, RobotAction robotAction)
+	void inflictStatusEffects(Robot robot, RobotAction robotAction)
 	{
 		//TODO Timo: InflictSE Weiter implementieren
 
@@ -415,16 +418,24 @@ public class BattleController
 
 		for (StatusEffect newStatusEffect : actionsStatusEffects)
 		{
-
-			for (Iterator<StatusEffect> iterator = activeStatusEffects.iterator(); iterator.hasNext();)
-			{
-
-				StatusEffect activeStatusEffect = iterator.next();
-				activeStatusEffect = activeStatusEffect.resolve(newStatusEffect);
-			}
+				resolveStatusEffects(robot, newStatusEffect);
 		}
 
 	}
+
+	private void resolveStatusEffects(Robot robot,
+			StatusEffect newStatusEffect) {
+		
+		List<StatusEffect> robotsCurrentStatusEffects = robot.getStatusEffects();
+		for (StatusEffect statusEffect : robotsCurrentStatusEffects) {
+			
+			statusEffect.resolveInteractionWith(newStatusEffect);
+			
+		}
+		
+		
+		
+	}	
 
 	/**
 	 * Modifies the given damage if the robot has relevant status effects and deals the computed

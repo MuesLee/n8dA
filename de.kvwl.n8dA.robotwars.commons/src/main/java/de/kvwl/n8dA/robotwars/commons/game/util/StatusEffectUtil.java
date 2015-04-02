@@ -3,13 +3,10 @@ package de.kvwl.n8dA.robotwars.commons.game.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.kvwl.n8dA.robotwars.commons.game.statuseffects.ResistancePaper;
-import de.kvwl.n8dA.robotwars.commons.game.statuseffects.ResistanceRock;
-import de.kvwl.n8dA.robotwars.commons.game.statuseffects.ResistanceScissor;
+import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.StatusEffect;
-import de.kvwl.n8dA.robotwars.commons.game.statuseffects.VulnerabilityPaper;
-import de.kvwl.n8dA.robotwars.commons.game.statuseffects.VulnerabilityRock;
-import de.kvwl.n8dA.robotwars.commons.game.statuseffects.VulnerabilityScissor;
+import de.kvwl.n8dA.robotwars.commons.game.statuseffects.TypeEffect;
+import de.kvwl.n8dA.robotwars.commons.game.statuseffects.TypeEffectModificationType;
 
 public class StatusEffectUtil
 {
@@ -17,12 +14,12 @@ public class StatusEffectUtil
 	public static List<StatusEffect> getAllStatusEffects()
 	{
 		List<StatusEffect> statusEffects = new ArrayList<>();
-		statusEffects.add(new VulnerabilityPaper());
-		statusEffects.add(new VulnerabilityRock());
-		statusEffects.add(new VulnerabilityScissor());
-		statusEffects.add(new ResistanceRock());
-		statusEffects.add(new ResistanceScissor());
-		statusEffects.add(new ResistancePaper());
+		statusEffects.add(new TypeEffect(RobotActionType.ROCK, TypeEffectModificationType.RESISTANCE, 1));
+		statusEffects.add(new TypeEffect(RobotActionType.SCISSOR, TypeEffectModificationType.RESISTANCE, 1));
+		statusEffects.add(new TypeEffect(RobotActionType.PAPER, TypeEffectModificationType.RESISTANCE, 1));
+		statusEffects.add(new TypeEffect(RobotActionType.ROCK, TypeEffectModificationType.VULNERABILITY, 1));
+		statusEffects.add(new TypeEffect(RobotActionType.SCISSOR, TypeEffectModificationType.VULNERABILITY, 1));
+		statusEffects.add(new TypeEffect(RobotActionType.PAPER, TypeEffectModificationType.VULNERABILITY, 1));
 		return statusEffects;
 	}
 
