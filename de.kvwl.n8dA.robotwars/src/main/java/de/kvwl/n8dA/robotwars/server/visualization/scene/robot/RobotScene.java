@@ -442,18 +442,18 @@ public class RobotScene implements Scene
 		}
 	}
 
-	public void setRobo(AnimatedSceneObject leftRobo, Position pos)
+	public void setRobo(AnimatedSceneObject robo, Position pos)
 	{
 
 		if (pos == Position.LEFT)
 		{
 
-			this.leftRobo.setRobo(leftRobo);
+			this.leftRobo.setRobo(robo);
 		}
 		else
 		{
 
-			this.rightRobo.setRobo(leftRobo);
+			this.rightRobo.setRobo(robo);
 		}
 	}
 

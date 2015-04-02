@@ -144,4 +144,28 @@ public class GameScene implements Scene, CinematicVisualizer
 
 		updateStats(animated, wait, position, robot);
 	}
+
+	@Override
+	public void reset()
+	{
+
+		robots.setRobo(null, Position.LEFT);
+		robots.setRobo(null, Position.RIGHT);
+
+		round = 0;
+		status.setRound(1);
+
+		status.setEnergyPoints(Position.LEFT, 100);
+		status.setMaxEnergyPoints(Position.LEFT, 100);
+
+		status.setEnergyPoints(Position.RIGHT, 100);
+		status.setMaxEnergyPoints(Position.RIGHT, 100);
+
+		status.setHealthPoints(Position.LEFT, 100);
+		status.setMaxHealthPoints(Position.LEFT, 100);
+
+		status.setHealthPoints(Position.RIGHT, 100);
+		status.setMaxHealthPoints(Position.RIGHT, 100);
+
+	}
 }

@@ -450,6 +450,9 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 			updateRobot();
 		}
 
+		countdown.stopCountdown();
+		countdown.setVisible(false);
+
 		RobotPosition ownPosition = battleClient.getPositionOfOwnRobot();
 
 		String msg = "";
