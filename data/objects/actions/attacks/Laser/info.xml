@@ -2,6 +2,7 @@
 <attack>
 	<damage>20</damage>
 	<type>SCISSOR</type>
+<powertype>HEAVY</powertype>
 	<animationid>Laser</animationid>
 	<energycosts>6</energycosts>
 	<configcosts>200</configcosts>

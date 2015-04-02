@@ -2,6 +2,7 @@
 <attack>
 	<damage>10</damage>
 	<type>ROCK</type>
+<powertype>NORMAL</powertype>
 	<animationid>Boxhandschuh</animationid>
 	<energycosts>0</energycosts>
 	<configcosts>0</configcosts>

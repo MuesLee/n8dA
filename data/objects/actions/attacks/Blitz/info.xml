@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <attack>
 	<damage>10</damage>
+	<powertype>NORMAL</powertype>
 	<type>SCISSOR</type>
 	<animationid>Blitz</animationid>
 	<energycosts>0</energycosts>

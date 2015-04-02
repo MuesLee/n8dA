@@ -18,10 +18,14 @@ public abstract class RobotAction extends Entity {
 	}
 
 	protected RobotActionType robotActionType;
+	protected RobotActionPowerType	robotActionPowerType;
+	
 	protected Animation animation;
 	protected int energyCosts;
 	protected String description;
-
+	
+	
+	
 	protected List<StatusEffect> statusEffects;
 	
 	public boolean beats(RobotAction otherAction) {
@@ -72,5 +76,13 @@ public abstract class RobotAction extends Entity {
 
 	public void setStatusEffects(List<StatusEffect> statusEffects) {
 		this.statusEffects = statusEffects;
+	}
+
+	public RobotActionPowerType getRobotActionPowerType() {
+		return robotActionPowerType;
+	}
+
+	public void setRobotActionPowerType(RobotActionPowerType robotActionPowerType) {
+		this.robotActionPowerType = robotActionPowerType;
 	}
 }

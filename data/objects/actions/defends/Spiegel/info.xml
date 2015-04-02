@@ -2,6 +2,7 @@
 <defense>
 	<defensefactor>0.3</defensefactor>
 	<type>ROCK</type>
+<powertype>NORMAL</powertype>
 	<animationid>Spiegel</animationid>
 	<energycosts>3</energycosts>
 	<configcosts>100</configcosts>

@@ -3,12 +3,11 @@ package de.kvwl.n8dA.robotwars.server.controller;
 import static org.junit.Assert.assertEquals;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -17,15 +16,14 @@ import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
+import de.kvwl.n8dA.robotwars.commons.game.statuseffects.StatusEffect;
+import de.kvwl.n8dA.robotwars.commons.game.statuseffects.TypeEffect;
+import de.kvwl.n8dA.robotwars.commons.game.statuseffects.TypeEffectModificationType;
 import de.kvwl.n8dA.robotwars.commons.game.util.GameStateType;
-import de.kvwl.n8dA.robotwars.server.visualization.AnimationPosition;
+import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
 import de.kvwl.n8dA.robotwars.server.visualization.CinematicVisualizer;
 
-public class BattleControllerTest
-{
-
-	@Captor
-	ArgumentCaptor<List<AnimationPosition>> argumentAnimationPosition;
+public class BattleControllerTest {
 
 	private BattleController battleController;
 
@@ -36,35 +34,79 @@ public class BattleControllerTest
 	private CinematicVisualizer cinematicVisualizerMock;
 
 	@Before
-	public void setUp() throws NoSuchFieldException, SecurityException, IllegalArgumentException,
-		IllegalAccessException
-	{
+	public void setUp() throws NoSuchFieldException, SecurityException,
+			IllegalArgumentException, IllegalAccessException {
 
 		MockitoAnnotations.initMocks(this);
 
 		robotLeft = new Robot();
 		robotRight = new Robot();
 		robotLeft.setHealthPoints(100);
+		robotLeft.setRobotPosition(RobotPosition.LEFT);
 		robotRight.setHealthPoints(100);
+		robotRight.setRobotPosition(RobotPosition.RIGHT);
 
 		battleController = new BattleController(null);
-		battleController.setRobotLeft(robotLeft);
-		battleController.setRobotRight(robotRight);
-
-		Field field = battleController.getClass().getDeclaredField("cinematicVisualizer");
+		Field field = battleController.getClass().getDeclaredField(
+				"cinematicVisualizer");
 		field.setAccessible(true);
 		field.set(battleController, cinematicVisualizerMock);
+
+		battleController.setRobotLeft(robotLeft);
+		battleController.setRobotRight(robotRight);
 
 	}
 
 	@Test
-	public void testCheckForGameResult_VictoryLeft() throws Exception
-	{
+	public void testInflictStatusEffect() {
+		Attack robotAction = new Attack(RobotActionType.SCISSOR, 10);
+		TypeEffect typeEffect = new TypeEffect(RobotActionType.SCISSOR,
+				TypeEffectModificationType.RESISTANCE, 1);
+
+		ArrayList<StatusEffect> expectedStatusEffects = new ArrayList<StatusEffect>();
+		expectedStatusEffects.add(typeEffect);
+		robotAction.setStatusEffects(expectedStatusEffects);
+
+		battleController.inflictStatusEffects(robotLeft, robotAction);
+
+		List<StatusEffect> actualStatusEffects = robotLeft.getStatusEffects();
+
+		assertEquals(expectedStatusEffects, actualStatusEffects);
+	}
+
+	@Test
+	public void testInflictStatusEffect2() {
+		Attack robotAction = new Attack(RobotActionType.SCISSOR, 10);
+		TypeEffect typeEffect = new TypeEffect(RobotActionType.SCISSOR,
+				TypeEffectModificationType.RESISTANCE, 2);
+
+		ArrayList<StatusEffect> actionsStatusEffects = new ArrayList<StatusEffect>();
+		actionsStatusEffects.add(typeEffect);
+		robotAction.setStatusEffects(actionsStatusEffects);
+
+		robotLeft.addStatusEffect(new TypeEffect(RobotActionType.SCISSOR,
+				TypeEffectModificationType.VULNERABILITY, 1));
+
+		battleController.inflictStatusEffects(robotLeft, robotAction);
+
+		ArrayList<StatusEffect> expectedStatusEffects = new ArrayList<StatusEffect>();
+		expectedStatusEffects.add(new TypeEffect(RobotActionType.SCISSOR,
+				TypeEffectModificationType.VULNERABILITY, 1));
+		expectedStatusEffects.add(new TypeEffect(RobotActionType.SCISSOR,
+				TypeEffectModificationType.RESISTANCE, 1));
+		List<StatusEffect> actualStatusEffects = robotLeft.getStatusEffects();
+
+		assertEquals(expectedStatusEffects, actualStatusEffects);
+	}
+
+	@Test
+	public void testCheckForGameResult_VictoryLeft() throws Exception {
 
 		robotRight.setHealthPoints(0);
 		robotLeft.setHealthPoints(100);
 
-		GameStateType actualGameEnding = battleController.getCurrentGameState(robotLeft, robotRight);
+		GameStateType actualGameEnding = battleController.getCurrentGameState(
+				robotLeft, robotRight);
 
 		GameStateType expectedGameEnding = GameStateType.VICTORY_LEFT;
 
@@ -72,13 +114,13 @@ public class BattleControllerTest
 	}
 
 	@Test
-	public void testCheckForGameResult_VictoryRight() throws Exception
-	{
+	public void testCheckForGameResult_VictoryRight() throws Exception {
 
 		robotRight.setHealthPoints(100);
 		robotLeft.setHealthPoints(0);
 
-		GameStateType actualGameEnding = battleController.getCurrentGameState(robotLeft, robotRight);
+		GameStateType actualGameEnding = battleController.getCurrentGameState(
+				robotLeft, robotRight);
 
 		GameStateType expectedGameEnding = GameStateType.VICTORY_RIGHT;
 
@@ -86,13 +128,13 @@ public class BattleControllerTest
 	}
 
 	@Test
-	public void testCheckForGameResult_Draw() throws Exception
-	{
+	public void testCheckForGameResult_Draw() throws Exception {
 
 		robotRight.setHealthPoints(0);
 		robotLeft.setHealthPoints(0);
 
-		GameStateType actualGameEnding = battleController.getCurrentGameState(robotLeft, robotRight);
+		GameStateType actualGameEnding = battleController.getCurrentGameState(
+				robotLeft, robotRight);
 
 		GameStateType expectedGameEnding = GameStateType.DRAW;
 
@@ -100,13 +142,13 @@ public class BattleControllerTest
 	}
 
 	@Test
-	public void testCheckForGameResult_WaitingForInput() throws Exception
-	{
+	public void testCheckForGameResult_WaitingForInput() throws Exception {
 
 		robotRight.setHealthPoints(10);
 		robotLeft.setHealthPoints(10);
 
-		GameStateType actualGameEnding = battleController.getCurrentGameState(robotLeft, robotRight);
+		GameStateType actualGameEnding = battleController.getCurrentGameState(
+				robotLeft, robotRight);
 
 		GameStateType expectedGameEnding = GameStateType.WAITING_FOR_PLAYER_INPUT;
 
@@ -114,8 +156,7 @@ public class BattleControllerTest
 	}
 
 	@Test
-	public void testATTvsDEF_ROCKvsPAPER() throws Exception
-	{
+	public void testATTvsDEF_ROCKvsPAPER() throws Exception {
 
 		int attackDmg = 10;
 		Attack attack = new Attack(RobotActionType.ROCK, attackDmg);
@@ -140,8 +181,7 @@ public class BattleControllerTest
 	}
 
 	@Test
-	public void testATTvsDEF_ROCKvsSCISSOR() throws Exception
-	{
+	public void testATTvsDEF_ROCKvsSCISSOR() throws Exception {
 
 		int attackDmg = 10;
 		Attack attack = new Attack(RobotActionType.ROCK, attackDmg);
@@ -166,8 +206,7 @@ public class BattleControllerTest
 	}
 
 	@Test
-	public void testATTvsDEF_ROCKvsROCK() throws Exception
-	{
+	public void testATTvsDEF_ROCKvsROCK() throws Exception {
 
 		int attackDmg = 10;
 		Attack attack = new Attack(RobotActionType.ROCK, attackDmg);
@@ -192,8 +231,7 @@ public class BattleControllerTest
 	}
 
 	@Test(expected = RobotsArentRdyToFightException.class)
-	public void testFightRobotRightNotRdy() throws Exception
-	{
+	public void testFightRobotRightNotRdy() throws Exception {
 
 		Attack attack = new Attack(RobotActionType.ROCK, 10);
 
@@ -204,8 +242,7 @@ public class BattleControllerTest
 	}
 
 	@Test(expected = RobotsArentRdyToFightException.class)
-	public void testFightRobotLeftNotRdy() throws Exception
-	{
+	public void testFightRobotLeftNotRdy() throws Exception {
 
 		Defense defense = new Defense(RobotActionType.SCISSOR, 10);
 

@@ -2,6 +2,7 @@
 <attack>
 	<damage>20</damage>
 	<type>ROCK</type>
+<powertype>HEAVY</powertype>
 	<animationid>Spritze</animationid>
 	<energycosts>6</energycosts>
 	<configcosts>200</configcosts>

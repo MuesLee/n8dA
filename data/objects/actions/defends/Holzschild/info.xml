@@ -2,6 +2,7 @@
 <defense>
 	<defensefactor>0.3</defensefactor>
 	<type>PAPER</type>
+<powertype>NORMAL</powertype>
 	<animationid>Holzschild</animationid>
 	<energycosts>3</energycosts>
 	<configcosts>100</configcosts>

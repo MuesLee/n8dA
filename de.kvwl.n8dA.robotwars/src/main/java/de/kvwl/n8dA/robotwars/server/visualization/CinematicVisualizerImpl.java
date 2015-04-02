@@ -76,7 +76,6 @@ public class CinematicVisualizerImpl extends SwingGameFrame implements Cinematic
 	@Override
 	public void robotHasEnteredTheArena(Robot robot, RobotPosition position, DataLoader loader)
 	{
-
 		gameScene.robotHasEnteredTheArena(robot, position, loader);
 	}
 

@@ -2,6 +2,7 @@
 <attack>
 	<damage>20</damage>
 	<type>PAPER</type>
+<powertype>HEAVY</powertype>
 	<animationid>Bombe</animationid>
 	<energycosts>6</energycosts>
 	<configcosts>200</configcosts>
