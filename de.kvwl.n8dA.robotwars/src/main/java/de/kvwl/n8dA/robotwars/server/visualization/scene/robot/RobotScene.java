@@ -34,6 +34,13 @@ public class RobotScene implements Scene
 	private Action acRight;
 	private Object acWait = new Object();
 
+	public RobotScene()
+	{
+
+		leftRobo.setInverted(true);
+		rightRobo.setInverted(false);
+	}
+
 	@Override
 	public void paintScene(Graphics2D g2d, int width, int height, long elapsedTime)
 	{

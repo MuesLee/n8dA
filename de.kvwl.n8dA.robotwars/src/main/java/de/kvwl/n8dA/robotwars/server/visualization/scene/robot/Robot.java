@@ -1,6 +1,7 @@
 package de.kvwl.n8dA.robotwars.server.visualization.scene.robot;
 
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 
 import game.engine.stage.scene.object.AnimatedSceneObject;
 import game.engine.stage.scene.object.SceneObject;
@@ -18,6 +19,8 @@ public class Robot extends SceneObject
 	private int blinks = 0;
 	private long timeSinceLastSwitch = 0;
 	private Object blinkWait = new Object();
+
+	private boolean inverted = false;
 
 	@Override
 	protected void paint(Graphics2D g2d, long time)
@@ -97,6 +100,23 @@ public class Robot extends SceneObject
 		if (robo != null)
 		{
 
+			if (inverted)
+			{
+				double hWidth = getWidth() * 0.5;
+				double hHeight = getHeight() * 0.5;
+
+				AffineTransform beforeTransform = g2d.getTransform();
+
+				AffineTransform transform = new AffineTransform();
+				transform.concatenate(beforeTransform);
+				transform.translate(hWidth, hHeight);
+
+				transform.scale(-1, 1);
+
+				transform.translate(-hWidth, -hHeight);
+				g2d.setTransform(transform);
+			}
+
 			robo.paintOnScene(g2d, time);
 		}
 	}
@@ -145,6 +165,16 @@ public class Robot extends SceneObject
 		Size tS = robo.getTileSize();
 
 		return tS.getWidth() / (double) tS.getHeight();
+	}
+
+	public boolean isInverted()
+	{
+		return inverted;
+	}
+
+	public void setInverted(boolean inverted)
+	{
+		this.inverted = inverted;
 	}
 
 }
