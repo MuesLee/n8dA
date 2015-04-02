@@ -71,6 +71,7 @@ public abstract class RobotAction extends Entity {
 	}
 
 	public List<StatusEffect> getStatusEffects() {
+		
 		return statusEffects;
 	}
 

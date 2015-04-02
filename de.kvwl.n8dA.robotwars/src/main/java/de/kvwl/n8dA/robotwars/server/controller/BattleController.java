@@ -42,6 +42,8 @@ public class BattleController {
 	private Robot robotLeft;
 	private Robot robotRight;
 
+	
+	//TODO Timo: StatusEffects in RoboAction via PowerType füllen
 	private List<Attack> allAttacks;
 	private List<Defense> allDefends;
 	private List<Robot> allRobots;
@@ -376,7 +378,7 @@ public class BattleController {
 
 	/**
 	 * Inflicts the given robot with the status effects of the given robotAction
-	 * This method considers the current active status effects for infliction:
+	 * This method considers the current active status effects for infliction
 	 * 
 	 * @param robot
 	 * @param robotAction
