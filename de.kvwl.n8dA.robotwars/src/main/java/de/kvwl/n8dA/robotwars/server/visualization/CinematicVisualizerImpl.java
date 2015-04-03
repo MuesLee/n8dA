@@ -13,8 +13,8 @@ import de.kvwl.n8dA.robotwars.server.visualization.scene.GameScene;
 import de.kvwl.n8dA.robotwars.server.visualization.scene.robot.Action;
 
 //TODO Marvin Wechsel zu Fullscreen
-public class CinematicVisualizerImpl extends SwingGameFrame implements CinematicVisualizer
-{
+public class CinematicVisualizerImpl extends SwingGameFrame implements
+		CinematicVisualizer {
 
 	private static final long serialVersionUID = 1L;
 	private static final String IMAGE_PATH = "/de/kvwl/n8dA/robotwars/commons/images/";
@@ -23,43 +23,37 @@ public class CinematicVisualizerImpl extends SwingGameFrame implements Cinematic
 
 	private GameScene gameScene = new GameScene();
 
-	private CinematicVisualizerImpl()
-	{
+	private CinematicVisualizerImpl() {
 
 		this(GraphicsConfiguration.getSystemDefault());
 	}
 
-	private CinematicVisualizerImpl(GraphicsConfiguration config)
-	{
+	private CinematicVisualizerImpl(GraphicsConfiguration config) {
 
 		// super(config.getDevice(), config.getDisplayMode(), "RoboBattle");
-		super();
+		super("RoboBattle");
 
 		setup();
 	}
 
-	private void setup()
-	{
+	private void setup() {
 
 		setIconImage(InternalImage.loadFromPath(IMAGE_PATH, "icon.png"));
+
 		setScene(gameScene);
 		registerExitKey();
 	}
 
-	private void registerExitKey()
-	{
-		addKeyListener(new KeyAdapter()
-		{
+	private void registerExitKey() {
+		addKeyListener(new KeyAdapter() {
 
 			@Override
-			public void keyReleased(KeyEvent e)
-			{
+			public void keyReleased(KeyEvent e) {
 
-				switch (e.getKeyCode())
-				{
-					case KeyEvent.VK_ESCAPE:
-						setVisible(false);
-						dispose();
+				switch (e.getKeyCode()) {
+				case KeyEvent.VK_ESCAPE:
+					setVisible(false);
+					dispose();
 					break;
 				}
 			}
@@ -67,58 +61,51 @@ public class CinematicVisualizerImpl extends SwingGameFrame implements Cinematic
 	}
 
 	@Override
-	public void battleIsAboutToStart()
-	{
+	public void battleIsAboutToStart() {
 
 		gameScene.battleIsAboutToStart();
 	}
 
 	@Override
-	public void robotHasEnteredTheArena(Robot robot, RobotPosition position, DataLoader loader)
-	{
+	public void robotHasEnteredTheArena(Robot robot, RobotPosition position,
+			DataLoader loader) {
 		gameScene.robotHasEnteredTheArena(robot, position, loader);
 	}
 
 	@Override
-	public void roundIsAboutToStart()
-	{
+	public void roundIsAboutToStart() {
 
 		gameScene.roundIsAboutToStart();
 	}
 
 	@Override
-	public void prepareForNextRound()
-	{
+	public void prepareForNextRound() {
 
 		gameScene.prepareForNextRound();
 	}
 
 	@Override
-	public void playFightanimation(Action acLeft, Action acRight, boolean wait)
-	{
+	public void playFightanimation(Action acLeft, Action acRight, boolean wait) {
 
 		gameScene.playFightanimation(acLeft, acRight, wait);
 	}
 
 	@Override
-	public void updateStats(Robot robot, RobotPosition position, boolean animated, boolean wait)
-	{
+	public void updateStats(Robot robot, RobotPosition position,
+			boolean animated, boolean wait) {
 
 		gameScene.updateStats(robot, position, animated, wait);
 	}
 
 	@Override
-	public void reset()
-	{
+	public void reset() {
 
 		gameScene.reset();
 	}
 
-	public static CinematicVisualizerImpl get()
-	{
+	public static CinematicVisualizerImpl get() {
 
-		if (instance == null)
-		{
+		if (instance == null) {
 
 			instance = new CinematicVisualizerImpl();
 			instance.setVisible(true);
