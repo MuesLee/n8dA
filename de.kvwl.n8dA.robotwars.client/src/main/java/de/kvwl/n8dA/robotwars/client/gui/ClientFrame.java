@@ -9,14 +9,19 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.kvwl.n8dA.robotwars.client.RoboBattlePlayerClient;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
 
-public class ClientFrame extends JFrame implements ConfigurationListener
-{
+public class ClientFrame extends JFrame implements ConfigurationListener {
+
+	private static final Logger LOG = LoggerFactory
+			.getLogger(ClientFrame.class);
 
 	private static final long serialVersionUID = 1L;
 	private static final String IMAGE_PATH = "/de/kvwl/n8dA/robotwars/commons/images/";
@@ -29,83 +34,82 @@ public class ClientFrame extends JFrame implements ConfigurationListener
 
 	private String playerName;
 
-	public ClientFrame(RoboBattlePlayerClient battleClient, long maxCreditPoints, String playerName)
-	{
+	public ClientFrame(RoboBattlePlayerClient battleClient,
+			long maxCreditPoints, String playerName) {
 
 		this.battleClient = battleClient;
 		this.maxCreditPoints = maxCreditPoints;
 		this.playerName = playerName;
 
-		System.out.println("maxCredits " + maxCreditPoints);
+		LOG.debug("Credit points available for configuration: {}",
+				maxCreditPoints);
 
 		createGui();
 		openConfiguration();
 	}
 
-	private void closeAnimations()
-	{
-		if (roboConfigurationPanel != null)
-		{
+	private void closeAnimations() {
+		if (roboConfigurationPanel != null) {
 
 			roboConfigurationPanel.dispose();
 			roboConfigurationPanel = null;
 		}
 	}
 
-	private void openConfiguration()
-	{
+	private void openConfiguration() {
 
 		closeAnimations();
 
-		try
-		{
-			Attack[] attacks = battleClient.getAllPossibleAttacksFromServer().toArray(new Attack[0]);
+		try {
+			Attack[] attacks = battleClient.getAllPossibleAttacksFromServer()
+					.toArray(new Attack[0]);
 
-			Robot[] robots = battleClient.getAllPossibleRobotsFromServer(playerName).toArray(new Robot[0]);
+			Robot[] robots = battleClient.getAllPossibleRobotsFromServer(
+					playerName).toArray(new Robot[0]);
 
-			Defense[] defends = battleClient.getAllPossibleDefendsFromServer().toArray(new Defense[0]);
+			Defense[] defends = battleClient.getAllPossibleDefendsFromServer()
+					.toArray(new Defense[0]);
 
-			RoboItem[] items = battleClient.getAllPossibleItemsFromServer().toArray(new RoboItem[0]);
+			RoboItem[] items = battleClient.getAllPossibleItemsFromServer()
+					.toArray(new RoboItem[0]);
 
 			long maxCredit = maxCreditPoints;
-			System.out.println("config creds -> " + maxCredit);
 
-			roboConfigurationPanel = new RoboConfigurationPanel(robots, attacks, defends, items, maxCredit);
+			LOG.info("Open configuration view with {} credit points", maxCredit);
+
+			roboConfigurationPanel = new RoboConfigurationPanel(robots,
+					attacks, defends, items, maxCredit);
 
 			roboConfigurationPanel.addConfigurationListener(this);
 
 			show(roboConfigurationPanel);
-		}
-		catch (IOException e)
-		{
+		} catch (IOException e) {
 
-			JOptionPane.showMessageDialog(this, e.getMessage(), "Ein Fehler ist aufgetaucht.",
-				JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, e.getMessage(),
+					"Ein Fehler ist aufgetaucht.", JOptionPane.ERROR_MESSAGE);
 
 			e.printStackTrace();
 			System.exit(-1);
 		}
 	}
 
-	private void openBattle(Robot robot, String playerName)
-	{
+	private void openBattle(Robot robot, String playerName) {
 		closeAnimations();
 
-		BattlePanel battlePanel = new BattlePanel(battleClient, robot, playerName);
+		BattlePanel battlePanel = new BattlePanel(battleClient, robot,
+				playerName);
 		show(battlePanel);
 	}
 
 	@Override
-	public void configurationCompleted(Robot configuredRobot)
-	{
+	public void configurationCompleted(Robot configuredRobot) {
 
-		System.out.println("Config fertig -> battle view");
+		LOG.info("Configuration finished -> Open battle view");
 
 		openBattle(configuredRobot, playerName);
 	}
 
-	private void createGui()
-	{
+	private void createGui() {
 
 		setIconImage(InternalImage.loadFromPath(IMAGE_PATH, "icon.png"));
 		setTitle("RoboBattle - Client");
@@ -118,8 +122,7 @@ public class ClientFrame extends JFrame implements ConfigurationListener
 		add(container, BorderLayout.CENTER);
 	}
 
-	private void show(JPanel panel)
-	{
+	private void show(JPanel panel) {
 		container.removeAll();
 		container.add(panel);
 

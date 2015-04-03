@@ -21,6 +21,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.kvwl.n8dA.robotwars.client.BattleClientListener;
 import de.kvwl.n8dA.robotwars.client.RoboBattlePlayerClient;
 import de.kvwl.n8dA.robotwars.commons.exception.NoFreeSlotInBattleArenaException;
@@ -34,6 +37,9 @@ import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
 
 public class BattlePanel extends JPanel implements ActionListener,
 		BattleClientListener {
+
+	private static final Logger LOG = LoggerFactory
+			.getLogger(BattlePanel.class);
 
 	private static final String IMAGE_PATH = "/de/kvwl/n8dA/robotwars/commons/images/";
 	private static final long serialVersionUID = 1L;
@@ -293,10 +299,9 @@ public class BattlePanel extends JPanel implements ActionListener,
 			}
 		}
 
-		System.out.println(String.format(
-				"New Stats: Health: %d(%d), Energy: %d(%d)",
+		LOG.debug("Stat update -> Health: {}({}), Energy: {}({})",
 				tmp.getHealthPoints(), tmp.getMaxHealthPoints(),
-				tmp.getEnergyPoints(), tmp.getMaxEnergyPoints()));
+				tmp.getEnergyPoints(), tmp.getMaxEnergyPoints());
 
 		life.setMaximum(tmp.getMaxHealthPoints());
 		life.setValue(tmp.getHealthPoints());
@@ -313,20 +318,20 @@ public class BattlePanel extends JPanel implements ActionListener,
 	}
 
 	private void actionSelection(RobotAction roboAction, boolean force) {
+		LOG.debug("Action Selected -> {}", roboAction);
 
-		System.out.println("Action Selected -> " + roboAction);
 		if (roboAction == null) {
-			System.out.println("Action selected -> <Leer>");
+			LOG.debug("Action selected -> <Leer>");
 			return;
 		}
 
 		if (!force && countdown.getTime() <= 0) {
-			System.out.println("Countdown over -> no selection possible");
+			LOG.debug("Countdown over -> no selection possible");
 			return;
 		}
 
 		if (!force && roboAction.getEnergyCosts() > robot.getEnergyPoints()) {
-			System.out.println("Nicht genug Energie");
+			LOG.debug("Energy amount not suitable");
 			JOptionPane
 					.showMessageDialog(
 							this,
@@ -334,8 +339,6 @@ public class BattlePanel extends JPanel implements ActionListener,
 							"Nicht genug Energie", JOptionPane.WARNING_MESSAGE);
 			return;
 		}
-
-		System.out.println("Action selected -> " + roboAction.getName());
 
 		battleClient.sendRobotActionToServer(roboAction);
 
@@ -397,7 +400,7 @@ public class BattlePanel extends JPanel implements ActionListener,
 
 	private void countdownOver() {
 
-		System.out.println("Countdown over");
+		LOG.debug("Countdown over -> auto select action");
 		countdown.setVisible(false);
 
 		List<Attack> attacks = robot.getPossibleAttacks();
@@ -423,7 +426,7 @@ public class BattlePanel extends JPanel implements ActionListener,
 	@Override
 	public void gameOver(GameStateType result) {
 
-		System.out.println("Game Over -> " + result);
+		LOG.debug("Game Over -> Result: " + result);
 
 		Robot robotTmp = battleClient.getUpdatedRobot();
 
