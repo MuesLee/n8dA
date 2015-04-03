@@ -44,6 +44,9 @@ public class BattlePanel extends JPanel implements ActionListener,
 	private static final String IMAGE_PATH = "/de/kvwl/n8dA/robotwars/commons/images/";
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Zeit für die Auswahl einer Aktion. Wert ist in Sekunden.
+	 */
 	private static final int SELECTION_TIME = 50;
 
 	private RoboBattlePlayerClient battleClient;
