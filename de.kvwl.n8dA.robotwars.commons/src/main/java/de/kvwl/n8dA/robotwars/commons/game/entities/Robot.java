@@ -78,7 +78,7 @@ public class Robot extends Entity {
 	@Override
 	public String toString() {
 
-		return name + ": " + healthPoints + "HP";
+		return nickname;
 	}
 
 	public Animation getAnimation() {

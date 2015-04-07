@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
 import de.kvwl.n8dA.robotwars.server.input.DataLoader;
+import de.kvwl.n8dA.robotwars.server.visualization.audio.AudioController;
 import de.kvwl.n8dA.robotwars.server.visualization.scene.GameScene;
 import de.kvwl.n8dA.robotwars.server.visualization.scene.robot.Action;
 
@@ -20,6 +21,8 @@ public class CinematicVisualizerImpl extends SwingGameFrame implements
 	private static final String IMAGE_PATH = "/de/kvwl/n8dA/robotwars/commons/images/";
 
 	private static CinematicVisualizerImpl instance;
+	
+	private AudioController audioController;
 
 	private GameScene gameScene = new GameScene();
 
@@ -32,7 +35,8 @@ public class CinematicVisualizerImpl extends SwingGameFrame implements
 
 		// super(config.getDevice(), config.getDisplayMode(), "RoboBattle");
 		super("RoboBattle");
-
+		this.audioController = new AudioController();
+		audioController.startBackgroundMusic();
 		setup();
 	}
 
@@ -74,13 +78,14 @@ public class CinematicVisualizerImpl extends SwingGameFrame implements
 
 	@Override
 	public void roundIsAboutToStart() {
-
+		audioController.playSound("fight");
 		gameScene.roundIsAboutToStart();
 	}
 
 	@Override
 	public void prepareForNextRound() {
-
+		
+		audioController.playSound("prepareToFight");
 		gameScene.prepareForNextRound();
 	}
 

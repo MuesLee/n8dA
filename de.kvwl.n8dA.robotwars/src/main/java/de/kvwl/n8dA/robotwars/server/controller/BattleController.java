@@ -26,7 +26,6 @@ import de.kvwl.n8dA.robotwars.server.network.RoboBattleServer;
 import de.kvwl.n8dA.robotwars.server.visualization.AnimationPosition;
 import de.kvwl.n8dA.robotwars.server.visualization.CinematicVisualizer;
 import de.kvwl.n8dA.robotwars.server.visualization.CinematicVisualizerImpl;
-import de.kvwl.n8dA.robotwars.server.visualization.audio.AudioController;
 import de.kvwl.n8dA.robotwars.server.visualization.scene.robot.Action;
 import de.kvwl.n8dA.robotwars.server.visualization.scene.robot.ActionType;
 
@@ -54,7 +53,6 @@ public class BattleController {
 
 	private RoboBattleServer server;
 
-	private AudioController audioController;
 	private CinematicVisualizer cinematicVisualizer;
 	private DataLoader loader;
 
