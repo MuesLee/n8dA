@@ -33,26 +33,8 @@ public class ItemUtil
 			if (item.getId() == itemId)
 			{
 
-				return clone(item);
+				return item.clone();
 			}
-		}
-
-		return null;
-	}
-
-	private static RoboItem clone(RoboItem item)
-	{
-
-		Class<? extends RoboItem> clone = item.getClass();
-
-		try
-		{
-			RoboItem clonedItem = clone.newInstance();
-
-			return clonedItem;
-		}
-		catch (InstantiationException | IllegalAccessException e)
-		{
 		}
 
 		return null;

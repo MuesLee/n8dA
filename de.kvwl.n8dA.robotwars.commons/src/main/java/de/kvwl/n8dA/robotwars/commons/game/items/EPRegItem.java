@@ -27,4 +27,10 @@ public class EPRegItem extends RoboItem
 		robot.setEnergyPoints(Math.min(robot.getEnergyPoints() + epReg, robot.getMaxEnergyPoints()));
 	}
 
+	@Override
+	public EPRegItem clone()
+	{
+		return new EPRegItem();
+	}
+
 }

@@ -33,4 +33,11 @@ public class HPBoostItem extends RoboItem
 
 		// nichts zu tun
 	}
+
+	@Override
+	public HPBoostItem clone()
+	{
+
+		return new HPBoostItem();
+	}
 }
