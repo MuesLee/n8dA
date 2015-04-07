@@ -10,44 +10,53 @@ import java.io.Serializable;
  * </ul>
  *
  */
-public abstract class Entity implements Serializable {
+public abstract class Entity implements Serializable
+{
 
 	private static final long serialVersionUID = 1L;
 	protected long id;
 	protected String name;
 	protected int configurationPointCosts;
 
-	public long getId() {
+	public long getId()
+	{
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(long id)
+	{
 		this.id = id;
 	}
 
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(String name)
+	{
 		this.name = name;
 	}
 
-	public int getConfigurationPointCosts() {
+	public int getConfigurationPointCosts()
+	{
 		return configurationPointCosts;
 	}
 
-	public void setConfigurationPointCosts(int configurationPointCosts) {
+	public void setConfigurationPointCosts(int configurationPointCosts)
+	{
 		this.configurationPointCosts = configurationPointCosts;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return name;
 	}
 
 	@Override
-	public int hashCode() {
+	public int hashCode()
+	{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + configurationPointCosts;
@@ -57,7 +66,8 @@ public abstract class Entity implements Serializable {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj)
+	{
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -69,13 +79,14 @@ public abstract class Entity implements Serializable {
 			return false;
 		if (id != other.id)
 			return false;
-		if (name == null) {
+		if (name == null)
+		{
 			if (other.name != null)
 				return false;
-		} else if (!name.equals(other.name))
+		}
+		else if (!name.equals(other.name))
 			return false;
 		return true;
 	}
-	
-	
+
 }
