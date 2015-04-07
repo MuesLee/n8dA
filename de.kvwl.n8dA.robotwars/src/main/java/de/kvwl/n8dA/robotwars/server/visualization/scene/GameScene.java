@@ -8,11 +8,15 @@ import java.util.EventListener;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.StatusEffect;
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.TypeEffect;
 import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
 import de.kvwl.n8dA.robotwars.server.input.DataLoader;
+import de.kvwl.n8dA.robotwars.server.network.RoboBattleServer;
 import de.kvwl.n8dA.robotwars.server.visualization.CinematicVisualizer;
 import de.kvwl.n8dA.robotwars.server.visualization.Position;
 import de.kvwl.n8dA.robotwars.server.visualization.scene.background.BackgroundScene;
@@ -23,6 +27,8 @@ import de.kvwl.n8dA.robotwars.server.visualization.scene.status.StatusScene;
 //TODO Marvin: Game Scene optional
 public class GameScene implements Scene, CinematicVisualizer
 {
+
+	private static final Logger LOG = LoggerFactory.getLogger(RoboBattleServer.class);
 
 	private StatusScene status = new StatusScene();
 	private BackgroundScene background = new BackgroundScene();
@@ -136,6 +142,7 @@ public class GameScene implements Scene, CinematicVisualizer
 	@Override
 	public void playFightanimation(Action acLeft, Action acRight, boolean wait)
 	{
+		LOG.debug("Play Fight Animation Left: {} Right: {}", acLeft, acRight);
 
 		robots.playActionAnimation(acLeft, acRight, wait);
 	}
