@@ -9,6 +9,7 @@ import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.StatusEffect;
 import game.engine.stage.scene.object.SceneObject;
 
+//TODO Marvin: Effect Anzeige
 public class EffectLabel extends SceneObject
 {
 
@@ -26,5 +27,11 @@ public class EffectLabel extends SceneObject
 	{
 
 		effects.put(type, effect);
+	}
+
+	public void reset()
+	{
+		// TODO Auto-generated method stub
+
 	}
 }

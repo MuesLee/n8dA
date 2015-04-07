@@ -9,6 +9,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
+import de.kvwl.n8dA.robotwars.commons.game.statuseffects.StatusEffect;
+import de.kvwl.n8dA.robotwars.commons.game.statuseffects.TypeEffect;
 import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
 import de.kvwl.n8dA.robotwars.server.input.DataLoader;
 import de.kvwl.n8dA.robotwars.server.visualization.CinematicVisualizer;
@@ -115,6 +117,20 @@ public class GameScene implements Scene, CinematicVisualizer
 			status.setHealthPoints(position, robo.getHealthPoints());
 			status.setEnergyPoints(position, robo.getEnergyPoints());
 		}
+
+		List<StatusEffect> statusEffects = robo.getStatusEffects();
+		for (StatusEffect ef : statusEffects)
+		{
+
+			if (statusEffects instanceof TypeEffect)
+			{
+
+				TypeEffect te = (TypeEffect) ef;
+
+				status.setEffect(position, te.getActionType(), ef);
+			}
+		}
+
 	}
 
 	@Override
@@ -167,5 +183,7 @@ public class GameScene implements Scene, CinematicVisualizer
 		status.setHealthPoints(Position.RIGHT, 100);
 		status.setMaxHealthPoints(Position.RIGHT, 100);
 
+		status.resetEffects(Position.LEFT);
+		status.resetEffects(Position.RIGHT);
 	}
 }

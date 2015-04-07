@@ -3,6 +3,8 @@ package de.kvwl.n8dA.robotwars.server.visualization.scene.status;
 import java.awt.Graphics2D;
 import java.util.EventListener;
 
+import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
+import de.kvwl.n8dA.robotwars.commons.game.statuseffects.StatusEffect;
 import de.kvwl.n8dA.robotwars.server.visualization.Position;
 import game.engine.image.ImageUtils;
 import game.engine.image.InternalImage;
@@ -10,7 +12,6 @@ import game.engine.stage.scene.Scene;
 import game.engine.stage.scene.object.ImageSceneObject;
 import game.engine.stage.scene.object.Point;
 
-//TODO Marvin: Malus ics
 public class StatusScene implements Scene
 {
 
@@ -254,6 +255,36 @@ public class StatusScene implements Scene
 		}
 	}
 
+	public void setEffect(Position pos, RobotActionType type, StatusEffect effect)
+	{
+
+		if (pos == Position.LEFT)
+		{
+
+			effectLeft.setEffect(type, effect);
+		}
+		else
+		{
+
+			effectRight.setEffect(type, effect);
+		}
+	}
+
+	public void resetEffects(Position pos)
+	{
+
+		if (pos == Position.LEFT)
+		{
+
+			effectLeft.reset();
+		}
+		else
+		{
+
+			effectRight.reset();
+		}
+	}
+
 	public int getRound()
 	{
 
@@ -265,4 +296,5 @@ public class StatusScene implements Scene
 
 		lblRound.setRound(round);
 	}
+
 }
