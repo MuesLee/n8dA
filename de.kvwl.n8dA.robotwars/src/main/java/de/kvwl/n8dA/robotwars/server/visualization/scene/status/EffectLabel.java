@@ -33,7 +33,7 @@ public class EffectLabel extends SceneObject
 
 		double _space = _width * 0.1;
 
-		if (true)
+		if (effects.containsKey(RobotActionType.PAPER))
 		{
 
 			Image img = InternalImage.loadFromPath(IMAGE_PATH, "stat_Water.png");
@@ -43,7 +43,7 @@ public class EffectLabel extends SceneObject
 				img.getHeight(null), null);
 		}
 
-		if (true)
+		if (effects.containsKey(RobotActionType.ROCK))
 		{
 
 			Image img = InternalImage.loadFromPath(IMAGE_PATH, "stat_Fire.png");
@@ -53,7 +53,7 @@ public class EffectLabel extends SceneObject
 				img.getHeight(null), null);
 		}
 
-		if (true)
+		if (effects.containsKey(RobotActionType.SCISSOR))
 		{
 
 			Image img = InternalImage.loadFromPath(IMAGE_PATH, "stat_Plant.png");
