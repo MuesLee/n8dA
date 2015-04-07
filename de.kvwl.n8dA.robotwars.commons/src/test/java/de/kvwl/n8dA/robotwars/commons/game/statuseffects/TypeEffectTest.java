@@ -76,5 +76,21 @@ public class TypeEffectTest {
 		
 		assertEquals(-1, roundsLeft);
 	}
+	@Test
+	public void testResolveVUL_Rock_And_RES_Sci_newEffect() throws Exception {
+		
+		typeEffect.setActionType(RobotActionType.ROCK);
+		typeEffect.setModificationType(TypeEffectModificationType.VULNERABILITY);
+		
+		otherStatusEffect.setRoundsLeft(2);
+		((TypeEffect) otherStatusEffect).setActionType(RobotActionType.SCISSOR);
+		((TypeEffect) otherStatusEffect).setModificationType(TypeEffectModificationType.RESISTANCE);
+		
+		StatusEffect resolveInteractionWith = typeEffect.resolveInteractionWith(otherStatusEffect);
+		
+		TypeEffect expectedEffect = (TypeEffect) otherStatusEffect;
+		
+		assertEquals(expectedEffect , resolveInteractionWith);
+	}
 
 }
