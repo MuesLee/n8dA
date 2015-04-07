@@ -100,6 +100,8 @@ public class GameScene implements Scene, CinematicVisualizer
 	private void updateStats(boolean animated, boolean wait, RobotPosition pos, Robot robo)
 	{
 
+		LOG.debug("Update Statistics for Robot {} at Position {}", robo, pos);
+
 		Position position = Position.from(pos);
 
 		if (robo == null)
@@ -142,7 +144,7 @@ public class GameScene implements Scene, CinematicVisualizer
 	@Override
 	public void playFightanimation(Action acLeft, Action acRight, boolean wait)
 	{
-		LOG.debug("Play Fight Animation Left: {} Right: {}", acLeft, acRight);
+		LOG.debug("Play Fight Animation Left: {} Right: {} Wait: {}", acLeft, acRight, wait);
 
 		robots.playActionAnimation(acLeft, acRight, wait);
 	}
