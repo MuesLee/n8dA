@@ -26,7 +26,7 @@ public class StatusEffectUtil
 		scissorVul.setId(104L);
 		TypeEffect paperVul = new TypeEffect(RobotActionType.PAPER, TypeEffectModificationType.VULNERABILITY, 1);
 		paperVul.setId(105L);
-		
+
 		TypeEffect rockResHeavy = new TypeEffect(RobotActionType.ROCK, TypeEffectModificationType.RESISTANCE, 2);
 		rockRes.setId(106L);
 		TypeEffect scissorResHeavy = new TypeEffect(RobotActionType.SCISSOR, TypeEffectModificationType.RESISTANCE, 2);
@@ -35,11 +35,12 @@ public class StatusEffectUtil
 		paperRes.setId(108L);
 		TypeEffect rockVulHeavy = new TypeEffect(RobotActionType.ROCK, TypeEffectModificationType.VULNERABILITY, 2);
 		rockVul.setId(109L);
-		TypeEffect scissorVulHeavy = new TypeEffect(RobotActionType.SCISSOR, TypeEffectModificationType.VULNERABILITY, 2);
+		TypeEffect scissorVulHeavy = new TypeEffect(RobotActionType.SCISSOR, TypeEffectModificationType.VULNERABILITY,
+			2);
 		scissorVul.setId(110L);
 		TypeEffect paperVulHeavy = new TypeEffect(RobotActionType.PAPER, TypeEffectModificationType.VULNERABILITY, 2);
 		paperVul.setId(111L);
-		
+
 		statusEffects.add(scissorRes);
 		statusEffects.add(rockRes);
 		statusEffects.add(paperRes);
@@ -54,7 +55,6 @@ public class StatusEffectUtil
 		statusEffects.add(paperVulHeavy);
 		return statusEffects;
 	}
-	
 
 	public static StatusEffect cloneStatusEffectById(long statusEffectId)
 	{
@@ -67,28 +67,11 @@ public class StatusEffectUtil
 			if (item.getId() == statusEffectId)
 			{
 
-				return clone(item);
+				return (StatusEffect) item.clone();
 			}
 		}
 
 		return null;
 	}
 
-	private static StatusEffect clone(StatusEffect statusEffect)
-	{
-
-		Class<? extends StatusEffect> clone = statusEffect.getClass();
-
-		try
-		{
-			StatusEffect clonedStatusEffect = clone.newInstance();
-
-			return clonedStatusEffect;
-		}
-		catch (InstantiationException | IllegalAccessException e)
-		{
-		}
-
-		return null;
-	}
 }
