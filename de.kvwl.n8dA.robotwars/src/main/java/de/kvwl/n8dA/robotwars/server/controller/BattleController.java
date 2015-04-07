@@ -26,6 +26,7 @@ import de.kvwl.n8dA.robotwars.server.network.RoboBattleServer;
 import de.kvwl.n8dA.robotwars.server.visualization.AnimationPosition;
 import de.kvwl.n8dA.robotwars.server.visualization.CinematicVisualizer;
 import de.kvwl.n8dA.robotwars.server.visualization.CinematicVisualizerImpl;
+import de.kvwl.n8dA.robotwars.server.visualization.audio.AudioController;
 import de.kvwl.n8dA.robotwars.server.visualization.scene.robot.Action;
 import de.kvwl.n8dA.robotwars.server.visualization.scene.robot.ActionType;
 
@@ -53,6 +54,7 @@ public class BattleController {
 
 	private RoboBattleServer server;
 
+	private AudioController audioController;
 	private CinematicVisualizer cinematicVisualizer;
 	private DataLoader loader;
 
@@ -94,18 +96,19 @@ public class BattleController {
 
 		computeBattleOutcome(robotLeft, robotRight);
 		
-		getCinematicVisualizer().updateStats(robotLeft, RobotPosition.LEFT,
+		cinematicVisualizer.updateStats(robotLeft, RobotPosition.LEFT,
 				true, true);
-		getCinematicVisualizer().updateStats(robotRight, RobotPosition.RIGHT,
+		cinematicVisualizer.updateStats(robotRight, RobotPosition.RIGHT,
 				true, true);
 		
-		consumeStatusEffects(robotLeft);
-		consumeStatusEffects(robotRight);
 		
 		updateGameState(robotLeft, robotRight);
 	
-		if(currentGameState == GameStateType.BATTLE_IS_ACTIVE || currentGameState == GameStateType.WAITING_FOR_PLAYER_INPUT)
+		if(currentGameState == GameStateType.WAITING_FOR_PLAYER_INPUT)
 		{
+			consumeStatusEffects(robotLeft);
+			consumeStatusEffects(robotRight);
+			
 			regenerateEnergyOfRobots(robotLeft, robotRight,
 					ENERGY_REGENERATION_RATE);
 			performEachRoundsModificationOfRobot(robotLeft);
@@ -158,22 +161,24 @@ public class BattleController {
 
 		RobotAction actionRobotRight = robotRight.getCurrentAction();
 		RobotAction actionRobotLeft = robotLeft.getCurrentAction();
-
+		
+		// Links ATT
 		if (actionRobotLeft instanceof Attack) {
 			// Links ATT Rechts ATT
 			if (actionRobotRight instanceof Attack) {
 				LOG.info("Both robots are attacking");
 				computeOutcomeATTvsATT(robotLeft, robotRight);
 			}
-			// Links ATT rechts DEF
+			// Links ATT Rechts DEF
 			else {
 				LOG.info("Robot: " + robotLeft + " attacks Robot: "
 						+ robotRight);
 				computeOutcomeATTvsDEF(robotLeft, robotRight);
 			}
 		}
-		// Links DEF Rechts ATT
+		// Links DEF 
 		else {
+			//Links DEF Rechts ATT
 			if (actionRobotRight instanceof Attack) {
 				LOG.info("Robot: " + robotRight + " attacks Robot: "
 						+ robotLeft);
@@ -278,8 +283,8 @@ public class BattleController {
 						new AnimationPosition(defender.getCurrentAction()
 								.getAnimation(), RobotPosition.LEFT),
 						actionTypeDefender, loader);
-				getCinematicVisualizer().playFightanimation(acLeft, acRight, true); 
 			}
+			getCinematicVisualizer().playFightanimation(acLeft, acRight, true); 
 
 
 		} catch (IOException e) {
@@ -470,14 +475,18 @@ public class BattleController {
 		
 		for (StatusEffect statusEffect : statusEffects) {
 			
+			
 			if(statusEffect == null)
 				continue;
 			
+			LOG.debug("Now inspecting: " + statusEffect.getName());
 			if(statusEffect.getRoundsLeft() > 0)
 			{
+				LOG.debug("Decreasing duration by one for " + statusEffect.getName());
 				statusEffect.decreaseRoundsLeft(1);
 			}	
 			else {
+				LOG.debug("Deleting " + statusEffect.getName());
 				toDelete.add(statusEffect);
 			}
 		}
