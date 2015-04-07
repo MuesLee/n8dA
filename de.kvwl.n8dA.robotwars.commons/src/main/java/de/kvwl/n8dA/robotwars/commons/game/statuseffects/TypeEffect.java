@@ -58,7 +58,7 @@ public class TypeEffect extends StatusEffect
 	{
 
 		if (otherStatusEffect == null || !(otherStatusEffect instanceof TypeEffect))
-			return null;
+			return otherStatusEffect;
 
 		TypeEffect otherTypeEffect = (TypeEffect) otherStatusEffect;
 

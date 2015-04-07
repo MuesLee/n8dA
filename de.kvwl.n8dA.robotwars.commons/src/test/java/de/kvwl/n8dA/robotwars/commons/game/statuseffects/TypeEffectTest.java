@@ -42,6 +42,25 @@ public class TypeEffectTest {
 		
 		assertEquals(2, roundsLeft);
 	}
+	
+	@Test
+	public void testResolveRES_Rock_And_RES_Rock() throws Exception {
+		
+		typeEffect.setActionType(RobotActionType.ROCK);
+		typeEffect.setModificationType(TypeEffectModificationType.RESISTANCE);
+		typeEffect.setId(100L);
+		((TypeEffect) otherStatusEffect).setActionType(RobotActionType.ROCK);
+		((TypeEffect) otherStatusEffect).setModificationType(TypeEffectModificationType.RESISTANCE);
+		otherStatusEffect.setId(100L);
+		
+		StatusEffect resolveInteractionWith = typeEffect.resolveInteractionWith(otherStatusEffect);
+		
+		assertNull(resolveInteractionWith);
+		
+		int roundsLeft = typeEffect.getRoundsLeft();
+		
+		assertEquals(2, roundsLeft);
+	}
 	@Test
 	public void testResolveVUL_Sci_And_RES_Sci() throws Exception {
 		
@@ -58,6 +77,9 @@ public class TypeEffectTest {
 		
 		assertEquals(0, roundsLeft);
 	}
+	
+	
+	
 	@Test
 	public void testResolveVUL_Sci_And_RES_Sci_newEffect() throws Exception {
 		
