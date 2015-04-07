@@ -164,6 +164,7 @@ public class RobotScene implements Scene
 	private void calculateActionAnimation(int width, int height, long elapsedTime)
 	{
 
+		//		System.out.println(acLeft + " | " + acRight);
 		double elapsedAni = elapsedTime / (double) AC_ANIMATION_SPEED;
 
 		//Positionsbestimmung
@@ -175,6 +176,7 @@ public class RobotScene implements Scene
 			//Standard Verteidigungsposition
 			_x = (int) (leftRobo.getX() + leftRobo.getWidth() * (1 - DEF_OVERLAP));
 
+			//Links greift an
 			if (!acLeft.getType().isDefendingType())
 			{
 
@@ -283,7 +285,7 @@ public class RobotScene implements Scene
 				{
 
 					acRight.setVisible(true);
-					acRight.setDone(Math.min(acLeft.getDone() + elapsedAni, 1));
+					acRight.setDone(Math.min(acRight.getDone() + elapsedAni, 1));
 				}
 
 				if (isAtkFinished)
