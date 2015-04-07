@@ -35,9 +35,11 @@ import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
+import de.kvwl.n8dA.robotwars.commons.game.statuseffects.StatusEffect;
 import de.kvwl.n8dA.robotwars.commons.game.util.GameStateType;
 import de.kvwl.n8dA.robotwars.commons.game.util.ItemUtil;
 import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
+import de.kvwl.n8dA.robotwars.commons.game.util.StatusEffectUtil;
 import de.kvwl.n8dA.robotwars.commons.interfaces.RoboBattleHandler;
 import de.kvwl.n8dA.robotwars.commons.network.messages.ClientProperty;
 import de.kvwl.n8dA.robotwars.commons.utils.NetworkUtils;
@@ -122,7 +124,6 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 			{
 				LocateRegistry.createRegistry(port);
 			}
-
 		}
 
 		catch (RemoteException ex)
@@ -189,15 +190,18 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 	{
 
 		LOG.debug("Loaded Robots --------------------------------------> " + loader.loadRobots());
-		LOG.debug("Loaded Robots --------------------------------------> " + loader.loadRobotAttacks());
-		LOG.debug("Loaded Robots --------------------------------------> " + loader.loadRobotDefends());
-		LOG.debug("Loaded Robots --------------------------------------> " + ItemUtil.getAllRoboItems());
+		LOG.debug("Loaded Attacks --------------------------------------> " + loader.loadRobotAttacks());
+		LOG.debug("Loaded Defends --------------------------------------> " + loader.loadRobotDefends());
+		LOG.debug("Loaded Items --------------------------------------> " + ItemUtil.getAllRoboItems());
+		LOG.debug("Loaded StatusEffects --------------------------------------> " + StatusEffectUtil.getAllStatusEffects());
 
 		battleController.setAllAttacks(loader.loadRobotAttacks());
 		battleController.setAllDefends(loader.loadRobotDefends());
 
 		battleController.setAllRobots(loader.loadRobots());
+		
 		battleController.setAllItems(ItemUtil.getAllRoboItems());
+		battleController.setAllStatusEffects(StatusEffectUtil.getAllStatusEffects());
 
 	}
 
@@ -311,22 +315,20 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 
 		if (clientUUID.equals(clientUUIDLeft))
 		{
-			clientUUIDLeft = null;
 			battleController.setRobotLeft(null);
 			sendGameStateInfoToClients(GameStateType.VICTORY_RIGHT);
 			resetGame();
 		}
 		else if (clientUUID.equals(clientUUIDRight))
 		{
-			clientUUIDRight = null;
 			battleController.setRobotRight(null);
 			sendGameStateInfoToClients(GameStateType.VICTORY_LEFT);
-			resetGame();
 		}
 		else
 		{
 			LOG.info("Unknown Client wanted to disconnect:" + clientUUID);
 		}
+		resetGame();
 	}
 
 	private void resetGame()
@@ -336,8 +338,9 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 		clientUUIDLeft = null;
 		clientUUIDRight = null;
 		battleController = new BattleController(loader);
+		battleController.setServer(this);
 		loadGameData();
-		LOG.info("Resetted game!");
+		LOG.info("Reset game!");
 
 	}
 
@@ -504,5 +507,12 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 		}
 		throw new UnknownRobotException();
 	}
+
+	@Override
+	public List<StatusEffect> getAllPossibleStatusEffects()
+			throws RemoteException {
+		List<StatusEffect> allStatusEffects = battleController.getAllStatusEffects();
+		LOG.debug("All StatusEffects requested: " + allStatusEffects);
+		return allStatusEffects;	}
 
 }

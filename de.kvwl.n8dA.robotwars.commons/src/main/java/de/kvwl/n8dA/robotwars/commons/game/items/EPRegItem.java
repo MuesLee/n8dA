@@ -2,24 +2,35 @@ package de.kvwl.n8dA.robotwars.commons.game.items;
 
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 
-public class EPRegItem extends RoboItem {
+public class EPRegItem extends RoboItem
+{
 
 	private static final long serialVersionUID = 1L;
-	private int epReg = 10;
+	private int epReg = 1;
 
-	public EPRegItem() {
+	public EPRegItem()
+	{
+		setId(53);
 		setName("EP Reg: " + epReg);
+		setConfigurationPointCosts(125);
 	}
 
 	@Override
-	public void performInitialRobotModification(Robot robot) {
+	public void performInitialRobotModification(Robot robot)
+	{
 	}
 
 	@Override
-	public void performEachRoundsModification(Robot robot) {
+	public void performEachRoundsModification(Robot robot)
+	{
 
-		robot.setEnergyPoints(Math.min(robot.getEnergyPoints() + epReg,
-				robot.getMaxEnergyPoints()));
+		robot.setEnergyPoints(Math.min(robot.getEnergyPoints() + epReg, robot.getMaxEnergyPoints()));
+	}
+
+	@Override
+	public EPRegItem clone()
+	{
+		return new EPRegItem();
 	}
 
 }

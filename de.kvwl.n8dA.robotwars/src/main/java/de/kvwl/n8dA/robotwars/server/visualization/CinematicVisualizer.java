@@ -48,4 +48,9 @@ public interface CinematicVisualizer
 	 * Für beide Robos stehen Aktionen bereit. Das Runde beginnt.
 	 */
 	public void roundIsAboutToStart();
+
+	/**
+	 * Auf startzustand zurücksetzen
+	 */
+	public void reset();
 }

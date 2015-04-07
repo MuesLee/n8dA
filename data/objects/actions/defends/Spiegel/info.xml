@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <defense>
-	<defensefactor>0.3</defensefactor>
+	<defensefactor>0.75</defensefactor>
 	<type>ROCK</type>
+<powertype>HEAVY</powertype>
 	<animationid>Spiegel</animationid>
-	<energycosts>3</energycosts>
-	<configcosts>100</configcosts>
+	<energycosts>6</energycosts>
+	<configcosts>50</configcosts>
 	<name>Spiegel</name>
 	<id>21</id>
 	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->
-        <id>2</id>
+        <id>108</id>
     </statuseffects>
 </defense>

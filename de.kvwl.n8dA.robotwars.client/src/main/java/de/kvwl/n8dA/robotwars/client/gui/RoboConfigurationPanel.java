@@ -41,6 +41,9 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import bno.swing2.widget.BTextField;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
@@ -49,6 +52,9 @@ import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
 import de.kvwl.n8dA.robotwars.commons.gui.Animation;
 
 public class RoboConfigurationPanel extends JPanel implements ActionListener {
+
+	private static final Logger LOG = LoggerFactory
+			.getLogger(RoboConfigurationPanel.class);
 
 	private static final String IMAGE_PATH = "/de/kvwl/n8dA/robotwars/commons/images/";
 	private static final long serialVersionUID = 1L;
@@ -89,7 +95,7 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener {
 
 		this();
 
-		System.out.println("------------------> anzrobos " + robots.length);
+		LOG.debug("# of robots available for configuration: {}", robots.length);
 
 		this.attacks = attacks;
 		this.defends = defends;
@@ -247,26 +253,25 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener {
 	}
 
 	private void selectDefends() {
-		System.out.println("Def selection");
+		LOG.debug("Def selection");
 
 		modifyRobot();
 	}
 
 	private void selectAttacks() {
-		System.out.println("Atk selection");
+		LOG.debug("Atk selection");
 
 		modifyRobot();
 	}
 
 	private void selectItems() {
-		System.out.println("Atk selection");
+		LOG.debug("Atk selection");
 
 		modifyRobot();
 	}
 
 	private void modifyRobot() {
-
-		System.out.println("modify robot");
+		LOG.debug("modify robot");
 
 		if (robots == null || robots.length <= 0) {
 			throw new RuntimeException(
@@ -289,8 +294,7 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener {
 	}
 
 	private void actualizeModifications(Robot robo) {
-
-		System.out.println("aktualisiere robot config");
+		LOG.debug("actualize robot config");
 
 		List<RoboItem> items = robo.getEquippedItems();
 		List<Attack> attacks = robo.getPossibleAttacks();
@@ -620,19 +624,19 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener {
 
 		if (source == prevRobo) {
 
-			System.out.println("prev Robo");
+			LOG.debug("prev Robo");
 			previousRobot();
 		} else if (source == nextRobo) {
 
-			System.out.println("next Robo");
+			LOG.debug("next Robo");
 			nextRobot();
 		} else if (source == buyItems) {
 
-			System.out.println("buy items");
+			LOG.debug("buy items");
 			selectItems();
 		} else if (source == btnStart) {
 
-			System.out.println("start");
+			LOG.debug("start");
 			checkConfigurationAndStart();
 		}
 	}

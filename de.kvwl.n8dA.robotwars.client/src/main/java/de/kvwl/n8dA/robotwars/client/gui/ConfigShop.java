@@ -28,12 +28,17 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
 
 public class ConfigShop extends JDialog {
+
+	private static final Logger LOG = LoggerFactory.getLogger(ConfigShop.class);
 
 	private static final long serialVersionUID = 1L;
 	private static final String IMAGE_PATH = "/de/kvwl/n8dA/robotwars/commons/images/";
@@ -481,8 +486,8 @@ public class ConfigShop extends JDialog {
 		lblCredits.setText(String.format("Credits: %d$",
 				(maxCredits - usedCredits)));
 
-		System.out.println("update credits max" + maxCredits + " used"
-				+ usedCredits);
+		LOG.debug("Update credits -> Max available: {}, Used: {}", maxCredits,
+				usedCredits);
 	}
 
 	public Robot getConfiguration() {

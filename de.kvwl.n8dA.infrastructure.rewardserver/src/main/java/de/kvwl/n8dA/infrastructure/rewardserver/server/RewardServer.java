@@ -45,7 +45,11 @@ public class RewardServer extends UnicastRemoteObject implements
 	private static String REWARD_SERVER_REGISTRY_PORT;
 
 	protected RewardServer() throws RemoteException {
-
+	
+		if(System.getSecurityManager() == null)
+		{
+			System.setSecurityManager(new SecurityManager());
+		}
 	}
 
 	public static void main(String[] args) {

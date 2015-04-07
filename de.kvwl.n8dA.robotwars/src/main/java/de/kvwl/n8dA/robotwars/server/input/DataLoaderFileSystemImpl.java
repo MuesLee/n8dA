@@ -30,6 +30,7 @@ import org.jdom2.output.XMLOutputter;
 
 import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
+import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionPowerType;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
@@ -183,6 +184,7 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 			throws JDOMException, IOException {
 
 		RobotActionType type;
+		RobotActionPowerType powerType;
 		int damage;
 		int configurationPointCosts;
 		int energyCosts;
@@ -196,6 +198,7 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 		Element atk = doc.getRootElement();
 
 		type = RobotActionType.valueOf(atk.getChild("type").getValue());
+		powerType = RobotActionPowerType.valueOf(atk.getChild("powertype").getValue());
 		damage = Integer.valueOf(atk.getChild("damage").getValue());
 		configurationPointCosts = Integer.valueOf(atk.getChild("configcosts")
 				.getValue());
@@ -213,6 +216,7 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 		attack.setAnimation(animation);
 		attack.setId(id);
 		attack.setStatusEffects(statusEffects);
+		attack.setRobotActionPowerType(powerType);
 
 		return attack;
 	}
@@ -221,6 +225,7 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 			throws JDOMException, IOException {
 
 		RobotActionType type;
+		RobotActionPowerType powerType;
 		double bonusOnDefenceFactor;
 		int configurationPointCosts;
 		int energyCosts;
@@ -234,6 +239,7 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 		Element def = doc.getRootElement();
 
 		type = RobotActionType.valueOf(def.getChild("type").getValue());
+		powerType = RobotActionPowerType.valueOf(def.getChild("powertype").getValue());
 		bonusOnDefenceFactor = Double.valueOf(def.getChild("defensefactor")
 				.getValue());
 		configurationPointCosts = Integer.valueOf(def.getChild("configcosts")
@@ -252,6 +258,7 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 		defense.setAnimation(animation);
 		defense.setId(id);
 		defense.setStatusEffects(statusEffects);
+		defense.setRobotActionPowerType(powerType);
 
 		return defense;
 	}

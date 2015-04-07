@@ -9,6 +9,9 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.kvwl.n8dA.robotwars.client.RoboBattlePlayerClient;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
@@ -16,6 +19,9 @@ import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
 
 public class ClientFrame extends JFrame implements ConfigurationListener {
+
+	private static final Logger LOG = LoggerFactory
+			.getLogger(ClientFrame.class);
 
 	private static final long serialVersionUID = 1L;
 	private static final String IMAGE_PATH = "/de/kvwl/n8dA/robotwars/commons/images/";
@@ -35,7 +41,8 @@ public class ClientFrame extends JFrame implements ConfigurationListener {
 		this.maxCreditPoints = maxCreditPoints;
 		this.playerName = playerName;
 
-		System.out.println("maxCredits " + maxCreditPoints);
+		LOG.debug("Credit points available for configuration: {}",
+				maxCreditPoints);
 
 		createGui();
 		openConfiguration();
@@ -67,7 +74,8 @@ public class ClientFrame extends JFrame implements ConfigurationListener {
 					.toArray(new RoboItem[0]);
 
 			long maxCredit = maxCreditPoints;
-			System.out.println("config creds -> " + maxCredit);
+
+			LOG.info("Open configuration view with {} credit points", maxCredit);
 
 			roboConfigurationPanel = new RoboConfigurationPanel(robots,
 					attacks, defends, items, maxCredit);
@@ -96,7 +104,7 @@ public class ClientFrame extends JFrame implements ConfigurationListener {
 	@Override
 	public void configurationCompleted(Robot configuredRobot) {
 
-		System.out.println("Config fertig -> battle view");
+		LOG.info("Configuration finished -> Open battle view");
 
 		openBattle(configuredRobot, playerName);
 	}
@@ -107,6 +115,7 @@ public class ClientFrame extends JFrame implements ConfigurationListener {
 		setTitle("RoboBattle - Client");
 		setLayout(new BorderLayout());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
 
 		container = new JPanel();
 		container.setLayout(new BorderLayout());

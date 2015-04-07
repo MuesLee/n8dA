@@ -154,6 +154,14 @@ public class Action extends SceneObject
 		return ac;
 	}
 
+	@Override
+	public String toString()
+	{
+
+		return String.format("Type: %s Done: %.2f Visible: %b DamagePhase: %s Inverted: %b", type, done, visible,
+			damageDone, inverted);
+	}
+
 	public static enum DamagePhase {
 
 		Not, Now, End;

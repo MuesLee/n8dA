@@ -139,12 +139,12 @@ public class RoboBattlePlayerClient extends RoboBattleClient
 		try
 		{
 			LOG.info("Message from Server received");
-			
+
 			int intProperty = message.getIntProperty(GameStateType.getNotificationName());
 			GameStateType gameStateType = GameStateType.values()[intProperty];
 
 			LOG.info("Client: " + uuid + " received: " + gameStateType.name());
-			
+
 			handleReceivedGamestateType(gameStateType);
 
 		}
@@ -159,24 +159,27 @@ public class RoboBattlePlayerClient extends RoboBattleClient
 
 	}
 
-	private void handleReceivedGamestateType(GameStateType gameStateType) {
-		switch (gameStateType) {
-		case BATTLE_IS_ACTIVE:
+	private void handleReceivedGamestateType(GameStateType gameStateType)
+	{
+		switch (gameStateType)
+		{
+			case BATTLE_IS_ACTIVE:
 			break;
-		case GAME_HASNT_BEGUN:
+			case GAME_HASNT_BEGUN:
 			break;
-		case GAME_HAS_BEGUN:
-			clientListener.updateRobot();
+			case GAME_HAS_BEGUN:
+				clientListener.updateRobot();
 			break;
-		case DRAW:
-		case VICTORY_LEFT:
-		case VICTORY_RIGHT:
-			clientListener.gameOver(gameStateType);
+			case DRAW:
+			case VICTORY_LEFT:
+			case VICTORY_RIGHT:
+				//TODO: Timo: entweder, du übergists mir hier dann auch noch einmal den aktuellen stand des robots (abfrage gibt momentan nur null pointer) oder es bleibt wie es ist.
+				clientListener.gameOver(gameStateType);
 			break;
-		case WAITING_FOR_PLAYER_INPUT:
-			clientListener.startActionSelection();
-			break;			
-		default:
+			case WAITING_FOR_PLAYER_INPUT:
+				clientListener.startActionSelection();
+			break;
+			default:
 			break;
 		}
 	}

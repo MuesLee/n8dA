@@ -11,6 +11,7 @@ import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
+import de.kvwl.n8dA.robotwars.commons.game.statuseffects.StatusEffect;
 import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
 
 public interface RoboBattleHandler extends Remote {
@@ -24,6 +25,7 @@ public interface RoboBattleHandler extends Remote {
 	public List<RoboItem> getAllPossibleItems() throws RemoteException;
 	public List<Attack> getAllPossibleAttacks() throws RemoteException;
 	public List<Defense> getAllPossibleDefends() throws RemoteException;
+	public List<StatusEffect> getAllPossibleStatusEffects() throws RemoteException;
 	
 	
 	

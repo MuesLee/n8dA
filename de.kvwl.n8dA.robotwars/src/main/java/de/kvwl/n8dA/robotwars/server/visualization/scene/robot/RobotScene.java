@@ -34,6 +34,13 @@ public class RobotScene implements Scene
 	private Action acRight;
 	private Object acWait = new Object();
 
+	public RobotScene()
+	{
+
+		leftRobo.setInverted(true);
+		rightRobo.setInverted(false);
+	}
+
 	@Override
 	public void paintScene(Graphics2D g2d, int width, int height, long elapsedTime)
 	{
@@ -94,49 +101,18 @@ public class RobotScene implements Scene
 	private void paintActions(Graphics2D g2d, int width, int height, long elapsedTime)
 	{
 
-		if (acLeft != null && acRight != null)
+		//links hat eine Aktion
+		if (acLeft != null && acLeft.isVisible())
 		{
 
-			if (acLeft.getType().isDefendingType() && acLeft.isVisible())
-			{
-
-				acLeft.paintOnScene(g2d, elapsedTime);
-				if (acRight.isVisible())
-				{
-
-					acRight.paintOnScene(g2d, elapsedTime);
-				}
-			}
-			else
-			{
-
-				if (acRight.isVisible())
-				{
-
-					acRight.paintOnScene(g2d, elapsedTime);
-				}
-
-				if (acLeft.isVisible())
-				{
-
-					acLeft.paintOnScene(g2d, elapsedTime);
-				}
-			}
+			acLeft.paintOnScene(g2d, elapsedTime);
 		}
-		else
+
+		//rechts hat eine Aktion
+		if (acRight != null && acRight.isVisible())
 		{
 
-			if (acLeft != null && acLeft.isVisible())
-			{
-
-				acLeft.paintOnScene(g2d, elapsedTime);
-			}
-
-			if (acRight != null && acRight.isVisible())
-			{
-
-				acRight.paintOnScene(g2d, elapsedTime);
-			}
+			acRight.paintOnScene(g2d, elapsedTime);
 		}
 	}
 
@@ -188,6 +164,7 @@ public class RobotScene implements Scene
 	private void calculateActionAnimation(int width, int height, long elapsedTime)
 	{
 
+		//		System.out.println(acLeft + " | " + acRight);
 		double elapsedAni = elapsedTime / (double) AC_ANIMATION_SPEED;
 
 		//Positionsbestimmung
@@ -199,6 +176,7 @@ public class RobotScene implements Scene
 			//Standard Verteidigungsposition
 			_x = (int) (leftRobo.getX() + leftRobo.getWidth() * (1 - DEF_OVERLAP));
 
+			//Links greift an
 			if (!acLeft.getType().isDefendingType())
 			{
 
@@ -307,7 +285,7 @@ public class RobotScene implements Scene
 				{
 
 					acRight.setVisible(true);
-					acRight.setDone(Math.min(acLeft.getDone() + elapsedAni, 1));
+					acRight.setDone(Math.min(acRight.getDone() + elapsedAni, 1));
 				}
 
 				if (isAtkFinished)
@@ -435,18 +413,18 @@ public class RobotScene implements Scene
 		}
 	}
 
-	public void setRobo(AnimatedSceneObject leftRobo, Position pos)
+	public void setRobo(AnimatedSceneObject robo, Position pos)
 	{
 
 		if (pos == Position.LEFT)
 		{
 
-			this.leftRobo.setRobo(leftRobo);
+			this.leftRobo.setRobo(robo);
 		}
 		else
 		{
 
-			this.rightRobo.setRobo(leftRobo);
+			this.rightRobo.setRobo(robo);
 		}
 	}
 
