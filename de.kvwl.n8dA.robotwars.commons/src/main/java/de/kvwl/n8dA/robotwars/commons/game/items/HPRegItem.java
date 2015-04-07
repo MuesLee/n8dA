@@ -7,13 +7,13 @@ public class HPRegItem extends RoboItem
 
 	private static final long serialVersionUID = 1L;
 
-	private int hpReg = 2;
+	private int hpReg = 1;
 
 	public HPRegItem()
 	{
 		setName("HP Reg: " + hpReg);
 		setId(51);
-		setConfigurationPointCosts(50);
+		setConfigurationPointCosts(100);
 	}
 
 	@Override

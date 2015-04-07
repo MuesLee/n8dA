@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <attack>
-	<damage>20</damage>
+	<damage>25</damage>
 	<type>ROCK</type>
 <powertype>HEAVY</powertype>
 	<animationid>Spritze</animationid>

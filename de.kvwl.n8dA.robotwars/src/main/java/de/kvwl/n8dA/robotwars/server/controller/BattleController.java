@@ -43,7 +43,6 @@ public class BattleController {
 	private Robot robotRight;
 
 	
-	//TODO Timo: StatusEffects in RoboAction via PowerType füllen
 	private List<Attack> allAttacks;
 	private List<Defense> allDefends;
 	private List<Robot> allRobots;
@@ -155,7 +154,6 @@ public class BattleController {
 	 * @param robotLeft
 	 * @param robotRight
 	 */
-	// TODO Timo: Statuseffekte einbauen
 	void computeBattleOutcome(Robot robotLeft, Robot robotRight) {
 
 		RobotAction actionRobotRight = robotRight.getCurrentAction();
@@ -471,6 +469,9 @@ public class BattleController {
 		LOG.debug("Current statusEffects on Robot: " +  robot.getStatusEffects());
 		
 		for (StatusEffect statusEffect : statusEffects) {
+			
+			if(statusEffect == null)
+				continue;
 			
 			if(statusEffect.getRoundsLeft() > 0)
 			{

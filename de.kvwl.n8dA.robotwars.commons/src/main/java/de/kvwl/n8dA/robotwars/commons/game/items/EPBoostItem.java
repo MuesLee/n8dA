@@ -13,7 +13,7 @@ public class EPBoostItem extends RoboItem
 	{
 		setName("EP Boost: " + epBoost);
 		setId(52);
-		setConfigurationPointCosts(30);
+		setConfigurationPointCosts(25);
 	}
 
 	@Override

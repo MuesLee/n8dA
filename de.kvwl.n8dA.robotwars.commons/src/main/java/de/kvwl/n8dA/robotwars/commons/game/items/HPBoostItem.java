@@ -13,7 +13,7 @@ public class HPBoostItem extends RoboItem
 	{
 		setId(50);
 		setName("HP Boost: " + hpBoost);
-		setConfigurationPointCosts(10);
+		setConfigurationPointCosts(75);
 	}
 
 	@Override

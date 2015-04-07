@@ -12,7 +12,7 @@ public class EPRegItem extends RoboItem
 	{
 		setId(53);
 		setName("EP Reg: " + epReg);
-		setConfigurationPointCosts(75);
+		setConfigurationPointCosts(125);
 	}
 
 	@Override
