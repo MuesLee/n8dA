@@ -1,6 +1,6 @@
 package de.kvwl.n8dA.robotwars.server.controller;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -55,6 +55,15 @@ public class BattleControllerTest {
 		battleController.setRobotLeft(robotLeft);
 		battleController.setRobotRight(robotRight);
 
+	}
+	
+	
+	@Test
+	public void testEmptyStatusEffectConsumption() throws Exception {
+		
+		battleController.consumeStatusEffects(robotLeft);
+		
+		assertTrue(robotLeft.getStatusEffects().isEmpty());
 	}
 
 	@Test

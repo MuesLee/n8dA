@@ -9,6 +9,7 @@
 	<name>Plasma</name>
 	<id>15</id>
 	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->
-        <id>2</id>
+        <id>101</id>
+	<id>109</id>
     </statuseffects>
 </attack>

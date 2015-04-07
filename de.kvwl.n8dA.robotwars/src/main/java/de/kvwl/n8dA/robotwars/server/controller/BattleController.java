@@ -31,7 +31,7 @@ import de.kvwl.n8dA.robotwars.server.visualization.scene.robot.ActionType;
 
 public class BattleController {
 
-	static final double NEUTRAL_DEFENSE_BLOCK_FACTOR = 0.5;
+	static final double NEUTRAL_DEFENSE_BLOCK_FACTOR = 1.0;
 	static final double STRONG_DEFENSE_REFLECTION_FACTOR = 0.5;
 
 	private static final Logger LOG = LoggerFactory
@@ -48,6 +48,7 @@ public class BattleController {
 	private List<Defense> allDefends;
 	private List<Robot> allRobots;
 	private List<RoboItem> allItems;
+	private List<StatusEffect> allStatusEffects;
 
 	private GameStateType currentGameState = GameStateType.GAME_HASNT_BEGUN;
 
@@ -58,14 +59,7 @@ public class BattleController {
 
 	public BattleController(DataLoader loader) {
 
-		// TODO Timo: Anzeigen und ggf. schließen. Wird das Fenster nicht
-		// korrekt
-		// geschlossen, können die Grafikeinstellungen des Systems nicht
-		// zurückgesetzt werden. Wird das Fenster nicht explizit geschlossen,
-		// kann es sein, dass extrem viele ressourcen verschwendet werden.
-		// Jenachdem wann der GC das Fenster entsorgt und somit die
-		// Zeichenroutinen beendet. Am besten das Fenster immer offen lassen und
-		// nur die Werte anpassen.
+		// XXX Timo: Fenster schließen, wenn Spiel beendet wird
 
 		this.loader = loader;
 
@@ -96,19 +90,31 @@ public class BattleController {
 		LOG.info("Battleround started");
 		setCurrentGameState(GameStateType.BATTLE_IS_ACTIVE);
 
-		regenerateEnergyOfRobots(robotLeft, robotRight,
-				ENERGY_REGENERATION_RATE);
-		performEachRoundsModificationOfRobot(robotLeft);
-		performEachRoundsModificationOfRobot(robotRight);
 
 		getCinematicVisualizer().roundIsAboutToStart();
 
 		computeBattleOutcome(robotLeft, robotRight);
+		
 		getCinematicVisualizer().updateStats(robotLeft, RobotPosition.LEFT,
 				true, true);
 		getCinematicVisualizer().updateStats(robotRight, RobotPosition.RIGHT,
 				true, true);
+		
+		consumeStatusEffects(robotLeft);
+		consumeStatusEffects(robotRight);
+		
 		updateGameState(robotLeft, robotRight);
+	
+		if(currentGameState == GameStateType.BATTLE_IS_ACTIVE || currentGameState == GameStateType.WAITING_FOR_PLAYER_INPUT)
+		{
+			regenerateEnergyOfRobots(robotLeft, robotRight,
+					ENERGY_REGENERATION_RATE);
+			performEachRoundsModificationOfRobot(robotLeft);
+			performEachRoundsModificationOfRobot(robotRight);
+			
+			cinematicVisualizer.updateStats(robotLeft, RobotPosition.LEFT , true, true);
+			cinematicVisualizer.updateStats(robotRight, RobotPosition.RIGHT , true, true);
+		}
 	}
 
 	GameStateType getCurrentGameState(Robot robotLeft, Robot robotRight) {
@@ -384,16 +390,14 @@ public class BattleController {
 	 * @param robotAction
 	 */
 	void inflictStatusEffects(Robot robot, RobotAction robotAction) {
-		// TODO Timo: InflictSE Weiter implementieren
-
-		List<StatusEffect> actionsStatusEffects = robotAction
+		List<StatusEffect> statusEffectsToBeInflicted = robotAction
 				.getStatusEffects();
-
-		if (actionsStatusEffects == null || actionsStatusEffects.isEmpty())
+		
+		if (statusEffectsToBeInflicted == null || statusEffectsToBeInflicted.isEmpty())
 			return;
 
-		for (StatusEffect newStatusEffect : actionsStatusEffects) {
-			resolveStatusEffect(robot, newStatusEffect);
+		for (StatusEffect statusEffect : statusEffectsToBeInflicted) {
+			resolveStatusEffect(robot, statusEffect);
 		}
 	}
 
@@ -425,6 +429,32 @@ public class BattleController {
 			}
 			robotsCurrentStatusEffects.addAll(effectsToAdd);
 		}
+	}
+
+	/**
+	 * Lowers the duration of the active effects by 1 and deletes the ones with less than 0 duration left
+	 * @param robot
+	 */
+	 void consumeStatusEffects(Robot robot) {
+		List<StatusEffect> statusEffects = robot.getStatusEffects();
+		List<StatusEffect> toDelete = new ArrayList<StatusEffect>();
+		
+		LOG.debug("Consuming statusEffects for Robot: " +  robot.getNickname());
+		LOG.debug("Current statusEffects on Robot: " +  robot.getStatusEffects());
+		
+		for (StatusEffect statusEffect : statusEffects) {
+			
+			if(statusEffect.getRoundsLeft() > 0)
+			{
+				statusEffect.decreaseRoundsLeft(1);
+			}	
+			else {
+				toDelete.add(statusEffect);
+			}
+		}
+		statusEffects.removeAll(toDelete);
+		LOG.debug("Consuming completed for Robot: " +  robot.getNickname());
+		LOG.debug("Current statusEffects on Robot: " +  robot.getStatusEffects());
 	}
 
 	/**
@@ -470,12 +500,17 @@ public class BattleController {
 
 		robotLeft.setEnergyPoints(Math.min(energyRobotLeft,
 				robotLeft.getMaxEnergyPoints()));
+		
 		robotRight.setEnergyPoints(Math.min(energyRobotRight,
 				robotRight.getMaxEnergyPoints()));
 
 		LOG.info("Robots regenerated energy: " + energyReg);
 	}
 
+	/**
+	 * Substracts the energycosts of the currentAction from the robots energypoints
+	 * @param robot
+	 */
 	private void consumeEnergyForRobotAction(Robot robot) {
 		RobotAction actionRobot = robot.getCurrentAction();
 
@@ -636,5 +671,13 @@ public class BattleController {
 
 	public void setCinematicVisualizer(CinematicVisualizer cinematicVisualizer) {
 		this.cinematicVisualizer = cinematicVisualizer;
+	}
+
+	public List<StatusEffect> getAllStatusEffects() {
+		return allStatusEffects;
+	}
+
+	public void setAllStatusEffects(List<StatusEffect> allStatusEffects) {
+		this.allStatusEffects = allStatusEffects;
 	}
 }

@@ -9,6 +9,7 @@
 	<name>Rakete</name>
 	<id>16</id>
 	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->
-        <id>2</id>
+         <id>102</id>
+	<id>104</id>
     </statuseffects>
 </attack>

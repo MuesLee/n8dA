@@ -9,6 +9,8 @@
 	<name>Molotovcocktail</name>
 	<id>14</id>
 	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->
-        <id>2</id>
+        
+         <id>102</id>
+	<id>110</id>
     </statuseffects>
 </attack>

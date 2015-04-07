@@ -56,7 +56,10 @@ public class CreditAccessClient implements CreditAccess {
 		 * ignored.
 		 */
 
-		// System.setSecurityManager(new SecurityManager());
+//		if(System.getSecurityManager() == null)
+//		{
+//			System.setSecurityManager(new SecurityManager());
+//		}
 		BasicConfigurator.configure();
 		this.ipAdressServer = ipAdressServer;
 		this.uuid = UUID.randomUUID();
@@ -84,7 +87,7 @@ public class CreditAccessClient implements CreditAccess {
 		return server.getConfigurationPointsForPerson(name);
 	}
 
-	// XXX: Timo: Nur zu Testzwecken. Später entfernen.
+	// XXX Timo: Nur zu Testzwecken. Später entfernen.
 	public static void main(String[] args) throws Exception {
 
 		CreditAccessClient client = new CreditAccessClient("localhost");

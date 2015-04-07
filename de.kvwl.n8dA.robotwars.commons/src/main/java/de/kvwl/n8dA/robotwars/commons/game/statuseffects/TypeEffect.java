@@ -16,6 +16,7 @@ public class TypeEffect extends StatusEffect {
 		super(startDuration);
 		this.actionType = actionType;
 		this.modificationType = modificationType;
+		this.setName("Elementareffekt: ");
 	}
 
 	public TypeEffect() {
@@ -151,6 +152,10 @@ public class TypeEffect extends StatusEffect {
 		return true;
 	}
 	
+	@Override
+	public String toString() {
+		return name + " " + getModificationType() + " " +getActionType() + " " +getRoundsLeft();
+	}
 	
 
 }

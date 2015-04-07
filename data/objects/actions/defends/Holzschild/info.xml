@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <defense>
-	<defensefactor>0.3</defensefactor>
+	<defensefactor>0.75</defensefactor>
 	<type>PAPER</type>
-<powertype>NORMAL</powertype>
+<powertype>HEAVY</powertype>
 	<animationid>Holzschild</animationid>
-	<energycosts>3</energycosts>
-	<configcosts>100</configcosts>
+	<energycosts>6</energycosts>
+	<configcosts>50</configcosts>
 	<name>Holzschild</name>
 	<id>18</id>
 	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->
-        <id>2</id>
+        <id>107</id>
     </statuseffects>
 </defense>

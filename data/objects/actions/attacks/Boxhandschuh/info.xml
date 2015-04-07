@@ -8,7 +8,8 @@
 	<configcosts>0</configcosts>
 	<name>Boxhandschuh</name>
 	<id>11</id>
-	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->
-        <id>2</id>
+	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->	
+	<id>100</id>
+<id>104</id>
     </statuseffects>
 </attack>
