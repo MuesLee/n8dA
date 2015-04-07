@@ -1,5 +1,6 @@
 package de.kvwl.n8dA.robotwars.server.visualization.scene.status;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,9 +15,16 @@ public class EffectLabel extends SceneObject
 	private Map<RobotActionType, StatusEffect> effects = new HashMap<RobotActionType, StatusEffect>();
 
 	@Override
-	protected void paint(Graphics2D arg0, long arg1)
+	protected void paint(Graphics2D g2d, long time)
 	{
 
+		g2d.setColor(Color.MAGENTA);
+		g2d.fillRect(0, 0, getWidth(), getHeight());
 	}
 
+	public void setEffect(RobotActionType type, StatusEffect effect)
+	{
+
+		effects.put(type, effect);
+	}
 }
