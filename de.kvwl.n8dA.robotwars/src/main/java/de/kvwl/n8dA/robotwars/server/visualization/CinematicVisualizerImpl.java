@@ -36,7 +36,7 @@ public class CinematicVisualizerImpl extends SwingGameFrame implements
 		// super(config.getDevice(), config.getDisplayMode(), "RoboBattle");
 		super("RoboBattle");
 		this.audioController = new AudioController();
-		audioController.startBackgroundMusic();
+	//	audioController.startBackgroundMusic();
 		setup();
 	}
 
