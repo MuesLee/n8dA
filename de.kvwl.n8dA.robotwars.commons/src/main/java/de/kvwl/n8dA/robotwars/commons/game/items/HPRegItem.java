@@ -30,4 +30,11 @@ public class HPRegItem extends RoboItem
 		robot.setHealthPoints(Math.min(robot.getHealthPoints() + hpReg, robot.getMaxHealthPoints()));
 	}
 
+	@Override
+	public HPRegItem clone()
+	{
+
+		return new HPRegItem();
+	}
+
 }

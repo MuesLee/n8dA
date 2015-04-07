@@ -31,4 +31,10 @@ public class EPBoostItem extends RoboItem
 
 	}
 
+	@Override
+	public EPBoostItem clone()
+	{
+		return new EPBoostItem();
+	}
+
 }
