@@ -65,7 +65,7 @@ public class TypeEffect extends StatusEffect {
 		TypeEffect otherTypeEffect = (TypeEffect) otherStatusEffect;
 
 		if (this.actionType != otherTypeEffect.getActionType()) {
-			return null;
+			return otherStatusEffect;
 		}
 		
 		TypeEffect resolvedTypeEffect = null;
