@@ -2,19 +2,23 @@ package de.kvwl.n8dA.robotwars.commons.game.items;
 
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 
-public class EPBoostItem extends RoboItem {
+public class EPBoostItem extends RoboItem
+{
 
 	private static final long serialVersionUID = 1L;
 
-	private int epBoost = 10;
+	private int epBoost = 5;
 
-	public EPBoostItem() {
+	public EPBoostItem()
+	{
 		setName("EP Boost: " + epBoost);
 		setId(52);
+		setConfigurationPointCosts(30);
 	}
 
 	@Override
-	public void performInitialRobotModification(Robot robot) {
+	public void performInitialRobotModification(Robot robot)
+	{
 		int energyPoints = robot.getMaxEnergyPoints();
 		energyPoints += epBoost;
 		robot.setMaxEnergyPoints(energyPoints);
@@ -22,7 +26,8 @@ public class EPBoostItem extends RoboItem {
 	}
 
 	@Override
-	public void performEachRoundsModification(Robot robot) {
+	public void performEachRoundsModification(Robot robot)
+	{
 
 	}
 
