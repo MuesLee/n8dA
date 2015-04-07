@@ -2,12 +2,13 @@
 <attack>
 	<damage>20</damage>
 	<type>ROCK</type>
+<powertype>HEAVY</powertype>
 	<animationid>Spritze</animationid>
 	<energycosts>6</energycosts>
 	<configcosts>200</configcosts>
 	<name>Spritze</name>
 	<id>17</id>
-	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->
-        <id>2</id>
+	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->	<id>100</id>
+<id>110</id>
     </statuseffects>
 </attack>

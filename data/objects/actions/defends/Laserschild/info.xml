@@ -2,12 +2,13 @@
 <defense>
 	<defensefactor>0.3</defensefactor>
 	<type>ROCK</type>
+<powertype>NORMAL</powertype>
 	<animationid>Laserschild</animationid>
 	<energycosts>3</energycosts>
-	<configcosts>100</configcosts>
+	<configcosts>25</configcosts>
 	<name>Laserschild</name>
 	<id>20</id>
 	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->
-        <id>2</id>
+        <id>102</id>
     </statuseffects>
 </defense>

@@ -2,12 +2,14 @@
 <attack>
 	<damage>10</damage>
 	<type>PAPER</type>
+<powertype>NORMAL</powertype>
 	<animationid>Rakete</animationid>
 	<energycosts>0</energycosts>
 	<configcosts>0</configcosts>
 	<name>Rakete</name>
 	<id>16</id>
 	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->
-        <id>2</id>
+         <id>102</id>
+	<id>104</id>
     </statuseffects>
 </attack>

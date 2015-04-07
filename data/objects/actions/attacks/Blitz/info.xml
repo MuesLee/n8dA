@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <attack>
 	<damage>10</damage>
+	<powertype>NORMAL</powertype>
 	<type>SCISSOR</type>
 	<animationid>Blitz</animationid>
 	<energycosts>0</energycosts>
@@ -8,6 +9,7 @@
 	<name>Blitz</name>
 	<id>9</id>
 	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->
-        <id>2</id>
+        <id>101</id>
+	<id>103</id>
     </statuseffects>
 </attack>

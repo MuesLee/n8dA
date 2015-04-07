@@ -2,12 +2,13 @@
 <defense>
 	<defensefactor>0.3</defensefactor>
 	<type>PAPER</type>
+<powertype>NORMAL</powertype>
 	<animationid>Kissen</animationid>
 	<energycosts>3</energycosts>
-	<configcosts>100</configcosts>
+	<configcosts>25</configcosts>
 	<name>Kissen</name>
 	<id>19</id>
 	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->
-        <id>2</id>
+        <id>101</id>
     </statuseffects>
 </defense>

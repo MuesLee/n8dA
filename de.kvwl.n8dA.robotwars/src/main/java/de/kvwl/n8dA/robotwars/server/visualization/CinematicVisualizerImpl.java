@@ -31,7 +31,7 @@ public class CinematicVisualizerImpl extends SwingGameFrame implements
 	private CinematicVisualizerImpl(GraphicsConfiguration config) {
 
 		// super(config.getDevice(), config.getDisplayMode(), "RoboBattle");
-		super();
+		super("RoboBattle");
 
 		setup();
 	}
@@ -39,6 +39,7 @@ public class CinematicVisualizerImpl extends SwingGameFrame implements
 	private void setup() {
 
 		setIconImage(InternalImage.loadFromPath(IMAGE_PATH, "icon.png"));
+
 		setScene(gameScene);
 		registerExitKey();
 	}
@@ -68,7 +69,6 @@ public class CinematicVisualizerImpl extends SwingGameFrame implements
 	@Override
 	public void robotHasEnteredTheArena(Robot robot, RobotPosition position,
 			DataLoader loader) {
-
 		gameScene.robotHasEnteredTheArena(robot, position, loader);
 	}
 
@@ -95,6 +95,12 @@ public class CinematicVisualizerImpl extends SwingGameFrame implements
 			boolean animated, boolean wait) {
 
 		gameScene.updateStats(robot, position, animated, wait);
+	}
+
+	@Override
+	public void reset() {
+
+		gameScene.reset();
 	}
 
 	public static CinematicVisualizerImpl get() {

@@ -16,24 +16,13 @@ public abstract class StatusEffect extends Entity implements RoboModificator{
 	public StatusEffect() {
 	}
 
-	public StatusEffect(int startDuration, int roundsLeft) {
+	public StatusEffect(int startDuration) {
 		super();
 		this.startDuration = startDuration;
-		this.roundsLeft = roundsLeft;
+		this.roundsLeft = startDuration;
 	}
 	
 	
-	/**
-	 * Computes the interaction between this and the given StatusEffect
-	 * Returns the Result which is null or a new Statuseffect
-	 * @param statusEffect
-	 * @return
-	 */
-	public StatusEffect resolve(StatusEffect statusEffect)
-	{
-		return null;
-	}
-
 	public int getStartDuration() {
 		return startDuration;
 	}
@@ -58,6 +47,11 @@ public abstract class StatusEffect extends Entity implements RoboModificator{
 	public void decreaseRoundsLeft(int sub)
 	{
 		roundsLeft-=sub;
+	}
+
+	public StatusEffect resolveInteractionWith(StatusEffect newStatusEffect) {
+		return null;
+		
 	}
 
 }
