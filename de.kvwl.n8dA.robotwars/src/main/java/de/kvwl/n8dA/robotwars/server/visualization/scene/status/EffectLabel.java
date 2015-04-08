@@ -40,6 +40,15 @@ public class EffectLabel extends SceneObject
 		g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
+		synchronized (effects)
+		{
+			paintEffects(g2d);
+		}
+
+	}
+
+	private void paintEffects(Graphics2D g2d)
+	{
 		int index = 0;
 		for (StatusEffect ef : effects)
 		{
@@ -65,7 +74,6 @@ public class EffectLabel extends SceneObject
 			paintEffectAtPos(g2d, index, img, (ef.isPositive()) ? Color.GREEN : Color.RED, ef.getRoundsLeft() + 1);
 			index++;
 		}
-
 	}
 
 	private void paintEffectAtPos(Graphics2D g2d, int pos, Image img, Color bg, int rounds)
@@ -110,13 +118,21 @@ public class EffectLabel extends SceneObject
 	public void setEffects(List<StatusEffect> effects)
 	{
 
-		this.effects.clear();
-		this.effects.addAll(effects);
+		synchronized (effects)
+		{
+
+			this.effects.clear();
+			this.effects.addAll(effects);
+		}
 	}
 
 	public void reset()
 	{
 
-		effects.clear();
+		synchronized (effects)
+		{
+
+			effects.clear();
+		}
 	}
 }
