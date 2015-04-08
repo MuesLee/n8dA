@@ -49,6 +49,7 @@ public class EffectLabel extends SceneObject
 
 	private void paintEffects(Graphics2D g2d)
 	{
+
 		int index = 0;
 		for (StatusEffect ef : effects)
 		{
@@ -121,7 +122,7 @@ public class EffectLabel extends SceneObject
 		synchronized (effects)
 		{
 
-			this.effects.clear();
+			reset();
 			this.effects.addAll(effects);
 		}
 	}
