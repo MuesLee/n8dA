@@ -146,7 +146,7 @@ public class SceneTest {
 									new AnimatedSceneObject(
 											new DefaultSprite(
 													ImageIO.read(new File(
-															"../data/animations/actions/attacks/Rakete/animation.png")),
+															"../data/animations/actions/attacks/Welle/animation.png")),
 													64, 64),
 											TimeUtils
 													.NanosecondsOfMilliseconds(100)),
