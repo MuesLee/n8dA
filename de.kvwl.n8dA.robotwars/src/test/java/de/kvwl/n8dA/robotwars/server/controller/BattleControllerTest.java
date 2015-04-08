@@ -120,14 +120,20 @@ public class BattleControllerTest {
 		assertEquals(givenEffects.get(1).getRoundsLeft(), 2);
 	}
 
+	
+	// 1 Res Light, 1 Vul Water on empty Status
 	@Test
 	public void testInflictStatusEffect() {
 		Attack robotAction = new Attack(RobotActionType.LIGHTNING, 10);
+		
 		TypeEffect typeEffect = new TypeEffect(RobotActionType.LIGHTNING,
 				TypeEffectModificationType.RESISTANCE, 1);
+		TypeEffect typeEffect2 = new TypeEffect(RobotActionType.WATER,
+				TypeEffectModificationType.VULNERABILITY, 1);
 
 		ArrayList<StatusEffect> expectedStatusEffects = new ArrayList<StatusEffect>();
 		expectedStatusEffects.add(typeEffect);
+		expectedStatusEffects.add(typeEffect2);
 		robotAction.setStatusEffects(expectedStatusEffects);
 
 		battleController.inflictStatusEffects(robotLeft, robotAction);
@@ -137,30 +143,41 @@ public class BattleControllerTest {
 		assertEquals(expectedStatusEffects, actualStatusEffects);
 	}
 
+	// 1 Res Light 2 Vul Water on 1 Res Fire 1 Vul Light
 	@Test
 	public void testInflictStatusEffect2() {
 		Attack robotAction = new Attack(RobotActionType.LIGHTNING, 10);
-		TypeEffect typeEffect = new TypeEffect(RobotActionType.LIGHTNING,
+		TypeEffect typeEffect = new TypeEffect(RobotActionType.WATER,
 				TypeEffectModificationType.VULNERABILITY, 2);
+		TypeEffect typeEffect2 = new TypeEffect(RobotActionType.LIGHTNING,
+				TypeEffectModificationType.RESISTANCE, 1);
 
 		ArrayList<StatusEffect> actionsStatusEffects = new ArrayList<StatusEffect>();
 		actionsStatusEffects.add(typeEffect);
+		actionsStatusEffects.add(typeEffect2);
 		robotAction.setStatusEffects(actionsStatusEffects);
 
-		robotLeft.addStatusEffect(new TypeEffect(RobotActionType.LIGHTNING,
+		robotLeft.addStatusEffect(new TypeEffect(RobotActionType.FIRE,
 				TypeEffectModificationType.RESISTANCE, 1));
+		robotLeft.addStatusEffect(new TypeEffect(RobotActionType.LIGHTNING,
+				TypeEffectModificationType.VULNERABILITY, 1));
 
 		battleController.inflictStatusEffects(robotLeft, robotAction);
 
 		ArrayList<StatusEffect> expectedStatusEffects = new ArrayList<StatusEffect>();
+		expectedStatusEffects.add(new TypeEffect(RobotActionType.FIRE,
+				TypeEffectModificationType.RESISTANCE, 1));
 		expectedStatusEffects.add(new TypeEffect(RobotActionType.LIGHTNING,
-				TypeEffectModificationType.RESISTANCE, -1));
-		expectedStatusEffects.add(new TypeEffect(RobotActionType.LIGHTNING,
-				TypeEffectModificationType.VULNERABILITY, 1));
+				TypeEffectModificationType.VULNERABILITY, 0));
+		expectedStatusEffects.add(new TypeEffect(RobotActionType.WATER,
+				TypeEffectModificationType.VULNERABILITY, 2));
 		List<StatusEffect> actualStatusEffects = robotLeft.getStatusEffects();
 
 		assertEquals(expectedStatusEffects, actualStatusEffects);
 	}
+	
+	
+	
 	@Test
 	public void testInflictStatusEffect3() {
 		Attack robotAction = new Attack(RobotActionType.LIGHTNING, 10);
@@ -248,6 +265,7 @@ public class BattleControllerTest {
 		int attackDmg = 10;
 		Attack attack = new Attack(RobotActionType.FIRE, attackDmg);
 		Defense defense = new Defense(RobotActionType.WATER, 0);
+		defense.setBonusOnDefenseFactor(0.3);
 
 		robotLeft.setCurrentAction(attack);
 		robotRight.setCurrentAction(defense);
@@ -260,7 +278,7 @@ public class BattleControllerTest {
 		int actualHPLeft = battleController.getRobotLeft().getHealthPoints();
 		int actualHPRight = battleController.getRobotRight().getHealthPoints();
 
-		int expectedHPLeft = (int) (startHPLeft - (attackDmg * BattleController.STRONG_DEFENSE_REFLECTION_FACTOR));
+		int expectedHPLeft = (int) (startHPLeft - (attackDmg * (defense.getBonusOnDefenseFactor())));
 		int expectedHPRight = startHPRight;
 
 		assertEquals(expectedHPLeft, actualHPLeft);
@@ -279,7 +297,7 @@ public class BattleControllerTest {
 
 		int startHPLeft = battleController.getRobotLeft().getHealthPoints();
 		int startHPRight = battleController.getRobotRight().getHealthPoints();
-
+		
 		battleController.computeOutcomeATTvsDEF(robotLeft, robotRight);
 
 		int actualHPLeft = battleController.getRobotLeft().getHealthPoints();
@@ -311,7 +329,7 @@ public class BattleControllerTest {
 		int actualHPRight = battleController.getRobotRight().getHealthPoints();
 
 		int expectedHPLeft = startHPLeft;
-		int expectedHPRight = (int) (startHPRight - (attackDmg * BattleController.NEUTRAL_DEFENSE_BLOCK_FACTOR));
+		int expectedHPRight = (int) (startHPRight - (attackDmg * BattleController.NEUTRAL_DEFENSE_DAMAGE_FACTOR));
 
 		assertEquals(expectedHPLeft, actualHPLeft);
 		assertEquals(expectedHPRight, actualHPRight);

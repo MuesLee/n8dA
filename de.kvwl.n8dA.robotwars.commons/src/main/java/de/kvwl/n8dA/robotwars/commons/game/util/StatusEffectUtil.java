@@ -14,45 +14,57 @@ public class StatusEffectUtil
 	public static List<StatusEffect> getAllStatusEffects()
 	{
 		List<StatusEffect> statusEffects = new ArrayList<>();
-		TypeEffect rockRes = new TypeEffect(RobotActionType.FIRE, TypeEffectModificationType.RESISTANCE, 1);
-		rockRes.setId(100L);
-		TypeEffect scissorRes = new TypeEffect(RobotActionType.LIGHTNING, TypeEffectModificationType.RESISTANCE, 1);
-		scissorRes.setId(101L);
-		TypeEffect paperRes = new TypeEffect(RobotActionType.WATER, TypeEffectModificationType.RESISTANCE, 1);
-		paperRes.setId(102L);
-		TypeEffect rockVul = new TypeEffect(RobotActionType.FIRE, TypeEffectModificationType.VULNERABILITY, 1);
-		rockVul.setId(103L);
-		TypeEffect scissorVul = new TypeEffect(RobotActionType.LIGHTNING, TypeEffectModificationType.VULNERABILITY, 1);
-		scissorVul.setId(104L);
-		TypeEffect paperVul = new TypeEffect(RobotActionType.WATER, TypeEffectModificationType.VULNERABILITY, 1);
-		paperVul.setId(105L);
+		TypeEffect fireRes = new TypeEffect(RobotActionType.FIRE, TypeEffectModificationType.RESISTANCE, 1);
+		fireRes.setId(100L);
+		TypeEffect lightningRes = new TypeEffect(RobotActionType.LIGHTNING, TypeEffectModificationType.RESISTANCE, 1);
+		lightningRes.setId(101L);
+		TypeEffect waterRes = new TypeEffect(RobotActionType.WATER, TypeEffectModificationType.RESISTANCE, 1);
+		waterRes.setId(102L);
+		TypeEffect fireVul = new TypeEffect(RobotActionType.FIRE, TypeEffectModificationType.VULNERABILITY, 1);
+		fireVul.setId(103L);
+		TypeEffect lightningVul = new TypeEffect(RobotActionType.LIGHTNING, TypeEffectModificationType.VULNERABILITY, 1);
+		lightningVul.setId(104L);
+		TypeEffect waterVul = new TypeEffect(RobotActionType.WATER, TypeEffectModificationType.VULNERABILITY, 1);
+		waterVul.setId(105L);
 
-		TypeEffect rockResHeavy = new TypeEffect(RobotActionType.FIRE, TypeEffectModificationType.RESISTANCE, 2);
-		rockResHeavy.setId(106L);
-		TypeEffect scissorResHeavy = new TypeEffect(RobotActionType.LIGHTNING, TypeEffectModificationType.RESISTANCE, 2);
-		scissorResHeavy.setId(107L);
-		TypeEffect paperResHeavy = new TypeEffect(RobotActionType.WATER, TypeEffectModificationType.RESISTANCE, 2);
-		paperResHeavy.setId(108L);
-		TypeEffect rockVulHeavy = new TypeEffect(RobotActionType.FIRE, TypeEffectModificationType.VULNERABILITY, 2);
-		rockVulHeavy.setId(109L);
-		TypeEffect scissorVulHeavy = new TypeEffect(RobotActionType.LIGHTNING, TypeEffectModificationType.VULNERABILITY,
+		TypeEffect fireResHeavy = new TypeEffect(RobotActionType.FIRE, TypeEffectModificationType.RESISTANCE, 2);
+		fireResHeavy.setId(106L);
+		TypeEffect lightningResHeavy = new TypeEffect(RobotActionType.LIGHTNING, TypeEffectModificationType.RESISTANCE, 2);
+		lightningResHeavy.setId(107L);
+		TypeEffect waterResHeavy = new TypeEffect(RobotActionType.WATER, TypeEffectModificationType.RESISTANCE, 2);
+		waterResHeavy.setId(108L);
+		TypeEffect fireVulHeavy = new TypeEffect(RobotActionType.FIRE, TypeEffectModificationType.VULNERABILITY, 2);
+		fireVulHeavy.setId(109L);
+		TypeEffect lightningVulHeavy = new TypeEffect(RobotActionType.LIGHTNING, TypeEffectModificationType.VULNERABILITY,
 			2);
-		scissorVulHeavy.setId(110L);
-		TypeEffect paperVulHeavy = new TypeEffect(RobotActionType.WATER, TypeEffectModificationType.VULNERABILITY, 2);
-		paperVulHeavy.setId(111L);
-
-		statusEffects.add(scissorRes);
-		statusEffects.add(rockRes);
-		statusEffects.add(paperRes);
-		statusEffects.add(rockVul);
-		statusEffects.add(scissorVul);
-		statusEffects.add(paperVul);
-		statusEffects.add(scissorResHeavy);
-		statusEffects.add(rockResHeavy);
-		statusEffects.add(paperResHeavy);
-		statusEffects.add(rockVulHeavy);
-		statusEffects.add(scissorVulHeavy);
-		statusEffects.add(paperVulHeavy);
+		lightningVulHeavy.setId(110L);
+		TypeEffect waterVulHeavy = new TypeEffect(RobotActionType.WATER, TypeEffectModificationType.VULNERABILITY, 2);
+		waterVulHeavy.setId(111L);
+		
+		
+		TypeEffect fireResMega = new TypeEffect(RobotActionType.FIRE, TypeEffectModificationType.RESISTANCE, 3);
+		fireResMega.setId(112L);
+		TypeEffect lightningResMega = new TypeEffect(RobotActionType.LIGHTNING, TypeEffectModificationType.RESISTANCE, 3);
+		lightningResMega.setId(113L);
+		TypeEffect waterResMega = new TypeEffect(RobotActionType.WATER, TypeEffectModificationType.RESISTANCE, 3);
+		waterResMega.setId(114L);
+		
+		
+		statusEffects.add(lightningRes);
+		statusEffects.add(fireRes);
+		statusEffects.add(waterRes);
+		statusEffects.add(fireVul);
+		statusEffects.add(lightningVul);
+		statusEffects.add(waterVul);
+		statusEffects.add(lightningResHeavy);
+		statusEffects.add(fireResHeavy);
+		statusEffects.add(waterResHeavy);
+		statusEffects.add(fireVulHeavy);
+		statusEffects.add(lightningVulHeavy);
+		statusEffects.add(waterVulHeavy);
+		statusEffects.add(lightningResMega);
+		statusEffects.add(fireResMega);
+		statusEffects.add(waterResMega);
 		return statusEffects;
 	}
 

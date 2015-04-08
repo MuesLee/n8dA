@@ -9,6 +9,6 @@
 	<name>Spiegel</name>
 	<id>21</id>
 	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->
-        <id>107</id>
+        <id>113</id>
     </statuseffects>
 </defense>

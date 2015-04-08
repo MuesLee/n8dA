@@ -34,9 +34,7 @@ public class TypeEffectTest {
 		((TypeEffect) otherStatusEffect).setActionType(RobotActionType.LIGHTNING);
 		((TypeEffect) otherStatusEffect).setModificationType(TypeEffectModificationType.VULNERABILITY);
 		
-		StatusEffect resolveInteractionWith = typeEffect.resolveInteractionWith(otherStatusEffect);
-		
-		assertNull(resolveInteractionWith);
+		typeEffect.resolveInteractionWith(otherStatusEffect);
 		
 		int roundsLeft = typeEffect.getRoundsLeft();
 		
@@ -53,9 +51,8 @@ public class TypeEffectTest {
 		((TypeEffect) otherStatusEffect).setModificationType(TypeEffectModificationType.RESISTANCE);
 		otherStatusEffect.setId(100L);
 		
-		StatusEffect resolveInteractionWith = typeEffect.resolveInteractionWith(otherStatusEffect);
+		typeEffect.resolveInteractionWith(otherStatusEffect);
 		
-		assertNull(resolveInteractionWith);
 		
 		int roundsLeft = typeEffect.getRoundsLeft();
 		
@@ -69,9 +66,7 @@ public class TypeEffectTest {
 		((TypeEffect) otherStatusEffect).setActionType(RobotActionType.LIGHTNING);
 		((TypeEffect) otherStatusEffect).setModificationType(TypeEffectModificationType.RESISTANCE);
 		
-		StatusEffect resolveInteractionWith = typeEffect.resolveInteractionWith(otherStatusEffect);
-		
-		assertNull(resolveInteractionWith);
+		typeEffect.resolveInteractionWith(otherStatusEffect);
 		
 		int roundsLeft = typeEffect.getRoundsLeft();
 		
@@ -89,10 +84,10 @@ public class TypeEffectTest {
 		((TypeEffect) otherStatusEffect).setActionType(RobotActionType.LIGHTNING);
 		((TypeEffect) otherStatusEffect).setModificationType(TypeEffectModificationType.RESISTANCE);
 		
-		StatusEffect resolveInteractionWith = typeEffect.resolveInteractionWith(otherStatusEffect);
+		typeEffect.resolveInteractionWith(otherStatusEffect);
 		
 		TypeEffect expectedEffect = new TypeEffect(RobotActionType.LIGHTNING, TypeEffectModificationType.RESISTANCE, 1);
-		assertEquals(expectedEffect , resolveInteractionWith);
+		assertEquals(expectedEffect , typeEffect);
 		
 		int roundsLeft = typeEffect.getRoundsLeft();
 		
@@ -108,11 +103,11 @@ public class TypeEffectTest {
 		((TypeEffect) otherStatusEffect).setActionType(RobotActionType.LIGHTNING);
 		((TypeEffect) otherStatusEffect).setModificationType(TypeEffectModificationType.RESISTANCE);
 		
-		StatusEffect resolveInteractionWith = typeEffect.resolveInteractionWith(otherStatusEffect);
+		typeEffect.resolveInteractionWith(otherStatusEffect);
 		
 		TypeEffect expectedEffect = (TypeEffect) otherStatusEffect;
 		
-		assertEquals(expectedEffect , resolveInteractionWith);
+		assertEquals(expectedEffect , typeEffect);
 	}
 
 }

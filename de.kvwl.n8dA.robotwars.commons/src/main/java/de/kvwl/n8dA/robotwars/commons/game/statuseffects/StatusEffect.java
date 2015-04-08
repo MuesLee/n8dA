@@ -58,9 +58,9 @@ public abstract class StatusEffect extends Entity implements RoboModificator
 		roundsLeft -= sub;
 	}
 
-	public StatusEffect resolveInteractionWith(StatusEffect newStatusEffect)
+	public boolean resolveInteractionWith(StatusEffect newStatusEffect)
 	{
-		return null;
+		return false;
 
 	}
 

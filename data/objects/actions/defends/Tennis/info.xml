@@ -9,6 +9,6 @@
 	<name>Tennisschläger</name>
 	<id>22</id>
 	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->
-        <id>106</id>
+        <id>112</id>
     </statuseffects>
 </defense>

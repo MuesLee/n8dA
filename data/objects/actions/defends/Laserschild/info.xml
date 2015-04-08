@@ -9,6 +9,6 @@
 	<name>Laserschild</name>
 	<id>20</id>
 	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->
-        <id>101</id>
+        <id>107</id>
     </statuseffects>
 </defense>
