@@ -8,7 +8,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
-import java.awt.geom.Ellipse2D;
+import java.awt.geom.Arc2D;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,6 +21,8 @@ import de.kvwl.n8dA.robotwars.commons.game.statuseffects.StatusEffect;
 public class EffectLabel extends SceneObject
 {
 
+	private static final int START_DEGREE = 90;
+	private static final int SPACE_DEGREES = 10;
 	private static final double BORDER_OUTLINE = 0.3;
 	private static final double BORDER = 0.15;
 	private static final double SPACE = 0.1;
@@ -60,13 +62,13 @@ public class EffectLabel extends SceneObject
 				continue;
 			}
 
-			paintEffectAtPos(g2d, index, img, (ef.isPositive()) ? Color.GREEN : Color.RED);
+			paintEffectAtPos(g2d, index, img, (ef.isPositive()) ? Color.GREEN : Color.RED, ef.getRoundsLeft());
 			index++;
 		}
 
 	}
 
-	private void paintEffectAtPos(Graphics2D g2d, int pos, Image img, Color bg)
+	private void paintEffectAtPos(Graphics2D g2d, int pos, Image img, Color bg, int rounds)
 	{
 		double _width = getWidth() * (1.0 / effects.size());
 		double _height = getHeight();
@@ -85,9 +87,21 @@ public class EffectLabel extends SceneObject
 
 		g2d.setColor(bg);
 
-		Ellipse2D roundCircle = new Ellipse2D.Double((int) round(_x + _borderInner), (int) round(_y + _borderInner),
-			(int) round(_size - 2 * _borderInner), (int) round(_size - 2 * _borderInner));
-		g2d.fill(roundCircle);
+		double spaceDegrees = SPACE_DEGREES;
+		double availableDegrees = 360.0 - (spaceDegrees * ((rounds > 1) ? rounds : 0));
+		double degreePerRound = availableDegrees / rounds;
+
+		for (int i = 0; i < rounds; i++)
+		{
+
+			double start = START_DEGREE + i * degreePerRound + i * spaceDegrees;
+			double extend = degreePerRound;
+
+			Arc2D ci = new Arc2D.Double((int) round(_x + _borderInner), (int) round(_y + _borderInner),
+				(int) round(_size - 2 * _borderInner), (int) round(_size - 2 * _borderInner), start, extend, Arc2D.PIE);
+
+			g2d.fill(ci);
+		}
 
 		g2d.drawImage(img, (int) (_x + _border), (int) (_y + _border), (int) (_x + _size - _border),
 			(int) (_y + _size - _border), 0, 0, img.getWidth(null), img.getHeight(null), null);

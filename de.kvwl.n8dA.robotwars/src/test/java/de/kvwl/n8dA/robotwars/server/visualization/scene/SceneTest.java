@@ -68,9 +68,9 @@ public class SceneTest
 				super.paintScene(g2d, width, height, elapsedTime);
 
 				List<StatusEffect> effects = new ArrayList<StatusEffect>();
-				effects.add(new TypeEffect(RobotActionType.PAPER, TypeEffectModificationType.RESISTANCE, 2));
-				effects.add(new TypeEffect(RobotActionType.ROCK, TypeEffectModificationType.RESISTANCE, 1));
-				effects.add(new TypeEffect(RobotActionType.SCISSOR, TypeEffectModificationType.VULNERABILITY, 4));
+				effects.add(new TypeEffect(RobotActionType.WATER, TypeEffectModificationType.RESISTANCE, 2));
+				effects.add(new TypeEffect(RobotActionType.FIRE, TypeEffectModificationType.RESISTANCE, 3));
+				effects.add(new TypeEffect(RobotActionType.LIGHTNING, TypeEffectModificationType.VULNERABILITY, 4));
 				stats.setEffects(Position.LEFT, effects);
 				stats.paintScene(g2d, width, height, elapsedTime);
 
