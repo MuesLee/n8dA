@@ -10,6 +10,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -416,7 +417,7 @@ public class BattlePanel extends JPanel implements ActionListener,
 		actions.addAll(attacks);
 		actions.addAll(defends);
 
-		shuffle(actions);
+		Collections.shuffle(actions);
 
 		for (RobotAction action : actions) {
 
@@ -425,19 +426,6 @@ public class BattlePanel extends JPanel implements ActionListener,
 				actionSelection(action, true);
 				break;
 			}
-		}
-	}
-
-	private void shuffle(List<RobotAction> actions) {
-
-		for (int i = 0; i < actions.size() / 2; i++) {
-
-			int indexFrom = (int) (Math.random() * (actions.size() - 1));
-			int indexTo = (int) (Math.random() * (actions.size() - 1));
-
-			RobotAction actionFrom = actions.get(indexFrom);
-			actions.set(indexFrom, actions.get(indexTo));
-			actions.set(indexTo, actionFrom);
 		}
 	}
 
