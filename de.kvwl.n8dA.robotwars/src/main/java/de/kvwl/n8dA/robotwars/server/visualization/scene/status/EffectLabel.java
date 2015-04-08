@@ -17,7 +17,6 @@ import org.slf4j.LoggerFactory;
 
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.StatusEffect;
 
-//TODO Marvin: Effect Anzeige
 public class EffectLabel extends SceneObject
 {
 
