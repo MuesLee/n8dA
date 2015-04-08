@@ -47,7 +47,7 @@ public class BattlePanel extends JPanel implements ActionListener,
 	/**
 	 * Zeit für die Auswahl einer Aktion. Wert ist in Sekunden.
 	 */
-	private static final int SELECTION_TIME = 5;
+	private static final int SELECTION_TIME = 50;
 
 	private RoboBattlePlayerClient battleClient;
 	private Robot robot;
