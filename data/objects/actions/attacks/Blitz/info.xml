@@ -8,8 +8,8 @@
 	<configcosts>0</configcosts>
 	<name>Blitz</name>
 	<id>9</id>
-	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->
+	 <statuseffects> 
         <id>101</id>
-	<id>103</id>
+	<id>105</id>
     </statuseffects>
 </attack>

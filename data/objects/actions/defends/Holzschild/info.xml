@@ -9,6 +9,6 @@
 	<name>Holzschild</name>
 	<id>18</id>
 	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->
-        <id>108</id>
+        <id>114</id>
     </statuseffects>
 </defense>

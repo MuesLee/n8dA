@@ -33,9 +33,9 @@ public class TypeEffect extends StatusEffect
 		if (robotActionType == actionType)
 		{
 			if (modificationType == TypeEffectModificationType.RESISTANCE)
-				result = 0.5;
+				result = 0.25;
 			else if (modificationType == TypeEffectModificationType.VULNERABILITY)
-				result = 1.5;
+				result = 1.75;
 		}
 
 		return result;
@@ -56,20 +56,18 @@ public class TypeEffect extends StatusEffect
 	 * @return Returns a new StatusEffect if necessary
 	 */
 	@Override
-	public StatusEffect resolveInteractionWith(StatusEffect otherStatusEffect)
+	public boolean resolveInteractionWith(StatusEffect otherStatusEffect)
 	{
 
 		if (otherStatusEffect == null || !(otherStatusEffect instanceof TypeEffect))
-			return otherStatusEffect;
+			return false;
 
 		TypeEffect otherTypeEffect = (TypeEffect) otherStatusEffect;
 
 		if (this.actionType != otherTypeEffect.getActionType())
 		{
-			return otherStatusEffect;
+			return false;
 		}
-
-		TypeEffect resolvedTypeEffect = null;
 
 		// add duration
 		if (this.modificationType == otherTypeEffect.getModificationType())
@@ -91,12 +89,12 @@ public class TypeEffect extends StatusEffect
 
 			if (computedDuration < 0)
 			{
-				resolvedTypeEffect = new TypeEffect(this.actionType, otherTypeEffect.getModificationType(),
-					computedDuration * -1);
+				this.setModificationType(otherTypeEffect.getModificationType());
+				this.setRoundsLeft(computedDuration*-1);
 			}
 		}
 
-		return resolvedTypeEffect;
+		return true;
 	}
 
 	@Override

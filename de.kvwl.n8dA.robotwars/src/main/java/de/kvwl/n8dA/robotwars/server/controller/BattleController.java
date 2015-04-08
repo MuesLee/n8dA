@@ -31,8 +31,7 @@ import de.kvwl.n8dA.robotwars.server.visualization.scene.robot.ActionType;
 
 public class BattleController {
 
-	static final double NEUTRAL_DEFENSE_BLOCK_FACTOR = 1.0;
-	static final double STRONG_DEFENSE_REFLECTION_FACTOR = 0.5;
+	static final double NEUTRAL_DEFENSE_DAMAGE_FACTOR = 0.75;
 
 	private static final Logger LOG = LoggerFactory
 			.getLogger(BattleController.class);
@@ -238,19 +237,23 @@ public class BattleController {
 
 			// teilweise Reflektion an ATT, keinen Schaden für DEF
 			LOG.info("Strong defense!");
-			int reflectedDamage = (int) (attackDamage * STRONG_DEFENSE_REFLECTION_FACTOR);
 			actionTypeDefender = ActionType.ReflectingDefense;
 			
-			inflictStatusEffects(defender, defense);
-			
+			int reflectedDamage = (int) (attackDamage * defense.getBonusOnDefenseFactor());
 			dealDamageToRobot(attacker, reflectedDamage,
 					attack.getRobotActionType());
-			
 			inflictStatusEffects(attacker, attack);
+			
+			
+			inflictStatusEffects(defender, defense);
+			//heilung für Reflektor
+			// int postBlockDamage = (int) (attackDamage * (NEUTRAL_DEFENSE_BLOCK_FACTOR-defense.getBonusOnDefenseFactor()));
+			//dealDamageToRobot(defender, postBlockDamage, attackType);
+			
 
 		} else {
 			LOG.info("Neutral defense!");
-			int postBlockDamage = (int) (attackDamage * NEUTRAL_DEFENSE_BLOCK_FACTOR);
+			int postBlockDamage = (int) (attackDamage * (NEUTRAL_DEFENSE_DAMAGE_FACTOR-defense.getBonusOnDefenseFactor()));
 			actionTypeDefender = ActionType.DefenseWithDamage;
 			
 			inflictStatusEffects(defender, defense);
@@ -442,22 +445,25 @@ public class BattleController {
 			LOG.info("Robot " + robot + " has received StatusEffect: " +newStatusEffect);
 		} else {
 
-			ArrayList<StatusEffect> effectsToAdd = new ArrayList<>();
-
+			boolean effectWasResolved = false;
+			
 			for (StatusEffect statusEffect : robotsCurrentStatusEffects) {
 
 				if (statusEffect == null)
 					continue;
 
-				StatusEffect resolveInteractionWith = statusEffect
+				boolean resolvedInteractionWith = statusEffect
 						.resolveInteractionWith(newStatusEffect);
 
-				if (resolveInteractionWith != null) {
-					effectsToAdd.add(resolveInteractionWith);
+				if (resolvedInteractionWith) {
+					effectWasResolved = true;
 				}
 			}
-			robotsCurrentStatusEffects.addAll(effectsToAdd);
-			LOG.info("Robot " + robot + " has received StatusEffects: " +effectsToAdd);
+			if(!effectWasResolved)
+			{
+				robotsCurrentStatusEffects.add(newStatusEffect);
+			}
+				
 			LOG.info("Robot " + robot + " now has following StatusEffects: " +robot.getStatusEffects());
 		}
 	}
