@@ -1,19 +1,25 @@
 package de.kvwl.n8dA.robotwars.server.visualization.scene.status;
 
-import java.awt.Graphics2D;
-import java.util.EventListener;
-
-import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
-import de.kvwl.n8dA.robotwars.commons.game.statuseffects.StatusEffect;
-import de.kvwl.n8dA.robotwars.server.visualization.Position;
 import game.engine.image.ImageUtils;
 import game.engine.image.InternalImage;
 import game.engine.stage.scene.Scene;
 import game.engine.stage.scene.object.ImageSceneObject;
 import game.engine.stage.scene.object.Point;
 
+import java.awt.Graphics2D;
+import java.util.EventListener;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
+import de.kvwl.n8dA.robotwars.commons.game.statuseffects.StatusEffect;
+import de.kvwl.n8dA.robotwars.server.visualization.Position;
+
 public class StatusScene implements Scene
 {
+
+	private static final Logger LOG = LoggerFactory.getLogger(StatusScene.class);
 
 	private static final double SIDE_SPACE = 0.04;
 	private static final double BAR_WIDTH = 0.33;
@@ -183,6 +189,8 @@ public class StatusScene implements Scene
 	public void setHealthPoints(Position pos, int value)
 	{
 
+		LOG.debug("Setting health for {} -> {}", pos, value);
+
 		if (pos == Position.LEFT)
 		{
 
@@ -197,6 +205,8 @@ public class StatusScene implements Scene
 
 	public void setMaxHealthPoints(Position pos, int value)
 	{
+
+		LOG.debug("Setting max health for {} -> {}", pos, value);
 
 		if (pos == Position.LEFT)
 		{
@@ -227,6 +237,7 @@ public class StatusScene implements Scene
 
 	public void setEnergyPoints(Position pos, int value)
 	{
+		LOG.debug("Setting energy for {} -> {}", pos, value);
 
 		if (pos == Position.LEFT)
 		{
@@ -242,6 +253,7 @@ public class StatusScene implements Scene
 
 	public void setMaxEnergyPoints(Position pos, int value)
 	{
+		LOG.debug("Setting max energy for {} -> {}", pos, value);
 
 		if (pos == Position.LEFT)
 		{
@@ -258,6 +270,8 @@ public class StatusScene implements Scene
 	public void setEffect(Position pos, RobotActionType type, StatusEffect effect)
 	{
 
+		LOG.debug("Setting effect for{} -> {}", pos, type);
+
 		if (pos == Position.LEFT)
 		{
 
@@ -272,6 +286,8 @@ public class StatusScene implements Scene
 
 	public void resetEffects(Position pos)
 	{
+
+		LOG.debug("Resetting effects for {}", pos);
 
 		if (pos == Position.LEFT)
 		{

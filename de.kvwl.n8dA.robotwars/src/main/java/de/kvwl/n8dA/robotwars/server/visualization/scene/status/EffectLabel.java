@@ -36,7 +36,7 @@ public class EffectLabel extends SceneObject
 		if (effects.containsKey(RobotActionType.PAPER))
 		{
 
-			Image img = InternalImage.loadFromPath(IMAGE_PATH, "stat_Water.png");
+			Image img = InternalImage.loadFromPath(IMAGE_PATH, "stat_Paper.png");
 			_x = 0;
 
 			g2d.drawImage(img, _x, _y, (int) (_x + _width), (int) (_y + _height), 0, 0, img.getWidth(null),
@@ -46,7 +46,7 @@ public class EffectLabel extends SceneObject
 		if (effects.containsKey(RobotActionType.ROCK))
 		{
 
-			Image img = InternalImage.loadFromPath(IMAGE_PATH, "stat_Fire.png");
+			Image img = InternalImage.loadFromPath(IMAGE_PATH, "stat_Rock.png");
 			_x = (int) (_width + _space);
 
 			g2d.drawImage(img, _x, _y, (int) (_x + _width), (int) (_y + _height), 0, 0, img.getWidth(null),
@@ -56,7 +56,7 @@ public class EffectLabel extends SceneObject
 		if (effects.containsKey(RobotActionType.SCISSOR))
 		{
 
-			Image img = InternalImage.loadFromPath(IMAGE_PATH, "stat_Plant.png");
+			Image img = InternalImage.loadFromPath(IMAGE_PATH, "stat_Scissor.png");
 			_x = (int) ((_width + _space) * 2);
 
 			g2d.drawImage(img, _x, _y, (int) (_x + _width), (int) (_y + _height), 0, 0, img.getWidth(null),

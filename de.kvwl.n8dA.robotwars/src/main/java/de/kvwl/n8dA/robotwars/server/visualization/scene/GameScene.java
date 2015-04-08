@@ -129,8 +129,9 @@ public class GameScene implements Scene, CinematicVisualizer
 		List<StatusEffect> statusEffects = robo.getStatusEffects();
 		for (StatusEffect ef : statusEffects)
 		{
+			LOG.debug("updating status effect {}", ef);
 
-			if (statusEffects instanceof TypeEffect)
+			if (ef instanceof TypeEffect)
 			{
 
 				TypeEffect te = (TypeEffect) ef;

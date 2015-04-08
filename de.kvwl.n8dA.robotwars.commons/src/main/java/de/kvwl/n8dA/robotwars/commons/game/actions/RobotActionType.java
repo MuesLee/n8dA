@@ -2,7 +2,7 @@ package de.kvwl.n8dA.robotwars.commons.game.actions;
 
 public enum RobotActionType {
 
-	ROCK("Feuer"), PAPER("Wasser"), SCISSOR("Pflanze");
+	ROCK("Feuer"), PAPER("Wasser"), SCISSOR("Blitz");
 
 	private String humanReadable;
 
