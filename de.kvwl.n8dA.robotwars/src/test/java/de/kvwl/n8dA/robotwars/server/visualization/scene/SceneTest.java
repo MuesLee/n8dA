@@ -6,12 +6,18 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 import javax.imageio.ImageIO;
 
+import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
+import de.kvwl.n8dA.robotwars.commons.game.statuseffects.StatusEffect;
+import de.kvwl.n8dA.robotwars.commons.game.statuseffects.TypeEffect;
+import de.kvwl.n8dA.robotwars.commons.game.statuseffects.TypeEffectModificationType;
 import de.kvwl.n8dA.robotwars.server.visualization.Position;
 import de.kvwl.n8dA.robotwars.server.visualization.scene.robot.Action;
 import de.kvwl.n8dA.robotwars.server.visualization.scene.robot.ActionType;
@@ -60,6 +66,12 @@ public class SceneTest
 				g2d.drawImage(bg, 0, 0, width, height, 0, 0, bg.getWidth(null), bg.getHeight(null), null);
 
 				super.paintScene(g2d, width, height, elapsedTime);
+
+				List<StatusEffect> effects = new ArrayList<StatusEffect>();
+				effects.add(new TypeEffect(RobotActionType.PAPER, TypeEffectModificationType.RESISTANCE, 2));
+				effects.add(new TypeEffect(RobotActionType.ROCK, TypeEffectModificationType.RESISTANCE, 1));
+				effects.add(new TypeEffect(RobotActionType.SCISSOR, TypeEffectModificationType.VULNERABILITY, 4));
+				stats.setEffects(Position.LEFT, effects);
 				stats.paintScene(g2d, width, height, elapsedTime);
 
 			}

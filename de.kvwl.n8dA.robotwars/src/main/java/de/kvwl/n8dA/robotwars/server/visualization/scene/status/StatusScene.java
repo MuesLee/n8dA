@@ -25,6 +25,7 @@ public class StatusScene implements Scene
 	private static final double BAR_WIDTH = 0.33;
 	private static final double TOP_SPACE = 0.01;
 	private static final double BAR_HEIGHT = 0.03;
+	private static final double BAR_HEIGHT_EFFECT_ADD = 1.5;
 
 	private static final String IMAGE_PATH = "/de/kvwl/n8dA/robotwars/commons/images/";
 
@@ -136,10 +137,10 @@ public class StatusScene implements Scene
 		double _x = width * SIDE_SPACE;
 		double _y = height * TOP_SPACE;
 
-		effectLeft.setSize((int) _width, (int) _height);
+		effectLeft.setSize((int) _width, (int) (_height * BAR_HEIGHT_EFFECT_ADD));
 		effectLeft.setTopLeftPosition(new Point((int) _x, (int) (_y + 2 * _height)));
 
-		effectRight.setSize((int) _width, (int) _height);
+		effectRight.setSize((int) _width, (int) (_height * BAR_HEIGHT_EFFECT_ADD));
 		effectRight.setTopLeftPosition(new Point((int) (width - _x - _width), (int) (_y + 2 * _height)));
 	}
 
