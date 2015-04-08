@@ -96,11 +96,10 @@ public class BattleController {
 		consumeStatusEffects(robotLeft);
 		consumeStatusEffects(robotRight);
 		
-		cinematicVisualizer.updateStats(robotLeft, RobotPosition.LEFT,
-				true, true);
-		cinematicVisualizer.updateStats(robotRight, RobotPosition.RIGHT,
-				true, true);
-		
+		cinematicVisualizer.updateEnergypoints(robotLeft, RobotPosition.LEFT, true, false);
+		cinematicVisualizer.updateEnergypoints(robotRight, RobotPosition.RIGHT, true, false);
+		cinematicVisualizer.updateHealthpoints(robotRight, RobotPosition.RIGHT, true, true);
+		cinematicVisualizer.updateHealthpoints(robotLeft, RobotPosition.LEFT, true, true);
 		
 		updateGameState(robotLeft, robotRight);
 	
