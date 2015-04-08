@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<attack>
+	<damage>25</damage>
+	<type>FIRE</type>
+	<powertype>HEAVY</powertype>
+	<animationid>Feuerball</animationid>
+	<energycosts>6</energycosts>
+	<configcosts>200</configcosts>
+	<name>Feuerball</name>
+	<id>24</id>
+	<statuseffects>
+		<id>100</id>
+		<id>110</id>
+	</statuseffects>
+</attack>

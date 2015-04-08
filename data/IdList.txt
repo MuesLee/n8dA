@@ -40,7 +40,7 @@ Wasserspritze -> 17
 Plasma -> 15
 Bombe -> 10
 Rakete -> 16
-Feuerball -> ???
+Feuerball -> 24
 Molotovcocktail -> 14
 Blitz -> 9
 
@@ -64,6 +64,31 @@ Nucular -> 1
 B(l)ender -> 7
 Space Fighter -> 4
 Die Pille -> 5
+
+
+Items
+HP Boost: 10 -> 50
+HP Reg: 1 -> 51
+EP Boost: 5 -> 52
+EP Reg: 1 -> 53
+
+
+Effeckte
+Elementareffekt -  AT:LIGHTNING MT:RESISTANCE SD:1 -> 101
+Elementareffekt -  AT:FIRE MT:RESISTANCE SD:1 -> 100
+Elementareffekt -  AT:WATER MT:RESISTANCE SD:1 -> 102
+Elementareffekt -  AT:FIRE MT:VULNERABILITY SD:1 -> 103
+Elementareffekt -  AT:LIGHTNING MT:VULNERABILITY SD:1 -> 104
+Elementareffekt -  AT:WATER MT:VULNERABILITY SD:1 -> 105
+Elementareffekt -  AT:LIGHTNING MT:RESISTANCE SD:2 -> 107
+Elementareffekt -  AT:FIRE MT:RESISTANCE SD:2 -> 106
+Elementareffekt -  AT:WATER MT:RESISTANCE SD:2 -> 108
+Elementareffekt -  AT:FIRE MT:VULNERABILITY SD:2 -> 109
+Elementareffekt -  AT:LIGHTNING MT:VULNERABILITY SD:2 -> 110
+Elementareffekt -  AT:WATER MT:VULNERABILITY SD:2 -> 111
+Elementareffekt -  AT:LIGHTNING MT:RESISTANCE SD:3 -> 113
+Elementareffekt -  AT:FIRE MT:RESISTANCE SD:3 -> 112
+Elementareffekt -  AT:WATER MT:RESISTANCE SD:3 -> 114
 
 
 Alle Ids
@@ -91,7 +116,26 @@ Alle Ids
 21
 22
 23
-???
+24
+50
+51
+52
+53
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
 AtomRoboter
 Blitz
 BlueRoboter

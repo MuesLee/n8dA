@@ -41,6 +41,7 @@ import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionPowerType;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
+import de.kvwl.n8dA.robotwars.commons.game.entities.Entity;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.StatusEffect;
@@ -844,22 +845,29 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 				Charset.forName("UTF-8"));
 
 		out.write("Attacken - Animationen\n");
-		ids.addAll(generateIdsFromFolder(out, atkAniFolder));
+		generateIdsFromFolder(out, atkAniFolder, ids);
 
 		out.write("\n\nVerteidigungen - Animationen\n");
-		ids.addAll(generateIdsFromFolder(out, defAniFolder));
+		generateIdsFromFolder(out, defAniFolder, ids);
 
 		out.write("\n\nRoboter - Animationen\n");
-		ids.addAll(generateIdsFromFolder(out, robotAniFolder));
+		generateIdsFromFolder(out, robotAniFolder, ids);
 
 		out.write("\n\nAttacken - Objekte\n");
-		ids.addAll(generateIdsFromFolder(out, atkFolder));
+		generateIdsFromFolder(out, atkFolder, ids);
 
 		out.write("\n\nVerteidigungen - Objekte\n");
-		ids.addAll(generateIdsFromFolder(out, defFolder));
+		generateIdsFromFolder(out, defFolder, ids);
 
 		out.write("\n\nRoboter - Objekte\n");
-		ids.addAll(generateIdsFromFolder(out, robotFolder));
+		generateIdsFromFolder(out, robotFolder, ids);
+
+		out.write("\n\nItems\n");
+		generateIdsFromEntityList(out, ItemUtil.getAllRoboItems(), ids);
+
+		out.write("\n\nEffeckte\n");
+		generateIdsFromEntityList(out, StatusEffectUtil.getAllStatusEffects(),
+				ids);
 
 		// Alle ids noch einmal sortiert ausgeben
 		ArrayList<String> sortedIds = new ArrayList<String>(ids);
@@ -884,10 +892,50 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 		out.flush();
 	}
 
-	private Set<String> generateIdsFromFolder(OutputStreamWriter out,
-			Path folder) throws IOException {
+	private void generateIdsFromEntityList(OutputStreamWriter out,
+			List<? extends Entity> entities, Set<String> ids)
+			throws IOException {
 
-		Set<String> ids = new HashSet<String>();
+		if (ids == null) {
+
+			ids = new HashSet<String>();
+		}
+
+		for (Entity e : entities) {
+
+			if (e == null) {
+				continue;
+			}
+
+			String name = Null.nvl(e.getName(), e.getClass().getName());
+
+			String id = "" + e.getId();
+
+			if (!ids.add(id)) {
+
+				id = String.format("$$: doppelte Id -> %s", id);
+				ids.add(id);
+			}
+
+			if (out != null) {
+
+				out.write(String.format("%s -> %s\n", name, id));
+			}
+		}
+
+		if (out != null) {
+
+			out.flush();
+		}
+	}
+
+	private void generateIdsFromFolder(OutputStreamWriter out, Path folder,
+			Set<String> ids) throws IOException {
+
+		if (ids == null) {
+
+			ids = new HashSet<String>();
+		}
 
 		try {
 			DirectoryStream<Path> dirs = Files.newDirectoryStream(folder);
@@ -906,7 +954,11 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 
 					String id = Null.nvl(info.getChildText("id"), "<Unknown>");
 
-					ids.add(id);
+					if (!ids.add(id)) {
+
+						id = String.format("$$: doppelte Id -> %s", id);
+						ids.add(id);
+					}
 
 					if (out != null) {
 
@@ -924,8 +976,6 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 
 			out.flush();
 		}
-
-		return ids;
 	}
 
 	public static void main(String[] args) {
