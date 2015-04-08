@@ -99,7 +99,62 @@ public class GameScene implements Scene, CinematicVisualizer
 	private void updateStats(boolean animated, boolean wait, RobotPosition pos, Robot robo)
 	{
 
-		LOG.debug("Update Statistics for Robot {} at Position {}", robo, pos);
+		updateHealthpoints(robo, pos, animated, wait);
+		updateEnergypoints(robo, pos, animated, wait);
+		updateEfects(robo, pos);
+	}
+
+	@Override
+	public void updateEfects(Robot robo, RobotPosition pos)
+	{
+
+		LOG.debug("Update Effect Statistics for Robot {} at Position {}", robo, pos);
+
+		Position position = Position.from(pos);
+
+		if (robo == null)
+		{
+
+			return;
+		}
+
+		List<StatusEffect> statusEffects = robo.getStatusEffects();
+		status.setEffects(position, statusEffects);
+	}
+
+	@Override
+	public void updateEnergypoints(Robot robo, RobotPosition pos, boolean animated, boolean wait)
+	{
+
+		LOG.debug("Update Energy Statistics for Robot {} at Position {}", robo, pos);
+
+		Position position = Position.from(pos);
+
+		if (robo == null)
+		{
+
+			return;
+		}
+
+		status.setMaxEnergyPoints(position, robo.getMaxEnergyPoints());
+
+		if (animated)
+		{
+
+			status.startEnergyPointAnimation(position, robo.getEnergyPoints(), wait);
+		}
+		else
+		{
+
+			status.setEnergyPoints(position, robo.getEnergyPoints());
+		}
+	}
+
+	@Override
+	public void updateHealthpoints(Robot robo, RobotPosition pos, boolean animated, boolean wait)
+	{
+
+		LOG.debug("Update Health Statistics for Robot {} at Position {}", robo, pos);
 
 		Position position = Position.from(pos);
 
@@ -110,24 +165,17 @@ public class GameScene implements Scene, CinematicVisualizer
 		}
 
 		status.setMaxHealthPoints(position, robo.getMaxHealthPoints());
-		status.setMaxEnergyPoints(position, robo.getMaxEnergyPoints());
 
 		if (animated)
 		{
 
 			status.startHealthPointAnimation(position, robo.getHealthPoints(), wait);
-			status.startEnergyPointAnimation(position, robo.getEnergyPoints(), wait);
 		}
 		else
 		{
 
 			status.setHealthPoints(position, robo.getHealthPoints());
-			status.setEnergyPoints(position, robo.getEnergyPoints());
 		}
-
-		List<StatusEffect> statusEffects = robo.getStatusEffects();
-		status.setEffects(position, statusEffects);
-
 	}
 
 	@Override

@@ -39,6 +39,12 @@ public interface CinematicVisualizer
 	 */
 	public void updateStats(Robot robot, RobotPosition position, boolean animated, boolean wait);
 
+	public void updateEfects(Robot robot, RobotPosition position);
+
+	public void updateEnergypoints(Robot robot, RobotPosition position, boolean animated, boolean wait);
+
+	public void updateHealthpoints(Robot robot, RobotPosition position, boolean animated, boolean wait);
+
 	/**
 	 * Phase von beginn der Aktionsauswahl bis zum Beginn einer Runde.
 	 */
