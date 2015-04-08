@@ -16,6 +16,8 @@ public class TypeEffect extends StatusEffect
 		this.actionType = actionType;
 		this.modificationType = modificationType;
 		this.setName("Elementareffekt: ");
+		this.setIconName(actionType.getIconName());
+		this.setPositive(modificationType == TypeEffectModificationType.RESISTANCE);
 	}
 
 	public TypeEffect()

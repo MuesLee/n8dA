@@ -14,6 +14,9 @@ public abstract class StatusEffect extends Entity implements RoboModificator
 	private int startDuration;
 	private int roundsLeft;
 
+	private boolean isPositive = true;
+	private String iconName;
+
 	public StatusEffect()
 	{
 	}
@@ -63,5 +66,25 @@ public abstract class StatusEffect extends Entity implements RoboModificator
 
 	@Override
 	public abstract StatusEffect clone();
+
+	public boolean isPositive()
+	{
+		return isPositive;
+	}
+
+	public void setPositive(boolean isPositive)
+	{
+		this.isPositive = isPositive;
+	}
+
+	public String getIconName()
+	{
+		return iconName;
+	}
+
+	public void setIconName(String iconName)
+	{
+		this.iconName = iconName;
+	}
 
 }

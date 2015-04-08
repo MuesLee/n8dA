@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.StatusEffect;
-import de.kvwl.n8dA.robotwars.commons.game.statuseffects.TypeEffect;
 import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
 import de.kvwl.n8dA.robotwars.server.input.DataLoader;
 import de.kvwl.n8dA.robotwars.server.network.RoboBattleServer;
@@ -127,18 +126,7 @@ public class GameScene implements Scene, CinematicVisualizer
 		}
 
 		List<StatusEffect> statusEffects = robo.getStatusEffects();
-		for (StatusEffect ef : statusEffects)
-		{
-			LOG.debug("updating status effect {}", ef);
-
-			if (ef instanceof TypeEffect)
-			{
-
-				TypeEffect te = (TypeEffect) ef;
-
-				status.setEffect(position, te.getActionType(), ef);
-			}
-		}
+		status.setEffects(position, statusEffects);
 
 	}
 

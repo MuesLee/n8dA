@@ -8,11 +8,11 @@ import game.engine.stage.scene.object.Point;
 
 import java.awt.Graphics2D;
 import java.util.EventListener;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.StatusEffect;
 import de.kvwl.n8dA.robotwars.server.visualization.Position;
 
@@ -267,20 +267,20 @@ public class StatusScene implements Scene
 		}
 	}
 
-	public void setEffect(Position pos, RobotActionType type, StatusEffect effect)
+	public void setEffects(Position pos, List<StatusEffect> effects)
 	{
 
-		LOG.debug("Setting effect for{} -> {}", pos, type);
+		LOG.debug("Setting effect for{} -> {}", pos, effects);
 
 		if (pos == Position.LEFT)
 		{
 
-			effectLeft.setEffect(type, effect);
+			effectLeft.setEffects(effects);
 		}
 		else
 		{
 
-			effectRight.setEffect(type, effect);
+			effectRight.setEffects(effects);
 		}
 	}
 

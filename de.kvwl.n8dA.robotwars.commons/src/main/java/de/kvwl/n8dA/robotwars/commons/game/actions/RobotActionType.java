@@ -38,4 +38,26 @@ public enum RobotActionType {
 
 		return humanReadable;
 	}
+
+	public String getIconName()
+	{
+		String icName;
+
+		switch (this)
+		{
+			case PAPER:
+				icName = "stat_Paper.png";
+			break;
+			case ROCK:
+				icName = "stat_Rock.png";
+			break;
+			case SCISSOR:
+				icName = "stat_Scissor.png";
+			break;
+			default:
+				throw new RuntimeException("Unbekannter enum value");
+		}
+
+		return icName;
+	}
 }
