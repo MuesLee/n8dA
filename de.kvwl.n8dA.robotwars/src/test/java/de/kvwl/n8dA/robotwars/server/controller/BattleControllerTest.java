@@ -72,7 +72,7 @@ public class BattleControllerTest {
 		// RoundsLeft should be lowered by 1 
 		
 		List<StatusEffect> givenEffects = new ArrayList<>();
-		TypeEffect givenEffect = new TypeEffect(RobotActionType.ROCK, TypeEffectModificationType.RESISTANCE, 1);
+		TypeEffect givenEffect = new TypeEffect(RobotActionType.FIRE, TypeEffectModificationType.RESISTANCE, 1);
 		givenEffects.add(givenEffect);
 		robotLeft.setStatusEffects(givenEffects );
 		
@@ -80,7 +80,7 @@ public class BattleControllerTest {
 		
 		List<StatusEffect> actualEffects = robotLeft.getStatusEffects();
 		StatusEffect actualEffect = actualEffects.get(0);
-		StatusEffect expectedEffect = new TypeEffect(RobotActionType.ROCK, TypeEffectModificationType.RESISTANCE, 0);
+		StatusEffect expectedEffect = new TypeEffect(RobotActionType.FIRE, TypeEffectModificationType.RESISTANCE, 0);
 		assertEquals(expectedEffect.getRoundsLeft(), actualEffect.getRoundsLeft());
 	}
 	@Test
@@ -90,7 +90,7 @@ public class BattleControllerTest {
 		// StatusEffect should be removed
 		
 		List<StatusEffect> givenEffects = new ArrayList<>();
-		TypeEffect givenEffect = new TypeEffect(RobotActionType.ROCK, TypeEffectModificationType.RESISTANCE, 0);
+		TypeEffect givenEffect = new TypeEffect(RobotActionType.FIRE, TypeEffectModificationType.RESISTANCE, 0);
 		givenEffects.add(givenEffect);
 		robotLeft.setStatusEffects(givenEffects );
 		
@@ -98,11 +98,32 @@ public class BattleControllerTest {
 		
 		assertTrue(robotLeft.getStatusEffects().isEmpty());
 	}
+	@Test
+	public void testStatusEffectConsumption2() throws Exception {
+		
+		// RoundsLeft should be lowered by 1 
+		// 1 StatusEffect should be removed
+		
+		List<StatusEffect> givenEffects = new ArrayList<>();
+		TypeEffect givenEffect = new TypeEffect(RobotActionType.FIRE, TypeEffectModificationType.RESISTANCE, 0);
+		TypeEffect givenEffect2 = new TypeEffect(RobotActionType.WATER, TypeEffectModificationType.RESISTANCE, 1);
+		TypeEffect givenEffect3 = new TypeEffect(RobotActionType.LIGHTNING, TypeEffectModificationType.VULNERABILITY, 3);
+		givenEffects.add(givenEffect);
+		givenEffects.add(givenEffect2);
+		givenEffects.add(givenEffect3);
+		robotLeft.setStatusEffects(givenEffects);
+		
+		battleController.consumeStatusEffects(robotLeft);
+		
+		assertTrue(!robotLeft.getStatusEffects().isEmpty());
+		assertEquals(givenEffects.get(0).getRoundsLeft(), 0);
+		assertEquals(givenEffects.get(1).getRoundsLeft(), 2);
+	}
 
 	@Test
 	public void testInflictStatusEffect() {
-		Attack robotAction = new Attack(RobotActionType.SCISSOR, 10);
-		TypeEffect typeEffect = new TypeEffect(RobotActionType.SCISSOR,
+		Attack robotAction = new Attack(RobotActionType.LIGHTNING, 10);
+		TypeEffect typeEffect = new TypeEffect(RobotActionType.LIGHTNING,
 				TypeEffectModificationType.RESISTANCE, 1);
 
 		ArrayList<StatusEffect> expectedStatusEffects = new ArrayList<StatusEffect>();
@@ -118,23 +139,23 @@ public class BattleControllerTest {
 
 	@Test
 	public void testInflictStatusEffect2() {
-		Attack robotAction = new Attack(RobotActionType.SCISSOR, 10);
-		TypeEffect typeEffect = new TypeEffect(RobotActionType.SCISSOR,
+		Attack robotAction = new Attack(RobotActionType.LIGHTNING, 10);
+		TypeEffect typeEffect = new TypeEffect(RobotActionType.LIGHTNING,
 				TypeEffectModificationType.VULNERABILITY, 2);
 
 		ArrayList<StatusEffect> actionsStatusEffects = new ArrayList<StatusEffect>();
 		actionsStatusEffects.add(typeEffect);
 		robotAction.setStatusEffects(actionsStatusEffects);
 
-		robotLeft.addStatusEffect(new TypeEffect(RobotActionType.SCISSOR,
+		robotLeft.addStatusEffect(new TypeEffect(RobotActionType.LIGHTNING,
 				TypeEffectModificationType.RESISTANCE, 1));
 
 		battleController.inflictStatusEffects(robotLeft, robotAction);
 
 		ArrayList<StatusEffect> expectedStatusEffects = new ArrayList<StatusEffect>();
-		expectedStatusEffects.add(new TypeEffect(RobotActionType.SCISSOR,
+		expectedStatusEffects.add(new TypeEffect(RobotActionType.LIGHTNING,
 				TypeEffectModificationType.RESISTANCE, -1));
-		expectedStatusEffects.add(new TypeEffect(RobotActionType.SCISSOR,
+		expectedStatusEffects.add(new TypeEffect(RobotActionType.LIGHTNING,
 				TypeEffectModificationType.VULNERABILITY, 1));
 		List<StatusEffect> actualStatusEffects = robotLeft.getStatusEffects();
 
@@ -142,23 +163,23 @@ public class BattleControllerTest {
 	}
 	@Test
 	public void testInflictStatusEffect3() {
-		Attack robotAction = new Attack(RobotActionType.SCISSOR, 10);
-		TypeEffect typeEffect = new TypeEffect(RobotActionType.SCISSOR,
+		Attack robotAction = new Attack(RobotActionType.LIGHTNING, 10);
+		TypeEffect typeEffect = new TypeEffect(RobotActionType.LIGHTNING,
 				TypeEffectModificationType.VULNERABILITY, 2);
 		
 		ArrayList<StatusEffect> actionsStatusEffects = new ArrayList<StatusEffect>();
 		actionsStatusEffects.add(typeEffect);
 		robotAction.setStatusEffects(actionsStatusEffects);
 		
-		robotLeft.addStatusEffect(new TypeEffect(RobotActionType.ROCK,
+		robotLeft.addStatusEffect(new TypeEffect(RobotActionType.FIRE,
 				TypeEffectModificationType.RESISTANCE, 1));
 		
 		battleController.inflictStatusEffects(robotLeft, robotAction);
 		
 		ArrayList<StatusEffect> expectedStatusEffects = new ArrayList<StatusEffect>();
-		expectedStatusEffects.add(new TypeEffect(RobotActionType.ROCK,
+		expectedStatusEffects.add(new TypeEffect(RobotActionType.FIRE,
 				TypeEffectModificationType.RESISTANCE, 1));
-		expectedStatusEffects.add(new TypeEffect(RobotActionType.SCISSOR,
+		expectedStatusEffects.add(new TypeEffect(RobotActionType.LIGHTNING,
 				TypeEffectModificationType.VULNERABILITY, 2));
 		List<StatusEffect> actualStatusEffects = robotLeft.getStatusEffects();
 		
@@ -225,8 +246,8 @@ public class BattleControllerTest {
 	public void testATTvsDEF_ROCKvsPAPER() throws Exception {
 
 		int attackDmg = 10;
-		Attack attack = new Attack(RobotActionType.ROCK, attackDmg);
-		Defense defense = new Defense(RobotActionType.PAPER, 0);
+		Attack attack = new Attack(RobotActionType.FIRE, attackDmg);
+		Defense defense = new Defense(RobotActionType.WATER, 0);
 
 		robotLeft.setCurrentAction(attack);
 		robotRight.setCurrentAction(defense);
@@ -250,8 +271,8 @@ public class BattleControllerTest {
 	public void testATTvsDEF_ROCKvsSCISSOR() throws Exception {
 
 		int attackDmg = 10;
-		Attack attack = new Attack(RobotActionType.ROCK, attackDmg);
-		Defense defense = new Defense(RobotActionType.SCISSOR, 0);
+		Attack attack = new Attack(RobotActionType.FIRE, attackDmg);
+		Defense defense = new Defense(RobotActionType.LIGHTNING, 0);
 
 		robotLeft.setCurrentAction(attack);
 		robotRight.setCurrentAction(defense);
@@ -275,8 +296,8 @@ public class BattleControllerTest {
 	public void testATTvsDEF_ROCKvsROCK() throws Exception {
 
 		int attackDmg = 10;
-		Attack attack = new Attack(RobotActionType.ROCK, attackDmg);
-		Defense defense = new Defense(RobotActionType.ROCK, 0);
+		Attack attack = new Attack(RobotActionType.FIRE, attackDmg);
+		Defense defense = new Defense(RobotActionType.FIRE, 0);
 
 		robotLeft.setCurrentAction(attack);
 		robotRight.setCurrentAction(defense);
@@ -299,7 +320,7 @@ public class BattleControllerTest {
 	@Test(expected = RobotsArentRdyToFightException.class)
 	public void testFightRobotRightNotRdy() throws Exception {
 
-		Attack attack = new Attack(RobotActionType.ROCK, 10);
+		Attack attack = new Attack(RobotActionType.FIRE, 10);
 
 		robotLeft.setCurrentAction(attack);
 
@@ -310,7 +331,7 @@ public class BattleControllerTest {
 	@Test(expected = RobotsArentRdyToFightException.class)
 	public void testFightRobotLeftNotRdy() throws Exception {
 
-		Defense defense = new Defense(RobotActionType.SCISSOR, 10);
+		Defense defense = new Defense(RobotActionType.LIGHTNING, 10);
 
 		robotRight.setCurrentAction(defense);
 

@@ -14,31 +14,31 @@ public class StatusEffectUtil
 	public static List<StatusEffect> getAllStatusEffects()
 	{
 		List<StatusEffect> statusEffects = new ArrayList<>();
-		TypeEffect rockRes = new TypeEffect(RobotActionType.ROCK, TypeEffectModificationType.RESISTANCE, 1);
+		TypeEffect rockRes = new TypeEffect(RobotActionType.FIRE, TypeEffectModificationType.RESISTANCE, 1);
 		rockRes.setId(100L);
-		TypeEffect scissorRes = new TypeEffect(RobotActionType.SCISSOR, TypeEffectModificationType.RESISTANCE, 1);
+		TypeEffect scissorRes = new TypeEffect(RobotActionType.LIGHTNING, TypeEffectModificationType.RESISTANCE, 1);
 		scissorRes.setId(101L);
-		TypeEffect paperRes = new TypeEffect(RobotActionType.PAPER, TypeEffectModificationType.RESISTANCE, 1);
+		TypeEffect paperRes = new TypeEffect(RobotActionType.WATER, TypeEffectModificationType.RESISTANCE, 1);
 		paperRes.setId(102L);
-		TypeEffect rockVul = new TypeEffect(RobotActionType.ROCK, TypeEffectModificationType.VULNERABILITY, 1);
+		TypeEffect rockVul = new TypeEffect(RobotActionType.FIRE, TypeEffectModificationType.VULNERABILITY, 1);
 		rockVul.setId(103L);
-		TypeEffect scissorVul = new TypeEffect(RobotActionType.SCISSOR, TypeEffectModificationType.VULNERABILITY, 1);
+		TypeEffect scissorVul = new TypeEffect(RobotActionType.LIGHTNING, TypeEffectModificationType.VULNERABILITY, 1);
 		scissorVul.setId(104L);
-		TypeEffect paperVul = new TypeEffect(RobotActionType.PAPER, TypeEffectModificationType.VULNERABILITY, 1);
+		TypeEffect paperVul = new TypeEffect(RobotActionType.WATER, TypeEffectModificationType.VULNERABILITY, 1);
 		paperVul.setId(105L);
 
-		TypeEffect rockResHeavy = new TypeEffect(RobotActionType.ROCK, TypeEffectModificationType.RESISTANCE, 2);
+		TypeEffect rockResHeavy = new TypeEffect(RobotActionType.FIRE, TypeEffectModificationType.RESISTANCE, 2);
 		rockResHeavy.setId(106L);
-		TypeEffect scissorResHeavy = new TypeEffect(RobotActionType.SCISSOR, TypeEffectModificationType.RESISTANCE, 2);
+		TypeEffect scissorResHeavy = new TypeEffect(RobotActionType.LIGHTNING, TypeEffectModificationType.RESISTANCE, 2);
 		scissorResHeavy.setId(107L);
-		TypeEffect paperResHeavy = new TypeEffect(RobotActionType.PAPER, TypeEffectModificationType.RESISTANCE, 2);
+		TypeEffect paperResHeavy = new TypeEffect(RobotActionType.WATER, TypeEffectModificationType.RESISTANCE, 2);
 		paperResHeavy.setId(108L);
-		TypeEffect rockVulHeavy = new TypeEffect(RobotActionType.ROCK, TypeEffectModificationType.VULNERABILITY, 2);
+		TypeEffect rockVulHeavy = new TypeEffect(RobotActionType.FIRE, TypeEffectModificationType.VULNERABILITY, 2);
 		rockVulHeavy.setId(109L);
-		TypeEffect scissorVulHeavy = new TypeEffect(RobotActionType.SCISSOR, TypeEffectModificationType.VULNERABILITY,
+		TypeEffect scissorVulHeavy = new TypeEffect(RobotActionType.LIGHTNING, TypeEffectModificationType.VULNERABILITY,
 			2);
 		scissorVulHeavy.setId(110L);
-		TypeEffect paperVulHeavy = new TypeEffect(RobotActionType.PAPER, TypeEffectModificationType.VULNERABILITY, 2);
+		TypeEffect paperVulHeavy = new TypeEffect(RobotActionType.WATER, TypeEffectModificationType.VULNERABILITY, 2);
 		paperVulHeavy.setId(111L);
 
 		statusEffects.add(scissorRes);

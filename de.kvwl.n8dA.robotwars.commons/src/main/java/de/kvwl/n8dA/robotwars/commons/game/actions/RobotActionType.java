@@ -2,7 +2,7 @@ package de.kvwl.n8dA.robotwars.commons.game.actions;
 
 public enum RobotActionType {
 
-	ROCK("Feuer"), PAPER("Wasser"), SCISSOR("Blitz");
+	FIRE("Feuer"), WATER("Wasser"), LIGHTNING("Blitz");
 
 	private String humanReadable;
 
@@ -22,12 +22,12 @@ public enum RobotActionType {
 
 		switch (this)
 		{
-			case PAPER:
-				return otherRobotActionType.equals(RobotActionType.ROCK) ? true : false;
-			case ROCK:
-				return otherRobotActionType.equals(RobotActionType.SCISSOR) ? true : false;
-			case SCISSOR:
-				return otherRobotActionType.equals(RobotActionType.PAPER) ? true : false;
+			case WATER:
+				return otherRobotActionType.equals(RobotActionType.FIRE) ? true : false;
+			case FIRE:
+				return otherRobotActionType.equals(RobotActionType.LIGHTNING) ? true : false;
+			case LIGHTNING:
+				return otherRobotActionType.equals(RobotActionType.WATER) ? true : false;
 			default:
 				return false;
 		}
@@ -45,13 +45,13 @@ public enum RobotActionType {
 
 		switch (this)
 		{
-			case PAPER:
+			case WATER:
 				icName = "stat_Paper.png";
 			break;
-			case ROCK:
+			case FIRE:
 				icName = "stat_Rock.png";
 			break;
-			case SCISSOR:
+			case LIGHTNING:
 				icName = "stat_Scissor.png";
 			break;
 			default:

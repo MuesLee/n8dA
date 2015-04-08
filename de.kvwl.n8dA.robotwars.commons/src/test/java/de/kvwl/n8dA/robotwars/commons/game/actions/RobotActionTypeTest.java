@@ -12,8 +12,8 @@ public class RobotActionTypeTest {
 	@Test
 	public void testROCKvsSCISSOR() throws Exception {
 		
-		RobotActionType robotActionType = RobotActionType.ROCK;
-		RobotActionType otherRobotActionType = RobotActionType.SCISSOR;
+		RobotActionType robotActionType = RobotActionType.FIRE;
+		RobotActionType otherRobotActionType = RobotActionType.LIGHTNING;
 		
 		boolean result = robotActionType.beats(otherRobotActionType);
 		
@@ -22,8 +22,8 @@ public class RobotActionTypeTest {
 	@Test
 	public void testROCKvsPAPER() throws Exception {
 		
-		RobotActionType robotActionType = RobotActionType.ROCK;
-		RobotActionType otherRobotActionType = RobotActionType.PAPER;
+		RobotActionType robotActionType = RobotActionType.FIRE;
+		RobotActionType otherRobotActionType = RobotActionType.WATER;
 		
 		boolean result = robotActionType.beats(otherRobotActionType);
 		
@@ -32,8 +32,8 @@ public class RobotActionTypeTest {
 	@Test
 	public void testPAPERvsSCISSOR() throws Exception {
 		
-		RobotActionType robotActionType = RobotActionType.PAPER;
-		RobotActionType otherRobotActionType = RobotActionType.SCISSOR;
+		RobotActionType robotActionType = RobotActionType.WATER;
+		RobotActionType otherRobotActionType = RobotActionType.LIGHTNING;
 		
 		boolean result = robotActionType.beats(otherRobotActionType);
 		
@@ -42,8 +42,8 @@ public class RobotActionTypeTest {
 	@Test
 	public void testSCISSORvsROCK() throws Exception {
 		
-		RobotActionType robotActionType = RobotActionType.SCISSOR;
-		RobotActionType otherRobotActionType = RobotActionType.ROCK;
+		RobotActionType robotActionType = RobotActionType.LIGHTNING;
+		RobotActionType otherRobotActionType = RobotActionType.FIRE;
 		
 		boolean result = robotActionType.beats(otherRobotActionType);
 		
@@ -52,8 +52,8 @@ public class RobotActionTypeTest {
 	@Test
 	public void testPAPERvsROCK() throws Exception {
 		
-		RobotActionType robotActionType = RobotActionType.PAPER;
-		RobotActionType otherRobotActionType = RobotActionType.ROCK;
+		RobotActionType robotActionType = RobotActionType.WATER;
+		RobotActionType otherRobotActionType = RobotActionType.FIRE;
 		
 		boolean result = robotActionType.beats(otherRobotActionType);
 		
@@ -62,8 +62,8 @@ public class RobotActionTypeTest {
 	@Test
 	public void testSCISSORvsPAPER() throws Exception {
 		
-		RobotActionType robotActionType = RobotActionType.SCISSOR;
-		RobotActionType otherRobotActionType = RobotActionType.PAPER;
+		RobotActionType robotActionType = RobotActionType.LIGHTNING;
+		RobotActionType otherRobotActionType = RobotActionType.WATER;
 		
 		boolean result = robotActionType.beats(otherRobotActionType);
 		
@@ -72,8 +72,8 @@ public class RobotActionTypeTest {
 	@Test
 	public void testSCISSORvsSCISSOR() throws Exception {
 		
-		RobotActionType robotActionType = RobotActionType.SCISSOR;
-		RobotActionType otherRobotActionType = RobotActionType.SCISSOR;
+		RobotActionType robotActionType = RobotActionType.LIGHTNING;
+		RobotActionType otherRobotActionType = RobotActionType.LIGHTNING;
 		
 		boolean result = robotActionType.beats(otherRobotActionType);
 		
@@ -82,8 +82,8 @@ public class RobotActionTypeTest {
 	@Test
 	public void testPAPERvsPAPER() throws Exception {
 		
-		RobotActionType robotActionType = RobotActionType.PAPER;
-		RobotActionType otherRobotActionType = RobotActionType.PAPER;
+		RobotActionType robotActionType = RobotActionType.WATER;
+		RobotActionType otherRobotActionType = RobotActionType.WATER;
 		
 		boolean result = robotActionType.beats(otherRobotActionType);
 		
@@ -92,8 +92,8 @@ public class RobotActionTypeTest {
 	@Test
 	public void testROCKvsROCK() throws Exception {
 		
-		RobotActionType robotActionType = RobotActionType.ROCK;
-		RobotActionType otherRobotActionType = RobotActionType.ROCK;
+		RobotActionType robotActionType = RobotActionType.FIRE;
+		RobotActionType otherRobotActionType = RobotActionType.FIRE;
 		
 		boolean result = robotActionType.beats(otherRobotActionType);
 		

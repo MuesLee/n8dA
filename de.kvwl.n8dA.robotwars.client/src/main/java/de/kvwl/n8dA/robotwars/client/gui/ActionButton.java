@@ -36,13 +36,13 @@ public class ActionButton extends JButton
 
 		switch (robotActionType)
 		{
-			case PAPER:
+			case WATER:
 				img = InternalImage.loadFromPath(IMAGE_PATH, "stat_Paper.png");
 			break;
-			case ROCK:
+			case FIRE:
 				img = InternalImage.loadFromPath(IMAGE_PATH, "stat_Rock.png");
 			break;
-			case SCISSOR:
+			case LIGHTNING:
 				img = InternalImage.loadFromPath(IMAGE_PATH, "stat_Scissor.png");
 			break;
 			default:

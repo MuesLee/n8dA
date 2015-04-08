@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <attack>
 	<damage>25</damage>
-	<type>PAPER</type>
+	<type>FIRE</type>
 <powertype>HEAVY</powertype>
 	<animationid>Molotovcocktail</animationid>
 	<energycosts>6</energycosts>
@@ -10,7 +10,7 @@
 	<id>14</id>
 	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->
         
-         <id>102</id>
+         <id>100</id>
 	<id>110</id>
     </statuseffects>
 </attack>
