@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <animation>
-	<id>Kreissaege</id>
+	<id>Eishieb</id>
 	<width>64</width>
 	<height>64</height>
 	<times size="1">
-		<time frame="0">100000000</time>
+		<time frame="0">0</time>
 	</times>
 </animation>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<attack>
+	<damage>25</damage>
+	<type>WATER</type>
+	<powertype>NORMAL</powertype>
+	<animationid>Eishieb</animationid>
+	<energycosts>6</energycosts>
+	<configcosts>200</configcosts>
+	<name>Eishieb</name>
+	<id>11</id>
+	<statuseffects>
+		<id>102</id>
+		<id>109</id>
+    </statuseffects>
+</attack>

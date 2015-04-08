@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <attack>
-	<damage>25</damage>
+	<damage>10</damage>
 	<type>WATER</type>
-<powertype>HEAVY</powertype>
+	<powertype>HEAVY</powertype>
 	<animationid>Spritze</animationid>
-	<energycosts>6</energycosts>
-	<configcosts>200</configcosts>
-	<name>Spritze</name>
+	<energycosts>0</energycosts>
+	<configcosts>0</configcosts>
+	<name>Wasserspritze</name>
 	<id>17</id>
-	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->	<id>102</id>
-<id>111</id>
+	<statuseffects>
+		<id>102</id>
+		<id>111</id>
     </statuseffects>
 </attack>

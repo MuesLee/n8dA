@@ -62,7 +62,7 @@ public class EffectLabel extends SceneObject
 				continue;
 			}
 
-			paintEffectAtPos(g2d, index, img, (ef.isPositive()) ? Color.GREEN : Color.RED, ef.getRoundsLeft());
+			paintEffectAtPos(g2d, index, img, (ef.isPositive()) ? Color.GREEN : Color.RED, ef.getRoundsLeft() + 1);
 			index++;
 		}
 

@@ -2,13 +2,14 @@
 <attack>
 	<damage>25</damage>
 	<type>WATER</type>
-<powertype>HEAVY</powertype>
-	<animationid>Kreissaege</animationid>
+	<powertype>HEAVY</powertype>
+	<animationid>Welle</animationid>
 	<energycosts>6</energycosts>
 	<configcosts>200</configcosts>
-	<name>Kreissäge</name>
+	<name>Welle</name>
 	<id>12</id>
-	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->	<id>102</id>
-<id>111</id>
+	<statuseffects>
+		<id>102</id>
+		<id>111</id>
     </statuseffects>
 </attack>
