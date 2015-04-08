@@ -101,18 +101,50 @@ public class RobotScene implements Scene
 	private void paintActions(Graphics2D g2d, int width, int height, long elapsedTime)
 	{
 
-		//links hat eine Aktion
-		if (acLeft != null && acLeft.isVisible())
+		//Situationen müssen unterschieden werden, damit atk immer über def gezeichnet wird
+		if (acLeft != null && acRight != null)
 		{
 
-			acLeft.paintOnScene(g2d, elapsedTime);
+			if (acLeft.getType().isDefendingType() && acLeft.isVisible())
+			{
+
+				acLeft.paintOnScene(g2d, elapsedTime);
+				if (acRight.isVisible())
+				{
+
+					acRight.paintOnScene(g2d, elapsedTime);
+				}
+			}
+			else
+			{
+
+				if (acRight.isVisible())
+				{
+
+					acRight.paintOnScene(g2d, elapsedTime);
+				}
+
+				if (acLeft.isVisible())
+				{
+
+					acLeft.paintOnScene(g2d, elapsedTime);
+				}
+			}
 		}
-
-		//rechts hat eine Aktion
-		if (acRight != null && acRight.isVisible())
+		else
 		{
 
-			acRight.paintOnScene(g2d, elapsedTime);
+			if (acLeft != null && acLeft.isVisible())
+			{
+
+				acLeft.paintOnScene(g2d, elapsedTime);
+			}
+
+			if (acRight != null && acRight.isVisible())
+			{
+
+				acRight.paintOnScene(g2d, elapsedTime);
+			}
 		}
 	}
 
