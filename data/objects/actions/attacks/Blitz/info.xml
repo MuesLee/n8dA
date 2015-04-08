@@ -2,7 +2,7 @@
 <attack>
 	<damage>10</damage>
 	<powertype>NORMAL</powertype>
-	<type>SCISSOR</type>
+	<type>LIGHTNING</type>
 	<animationid>Blitz</animationid>
 	<energycosts>0</energycosts>
 	<configcosts>0</configcosts>

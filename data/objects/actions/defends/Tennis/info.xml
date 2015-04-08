@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <defense>
 	<defensefactor>0.75</defensefactor>
-	<type>SCISSOR</type>
+	<type>WATER</type>
 <powertype>NORMAL</powertype>
 	<animationid>Tennis</animationid>
 	<energycosts>6</energycosts>

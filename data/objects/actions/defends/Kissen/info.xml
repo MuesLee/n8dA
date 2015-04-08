@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <defense>
 	<defensefactor>0.3</defensefactor>
-	<type>PAPER</type>
+	<type>LIGHTNING</type>
 <powertype>NORMAL</powertype>
 	<animationid>Kissen</animationid>
 	<energycosts>3</energycosts>
@@ -9,6 +9,6 @@
 	<name>Kissen</name>
 	<id>19</id>
 	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->
-        <id>101</id>
+        <id>102</id>
     </statuseffects>
 </defense>

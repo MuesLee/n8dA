@@ -94,6 +94,9 @@ public class BattleController {
 
 		computeBattleOutcome(robotLeft, robotRight);
 		
+		consumeStatusEffects(robotLeft);
+		consumeStatusEffects(robotRight);
+		
 		cinematicVisualizer.updateStats(robotLeft, RobotPosition.LEFT,
 				true, true);
 		cinematicVisualizer.updateStats(robotRight, RobotPosition.RIGHT,
@@ -104,8 +107,6 @@ public class BattleController {
 	
 		if(currentGameState == GameStateType.WAITING_FOR_PLAYER_INPUT)
 		{
-			consumeStatusEffects(robotLeft);
-			consumeStatusEffects(robotRight);
 			
 			regenerateEnergyOfRobots(robotLeft, robotRight,
 					ENERGY_REGENERATION_RATE);
@@ -456,7 +457,8 @@ public class BattleController {
 				}
 			}
 			robotsCurrentStatusEffects.addAll(effectsToAdd);
-			LOG.info("Robot " + robot + " has received StatusEffect: " +effectsToAdd);
+			LOG.info("Robot " + robot + " has received StatusEffects: " +effectsToAdd);
+			LOG.info("Robot " + robot + " now has following StatusEffects: " +robot.getStatusEffects());
 		}
 	}
 
@@ -472,7 +474,6 @@ public class BattleController {
 		LOG.debug("Current statusEffects on Robot: " +  robot.getStatusEffects());
 		
 		for (StatusEffect statusEffect : statusEffects) {
-			
 			
 			if(statusEffect == null)
 				continue;

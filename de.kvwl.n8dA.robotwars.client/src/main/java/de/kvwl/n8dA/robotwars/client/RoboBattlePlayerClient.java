@@ -47,7 +47,7 @@ public class RoboBattlePlayerClient extends RoboBattleClient
 			e.printStackTrace();
 		}
 		client.getUpdatedRobot();
-		client.sendRobotActionToServer(new Attack(RobotActionType.ROCK, 10));
+		client.sendRobotActionToServer(new Attack(RobotActionType.FIRE, 10));
 	}
 
 	/**

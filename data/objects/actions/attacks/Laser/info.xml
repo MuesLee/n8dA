@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <attack>
 	<damage>25</damage>
-	<type>SCISSOR</type>
+	<type>LIGHTNING</type>
 <powertype>HEAVY</powertype>
 	<animationid>Laser</animationid>
 	<energycosts>6</energycosts>

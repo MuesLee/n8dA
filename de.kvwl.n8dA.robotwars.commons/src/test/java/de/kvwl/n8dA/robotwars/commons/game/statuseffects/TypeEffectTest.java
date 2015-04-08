@@ -29,9 +29,9 @@ public class TypeEffectTest {
 	@Test
 	public void testResolveVUL_Sci_And_VUL_Sci() throws Exception {
 		
-		typeEffect.setActionType(RobotActionType.SCISSOR);
+		typeEffect.setActionType(RobotActionType.LIGHTNING);
 		typeEffect.setModificationType(TypeEffectModificationType.VULNERABILITY);
-		((TypeEffect) otherStatusEffect).setActionType(RobotActionType.SCISSOR);
+		((TypeEffect) otherStatusEffect).setActionType(RobotActionType.LIGHTNING);
 		((TypeEffect) otherStatusEffect).setModificationType(TypeEffectModificationType.VULNERABILITY);
 		
 		StatusEffect resolveInteractionWith = typeEffect.resolveInteractionWith(otherStatusEffect);
@@ -46,10 +46,10 @@ public class TypeEffectTest {
 	@Test
 	public void testResolveRES_Rock_And_RES_Rock() throws Exception {
 		
-		typeEffect.setActionType(RobotActionType.ROCK);
+		typeEffect.setActionType(RobotActionType.FIRE);
 		typeEffect.setModificationType(TypeEffectModificationType.RESISTANCE);
 		typeEffect.setId(100L);
-		((TypeEffect) otherStatusEffect).setActionType(RobotActionType.ROCK);
+		((TypeEffect) otherStatusEffect).setActionType(RobotActionType.FIRE);
 		((TypeEffect) otherStatusEffect).setModificationType(TypeEffectModificationType.RESISTANCE);
 		otherStatusEffect.setId(100L);
 		
@@ -64,9 +64,9 @@ public class TypeEffectTest {
 	@Test
 	public void testResolveVUL_Sci_And_RES_Sci() throws Exception {
 		
-		typeEffect.setActionType(RobotActionType.SCISSOR);
+		typeEffect.setActionType(RobotActionType.LIGHTNING);
 		typeEffect.setModificationType(TypeEffectModificationType.VULNERABILITY);
-		((TypeEffect) otherStatusEffect).setActionType(RobotActionType.SCISSOR);
+		((TypeEffect) otherStatusEffect).setActionType(RobotActionType.LIGHTNING);
 		((TypeEffect) otherStatusEffect).setModificationType(TypeEffectModificationType.RESISTANCE);
 		
 		StatusEffect resolveInteractionWith = typeEffect.resolveInteractionWith(otherStatusEffect);
@@ -83,15 +83,15 @@ public class TypeEffectTest {
 	@Test
 	public void testResolveVUL_Sci_And_RES_Sci_newEffect() throws Exception {
 		
-		typeEffect.setActionType(RobotActionType.SCISSOR);
+		typeEffect.setActionType(RobotActionType.LIGHTNING);
 		typeEffect.setModificationType(TypeEffectModificationType.VULNERABILITY);
 		otherStatusEffect.setRoundsLeft(2);
-		((TypeEffect) otherStatusEffect).setActionType(RobotActionType.SCISSOR);
+		((TypeEffect) otherStatusEffect).setActionType(RobotActionType.LIGHTNING);
 		((TypeEffect) otherStatusEffect).setModificationType(TypeEffectModificationType.RESISTANCE);
 		
 		StatusEffect resolveInteractionWith = typeEffect.resolveInteractionWith(otherStatusEffect);
 		
-		TypeEffect expectedEffect = new TypeEffect(RobotActionType.SCISSOR, TypeEffectModificationType.RESISTANCE, 1);
+		TypeEffect expectedEffect = new TypeEffect(RobotActionType.LIGHTNING, TypeEffectModificationType.RESISTANCE, 1);
 		assertEquals(expectedEffect , resolveInteractionWith);
 		
 		int roundsLeft = typeEffect.getRoundsLeft();
@@ -101,11 +101,11 @@ public class TypeEffectTest {
 	@Test
 	public void testResolveVUL_Rock_And_RES_Sci_newEffect() throws Exception {
 		
-		typeEffect.setActionType(RobotActionType.ROCK);
+		typeEffect.setActionType(RobotActionType.FIRE);
 		typeEffect.setModificationType(TypeEffectModificationType.VULNERABILITY);
 		
 		otherStatusEffect.setRoundsLeft(2);
-		((TypeEffect) otherStatusEffect).setActionType(RobotActionType.SCISSOR);
+		((TypeEffect) otherStatusEffect).setActionType(RobotActionType.LIGHTNING);
 		((TypeEffect) otherStatusEffect).setModificationType(TypeEffectModificationType.RESISTANCE);
 		
 		StatusEffect resolveInteractionWith = typeEffect.resolveInteractionWith(otherStatusEffect);

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <defense>
 	<defensefactor>0.75</defensefactor>
-	<type>PAPER</type>
+	<type>LIGHTNING</type>
 <powertype>HEAVY</powertype>
 	<animationid>Holzschild</animationid>
 	<energycosts>6</energycosts>
@@ -9,6 +9,6 @@
 	<name>Holzschild</name>
 	<id>18</id>
 	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->
-        <id>107</id>
+        <id>108</id>
     </statuseffects>
 </defense>

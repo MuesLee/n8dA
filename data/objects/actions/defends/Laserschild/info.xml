@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <defense>
 	<defensefactor>0.3</defensefactor>
-	<type>ROCK</type>
+	<type>FIRE</type>
 <powertype>NORMAL</powertype>
 	<animationid>Laserschild</animationid>
 	<energycosts>3</energycosts>
@@ -9,6 +9,6 @@
 	<name>Laserschild</name>
 	<id>20</id>
 	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->
-        <id>102</id>
+        <id>101</id>
     </statuseffects>
 </defense>
