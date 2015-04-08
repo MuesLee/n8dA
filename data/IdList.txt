@@ -1,0 +1,119 @@
+Attacken - Animationen
+Laser -> Laser
+Welle -> Welle
+Eishieb -> Eishieb
+Spritze -> Spritze
+Plasma -> Plasma
+Bombe -> Bombe
+Rakete -> Rakete
+Feuerball -> Feuerball
+Molotovcocktail -> Molotovcocktail
+Blitz -> Blitz
+
+
+Verteidigungen - Animationen
+Spiegel -> Spiegel
+Tennis -> Tennis
+Kissen -> Kissen
+Holzschild -> Holzschild
+Wind -> Wind
+Laserschild -> Laserschild
+
+
+Roboter - Animationen
+NinjaRoboter -> NinjaRoboter
+GreenRoboter -> GreenRoboter
+SmokingRoboter -> SmokingRoboter
+BlueRoboter -> BlueRoboter
+GirlRoboter -> GirlRoboter
+AtomRoboter -> AtomRoboter
+RadRoboter -> RadRoboter
+KosmosRoboter -> KosmosRoboter
+PillenRoboter -> PillenRoboter
+
+
+Attacken - Objekte
+Laser -> 13
+Welle -> 12
+Eishieb -> 11
+Wasserspritze -> 17
+Plasma -> 15
+Bombe -> 10
+Rakete -> 16
+Feuerball -> ???
+Molotovcocktail -> 14
+Blitz -> 9
+
+
+Verteidigungen - Objekte
+Spiegel -> 21
+Tennisschläger -> 22
+Kissen -> 19
+Holzschild -> 18
+Wind -> 23
+Laserschild -> 20
+
+
+Roboter - Objekte
+Ninja -> 6
+Digital -> 3
+Repo-Bot -> 8
+BlueRoboter -> 2
+Herzchen -> 0
+Nucular -> 1
+B(l)ender -> 7
+Space Fighter -> 4
+Die Pille -> 5
+
+
+Alle Ids
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+???
+AtomRoboter
+Blitz
+BlueRoboter
+Bombe
+Eishieb
+Feuerball
+GirlRoboter
+GreenRoboter
+Holzschild
+Kissen
+KosmosRoboter
+Laser
+Laserschild
+Molotovcocktail
+NinjaRoboter
+PillenRoboter
+Plasma
+RadRoboter
+Rakete
+SmokingRoboter
+Spiegel
+Spritze
+Tennis
+Welle
+Wind
