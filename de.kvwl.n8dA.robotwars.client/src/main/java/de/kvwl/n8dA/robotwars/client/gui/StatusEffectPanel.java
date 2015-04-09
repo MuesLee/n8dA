@@ -25,6 +25,7 @@ public class StatusEffectPanel extends JPanel {
 	private static final String IMAGE_PATH = "/de/kvwl/n8dA/robotwars/commons/images/";
 
 	private List<StatusEffect> statusEffects;
+	private String title;
 
 	public void update(List<StatusEffect> statusEffects) {
 		
@@ -121,14 +122,15 @@ public class StatusEffectPanel extends JPanel {
 		setBorder(	BorderFactory.createCompoundBorder(BorderFactory
 				.createTitledBorder(
 						BorderFactory.createLineBorder(Color.BLACK, 2, true),
-						"Eigene Statuseffekte"), BorderFactory.createEmptyBorder(3, 3, 3, 3)));
+						title), BorderFactory.createEmptyBorder(3, 3, 3, 3)));
 		
 	}
 
 
-	public StatusEffectPanel(List<StatusEffect> statusEffects) {
+	public StatusEffectPanel(List<StatusEffect> statusEffects, String title) {
 		super();
 		this.statusEffects = statusEffects;
+		this.title = title;
 		GridLayout mgr = new GridLayout(0, 2);
 		setLayout(mgr);
 		buildPanel();

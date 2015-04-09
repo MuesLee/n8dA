@@ -361,6 +361,29 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 
 		return robot;
 	}
+	@Override
+	public Robot getSynchronizedRobotOfEnemy(UUID ownUUID) throws RemoteException, UnknownRobotException
+	{
+
+		LOG.info("UUID: " + ownUUID + " has requested update of Enemy Robot.");
+		Robot robot = null;
+		
+		if (ownUUID.equals(clientUUIDLeft))
+		{
+			robot = battleController.getRobotRight();
+		}
+		else if (ownUUID.equals(clientUUIDRight))
+		{
+			robot = battleController.getRobotLeft();
+		}
+		else {
+			throw new UnknownRobotException();
+		}
+		LOG.info("UUID: " + ownUUID + " has requested update of Enemy Robot. Received " + robot);
+		
+		return robot;
+	}
+	
 
 	public void sendGameStateInfoToClients(GameStateType gameStateType)
 	{
@@ -493,20 +516,7 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 		return allDefends;
 	}
 
-	@Override
-	public Robot getSynchronizedRobotOfEnemy(UUID ownUUID) throws RemoteException, UnknownRobotException
-	{
-
-		if (ownUUID.equals(clientUUIDLeft))
-		{
-			return battleController.getRobotRight();
-		}
-		else if (ownUUID.equals(clientUUIDRight))
-		{
-			return battleController.getRobotLeft();
-		}
-		throw new UnknownRobotException();
-	}
+	
 
 	@Override
 	public List<StatusEffect> getAllPossibleStatusEffects()

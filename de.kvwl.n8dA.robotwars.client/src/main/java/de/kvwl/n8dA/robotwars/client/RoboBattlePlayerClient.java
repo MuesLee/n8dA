@@ -99,15 +99,16 @@ public class RoboBattlePlayerClient extends RoboBattleClient
 	{
 		try
 		{
-			server.getSynchronizedRobotOfEnemy(uuid);
+			Robot synchronizedRobotOfEnemy = server.getSynchronizedRobotOfEnemy(uuid);
+			return synchronizedRobotOfEnemy;
 		}
 		catch (RemoteException e)
 		{
-			e.printStackTrace();
+			LOG.error("Remote error",e);
 		}
 		catch (UnknownRobotException e)
 		{
-			e.printStackTrace();
+			LOG.error("Unknown Robot",e);
 		}
 		return null;
 	}
@@ -199,9 +200,10 @@ public class RoboBattlePlayerClient extends RoboBattleClient
 		{
 			LOG.error("ohoh", e);
 		}
-
 		return null;
 	}
+	
+	
 
 	public List<Defense> getAllPossibleDefendsFromServer()
 	{

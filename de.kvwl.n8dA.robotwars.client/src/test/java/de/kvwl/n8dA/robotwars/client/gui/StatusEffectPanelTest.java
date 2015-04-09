@@ -21,7 +21,7 @@ public class StatusEffectPanelTest {
 		otherStatusEffects.add(new TypeEffect(RobotActionType.LIGHTNING, TypeEffectModificationType.RESISTANCE, 5));
 		otherStatusEffects.add(new TypeEffect(RobotActionType.FIRE, TypeEffectModificationType.VULNERABILITY, 0));
 		
-		StatusEffectPanel panel = new StatusEffectPanel(statusEffects);
+		StatusEffectPanel panel = new StatusEffectPanel(statusEffects, "Eigene Statuseffkte");
 		
 		JFrame frame = new JFrame();
 		frame.setBounds(0, 0, 300, 300);
