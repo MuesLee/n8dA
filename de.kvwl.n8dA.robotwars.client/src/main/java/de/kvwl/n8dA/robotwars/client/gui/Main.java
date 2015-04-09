@@ -16,7 +16,7 @@ public class Main {
 
 	private static final Logger LOG = LoggerFactory.getLogger(Main.class);
 
-	public static String SOURCE_FOLDER = "./data";
+	public static String SOURCE_FOLDER = "../data";
 
 	public static void main(String[] args) {
 
