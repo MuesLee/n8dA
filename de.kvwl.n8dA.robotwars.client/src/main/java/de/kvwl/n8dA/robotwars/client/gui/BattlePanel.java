@@ -33,6 +33,7 @@ import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
+import de.kvwl.n8dA.robotwars.commons.game.statuseffects.StatusEffect;
 import de.kvwl.n8dA.robotwars.commons.game.util.GameStateType;
 import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
 
@@ -63,6 +64,8 @@ public class BattlePanel extends JPanel implements ActionListener,
 	private Countdown countdown;
 	private JPanel pnlActionSelection;
 	private JLabel lblInfo;
+	
+	private StatusEffectPanel ownStatusEffectPanel;
 
 	public BattlePanel(RoboBattlePlayerClient battleClient, Robot robot,
 			String playerName) {
@@ -107,7 +110,10 @@ public class BattlePanel extends JPanel implements ActionListener,
 
 		pnlActionSelection = createActionSelection();
 		add(pnlActionSelection, BorderLayout.CENTER);
-
+		
+		ownStatusEffectPanel = createOwnStatusEffectPanel(robot.getStatusEffects());
+		add(ownStatusEffectPanel,BorderLayout.SOUTH);
+		
 		updateStats(false);
 	}
 
@@ -121,6 +127,11 @@ public class BattlePanel extends JPanel implements ActionListener,
 		info.add(pnlTimer, BorderLayout.CENTER);
 
 		return info;
+	}
+	
+	private StatusEffectPanel createOwnStatusEffectPanel(List<StatusEffect> statusEffects)
+	{
+		return new StatusEffectPanel(statusEffects);
 	}
 
 	private JPanel createRoboStats() {
@@ -316,6 +327,8 @@ public class BattlePanel extends JPanel implements ActionListener,
 		energy.setMaximum(tmp.getMaxEnergyPoints());
 		energy.setValue(tmp.getEnergyPoints());
 		lblEnergy.setText("" + tmp.getEnergyPoints());
+		
+		ownStatusEffectPanel.update(robot.getStatusEffects());
 	}
 
 	private void actionSelection(RobotAction roboAction) {

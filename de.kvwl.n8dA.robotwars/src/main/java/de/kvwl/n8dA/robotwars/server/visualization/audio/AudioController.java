@@ -28,6 +28,8 @@ public class AudioController {
 	private InputStream midiFileGameBackGround;
 	private InputStream midiFileMenuBackGround;
 
+	//TODO Timo: Methode lässt auf Aufrufer warten
+	
 	public AudioController() {
 		prop = new Properties();
 		try {
