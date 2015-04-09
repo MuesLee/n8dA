@@ -3,14 +3,19 @@ package de.kvwl.n8dA.robotwars.commons.game.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
+import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.commons.game.items.EPBoostItem;
 import de.kvwl.n8dA.robotwars.commons.game.items.EPRegItem;
 import de.kvwl.n8dA.robotwars.commons.game.items.HPBoostItem;
 import de.kvwl.n8dA.robotwars.commons.game.items.HPRegItem;
 import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
+import de.kvwl.n8dA.robotwars.commons.game.statuseffects.StatusEffect;
 
 public class ItemUtil
 {
+	
+	private static final String IMAGE_PATH = "/de/kvwl/n8dA/robotwars/commons/images/";
 
 	public static List<RoboItem> getAllRoboItems()
 	{
@@ -38,5 +43,33 @@ public class ItemUtil
 		}
 
 		return null;
+	}
+	
+	public static String createToolTipTextForRobotActions(RobotAction robotAction) {
+		
+		
+		RobotActionType robotActionType = robotAction.getRobotActionType();
+		List<StatusEffect> statusEffects = robotAction.getStatusEffects();
+				
+		String iconName = robotActionType.getIconName();
+		String text = "<html><p>Typ:&nbsp<img src=\"" + 
+				
+				RobotAction.class.getResource(IMAGE_PATH + iconName) + "\"></p>"
+				+"<p><b><u>Verursacht:</u></b></p>";
+		
+		for (StatusEffect statusEffect : statusEffects) {
+			
+			iconName = statusEffect.getIconName();
+			text += "<p>" + statusEffect.getModifierText() + "&nbsp";
+			
+			text += "<img src=\"" + 	
+				RobotAction.class.getResource(IMAGE_PATH + iconName) + "\">";
+			text += "&nbsp Runden:&nbsp" + "<b>"+ statusEffect.getStartDuration()+ "</b>";
+			text += "</p>";
+		}
+		
+		text += "</html>";
+				
+		return text;
 	}
 }
