@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.font.LineMetrics;
 import java.util.concurrent.atomic.AtomicReference;
 
 import de.kvwl.n8dA.robotwars.commons.utils.Null;
@@ -52,22 +53,26 @@ public class LabelObject extends SceneObject
 
 		Font font = new Font(g2d.getFont().getName(), g2d.getFont().getStyle(), getHeight() + 1);
 		FontMetrics metrics = g2d.getFontMetrics(font);
+		LineMetrics lineMetrics = metrics.getLineMetrics(text, g2d);
 
 		do
 		{
 			font = new Font(font.getName(), font.getStyle(), font.getSize() - 1);
+			g2d.setFont(font);
+
 			metrics = g2d.getFontMetrics(font);
+			lineMetrics = metrics.getLineMetrics(text, g2d);
 
 			_width = metrics.stringWidth(text);
-			_height = metrics.getHeight() + metrics.getMaxAscent() + metrics.getMaxDescent();
+			_height = lineMetrics.getAscent() + lineMetrics.getDescent();
 		}
 		while (_width > getWidth() || _height > getHeight());
 		g2d.setFont(font);
 
-		int strHeight = metrics.getAscent() + metrics.getDescent();
+		float strHeight = lineMetrics.getAscent() + lineMetrics.getDescent();
 
 		_x = (float) ((getWidth() - _width) * getPosX());
-		_y = (float) (float) (metrics.getAscent() + (getHeight() - (strHeight)) * 0.5);
+		_y = (float) (float) (lineMetrics.getAscent() + (getHeight() - (strHeight)) * 0.5);
 
 		g2d.drawString(text, _x, _y);
 	}
