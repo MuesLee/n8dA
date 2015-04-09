@@ -1,0 +1,163 @@
+Attacken - Animationen
+Laser -> Laser
+Welle -> Welle
+Eishieb -> Eishieb
+Spritze -> Spritze
+Plasma -> Plasma
+Bombe -> Bombe
+Rakete -> Rakete
+Feuerball -> Feuerball
+Molotovcocktail -> Molotovcocktail
+Blitz -> Blitz
+
+
+Verteidigungen - Animationen
+Spiegel -> Spiegel
+Tennis -> Tennis
+Kissen -> Kissen
+Holzschild -> Holzschild
+Wind -> Wind
+Laserschild -> Laserschild
+
+
+Roboter - Animationen
+NinjaRoboter -> NinjaRoboter
+GreenRoboter -> GreenRoboter
+SmokingRoboter -> SmokingRoboter
+BlueRoboter -> BlueRoboter
+GirlRoboter -> GirlRoboter
+AtomRoboter -> AtomRoboter
+RadRoboter -> RadRoboter
+KosmosRoboter -> KosmosRoboter
+PillenRoboter -> PillenRoboter
+
+
+Attacken - Objekte
+Laser -> 13
+Welle -> 12
+Eishieb -> 11
+Wasserspritze -> 17
+Plasma -> 15
+Bombe -> 10
+Rakete -> 16
+Feuerball -> 24
+Molotovcocktail -> 14
+Blitz -> 9
+
+
+Verteidigungen - Objekte
+Spiegel -> 21
+Tennisschläger -> 22
+Kissen -> 19
+Holzschild -> 18
+Wind -> 23
+Laserschild -> 20
+
+
+Roboter - Objekte
+Ninja -> 6
+Digital -> 3
+Repo-Bot -> 8
+BlueRoboter -> 2
+Herzchen -> 0
+Nucular -> 1
+B(l)ender -> 7
+Space Fighter -> 4
+Die Pille -> 5
+
+
+Items
+HP Boost: 10 -> 50
+HP Reg: 1 -> 51
+EP Boost: 5 -> 52
+EP Reg: 1 -> 53
+
+
+Effeckte
+Elementareffekt -  AT:LIGHTNING MT:RESISTANCE SD:1 -> 101
+Elementareffekt -  AT:FIRE MT:RESISTANCE SD:1 -> 100
+Elementareffekt -  AT:WATER MT:RESISTANCE SD:1 -> 102
+Elementareffekt -  AT:FIRE MT:VULNERABILITY SD:1 -> 103
+Elementareffekt -  AT:LIGHTNING MT:VULNERABILITY SD:1 -> 104
+Elementareffekt -  AT:WATER MT:VULNERABILITY SD:1 -> 105
+Elementareffekt -  AT:LIGHTNING MT:RESISTANCE SD:2 -> 107
+Elementareffekt -  AT:FIRE MT:RESISTANCE SD:2 -> 106
+Elementareffekt -  AT:WATER MT:RESISTANCE SD:2 -> 108
+Elementareffekt -  AT:FIRE MT:VULNERABILITY SD:2 -> 109
+Elementareffekt -  AT:LIGHTNING MT:VULNERABILITY SD:2 -> 110
+Elementareffekt -  AT:WATER MT:VULNERABILITY SD:2 -> 111
+Elementareffekt -  AT:LIGHTNING MT:RESISTANCE SD:3 -> 113
+Elementareffekt -  AT:FIRE MT:RESISTANCE SD:3 -> 112
+Elementareffekt -  AT:WATER MT:RESISTANCE SD:3 -> 114
+
+
+Alle Ids
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+50
+51
+52
+53
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+AtomRoboter
+Blitz
+BlueRoboter
+Bombe
+Eishieb
+Feuerball
+GirlRoboter
+GreenRoboter
+Holzschild
+Kissen
+KosmosRoboter
+Laser
+Laserschild
+Molotovcocktail
+NinjaRoboter
+PillenRoboter
+Plasma
+RadRoboter
+Rakete
+SmokingRoboter
+Spiegel
+Spritze
+Tennis
+Welle
+Wind
