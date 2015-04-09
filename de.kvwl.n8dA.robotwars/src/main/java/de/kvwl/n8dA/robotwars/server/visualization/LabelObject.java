@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.util.concurrent.atomic.AtomicReference;
 
 import de.kvwl.n8dA.robotwars.commons.utils.Null;
 import game.engine.stage.scene.object.SceneObject;
@@ -12,11 +13,19 @@ import game.engine.stage.scene.object.SceneObject;
 public class LabelObject extends SceneObject
 {
 
-	private String text = "";
-	private Color color = Color.BLACK;
-	private Font font = new Font(Font.SANS_SERIF, Font.BOLD, 12);
+	private AtomicReference<String> text = new AtomicReference<String>();
+	private AtomicReference<Color> color = new AtomicReference<Color>();
+	private AtomicReference<Font> font = new AtomicReference<Font>();
+	private AtomicReference<Double> posX = new AtomicReference<Double>();
 
-	private double posX = 0.5;
+	public LabelObject()
+	{
+
+		color.set(Color.BLACK);
+		text.set("");
+		font.set(new Font(Font.SANS_SERIF, Font.BOLD, 12));
+		posX.set(0.5);
+	}
 
 	@Override
 	protected void paint(Graphics2D g2d, long time)
@@ -30,8 +39,10 @@ public class LabelObject extends SceneObject
 	private void drawString(Graphics2D g2d)
 	{
 
-		g2d.setColor(color);
-		g2d.setFont(font);
+		g2d.setColor(color.get());
+		g2d.setFont(font.get());
+
+		String text = this.text.get();
 
 		float _x = 0;
 		float _y = 0;
@@ -63,42 +74,42 @@ public class LabelObject extends SceneObject
 
 	public String getText()
 	{
-		return text;
+		return text.get();
 	}
 
 	public void setText(String text)
 	{
-		this.text = Null.nvl(text, "");
+		this.text.set(Null.nvl(text, ""));
 	}
 
 	public Color getColor()
 	{
-		return color;
+		return color.get();
 	}
 
 	public void setColor(Color color)
 	{
-		this.color = Null.nvl(color, Color.BLACK);
+		this.color.set(Null.nvl(color, Color.BLACK));
 	}
 
 	public Font getFont()
 	{
-		return font;
+		return font.get();
 	}
 
 	public void setFont(Font font)
 	{
-		this.font = Null.nvl(font, new Font(Font.SANS_SERIF, Font.BOLD, 12));
+		this.font.set(Null.nvl(font, new Font(Font.SANS_SERIF, Font.BOLD, 12)));
 	}
 
 	public double getPosX()
 	{
-		return posX;
+		return posX.get();
 	}
 
 	public void setPosX(double posX)
 	{
-		this.posX = posX;
+		this.posX.set(posX);
 	}
 
 }
