@@ -35,6 +35,7 @@ import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
+import de.kvwl.n8dA.robotwars.commons.game.util.ItemUtil;
 
 public class ConfigShop extends JDialog {
 
@@ -285,7 +286,8 @@ public class ConfigShop extends JDialog {
 			info.setLayout(new BoxLayout(info, BoxLayout.X_AXIS));
 			row.add(info, BorderLayout.CENTER);
 
-			info.add(new JLabel(String.format("Name: %s", item.getName())));
+			JLabel label = new JLabel(String.format("Name: %s", item.getName()));
+			info.add(label);
 
 			scroll.add(row);
 		}
@@ -369,13 +371,15 @@ public class ConfigShop extends JDialog {
 			info.setLayout(new BoxLayout(info, BoxLayout.X_AXIS));
 			row.add(info, BorderLayout.CENTER);
 
-			info.add(new JLabel(
+			JLabel label = new JLabel(
 					String.format(
 							"Name: %s - Reflektion: %d%% - Energiekosten: %d - Typ: %s",
 							def.getName(), (int) (100 * def
 									.getBonusOnDefenseFactor()), def
 									.getEnergyCosts(), def.getRobotActionType()
-									.getHumanReadableString())));
+									.getHumanReadableString()));
+			label.setToolTipText(ItemUtil.createToolTipTextForRobotActions(def));
+			info.add(label);
 
 			scroll.add(row);
 		}
@@ -458,11 +462,13 @@ public class ConfigShop extends JDialog {
 			info.setLayout(new BoxLayout(info, BoxLayout.X_AXIS));
 			row.add(info, BorderLayout.CENTER);
 
-			info.add(new JLabel(String.format(
+			JLabel label = new JLabel(String.format(
 					"Name: %s - Schaden: %d - Energiekosten: %d - Typ: %s", atk
 							.getName(), atk.getDamage(), atk.getEnergyCosts(),
-					atk.getRobotActionType().getHumanReadableString())));
-
+					atk.getRobotActionType().getHumanReadableString()));
+			label.setToolTipText(ItemUtil.createToolTipTextForRobotActions(atk));
+			info.add(label);
+			
 			scroll.add(row);
 		}
 
