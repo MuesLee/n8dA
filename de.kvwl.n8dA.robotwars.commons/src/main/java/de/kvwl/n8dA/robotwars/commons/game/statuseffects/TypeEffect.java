@@ -59,8 +59,7 @@ public class TypeEffect extends StatusEffect {
 	 * Computes the Interaction between two StatusEffects. Considers just
 	 * TypeEffects.
 	 * 
-	 * Modifies the duration of the Effect between same RobotActionTypes or
-	 * creates a new StatusEffect
+	 * Modifies the duration of the Effect between same RobotActionTypes
 	 * 
 	 * Resistance + Vulnerability = No Status Effect Vulnerability +
 	 * Vulnerability = Longer Duration Resistance + Resistance = Longer Duration
@@ -68,11 +67,11 @@ public class TypeEffect extends StatusEffect {
 	 * 
 	 * 
 	 * @param otherStatusEffect
-	 * @return Returns a new StatusEffect if necessary
+	 * @return Returns True if the given StatusEffect was resolved by the active Effects. Returns false if the given Effect was not resolved.
 	 */
 	@Override
 	public boolean resolveInteractionWith(StatusEffect otherStatusEffect) {
-
+		
 		if (otherStatusEffect == null
 				|| !(otherStatusEffect instanceof TypeEffect))
 			return false;
@@ -99,9 +98,11 @@ public class TypeEffect extends StatusEffect {
 			int computedDuration = thisRoundsLeft - otherRoundsLeft;
 			this.setRoundsLeft(computedDuration);
 
+			// Alter StatusEffekt konnte Laufzeit nicht vollständig absorbieren
+			//Deshalb neuen auf Restzeit verkürzen
 			if (computedDuration < 0) {
-				this.setModificationType(otherTypeEffect.getModificationType());
-				this.setRoundsLeft(computedDuration * -1);
+				otherTypeEffect.setRoundsLeft(computedDuration * -1);
+				return false;
 			}
 		}
 

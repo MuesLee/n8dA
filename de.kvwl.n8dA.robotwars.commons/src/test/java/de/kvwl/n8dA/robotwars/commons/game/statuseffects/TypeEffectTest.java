@@ -12,7 +12,7 @@ public class TypeEffectTest {
 	
 	private TypeEffect typeEffect;
 	
-	private StatusEffect otherStatusEffect;
+	private TypeEffect otherStatusEffect;
 	
 	@Before
 	public void setUp()
@@ -20,10 +20,13 @@ public class TypeEffectTest {
 		this.typeEffect = new TypeEffect();
 		this.typeEffect.setId(80);
 		this.typeEffect.setRoundsLeft(1);
+		this.typeEffect.setStartDuration(1);
+
 		
 		this.otherStatusEffect = new TypeEffect();
 		this.otherStatusEffect.setId(81);
 		this.otherStatusEffect.setRoundsLeft(1);
+		this.otherStatusEffect.setStartDuration(1);
 	}
 	
 	@Test
@@ -84,10 +87,11 @@ public class TypeEffectTest {
 		((TypeEffect) otherStatusEffect).setActionType(RobotActionType.LIGHTNING);
 		((TypeEffect) otherStatusEffect).setModificationType(TypeEffectModificationType.RESISTANCE);
 		
-		typeEffect.resolveInteractionWith(otherStatusEffect);
+		boolean resolveInteractionWith = typeEffect.resolveInteractionWith(otherStatusEffect);
+		assertFalse(resolveInteractionWith);
 		
 		TypeEffect expectedEffect = new TypeEffect(RobotActionType.LIGHTNING, TypeEffectModificationType.RESISTANCE, 1);
-		assertEquals(expectedEffect , typeEffect);
+		assertEquals(expectedEffect , otherStatusEffect);
 		
 		int roundsLeft = typeEffect.getRoundsLeft();
 		
@@ -99,15 +103,20 @@ public class TypeEffectTest {
 		typeEffect.setActionType(RobotActionType.FIRE);
 		typeEffect.setModificationType(TypeEffectModificationType.VULNERABILITY);
 		
+		TypeEffect expectedEffect = new TypeEffect(RobotActionType.FIRE, TypeEffectModificationType.VULNERABILITY, 1);
+		TypeEffect expectedOtherEffect = new TypeEffect(RobotActionType.LIGHTNING, TypeEffectModificationType.RESISTANCE, 2);
+		
 		otherStatusEffect.setRoundsLeft(2);
 		((TypeEffect) otherStatusEffect).setActionType(RobotActionType.LIGHTNING);
 		((TypeEffect) otherStatusEffect).setModificationType(TypeEffectModificationType.RESISTANCE);
 		
-		typeEffect.resolveInteractionWith(otherStatusEffect);
 		
-		TypeEffect expectedEffect = (TypeEffect) otherStatusEffect;
+		boolean resolveInteractionWith = typeEffect.resolveInteractionWith(otherStatusEffect);
+		
+		assertFalse(resolveInteractionWith);
 		
 		assertEquals(expectedEffect , typeEffect);
+		assertEquals(expectedOtherEffect , otherStatusEffect);
 	}
 
 }

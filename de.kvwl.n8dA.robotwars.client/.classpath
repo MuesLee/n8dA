@@ -26,9 +26,5 @@
 	<classpathentry kind="src" path="/de.kvwl.n8dA.robotwars.commons"/>
 	<classpathentry kind="src" path="/de.kvwl.n8dA.infrastructure.commons"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/de.kvwl.n8dA.infrastructure.rewards.client"/>
-	<classpathentry kind="lib" path="lib/de/bno/de.bno.gameengine/1.0.0/de.bno.gameengine-1.0.0.jar"/>
-	<classpathentry kind="lib" path="lib/de/bno/de.bno.swing2/1.0.0/de.bno.swing2-1.0.0.jar"/>
-	<classpathentry kind="lib" path="lib/de/kvwl/de.kvwl.n8dA.infrastructure.rewards.client/0.0.1-SNAPSHOT/de.kvwl.n8dA.infrastructure.rewards.client-0.0.1-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="lib/de/kvwl/de.kvwl.n8dA.robotwars.commons/0.0.1-SNAPSHOT/de.kvwl.n8dA.robotwars.commons-0.0.1-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
