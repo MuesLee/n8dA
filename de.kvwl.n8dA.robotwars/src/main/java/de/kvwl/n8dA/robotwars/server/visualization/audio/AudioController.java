@@ -33,8 +33,9 @@ public class AudioController {
 	public AudioController() {
 		prop = new Properties();
 		try {
-			prop.load(ClassLoader
-					.getSystemResourceAsStream("sounds.properties"));
+			
+			FileInputStream file = new FileInputStream("./"+ "sounds.properties");
+			prop.load(file);
 			loadMIDIFileForBackgroundMusic();
 		} catch (IOException e) {
 			System.out.println("Properties konnte nicht geladen werden");

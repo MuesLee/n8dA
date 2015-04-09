@@ -88,7 +88,7 @@ public abstract class RobotAction extends Entity {
 	
 	@Override
 	public int compareTo(Entity o) {
-		int configCost = super.compareTo(o);
+		int configCostResult = super.compareTo(o);
 		
 		RobotAction other;
 		if(o instanceof RobotAction)
@@ -96,29 +96,27 @@ public abstract class RobotAction extends Entity {
 			other =  (RobotAction) o;
 		}
 		else {
-			return configCost;
+			return configCostResult;
 		}
 		
 		int result = 0;
+		int thisIndex = this.getRobotActionType().getIndex();
+		int otherIndex = other.getRobotActionType().getIndex();
 		
-		if(configCost == 0)
+		if(configCostResult == 0)
 		{
-			if(this.getRobotActionType() == other.getRobotActionType())
-				return 0;
-		}
-		else if(configCost > 0)
-		{
-			if(this.getRobotActionType().getIndex() > other.getRobotActionType().getIndex())
+			if(thisIndex == otherIndex)
+				result = 0;
+			else if(thisIndex > otherIndex)
 			{
-				return 1;
+				result = 1;
 			}
 			else {
-				
+				result =-1;
 			}
 		}
-		else if(configCost < 0)
-		{
-			
+		else {
+			result = configCostResult;
 		}
 		
 		return result;
