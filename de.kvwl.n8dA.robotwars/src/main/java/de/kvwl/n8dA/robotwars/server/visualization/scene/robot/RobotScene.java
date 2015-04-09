@@ -49,10 +49,7 @@ public class RobotScene implements Scene
 		rightRobo.setInverted(false);
 
 		lblLeft.setColor(Color.BLACK);
-		lblLeft.setPosX(0.3);
-
 		lblRight.setColor(Color.BLACK);
-		lblLeft.setPosX(0.7);
 	}
 
 	@Override
@@ -106,9 +103,11 @@ public class RobotScene implements Scene
 
 		lblLeft.setSize(_width, _height);
 		lblLeft.setPosition(_x, height - _height - _y);
+		lblLeft.setPosX(0.3);
 
 		lblRight.setSize(_width, _height);
 		lblRight.setPosition(width - _width - _x, height - _height - _y);
+		lblRight.setPosX(0.7);
 	}
 
 	private void revalidateRobots(int width, int height)
