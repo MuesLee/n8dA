@@ -16,6 +16,8 @@ public class LabelObject extends SceneObject
 	private Color color = Color.BLACK;
 	private Font font = new Font(Font.SANS_SERIF, Font.BOLD, 12);
 
+	private double posX = 0.5;
+
 	@Override
 	protected void paint(Graphics2D g2d, long time)
 	{
@@ -87,6 +89,16 @@ public class LabelObject extends SceneObject
 	public synchronized void setFont(Font font)
 	{
 		this.font = Null.nvl(font, new Font(Font.SANS_SERIF, Font.BOLD, 12));
+	}
+
+	public double getPosX()
+	{
+		return posX;
+	}
+
+	public void setPosX(double posX)
+	{
+		this.posX = posX;
 	}
 
 }
