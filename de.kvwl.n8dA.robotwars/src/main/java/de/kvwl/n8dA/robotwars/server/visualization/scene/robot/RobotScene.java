@@ -5,9 +5,11 @@ import game.engine.stage.scene.object.AnimatedSceneObject;
 import game.engine.stage.scene.object.Point;
 import game.engine.time.TimeUtils;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.EventListener;
 
+import de.kvwl.n8dA.robotwars.server.visualization.LabelObject;
 import de.kvwl.n8dA.robotwars.server.visualization.Position;
 import de.kvwl.n8dA.robotwars.server.visualization.scene.robot.Action.DamagePhase;
 
@@ -18,8 +20,11 @@ public class RobotScene implements Scene
 	private static final long AC_ANIMATION_SPEED = TimeUtils.NanosecondsOfMilliseconds(1800);
 
 	private static final double HEIGHT = 0.55;
+	private static final double WIDTH_TEXT = 0.33;
 	private static final double SPACE_SIDE = 0.035;
+	private static final double SPACE_SIDE_TEXT = 0.01;
 	private static final double SPACE_BOTTOM = 0.08;
+	private static final double SPACE_BOTTOM_TEXT = 0.01;
 
 	private static final double AC_ATK_HEIGHT = HEIGHT * 0.4;
 	private static final double AC_DEF_HEIGHT = HEIGHT * 0.8;
@@ -30,6 +35,9 @@ public class RobotScene implements Scene
 	private Robot leftRobo = new Robot();
 	private Robot rightRobo = new Robot();
 
+	private LabelObject lblLeft = new LabelObject();
+	private LabelObject lblRight = new LabelObject();
+
 	private Action acLeft;
 	private Action acRight;
 	private Object acWait = new Object();
@@ -39,6 +47,9 @@ public class RobotScene implements Scene
 
 		leftRobo.setInverted(true);
 		rightRobo.setInverted(false);
+
+		lblLeft.setColor(Color.BLACK);
+		lblRight.setColor(Color.BLACK);
 	}
 
 	@Override
@@ -47,7 +58,15 @@ public class RobotScene implements Scene
 
 		revalidate(width, height, elapsedTime);
 		paintRobos(g2d, width, height, elapsedTime);
+		paintLabels(g2d, width, height, elapsedTime);
 		paintActions(g2d, width, height, elapsedTime);
+	}
+
+	private void paintLabels(Graphics2D g2d, int width, int height2, long elapsedTime)
+	{
+
+		lblLeft.paintOnScene(g2d, elapsedTime);
+		lblRight.paintOnScene(g2d, elapsedTime);
 	}
 
 	private void paintRobos(Graphics2D g2d, int width, int height, long elapsedTime)
@@ -68,8 +87,25 @@ public class RobotScene implements Scene
 	{
 
 		revalidateRobots(width, height);
+		revalidateLabels(width, height, elapsedTime);
 		revalidateActions(width, height, elapsedTime);
 
+	}
+
+	private void revalidateLabels(int width, int height, long elapsedTime)
+	{
+
+		int _y = (int) (height * SPACE_BOTTOM_TEXT);
+		int _x = (int) (width * SPACE_SIDE_TEXT);
+
+		int _height = (int) (height * (SPACE_BOTTOM - SPACE_BOTTOM_TEXT));
+		int _width = (int) (width * WIDTH_TEXT);
+
+		lblLeft.setSize(_width, _height);
+		lblLeft.setPosition(_x, height - _height - _y);
+
+		lblRight.setSize(_width, _height);
+		lblRight.setPosition(width - _width - _x, height - _height - _y);
 	}
 
 	private void revalidateRobots(int width, int height)
@@ -457,6 +493,21 @@ public class RobotScene implements Scene
 		{
 
 			this.rightRobo.setRobo(robo);
+		}
+	}
+
+	public void setRobotName(String name, Position pos)
+	{
+
+		if (pos == Position.LEFT)
+		{
+
+			this.lblLeft.setText(name);
+		}
+		else
+		{
+
+			this.lblRight.setText(name);
 		}
 	}
 

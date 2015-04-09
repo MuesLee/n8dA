@@ -87,6 +87,7 @@ public class GameScene implements Scene, CinematicVisualizer
 		try
 		{
 			robots.setRobo((robot != null) ? loader.createAnimatedSceneObject(robot.getAnimation()) : null, pos);
+			robots.setRobotName(robot.getNickname(), pos);
 		}
 		catch (IOException e)
 		{
@@ -213,6 +214,9 @@ public class GameScene implements Scene, CinematicVisualizer
 
 		robots.setRobo(null, Position.LEFT);
 		robots.setRobo(null, Position.RIGHT);
+
+		robots.setRobotName(null, Position.LEFT);
+		robots.setRobotName(null, Position.RIGHT);
 
 		round = 0;
 		status.setRound(1);
