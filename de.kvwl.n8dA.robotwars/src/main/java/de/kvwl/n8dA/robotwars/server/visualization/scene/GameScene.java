@@ -91,6 +91,8 @@ public class GameScene implements Scene, CinematicVisualizer
 		}
 		catch (IOException e)
 		{
+
+			robots.setRobotName("", pos);
 			throw new RuntimeException("Roboter nicht gefunden. Laden nicht möglich.");
 		}
 
@@ -215,8 +217,8 @@ public class GameScene implements Scene, CinematicVisualizer
 		robots.setRobo(null, Position.LEFT);
 		robots.setRobo(null, Position.RIGHT);
 
-		robots.setRobotName(null, Position.LEFT);
-		robots.setRobotName(null, Position.RIGHT);
+		robots.setRobotName("", Position.LEFT);
+		robots.setRobotName("", Position.RIGHT);
 
 		round = 0;
 		status.setRound(1);
