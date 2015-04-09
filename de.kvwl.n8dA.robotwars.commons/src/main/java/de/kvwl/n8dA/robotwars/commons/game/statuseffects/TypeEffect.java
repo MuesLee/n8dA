@@ -25,6 +25,22 @@ public class TypeEffect extends StatusEffect {
 	}
 
 	@Override
+	public String getModifierText() {
+		String text = "";
+		switch (modificationType) {
+		case RESISTANCE:
+			text = "Resistenz";
+			break;
+		case VULNERABILITY:
+			text = "Anfälligkeit";
+			break;
+		default:
+			break;
+		}
+		return text;
+	}
+
+	@Override
 	public double getDamageModificatorForRoboActionType(
 			RobotActionType robotActionType) {
 		double result = 1.0;

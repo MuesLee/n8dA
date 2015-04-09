@@ -39,6 +39,7 @@ import org.slf4j.LoggerFactory;
 
 import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
+import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionPowerType;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Entity;
@@ -71,7 +72,9 @@ import de.kvwl.n8dA.robotwars.commons.utils.Null;
  * [info.xml]
  */
 public class DataLoaderFileSystemImpl implements DataLoader {
-
+	
+	private static final String IMAGE_PATH = "/de/kvwl/n8dA/robotwars/commons/images/";
+	
 	private static final Logger LOG = LoggerFactory
 			.getLogger(DataLoaderFileSystemImpl.class);
 
@@ -232,8 +235,37 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 		attack.setId(id);
 		attack.setStatusEffects(statusEffects);
 		attack.setRobotActionPowerType(powerType);
+		attack.setDescription(createToolTipTextForRobotActions(attack));
 
 		return attack;
+	}
+	
+	private String createToolTipTextForRobotActions(RobotAction robotAction) {
+		
+		
+		RobotActionType robotActionType = robotAction.getRobotActionType();
+		List<StatusEffect> statusEffects = robotAction.getStatusEffects();
+				
+		String iconName = robotActionType.getIconName();
+		String text = "<html><p>Typ:&nbsp<img src=\"" + 
+				
+				RobotAction.class.getResource(IMAGE_PATH + iconName) + "\"></p>"
+				+"<p><b><u>Verursacht:</u></b></p>";
+		
+		for (StatusEffect statusEffect : statusEffects) {
+			
+			iconName = statusEffect.getIconName();
+			text += "<p>" + statusEffect.getModifierText() + "&nbsp";
+			
+			text += "<img src=\"" + 	
+				RobotAction.class.getResource(IMAGE_PATH + iconName) + "\">";
+			text += "&nbsp Runden:&nbsp" + "<b>"+ statusEffect.getStartDuration()+ "</b>";
+			text += "</p>";
+		}
+		
+		text += "</html>";
+				
+		return text;
 	}
 
 	public Defense readDefense(Path info, List<Animation> defenseAnimations)
@@ -275,6 +307,7 @@ public class DataLoaderFileSystemImpl implements DataLoader {
 		defense.setId(id);
 		defense.setStatusEffects(statusEffects);
 		defense.setRobotActionPowerType(powerType);
+		defense.setDescription(createToolTipTextForRobotActions(defense));
 
 		return defense;
 	}
