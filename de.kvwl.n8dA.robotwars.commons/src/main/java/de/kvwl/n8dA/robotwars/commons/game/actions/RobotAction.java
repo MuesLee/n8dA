@@ -85,4 +85,42 @@ public abstract class RobotAction extends Entity {
 	public void setRobotActionPowerType(RobotActionPowerType robotActionPowerType) {
 		this.robotActionPowerType = robotActionPowerType;
 	}
+	
+	@Override
+	public int compareTo(Entity o) {
+		int configCost = super.compareTo(o);
+		
+		RobotAction other;
+		if(o instanceof RobotAction)
+		{
+			other =  (RobotAction) o;
+		}
+		else {
+			return configCost;
+		}
+		
+		int result = 0;
+		
+		if(configCost == 0)
+		{
+			if(this.getRobotActionType() == other.getRobotActionType())
+				return 0;
+		}
+		else if(configCost > 0)
+		{
+			if(this.getRobotActionType().getIndex() > other.getRobotActionType().getIndex())
+			{
+				return 1;
+			}
+			else {
+				
+			}
+		}
+		else if(configCost < 0)
+		{
+			
+		}
+		
+		return result;
+	}
 }

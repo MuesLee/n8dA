@@ -11,7 +11,7 @@ public class EPBoostItem extends RoboItem
 
 	public EPBoostItem()
 	{
-		setName("EP Boost: " + epBoost);
+		setName("Energiepunkte Boost: " + epBoost);
 		setId(52);
 		setConfigurationPointCosts(25);
 	}

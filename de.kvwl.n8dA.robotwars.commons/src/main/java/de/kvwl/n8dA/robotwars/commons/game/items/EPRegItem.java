@@ -11,7 +11,7 @@ public class EPRegItem extends RoboItem
 	public EPRegItem()
 	{
 		setId(53);
-		setName("EP Reg: " + epReg);
+		setName("Energiepunkte Regeneration: " + epReg);
 		setConfigurationPointCosts(125);
 	}
 

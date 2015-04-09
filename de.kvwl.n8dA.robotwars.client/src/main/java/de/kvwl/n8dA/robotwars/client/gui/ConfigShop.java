@@ -25,6 +25,7 @@ import javax.swing.JSpinner;
 import javax.swing.JSpinner.DefaultEditor;
 import javax.swing.JTabbedPane;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.ToolTipManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -379,6 +380,7 @@ public class ConfigShop extends JDialog {
 									.getEnergyCosts(), def.getRobotActionType()
 									.getHumanReadableString()));
 			label.setToolTipText(ItemUtil.createToolTipTextForRobotActions(def));
+			ToolTipManager.sharedInstance().registerComponent(label);
 			info.add(label);
 
 			scroll.add(row);
@@ -467,6 +469,7 @@ public class ConfigShop extends JDialog {
 							.getName(), atk.getDamage(), atk.getEnergyCosts(),
 					atk.getRobotActionType().getHumanReadableString()));
 			label.setToolTipText(ItemUtil.createToolTipTextForRobotActions(atk));
+			ToolTipManager.sharedInstance().registerComponent(label);
 			info.add(label);
 			
 			scroll.add(row);
