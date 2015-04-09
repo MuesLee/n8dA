@@ -27,7 +27,7 @@ public class LabelObject extends SceneObject
 		drawString(g2d);
 	}
 
-	private synchronized void drawString(Graphics2D g2d)
+	private void drawString(Graphics2D g2d)
 	{
 
 		g2d.setColor(color);
@@ -55,7 +55,7 @@ public class LabelObject extends SceneObject
 
 		int strHeight = metrics.getAscent() + metrics.getDescent();
 
-		_x = (float) ((getWidth() - _width) * 0.5);
+		_x = (float) ((getWidth() - _width) * getPosX());
 		_y = (float) (float) (metrics.getAscent() + (getHeight() - (strHeight)) * 0.5);
 
 		g2d.drawString(text, _x, _y);
@@ -66,7 +66,7 @@ public class LabelObject extends SceneObject
 		return text;
 	}
 
-	public synchronized void setText(String text)
+	public void setText(String text)
 	{
 		this.text = Null.nvl(text, "");
 	}
@@ -76,7 +76,7 @@ public class LabelObject extends SceneObject
 		return color;
 	}
 
-	public synchronized void setColor(Color color)
+	public void setColor(Color color)
 	{
 		this.color = Null.nvl(color, Color.BLACK);
 	}
@@ -86,7 +86,7 @@ public class LabelObject extends SceneObject
 		return font;
 	}
 
-	public synchronized void setFont(Font font)
+	public void setFont(Font font)
 	{
 		this.font = Null.nvl(font, new Font(Font.SANS_SERIF, Font.BOLD, 12));
 	}

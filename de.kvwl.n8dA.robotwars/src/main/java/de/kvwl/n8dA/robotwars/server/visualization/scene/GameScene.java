@@ -87,7 +87,7 @@ public class GameScene implements Scene, CinematicVisualizer
 		try
 		{
 			robots.setRobo((robot != null) ? loader.createAnimatedSceneObject(robot.getAnimation()) : null, pos);
-			robots.setRobotName(robot.getNickname(), pos);
+			robots.setRobotName((robot != null) ? robot.getNickname() : "", pos);
 		}
 		catch (IOException e)
 		{

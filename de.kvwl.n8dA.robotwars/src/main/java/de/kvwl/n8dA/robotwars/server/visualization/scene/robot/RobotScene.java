@@ -49,7 +49,10 @@ public class RobotScene implements Scene
 		rightRobo.setInverted(false);
 
 		lblLeft.setColor(Color.BLACK);
+		lblLeft.setPosX(0.3);
+
 		lblRight.setColor(Color.BLACK);
+		lblLeft.setPosX(0.7);
 	}
 
 	@Override
