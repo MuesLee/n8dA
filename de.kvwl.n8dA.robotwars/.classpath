@@ -28,7 +28,5 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/GameEngine.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/de.kvwl.n8dA.robotwars.commons"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

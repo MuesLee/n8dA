@@ -19,6 +19,27 @@
 					<target>1.7</target>
 				</configuration>
 			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>de.kvwl.n8dA.robotwars.server.network.RoboBattleServer</mainClass>
+						</manifest>
+					</archive>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -45,12 +66,12 @@
 			<artifactId>activemq-all</artifactId>
 			<version>5.9.1</version>
 		</dependency>
-<!-- 			<dependency>
+		<dependency>
 			<groupId>de.bno</groupId>
 			<artifactId>de.bno.gameengine</artifactId>
 			<version>1.0.0</version>
-		</dependency> -->
-			<dependency>
+		</dependency>
+		<dependency>
 			<groupId>de.kvwl</groupId>
 			<artifactId>de.kvwl.n8dA.robotwars.commons</artifactId>
 			<version>0.0.2-SNAPSHOT</version>
