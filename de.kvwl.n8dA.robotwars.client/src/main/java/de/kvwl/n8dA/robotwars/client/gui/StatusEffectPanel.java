@@ -18,7 +18,6 @@ import javax.swing.plaf.basic.BasicProgressBarUI;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.StatusEffect;
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.TypeEffect;
-import de.kvwl.n8dA.robotwars.commons.game.statuseffects.TypeEffectModificationType;
 
 public class StatusEffectPanel extends JPanel {
 
@@ -74,34 +73,7 @@ public class StatusEffectPanel extends JPanel {
 	
 	private String getTextForStatusBarLabel(StatusEffect statusEffect)
 	{
-		String text = "";
-		if(statusEffect instanceof TypeEffect)
-		{
-			TypeEffect effect = (TypeEffect) statusEffect;
-			TypeEffectModificationType modificationType = effect.getModificationType();
-			
-			switch (modificationType) {
-			case RESISTANCE:
-				text = "Resistenz";
-				break;
-			case VULNERABILITY:
-				text = "Anfälligkeit";
-				break;
-			default:
-				break;
-			}
-		}
-		else{
-			if(statusEffect.isPositive())
-			{
-				text = "Guter Effekt";
-			}
-			else {
-				text = "Schlechter Effekt";
-			}
-		}
-		
-		return text;
+		return statusEffect.getModifierText();
 	}
 
 	private Color getStatusBarColor(StatusEffect statusEffect) {

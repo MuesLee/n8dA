@@ -10,11 +10,9 @@ import de.kvwl.n8dA.robotwars.commons.gui.Animation;
 public abstract class RobotAction extends Entity {
 
 	private static final long serialVersionUID = 3093807349848858832L;
-
+	
 	public RobotAction(RobotActionType robotActionType) {
 		this.robotActionType = robotActionType;
-		this.description = String.format("Typ: %s",
-				robotActionType.getHumanReadableString());
 	}
 
 	protected RobotActionType robotActionType;
@@ -63,6 +61,7 @@ public abstract class RobotAction extends Entity {
 	}
 
 	public String getDescription() {
+		
 		return description;
 	}
 

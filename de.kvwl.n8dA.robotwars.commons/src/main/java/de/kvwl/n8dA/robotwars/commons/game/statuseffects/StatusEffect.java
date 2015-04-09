@@ -20,6 +20,19 @@ public abstract class StatusEffect extends Entity implements RoboModificator
 	public StatusEffect()
 	{
 	}
+	
+	public String getModifierText()
+	{
+		String text = "";
+			if(isPositive())
+			{
+				text = "Guter Effekt";
+			}
+			else {
+				text = "Schlechter Effekt";
+			}
+		return text;
+	}
 
 	public StatusEffect(int startDuration)
 	{
