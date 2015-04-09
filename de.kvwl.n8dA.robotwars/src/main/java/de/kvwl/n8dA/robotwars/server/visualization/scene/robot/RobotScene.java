@@ -25,6 +25,7 @@ public class RobotScene implements Scene
 	private static final double SPACE_SIDE_TEXT = 0.01;
 	private static final double SPACE_BOTTOM = 0.08;
 	private static final double SPACE_BOTTOM_TEXT = 0.01;
+	private static final double ALIGNEMENT_TEXT = 0.20;
 
 	private static final double AC_ATK_HEIGHT = HEIGHT * 0.4;
 	private static final double AC_DEF_HEIGHT = HEIGHT * 0.8;
@@ -103,11 +104,11 @@ public class RobotScene implements Scene
 
 		lblLeft.setSize(_width, _height);
 		lblLeft.setPosition(_x, height - _height - _y);
-		lblLeft.setPosX(0.3);
+		lblLeft.setPosX(ALIGNEMENT_TEXT);
 
 		lblRight.setSize(_width, _height);
 		lblRight.setPosition(width - _width - _x, height - _height - _y);
-		lblRight.setPosX(0.7);
+		lblRight.setPosX(1 - ALIGNEMENT_TEXT);
 	}
 
 	private void revalidateRobots(int width, int height)
