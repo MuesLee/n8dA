@@ -1,69 +1,73 @@
 Attacken - Animationen
-Laser -> Laser
-Welle -> Welle
-Eishieb -> Eishieb
-Spritze -> Spritze
-Plasma -> Plasma
-Bombe -> Bombe
-Rakete -> Rakete
-Feuerball -> Feuerball
-Molotovcocktail -> Molotovcocktail
 Blitz -> Blitz
+Blubber -> Blubber
+Bombe -> Bombe
+Donnerwolke -> Donnerwolke
+Eishieb -> Eishieb
+Feuerball -> Feuerball
+Laser -> Laser
+Molotovcocktail -> Molotovcocktail
+Plasma -> Plasma
+Rakete -> Rakete
+Spritze -> Spritze
+Welle -> Welle
 
 
 Verteidigungen - Animationen
+Holzschild -> Holzschild
+Kissen -> Kissen
+Laserschild -> Laserschild
 Spiegel -> Spiegel
 Tennis -> Tennis
-Kissen -> Kissen
-Holzschild -> Holzschild
 Wind -> Wind
-Laserschild -> Laserschild
 
 
 Roboter - Animationen
-NinjaRoboter -> NinjaRoboter
-GreenRoboter -> GreenRoboter
-SmokingRoboter -> SmokingRoboter
+AtomRoboter -> AtomRoboter
 BlueRoboter -> BlueRoboter
 GirlRoboter -> GirlRoboter
-AtomRoboter -> AtomRoboter
-RadRoboter -> RadRoboter
+GreenRoboter -> GreenRoboter
 KosmosRoboter -> KosmosRoboter
+NinjaRoboter -> NinjaRoboter
 PillenRoboter -> PillenRoboter
+RadRoboter -> RadRoboter
+SmokingRoboter -> SmokingRoboter
 
 
 Attacken - Objekte
-Laser -> 13
-Welle -> 12
-Eishieb -> 11
-Wasserspritze -> 17
-Plasma -> 15
-Bombe -> 10
-Rakete -> 16
-Feuerball -> 24
-Molotovcocktail -> 14
 Blitz -> 9
+Blubber -> 26
+Bombe -> 10
+Donnerwolke -> 25
+Eishieb -> 11
+Feuerball -> 24
+Laser -> 13
+Molotovcocktail -> 14
+Plasma -> 15
+Rakete -> 16
+Wasserspritze -> 17
+Welle -> 12
 
 
 Verteidigungen - Objekte
+Holzschild -> 18
+Kissen -> 19
+Laserschild -> 20
 Spiegel -> 21
 Tennisschläger -> 22
-Kissen -> 19
-Holzschild -> 18
 Wind -> 23
-Laserschild -> 20
 
 
 Roboter - Objekte
-Ninja -> 6
-Digital -> 3
-Repo-Bot -> 8
+Nucular -> 1
 BlueRoboter -> 2
 Herzchen -> 0
-Nucular -> 1
-B(l)ender -> 7
+Digital -> 3
 Space Fighter -> 4
+Ninja -> 6
 Die Pille -> 5
+B(l)ender -> 7
+Repo-Bot -> 8
 
 
 Items
@@ -117,6 +121,8 @@ Alle Ids
 22
 23
 24
+25
+26
 50
 51
 52
@@ -138,8 +144,10 @@ Alle Ids
 114
 AtomRoboter
 Blitz
+Blubber
 BlueRoboter
 Bombe
+Donnerwolke
 Eishieb
 Feuerball
 GirlRoboter
