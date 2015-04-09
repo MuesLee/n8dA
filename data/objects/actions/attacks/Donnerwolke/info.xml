@@ -7,7 +7,7 @@
 	<energycosts>0</energycosts>
 	<configcosts>0</configcosts>
 	<name>Donnerwolke</name>
-	<id>9</id>
+	<id>25</id>
 	<statuseffects> 
         <id>101</id>
 		<id>105</id>
