@@ -45,6 +45,31 @@
 			<artifactId>activemq-all</artifactId>
 			<version>5.9.1</version>
 		</dependency>
+<!-- 			<dependency>
+			<groupId>de.bno</groupId>
+			<artifactId>de.bno.gameengine</artifactId>
+			<version>1.0.0</version>
+		</dependency> -->
+			<dependency>
+			<groupId>de.kvwl</groupId>
+			<artifactId>de.kvwl.n8dA.robotwars.commons</artifactId>
+			<version>0.0.2-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>lib</id>
+			<name>lib</name>
+			<releases>
+				<enabled>true</enabled>
+				<checksumPolicy>ignore</checksumPolicy>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<url>file://${project.basedir}/lib/</url>
+		</repository>
+	</repositories>
 
 </project>
