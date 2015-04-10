@@ -5,6 +5,8 @@ import game.engine.image.InternalImage;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
@@ -38,6 +40,7 @@ public class CinematicVisualizerImpl extends SwingGameFrame implements Cinematic
 		// super(config.getDevice(), config.getDisplayMode(), "RoboBattle");
 		super("RoboBattle");
 		this.audioController = new AudioController();
+
 		setup();
 	}
 
@@ -49,6 +52,7 @@ public class CinematicVisualizerImpl extends SwingGameFrame implements Cinematic
 
 		setScene(gameScene);
 		registerExitKey();
+		addWindowListener();
 
 		audioController.startBackgroundMusic();
 	}
@@ -67,8 +71,23 @@ public class CinematicVisualizerImpl extends SwingGameFrame implements Cinematic
 					case KeyEvent.VK_ESCAPE:
 						setVisible(false);
 						dispose();
+						System.exit(0);
 					break;
 				}
+			}
+		});
+	}
+
+	private void addWindowListener()
+	{
+
+		addWindowFocusListener(new WindowAdapter()
+		{
+			@Override
+			public void windowClosed(WindowEvent e)
+			{
+
+				System.exit(0);
 			}
 		});
 	}
