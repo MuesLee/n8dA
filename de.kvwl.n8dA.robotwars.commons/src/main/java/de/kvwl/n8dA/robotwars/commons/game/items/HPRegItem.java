@@ -11,7 +11,7 @@ public class HPRegItem extends RoboItem
 
 	public HPRegItem()
 	{
-		setName("HP Reg: " + hpReg);
+		setName("Lebenspunkte: " + hpReg);
 		setId(51);
 		setConfigurationPointCosts(100);
 	}

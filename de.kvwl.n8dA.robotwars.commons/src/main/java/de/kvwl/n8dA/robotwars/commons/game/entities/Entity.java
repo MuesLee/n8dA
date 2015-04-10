@@ -10,7 +10,7 @@ import java.io.Serializable;
  * </ul>
  *
  */
-public abstract class Entity implements Serializable
+public abstract class Entity implements Serializable, Comparable<Entity>
 {
 
 	private static final long serialVersionUID = 1L;
@@ -65,6 +65,17 @@ public abstract class Entity implements Serializable
 		return result;
 	}
 
+	@Override
+	public int compareTo(Entity o) {
+		if(configurationPointCosts > o.getConfigurationPointCosts())
+		{
+			return 1;
+		}
+		else if(configurationPointCosts < o.getConfigurationPointCosts())
+		return -1;
+		return 0;
+	}
+	
 	@Override
 	public boolean equals(Object obj)
 	{

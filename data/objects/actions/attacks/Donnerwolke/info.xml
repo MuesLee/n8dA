@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <attack>
-	<damage>10</damage>
-	<powertype>NORMAL</powertype>
+	<damage>25</damage>
+	<powertype>HEAVY</powertype>
 	<type>LIGHTNING</type>
 	<animationid>Donnerwolke</animationid>
-	<energycosts>0</energycosts>
-	<configcosts>0</configcosts>
+	<energycosts>6</energycosts>
+	<configcosts>200</configcosts>
 	<name>Donnerwolke</name>
 	<id>25</id>
 	<statuseffects> 

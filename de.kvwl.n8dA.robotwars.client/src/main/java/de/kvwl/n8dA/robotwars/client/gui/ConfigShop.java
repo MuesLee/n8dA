@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -25,6 +27,7 @@ import javax.swing.JSpinner;
 import javax.swing.JSpinner.DefaultEditor;
 import javax.swing.JTabbedPane;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.ToolTipManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -65,6 +68,8 @@ public class ConfigShop extends JDialog {
 		this.defends = defends;
 		this.usedCredits = calculateUsedCredits(config);
 
+		ToolTipManager.sharedInstance().setDismissDelay(60000);
+		
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		setIconImage(InternalImage.loadFromPath(IMAGE_PATH, "icon.png"));
@@ -200,7 +205,10 @@ public class ConfigShop extends JDialog {
 		JPanel scroll = new JPanel();
 		scroll.setLayout(new BoxLayout(scroll, BoxLayout.Y_AXIS));
 		sp.setViewportView(scroll);
-
+		
+		
+		Collections.sort(Arrays.asList(this.items));
+		
 		for (RoboItem item : this.items) {
 
 			final RoboItem fitem = item;
@@ -291,7 +299,7 @@ public class ConfigShop extends JDialog {
 
 			scroll.add(row);
 		}
-
+		
 		return items;
 	}
 
@@ -306,7 +314,8 @@ public class ConfigShop extends JDialog {
 		JPanel scroll = new JPanel();
 		scroll.setLayout(new BoxLayout(scroll, BoxLayout.Y_AXIS));
 		sp.setViewportView(scroll);
-
+		Collections.sort(Arrays.asList(this.defends));
+		
 		for (Defense def : defends) {
 
 			final Defense fdef = def;
@@ -379,6 +388,7 @@ public class ConfigShop extends JDialog {
 									.getEnergyCosts(), def.getRobotActionType()
 									.getHumanReadableString()));
 			label.setToolTipText(ItemUtil.createToolTipTextForRobotActions(def));
+			ToolTipManager.sharedInstance().registerComponent(label);
 			info.add(label);
 
 			scroll.add(row);
@@ -398,7 +408,9 @@ public class ConfigShop extends JDialog {
 		JPanel scroll = new JPanel();
 		scroll.setLayout(new BoxLayout(scroll, BoxLayout.Y_AXIS));
 		sp.setViewportView(scroll);
-
+		
+		Collections.sort(Arrays.asList(this.attacks));
+		
 		for (Attack atk : attacks) {
 
 			final Attack fatk = atk;
@@ -467,6 +479,7 @@ public class ConfigShop extends JDialog {
 							.getName(), atk.getDamage(), atk.getEnergyCosts(),
 					atk.getRobotActionType().getHumanReadableString()));
 			label.setToolTipText(ItemUtil.createToolTipTextForRobotActions(atk));
+			ToolTipManager.sharedInstance().registerComponent(label);
 			info.add(label);
 			
 			scroll.add(row);

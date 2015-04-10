@@ -12,7 +12,7 @@ public class HPBoostItem extends RoboItem
 	public HPBoostItem()
 	{
 		setId(50);
-		setName("HP Boost: " + hpBoost);
+		setName("Lebenspunkte Boost: " + hpBoost);
 		setConfigurationPointCosts(75);
 	}
 

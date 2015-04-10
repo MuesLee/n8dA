@@ -1,8 +1,11 @@
 package de.kvwl.n8dA.robotwars.commons.game.util;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
+import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.commons.game.items.EPBoostItem;
@@ -52,9 +55,10 @@ public class ItemUtil
 		List<StatusEffect> statusEffects = robotAction.getStatusEffects();
 
 		String iconName = robotActionType.getIconName();
-		String text = "<html><p>Typ:&nbsp<img src=\"" +
+		URL iconURL = RobotAction.class.getResource(IMAGE_PATH + iconName);
+		String text = "<html><p>Typ:&nbsp<img src=" +
 
-		RobotAction.class.getResource(IMAGE_PATH + iconName) + "\"></p>" + "<p><b><u>Verursacht:</u></b></p>";
+		iconURL + "></p>" + "<p><b><u>Verursacht:</u></b></p>";
 
 		for (StatusEffect statusEffect : statusEffects)
 		{
@@ -65,6 +69,15 @@ public class ItemUtil
 			text += "<img src='" + RobotAction.class.getResource(IMAGE_PATH + iconName) + "'>";
 			text += "&nbsp Runden:&nbsp" + "<b>" + statusEffect.getStartDuration() + "</b>";
 			text += "</p>";
+		}
+		
+		if(robotAction instanceof Attack)
+		{
+			text += "<p><hr>Diese Statuseffekte bekommt der <b>gegnerische Roboter.</b></p>";
+		}
+		else if(robotAction instanceof Defense)
+		{
+			text += "<hr><p>Diese Statuseffekte bekommt <b>dein Roboter.</b></p>";
 		}
 
 		text += "</html>";

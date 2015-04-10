@@ -2,12 +2,14 @@ package de.kvwl.n8dA.robotwars.commons.game.actions;
 
 public enum RobotActionType {
 
-	FIRE("Feuer"), WATER("Wasser"), LIGHTNING("Blitz");
+	FIRE("Feuer", 0), WATER("Wasser", 1), LIGHTNING("Blitz", 2);
 
 	private String humanReadable;
-
-	private RobotActionType(String humanReadable)
-	{
+private int index;
+	
+	private RobotActionType(String humanReadable, int index)
+	{	
+		this.setIndex(index);
 		this.humanReadable = humanReadable;
 	}
 
@@ -59,5 +61,13 @@ public enum RobotActionType {
 		}
 
 		return icName;
+	}
+
+	public int getIndex() {
+		return index;
+	}
+
+	public void setIndex(int index) {
+		this.index = index;
 	}
 }
