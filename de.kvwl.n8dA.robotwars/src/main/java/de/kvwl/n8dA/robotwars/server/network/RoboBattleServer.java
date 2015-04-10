@@ -216,8 +216,6 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 			return;
 		}
 
-		//TODO Timo: Powerups rausrechnen
-
 		loader.createUserRobot(robot, userId);
 
 		LOG.info("Custom Robot:" + robot + " from User:" + userId + " persisted");
