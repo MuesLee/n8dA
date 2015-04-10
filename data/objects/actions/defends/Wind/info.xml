@@ -2,13 +2,13 @@
 <defense>
 	<defensefactor>0.3</defensefactor>
 	<type>WATER</type>
-<powertype>NORMAL</powertype>
+	<powertype>NORMAL</powertype>
 	<animationid>Wind</animationid>
 	<energycosts>3</energycosts>
 	<configcosts>25</configcosts>
 	<name>Wind</name>
 	<id>23</id>
-	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->
-        <id>106</id>
+	<statuseffects>
+		<id>106</id>
     </statuseffects>
 </defense>

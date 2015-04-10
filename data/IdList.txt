@@ -14,9 +14,12 @@ Welle -> Welle
 
 
 Verteidigungen - Animationen
+Feuerloescher -> Feuerloescher
 Holzschild -> Holzschild
 Kissen -> Kissen
 Laserschild -> Laserschild
+Satellitenschuessel -> Satellitenschuessel
+Schwamm -> Schwamm
 Spiegel -> Spiegel
 Tennis -> Tennis
 Wind -> Wind
@@ -50,9 +53,12 @@ Welle -> 12
 
 
 Verteidigungen - Objekte
+Feuerlöscher -> 27
 Holzschild -> 18
 Kissen -> 19
 Laserschild -> 20
+Satellitenschüssel -> 29
+Schwamm -> 28
 Spiegel -> 21
 Tennisschläger -> 22
 Wind -> 23
@@ -123,6 +129,9 @@ Alle Ids
 24
 25
 26
+27
+28
+29
 50
 51
 52
@@ -150,6 +159,7 @@ Bombe
 Donnerwolke
 Eishieb
 Feuerball
+Feuerloescher
 GirlRoboter
 GreenRoboter
 Holzschild
@@ -163,6 +173,8 @@ PillenRoboter
 Plasma
 RadRoboter
 Rakete
+Sattellitenschuessel
+Schwamm
 SmokingRoboter
 Spiegel
 Spritze

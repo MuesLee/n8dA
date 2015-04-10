@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <defense>
 	<defensefactor>0.3</defensefactor>
-	<type>FIRE</type>
+	<type>WATER</type>
 	<powertype>NORMAL</powertype>
-	<animationid>Laserschild</animationid>
+	<animationid>Feuerloescher</animationid>
 	<energycosts>3</energycosts>
 	<configcosts>25</configcosts>
-	<name>Laserschild</name>
-	<id>20</id>
+	<name>Feuerlöscher</name>
+	<id>27</id>
 	<statuseffects>
-		<id>107</id>
+		<id>106</id>
     </statuseffects>
 </defense>

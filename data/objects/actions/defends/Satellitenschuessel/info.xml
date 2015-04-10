@@ -3,11 +3,11 @@
 	<defensefactor>0.3</defensefactor>
 	<type>FIRE</type>
 	<powertype>NORMAL</powertype>
-	<animationid>Laserschild</animationid>
+	<animationid>Satellitenschuessel</animationid>
 	<energycosts>3</energycosts>
 	<configcosts>25</configcosts>
-	<name>Laserschild</name>
-	<id>20</id>
+	<name>Satellitenschüssel</name>
+	<id>29</id>
 	<statuseffects>
 		<id>107</id>
     </statuseffects>
