@@ -193,13 +193,14 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 		LOG.debug("Loaded Attacks --------------------------------------> " + loader.loadRobotAttacks());
 		LOG.debug("Loaded Defends --------------------------------------> " + loader.loadRobotDefends());
 		LOG.debug("Loaded Items --------------------------------------> " + ItemUtil.getAllRoboItems());
-		LOG.debug("Loaded StatusEffects --------------------------------------> " + StatusEffectUtil.getAllStatusEffects());
+		LOG.debug("Loaded StatusEffects --------------------------------------> "
+			+ StatusEffectUtil.getAllStatusEffects());
 
 		battleController.setAllAttacks(loader.loadRobotAttacks());
 		battleController.setAllDefends(loader.loadRobotDefends());
 
 		battleController.setAllRobots(loader.loadRobots());
-		
+
 		battleController.setAllItems(ItemUtil.getAllRoboItems());
 		battleController.setAllStatusEffects(StatusEffectUtil.getAllStatusEffects());
 
@@ -214,6 +215,8 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 			LOG.info("CustomRobot: " + robot + " can not be safed. Was loaded as Custom Bot.");
 			return;
 		}
+
+		//TODO Timo: Powerups rausrechnen
 
 		loader.createUserRobot(robot, userId);
 
@@ -361,13 +364,14 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 
 		return robot;
 	}
+
 	@Override
 	public Robot getSynchronizedRobotOfEnemy(UUID ownUUID) throws RemoteException, UnknownRobotException
 	{
 
 		LOG.info("UUID: " + ownUUID + " has requested update of Enemy Robot.");
 		Robot robot = null;
-		
+
 		if (ownUUID.equals(clientUUIDLeft))
 		{
 			robot = battleController.getRobotRight();
@@ -376,14 +380,14 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 		{
 			robot = battleController.getRobotLeft();
 		}
-		else {
+		else
+		{
 			throw new UnknownRobotException();
 		}
 		LOG.info("UUID: " + ownUUID + " has requested update of Enemy Robot. Received " + robot);
-		
+
 		return robot;
 	}
-	
 
 	public void sendGameStateInfoToClients(GameStateType gameStateType)
 	{
@@ -516,13 +520,12 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 		return allDefends;
 	}
 
-	
-
 	@Override
-	public List<StatusEffect> getAllPossibleStatusEffects()
-			throws RemoteException {
+	public List<StatusEffect> getAllPossibleStatusEffects() throws RemoteException
+	{
 		List<StatusEffect> allStatusEffects = battleController.getAllStatusEffects();
 		LOG.debug("All StatusEffects requested: " + allStatusEffects);
-		return allStatusEffects;	}
+		return allStatusEffects;
+	}
 
 }
