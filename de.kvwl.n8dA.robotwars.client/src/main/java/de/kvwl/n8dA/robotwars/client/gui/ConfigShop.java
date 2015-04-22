@@ -11,7 +11,9 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -36,6 +38,7 @@ import org.slf4j.LoggerFactory;
 
 import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
+import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
 import de.kvwl.n8dA.robotwars.commons.game.util.ItemUtil;
@@ -161,14 +164,54 @@ public class ConfigShop extends JDialog {
 		List<Defense> possibleDefends = config.getPossibleDefends();
 
 		if (possibleAttacks.size() > 4 || possibleDefends.size() > 4) {
+			String messageText = "Du hast zu viele Attacken oder Verteidigungen. Es sind maximal vier Fähigkeiten erlaubt.\n";
+			String messageTitle = "Zu viele Fähigkeiten";
+			
 			JOptionPane
 					.showMessageDialog(
 							this,
-							"Du hast zu viele Attacken oder Verteidigungen. \nEs sind maximal vier Fähigkeiten erlaubt.",
-							"Zu viele Fähigkeiten", JOptionPane.ERROR_MESSAGE);
+							messageText,
+							messageTitle, JOptionPane.ERROR_MESSAGE);
 
 			return;
 		}
+		
+		String adviceText = "";
+		
+		Set<RobotActionType> defendableTypes =new HashSet<>();
+		for (Defense defense : possibleDefends) {
+			RobotActionType robotActionType = defense.getRobotActionType();
+			defendableTypes.add(robotActionType);
+		}
+		Set<RobotActionType> attackableTypes =new HashSet<>();
+		for (Attack attack: possibleAttacks) {
+			RobotActionType robotActionType = attack.getRobotActionType();
+			attackableTypes.add(robotActionType);
+		}
+		
+		if(attackableTypes.size() <3)
+		{
+			adviceText = "-> Du hast nicht für jedes Element eine Attacke.\n";
+		}
+		
+		if(defendableTypes.size() <3)
+		{
+			adviceText += "-> Du hast nicht für jedes Element eine Verteidigung.";
+		}
+		
+		if(!adviceText.isEmpty()){
+			adviceText += "\n\nMöchtest Du trotzdem fortfahren?";
+			int answer = JOptionPane.showConfirmDialog(this, adviceText, "Guck nochmal...", JOptionPane.INFORMATION_MESSAGE);
+			
+			if(answer==JOptionPane.OK_OPTION)
+			{
+				dispose();
+			}
+			else {
+				return;
+			}
+		}
+		
 
 		// Wird noch einmal geprüft, bevor das Spiel startet - Verlassen des
 		// Shops wird somit möglich auch wenn keine Änderungen vorgenommen
