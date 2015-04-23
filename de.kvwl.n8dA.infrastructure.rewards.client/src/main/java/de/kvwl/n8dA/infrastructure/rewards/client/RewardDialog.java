@@ -9,12 +9,62 @@ import javax.swing.JOptionPane;
 public class RewardDialog
 {
 
+	/**
+	 * Versucht alle nicht angegebenen Werte aus der Propertiesdatei zu lesen.
+	 * <code>./reward_settings.properties</code>
+	 * 
+	 * @see #showRewardDialog(String, int, String, String, boolean)
+	 */
+	public static void showRewardDialog(int points) throws RemoteException, MalformedURLException, NotBoundException,
+		PlayerNameException
+	{
+
+		String gameName = Settings.getString("game_name", null);
+		if (gameName == null || gameName.isEmpty())
+		{
+			throw new IllegalArgumentException("Illegal game name: " + gameName);
+		}
+
+		showRewardDialog(gameName, points);
+	}
+
+	/**
+	 * Versucht alle nicht angegebenen Werte aus der Propertiesdatei zu lesen.
+	 * <code>./reward_settings.properties</code>
+	 * 
+	 * @see #showRewardDialog(String, int, String, String, boolean)
+	 */
 	public static void showRewardDialog(String gameName, int points) throws RemoteException, MalformedURLException,
 		NotBoundException, PlayerNameException
 	{
 		showRewardDialog(gameName, points, null);
 	}
 
+	/**
+	 * Versucht alle nicht angegebenen Werte aus der Propertiesdatei zu lesen.
+	 * <code>./reward_settings.properties</code>
+	 * 
+	 * @see #showRewardDialog(String, int, String, String, boolean)
+	 */
+	public static void showRewardDialog(int points, String playerName) throws RemoteException, MalformedURLException,
+		NotBoundException, PlayerNameException
+	{
+
+		String gameName = Settings.getString("game_name", null);
+		if (gameName == null || gameName.isEmpty())
+		{
+			throw new IllegalArgumentException("Illegal game name: " + gameName);
+		}
+
+		showRewardDialog(gameName, points, playerName);
+	}
+
+	/**
+	 * Versucht alle nicht angegebenen Werte aus der Propertiesdatei zu lesen.
+	 * <code>./reward_settings.properties</code>
+	 * 
+	 * @see #showRewardDialog(String, int, String, String, boolean)
+	 */
 	public static void showRewardDialog(String gameName, int points, String playerName) throws RemoteException,
 		MalformedURLException, NotBoundException, PlayerNameException
 	{
@@ -24,6 +74,12 @@ public class RewardDialog
 		showRewardDialog(gameName, points, playerName, ipAdressServer);
 	}
 
+	/**
+	 * Versucht alle nicht angegebenen Werte aus der Propertiesdatei zu lesen.
+	 * <code>./reward_settings.properties</code>
+	 * 
+	 * @see #showRewardDialog(String, int, String, String, boolean)
+	 */
 	public static void showRewardDialog(String gameName, int points, String playerName, String ipAdressServer)
 		throws RemoteException, MalformedURLException, NotBoundException, PlayerNameException
 	{
@@ -32,6 +88,12 @@ public class RewardDialog
 		showRewardDialog(gameName, points, playerName, ipAdressServer, securityManager);
 	}
 
+	/**
+	 * Speichert einen Punktestand auf dem Server. Fehler werden mit {@link ExceptionDialog}
+	 * visualisiert und weitergereicht.<br>
+	 * Mögliche Fehler bei der Eingabe des Spielernamens werden mit einer
+	 * {@link PlayerNameException} quittiert.
+	 */
 	public static void showRewardDialog(String gameName, int points, String playerName, String ipAdressServer,
 		boolean securityManager) throws RemoteException, MalformedURLException, NotBoundException, PlayerNameException
 	{
@@ -42,7 +104,7 @@ public class RewardDialog
 			accessClient = new CreditAccessClient(ipAdressServer, securityManager);
 			accessClient.initConnectionToServer();
 		}
-		catch (RemoteException | MalformedURLException | NotBoundException e)
+		catch (Exception e)
 		{
 
 			ExceptionDialog.showExceptionDialog(null, "Verbindungsfehler",
@@ -68,18 +130,12 @@ public class RewardDialog
 		{
 			accessClient.persistConfigurationPointsForPerson(playerName, gameName, points);
 		}
-		catch (RemoteException e)
+		catch (Exception e)
 		{
 
 			ExceptionDialog.showExceptionDialog(null, "Verbindungsfehler",
 				"Beim senden der Punkte ist ein Fehler aufgetreten.", e);
 			throw (e);
 		}
-	}
-
-	public static void main(String[] args) throws Exception
-	{
-
-		RewardDialog.showRewardDialog("test", 100);
 	}
 }
