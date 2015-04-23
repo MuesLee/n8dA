@@ -2,13 +2,13 @@
 <defense>
 	<defensefactor>0.3</defensefactor>
 	<type>FIRE</type>
-<powertype>NORMAL</powertype>
+	<powertype>NORMAL</powertype>
 	<animationid>Laserschild</animationid>
 	<energycosts>3</energycosts>
 	<configcosts>25</configcosts>
 	<name>Laserschild</name>
 	<id>20</id>
-	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->
-        <id>107</id>
+	<statuseffects>
+		<id>107</id>
     </statuseffects>
 </defense>

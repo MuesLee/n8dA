@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<defense>
+	<defensefactor>0.3</defensefactor>
+	<type>WATER</type>
+	<powertype>NORMAL</powertype>
+	<animationid>Feuerloescher</animationid>
+	<energycosts>3</energycosts>
+	<configcosts>25</configcosts>
+	<name>Feuerlöscher</name>
+	<id>27</id>
+	<statuseffects>
+		<id>106</id>
+    </statuseffects>
+</defense>

@@ -2,13 +2,13 @@
 <defense>
 	<defensefactor>0.75</defensefactor>
 	<type>LIGHTNING</type>
-<powertype>HEAVY</powertype>
+	<powertype>HEAVY</powertype>
 	<animationid>Holzschild</animationid>
 	<energycosts>6</energycosts>
 	<configcosts>50</configcosts>
 	<name>Holzschild</name>
 	<id>18</id>
-	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->
-        <id>114</id>
+	<statuseffects>
+		<id>114</id>
     </statuseffects>
 </defense>

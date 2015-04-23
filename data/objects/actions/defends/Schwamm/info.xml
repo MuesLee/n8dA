@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<defense>
+	<defensefactor>0.75</defensefactor>
+	<type>LIGHTNING</type>
+	<powertype>HEAVY</powertype>
+	<animationid>Schwamm</animationid>
+	<energycosts>6</energycosts>
+	<configcosts>50</configcosts>
+	<name>Schwamm</name>
+	<id>28</id>
+	<statuseffects>
+		<id>114</id>
+    </statuseffects>
+</defense>

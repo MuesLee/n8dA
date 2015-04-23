@@ -193,13 +193,14 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 		LOG.debug("Loaded Attacks --------------------------------------> " + loader.loadRobotAttacks());
 		LOG.debug("Loaded Defends --------------------------------------> " + loader.loadRobotDefends());
 		LOG.debug("Loaded Items --------------------------------------> " + ItemUtil.getAllRoboItems());
-		LOG.debug("Loaded StatusEffects --------------------------------------> " + StatusEffectUtil.getAllStatusEffects());
+		LOG.debug("Loaded StatusEffects --------------------------------------> "
+			+ StatusEffectUtil.getAllStatusEffects());
 
 		battleController.setAllAttacks(loader.loadRobotAttacks());
 		battleController.setAllDefends(loader.loadRobotDefends());
 
 		battleController.setAllRobots(loader.loadRobots());
-		
+
 		battleController.setAllItems(ItemUtil.getAllRoboItems());
 		battleController.setAllStatusEffects(StatusEffectUtil.getAllStatusEffects());
 
@@ -362,6 +363,30 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 		return robot;
 	}
 
+	@Override
+	public Robot getSynchronizedRobotOfEnemy(UUID ownUUID) throws RemoteException, UnknownRobotException
+	{
+
+		LOG.info("UUID: " + ownUUID + " has requested update of Enemy Robot.");
+		Robot robot = null;
+
+		if (ownUUID.equals(clientUUIDLeft))
+		{
+			robot = battleController.getRobotRight();
+		}
+		else if (ownUUID.equals(clientUUIDRight))
+		{
+			robot = battleController.getRobotLeft();
+		}
+		else
+		{
+			throw new UnknownRobotException();
+		}
+		LOG.info("UUID: " + ownUUID + " has requested update of Enemy Robot. Received " + robot);
+
+		return robot;
+	}
+
 	public void sendGameStateInfoToClients(GameStateType gameStateType)
 	{
 		LOG.info("Sending GameType Update to Clients: " + gameStateType);
@@ -494,25 +519,11 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 	}
 
 	@Override
-	public Robot getSynchronizedRobotOfEnemy(UUID ownUUID) throws RemoteException, UnknownRobotException
+	public List<StatusEffect> getAllPossibleStatusEffects() throws RemoteException
 	{
-
-		if (ownUUID.equals(clientUUIDLeft))
-		{
-			return battleController.getRobotRight();
-		}
-		else if (ownUUID.equals(clientUUIDRight))
-		{
-			return battleController.getRobotLeft();
-		}
-		throw new UnknownRobotException();
-	}
-
-	@Override
-	public List<StatusEffect> getAllPossibleStatusEffects()
-			throws RemoteException {
 		List<StatusEffect> allStatusEffects = battleController.getAllStatusEffects();
 		LOG.debug("All StatusEffects requested: " + allStatusEffects);
-		return allStatusEffects;	}
+		return allStatusEffects;
+	}
 
 }

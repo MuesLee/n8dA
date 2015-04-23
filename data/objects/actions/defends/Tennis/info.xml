@@ -2,13 +2,13 @@
 <defense>
 	<defensefactor>0.75</defensefactor>
 	<type>WATER</type>
-<powertype>NORMAL</powertype>
+	<powertype>NORMAL</powertype>
 	<animationid>Tennis</animationid>
 	<energycosts>6</energycosts>
 	<configcosts>50</configcosts>
 	<name>Tennisschläger</name>
 	<id>22</id>
-	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->
-        <id>112</id>
+	<statuseffects>
+		<id>112</id>
     </statuseffects>
 </defense>

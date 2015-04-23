@@ -64,8 +64,9 @@ public class BattlePanel extends JPanel implements ActionListener,
 	private Countdown countdown;
 	private JPanel pnlActionSelection;
 	private JLabel lblInfo;
-	
+
 	private StatusEffectPanel ownStatusEffectPanel;
+	private StatusEffectPanel enemyStatusEffectPanel;
 
 	public BattlePanel(RoboBattlePlayerClient battleClient, Robot robot,
 			String playerName) {
@@ -110,9 +111,26 @@ public class BattlePanel extends JPanel implements ActionListener,
 
 		pnlActionSelection = createActionSelection();
 		add(pnlActionSelection, BorderLayout.CENTER);
+
+		JPanel statusPanel = new JPanel();
+		statusPanel.setLayout(new BoxLayout(statusPanel, BoxLayout.Y_AXIS));
 		
-		ownStatusEffectPanel = createOwnStatusEffectPanel(robot.getStatusEffects());
-		add(ownStatusEffectPanel,BorderLayout.SOUTH);
+		ownStatusEffectPanel = createStatusEffectPanel(
+				robot.getStatusEffects(), "Eigene Statuseffekte");
+		statusPanel.add(ownStatusEffectPanel, BorderLayout.SOUTH);
+
+		Robot updatedRobotOfEnemy = battleClient.getUpdatedRobotOfEnemy();
+		List<StatusEffect> enemyStatusEffects;
+		if (updatedRobotOfEnemy != null) {
+			enemyStatusEffects = updatedRobotOfEnemy.getStatusEffects();
+		} else {
+			enemyStatusEffects = Collections.<StatusEffect> emptyList();
+		}
+		enemyStatusEffectPanel = createStatusEffectPanel(enemyStatusEffects,
+				"Gegnerische Statuseffekte");
+		statusPanel.add(enemyStatusEffectPanel, BorderLayout.SOUTH);
+
+		add(statusPanel, BorderLayout.SOUTH);
 		
 		updateStats(false);
 	}
@@ -128,10 +146,10 @@ public class BattlePanel extends JPanel implements ActionListener,
 
 		return info;
 	}
-	
-	private StatusEffectPanel createOwnStatusEffectPanel(List<StatusEffect> statusEffects)
-	{
-		return new StatusEffectPanel(statusEffects);
+
+	private StatusEffectPanel createStatusEffectPanel(
+			List<StatusEffect> statusEffects, String title) {
+		return new StatusEffectPanel(statusEffects, title);
 	}
 
 	private JPanel createRoboStats() {
@@ -327,8 +345,15 @@ public class BattlePanel extends JPanel implements ActionListener,
 		energy.setMaximum(tmp.getMaxEnergyPoints());
 		energy.setValue(tmp.getEnergyPoints());
 		lblEnergy.setText("" + tmp.getEnergyPoints());
-		
+
 		ownStatusEffectPanel.update(robot.getStatusEffects());
+		Robot updatedRobotOfEnemy = battleClient.getUpdatedRobotOfEnemy();
+		LOG.debug("Enemy Robot: " +updatedRobotOfEnemy);
+		
+		if (updatedRobotOfEnemy != null) {
+			enemyStatusEffectPanel.update(updatedRobotOfEnemy
+					.getStatusEffects());
+		}
 	}
 
 	private void actionSelection(RobotAction roboAction) {
@@ -521,6 +546,15 @@ public class BattlePanel extends JPanel implements ActionListener,
 
 			actionSelection(((ActionButton) source).getRoboAction());
 		}
+	}
+
+	public StatusEffectPanel getEnemyStatusEffectPanel() {
+		return enemyStatusEffectPanel;
+	}
+
+	public void setEnemyStatusEffectPanel(
+			StatusEffectPanel enemyStatusEffectPanel) {
+		this.enemyStatusEffectPanel = enemyStatusEffectPanel;
 	}
 
 }

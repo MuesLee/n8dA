@@ -1,5 +1,6 @@
 package de.kvwl.n8dA.robotwars.commons.game.util;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,9 +55,10 @@ public class ItemUtil
 		List<StatusEffect> statusEffects = robotAction.getStatusEffects();
 
 		String iconName = robotActionType.getIconName();
-		String text = "<html><p>Typ:&nbsp<img src=\"" +
+		URL iconURL = RobotAction.class.getResource(IMAGE_PATH + iconName);
+		String text = "<html><p>Typ:&nbsp<img src=" +
 
-		RobotAction.class.getResource(IMAGE_PATH + iconName) + "\"></p>" + "<p><b><u>Verursacht:</u></b></p>";
+		iconURL + "></p>" + "<p><b><u>Verursacht:</u></b></p>";
 
 		for (StatusEffect statusEffect : statusEffects)
 		{
