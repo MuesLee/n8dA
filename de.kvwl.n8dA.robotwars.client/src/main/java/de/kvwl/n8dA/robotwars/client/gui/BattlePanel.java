@@ -6,25 +6,32 @@ import game.engine.image.InternalImage;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import bno.swing2.IconUtils;
 import de.kvwl.n8dA.robotwars.client.BattleClientListener;
 import de.kvwl.n8dA.robotwars.client.RoboBattlePlayerClient;
 import de.kvwl.n8dA.robotwars.commons.exception.NoFreeSlotInBattleArenaException;
@@ -35,6 +42,7 @@ import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.StatusEffect;
 import de.kvwl.n8dA.robotwars.commons.game.util.GameStateType;
+import de.kvwl.n8dA.robotwars.commons.game.util.ItemUtil;
 import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
 
 public class BattlePanel extends JPanel implements ActionListener,
@@ -67,6 +75,8 @@ public class BattlePanel extends JPanel implements ActionListener,
 
 	private StatusEffectPanel ownStatusEffectPanel;
 	private StatusEffectPanel enemyStatusEffectPanel;
+	
+	private JPanel sidePanel;
 
 	public BattlePanel(RoboBattlePlayerClient battleClient, Robot robot,
 			String playerName) {
@@ -130,9 +140,29 @@ public class BattlePanel extends JPanel implements ActionListener,
 				"Gegnerische Statuseffekte");
 		statusPanel.add(enemyStatusEffectPanel, BorderLayout.SOUTH);
 
+		
+		
 		add(statusPanel, BorderLayout.SOUTH);
+		add(sidePanel, BorderLayout.EAST);
 		
 		updateStats(false);
+	}
+	
+	private void createSidePanel()
+	{
+		sidePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		
+		JButton helpButton = new JButton();
+		Icon icon = UIManager.getIcon("FileChooser.detailsViewIcon");
+		helpButton.setIcon(icon);
+		helpButton.setToolTipText("Hilfe!");
+		helpButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				HelpFrame helpFrame = new HelpFrame();
+			}
+		});
 	}
 
 	private JPanel createInfoSection() {
@@ -261,7 +291,7 @@ public class BattlePanel extends JPanel implements ActionListener,
 						(100 * defense.getBonusOnDefenseFactor()),
 						defense.getEnergyCosts()));
 				def.setIcon(defense.getRobotActionType());
-				def.setToolTipText(defense.getDescription());
+				def.setToolTipText(ItemUtil.createToolTipTextForRobotActions(defense));
 			} else {
 
 				def.setText("<Leer>");
@@ -297,7 +327,7 @@ public class BattlePanel extends JPanel implements ActionListener,
 				atk.setText(String.format("%s - %d S (%d E)", attack.getName(),
 						attack.getDamage(), attack.getEnergyCosts()));
 				atk.setIcon(attack.getRobotActionType());
-				atk.setToolTipText(attack.getDescription());
+				atk.setToolTipText(ItemUtil.createToolTipTextForRobotActions(attack));
 			} else {
 
 				atk.setText("<Leer>");
