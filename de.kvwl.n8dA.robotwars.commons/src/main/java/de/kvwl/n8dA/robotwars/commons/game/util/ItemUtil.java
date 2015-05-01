@@ -56,30 +56,36 @@ public class ItemUtil
 
 		String iconName = robotActionType.getIconName();
 		URL iconURL = RobotAction.class.getResource(IMAGE_PATH + iconName);
+		String actionsStrengthValue ="";		
+		String additionalText = "";
+		
+		
+		if(robotAction instanceof Attack)
+		{
+			additionalText= "<p><hr>Diese Statuseffekte bekommt der <b>gegnerische Roboter.</b></p>";
+			actionsStrengthValue = "Schaden: " + ((Attack) robotAction).getDamage();
+		}
+		else if(robotAction instanceof Defense)
+		{
+			additionalText= "<hr><p>Diese Statuseffekte bekommt <b>dein Roboter.</b></p>";
+			actionsStrengthValue = "Verteidigungswert: " + ((Defense) robotAction).getBonusOnDefenseFactor()*100;
+		}
+		
 		String text = "<html><p>Typ:&nbsp<img src=" +
-
-		iconURL + "></p>" + "<p><b><u>Verursacht:</u></b></p>";
-
+		iconURL + "></p>" + "<p>Kosten: " + robotAction.getEnergyCosts() + "</p><p>"+actionsStrengthValue+"</p><p><b><u>Verursacht:</u></b></p>";
+		
 		for (StatusEffect statusEffect : statusEffects)
 		{
-
+			
 			iconName = statusEffect.getIconName();
 			text += "<p>" + statusEffect.getModifierText() + "&nbsp";
-
+			
 			text += "<img src='" + RobotAction.class.getResource(IMAGE_PATH + iconName) + "'>";
 			text += "&nbsp Runden:&nbsp" + "<b>" + statusEffect.getStartDuration() + "</b>";
 			text += "</p>";
 		}
 		
-		if(robotAction instanceof Attack)
-		{
-			text += "<p><hr>Diese Statuseffekte bekommt der <b>gegnerische Roboter.</b></p>";
-		}
-		else if(robotAction instanceof Defense)
-		{
-			text += "<hr><p>Diese Statuseffekte bekommt <b>dein Roboter.</b></p>";
-		}
-
+		text += additionalText;
 		text += "</html>";
 
 		return text;

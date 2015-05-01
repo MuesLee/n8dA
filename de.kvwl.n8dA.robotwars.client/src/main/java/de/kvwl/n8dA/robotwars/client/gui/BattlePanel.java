@@ -10,12 +10,10 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -31,7 +29,6 @@ import javax.swing.UIManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import bno.swing2.IconUtils;
 import de.kvwl.n8dA.robotwars.client.BattleClientListener;
 import de.kvwl.n8dA.robotwars.client.RoboBattlePlayerClient;
 import de.kvwl.n8dA.robotwars.commons.exception.NoFreeSlotInBattleArenaException;
@@ -150,17 +147,18 @@ public class BattlePanel extends JPanel implements ActionListener,
 	
 	private JPanel createSidePanel()
 	{
-		JPanel sidePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		final JPanel sidePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		
 		JButton helpButton = new JButton();
 		Icon icon = UIManager.getIcon("FileChooser.detailsViewIcon");
 		helpButton.setIcon(icon);
-		helpButton.setToolTipText("Hilfe!");
+		helpButton.setToolTipText("Wie geht das Spiel eigentlich?");
 		helpButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				HelpFrame helpFrame = new HelpFrame();
+				helpFrame.setLocationRelativeTo(sidePanel);
 			}
 		});
 		sidePanel.add(helpButton);
@@ -563,6 +561,7 @@ public class BattlePanel extends JPanel implements ActionListener,
 		JOptionPane.showMessageDialog(this, msg, "Game Over",
 				JOptionPane.INFORMATION_MESSAGE);
 		System.exit(-1);
+		
 	}
 
 	@Override

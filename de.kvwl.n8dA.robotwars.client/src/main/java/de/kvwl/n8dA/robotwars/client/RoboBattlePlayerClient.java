@@ -188,6 +188,8 @@ public class RoboBattlePlayerClient extends RoboBattleClient
 	public void disconnectFromServer()
 	{
 		producer.sendDisconnectFromServer();
+		producer.closeConnections();
+		
 	}
 
 	public List<Attack> getAllPossibleAttacksFromServer()
