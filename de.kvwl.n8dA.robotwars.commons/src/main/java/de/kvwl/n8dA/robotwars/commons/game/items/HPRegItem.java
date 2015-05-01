@@ -13,7 +13,7 @@ public class HPRegItem extends RoboItem
 	{
 		setName("Lebenspunkte: " + hpReg);
 		setId(51);
-		setConfigurationPointCosts(100);
+		setConfigurationPointCosts(150);
 	}
 
 	@Override

@@ -125,7 +125,7 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener {
 		border.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		border.add(new JSeparator(JSeparator.HORIZONTAL), BorderLayout.NORTH);
 
-		JPanel btnRow = new JPanel();
+		final JPanel btnRow = new JPanel();
 		btnRow.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		border.add(btnRow, BorderLayout.CENTER);
 
@@ -133,6 +133,20 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener {
 		btnStart.addActionListener(this);
 		btnStart.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
 		btnStart.setContentAreaFilled(false);
+		
+		JButton btnRules = new JButton("Regeln");
+		btnRules.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				HelpFrame helpFrame = new HelpFrame();
+				helpFrame.setLocationRelativeTo(btnRow);
+			}
+		});
+		btnRules.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+		btnRules.setContentAreaFilled(false);
+		
+		btnRow.add(btnRules);
 		btnRow.add(btnStart);
 
 		return border;
