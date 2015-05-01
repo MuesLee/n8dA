@@ -139,8 +139,8 @@ public class BattlePanel extends JPanel implements ActionListener,
 		enemyStatusEffectPanel = createStatusEffectPanel(enemyStatusEffects,
 				"Gegnerische Statuseffekte");
 		statusPanel.add(enemyStatusEffectPanel, BorderLayout.SOUTH);
-
 		
+		sidePanel = createSidePanel();
 		
 		add(statusPanel, BorderLayout.SOUTH);
 		add(sidePanel, BorderLayout.EAST);
@@ -148,9 +148,9 @@ public class BattlePanel extends JPanel implements ActionListener,
 		updateStats(false);
 	}
 	
-	private void createSidePanel()
+	private JPanel createSidePanel()
 	{
-		sidePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		JPanel sidePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		
 		JButton helpButton = new JButton();
 		Icon icon = UIManager.getIcon("FileChooser.detailsViewIcon");
@@ -163,6 +163,9 @@ public class BattlePanel extends JPanel implements ActionListener,
 				HelpFrame helpFrame = new HelpFrame();
 			}
 		});
+		sidePanel.add(helpButton);
+		sidePanel.setVisible(true);
+		return sidePanel;
 	}
 
 	private JPanel createInfoSection() {

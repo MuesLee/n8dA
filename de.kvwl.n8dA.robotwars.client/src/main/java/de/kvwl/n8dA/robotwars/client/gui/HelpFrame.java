@@ -21,7 +21,7 @@ public class HelpFrame extends JFrame {
 	}
 
 	private void configure() {
-		setSize(new Dimension(200, 200));
+		setMinimumSize(new Dimension(200, 200));
 
 		String content = getEditorContent();
 		editorPane = new JEditorPane("text/html", content);
@@ -29,6 +29,7 @@ public class HelpFrame extends JFrame {
 		scrollPane = new JScrollPane(editorPane);
 
 		add(scrollPane, BorderLayout.CENTER);
+		pack();
 	}
 
 	private String getEditorContent() {
@@ -41,7 +42,7 @@ public class HelpFrame extends JFrame {
 		String end = "</body></html>";
 		String table = "<table class=\"tg\">  <tr>    <th class=\"tg-9vto\">DEF -><br>ATT</th>    <th class=\"tg-9vto\">Feuer</th>    <th class=\"tg-9vto\">Wasser</th>    <th class=\"tg-031e\">Blitz</th>  </tr>  <tr>    <td class=\"tg-031e\">Feuer</td>    <td class=\"tg-zlxb\">o</td>    <td class=\"tg-s6z2\">-</td>    <td class=\"tg-s6z2\">+</td>  </tr>  <tr>    <td class=\"tg-031e\">Wasser</td>    <td class=\"tg-s6z2\">+</td>    <td class=\"tg-6997\">o</td>    <td class=\"tg-s6z2\">-</td>  </tr>  <tr>    <td class=\"tg-031e\">Blitz</td>    <td class=\"tg-s6z2\">-</td>    <td class=\"tg-s6z2\">+</td>    <td class=\"tg-6997\">o</td>  </tr></table>";
 		
-		String content = "<html><head>"+ style +"</head><body>";
+		String content = "<html><head>"+ style +"</head><body background-color=grey>";
 		content +=header;
 		content +=table;
 		content+=end;
