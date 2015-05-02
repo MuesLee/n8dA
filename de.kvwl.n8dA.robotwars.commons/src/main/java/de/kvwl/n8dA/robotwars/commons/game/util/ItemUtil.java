@@ -68,7 +68,15 @@ public class ItemUtil
 		else if(robotAction instanceof Defense)
 		{
 			additionalText= "<hr><p>Diese Statuseffekte bekommt <b>dein Roboter.</b></p>";
-			actionsStrengthValue = "Verteidigungswert: " + ((Defense) robotAction).getBonusOnDefenseFactor()*100;
+			actionsStrengthValue = "Verteidigungswert: " + ((Defense) robotAction).getBonusOnDefenseFactor()*100 
+					+" <br><br><b>Starke Verteidigung gegen: " ;
+			for (StatusEffect statusEffect : statusEffects)
+			{
+				String iconNameDef = statusEffect.getIconName();
+				actionsStrengthValue += "<img src='" + RobotAction.class.getResource(IMAGE_PATH + iconNameDef) + "'>";
+			}
+			
+			actionsStrengthValue += "</b><br><br>";
 		}
 		
 		String text = "<html><p>Typ:&nbsp<img src=" +
