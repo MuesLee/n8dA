@@ -53,7 +53,7 @@ public class HelpFrame extends JFrame {
 		content +="<br><hr><h1>Spielmechanik</h1>";
 		content +=table;
 		content += "<div class=smalltext>Legende: <br>";
-		content += "+ = Starke Verteidigung. Der erlittene Schaden wird vollständig verhindert und anteilig reflektiert.<br>";
+		content += "+ = Starke Verteidigung. Der erlittene Schaden wird vollständig verhindert und anteilig (Verteidigungswert) reflektiert.<br>";
 		content += "o = Neutrale Verteidigung. Der erlittene Schaden wird auf (75%- Verteidungswert) reduziert.<br>";
 		content += "- = Schwache Verteidigung. Voller Schaden.<br></div>";
 		content += "<br><hr><h1>Statuseffekte</h1>";
