@@ -6,7 +6,6 @@ import game.engine.image.InternalImage;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,14 +16,12 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -147,21 +144,41 @@ public class BattlePanel extends JPanel implements ActionListener,
 	
 	private JPanel createSidePanel()
 	{
-		final JPanel sidePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		final JPanel sidePanel = new JPanel();
+		BoxLayout layout = new BoxLayout(sidePanel, BoxLayout.Y_AXIS);
+		sidePanel.setLayout(layout);
 		
 		JButton helpButton = new JButton();
-		Icon icon = UIManager.getIcon("FileChooser.detailsViewIcon");
-		helpButton.setIcon(icon);
+		helpButton.setIcon(new ImageIcon(InternalImage.loadFromPath(IMAGE_PATH,
+				"questionmark.png")));
 		helpButton.setToolTipText("Wie geht das Spiel eigentlich?");
 		helpButton.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				HelpFrame helpFrame = new HelpFrame();
 				helpFrame.setLocationRelativeTo(sidePanel);
 			}
 		});
+		
+		JButton adviceButton = new JButton();
+		adviceButton.setToolTipText("SmartBot - Berater (DLC)");
+		adviceButton.setIcon(new ImageIcon(InternalImage.loadFromPath(IMAGE_PATH,
+				"smartbot.png")));
+		adviceButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			 //TODO: AdviceBot programmieren
+			}
+		});
+		
+		helpButton.setBorderPainted(false);
+		helpButton.setContentAreaFilled(false);
+		adviceButton.setBorderPainted(false);
+		adviceButton.setContentAreaFilled(false);
+		
+		sidePanel.add(Box.createVerticalStrut(6));
 		sidePanel.add(helpButton);
+		sidePanel.add(adviceButton);
 		sidePanel.setVisible(true);
 		return sidePanel;
 	}
