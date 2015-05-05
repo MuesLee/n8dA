@@ -26,7 +26,7 @@ public abstract class AnimatedSceneObject extends SceneObject {
 
 		for (ObjectAnimator animation : animations) {
 
-			if (!animation.isRunning()) {
+			if (!animation.isAlive()) {
 				animations.remove(animation);
 				continue;
 			}

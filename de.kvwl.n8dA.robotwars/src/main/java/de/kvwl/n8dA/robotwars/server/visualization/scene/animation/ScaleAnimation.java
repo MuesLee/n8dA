@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 public class ScaleAnimation implements Animation {
 
 	boolean finished = false;
+	boolean alive = true;
 
 	private long elapsedAnimationTime = 0;
 	private long animationTime;
@@ -27,14 +28,17 @@ public class ScaleAnimation implements Animation {
 	@Override
 	public boolean animate(SceneObject obj, Graphics2D g, long elapsedTime) {
 
-		if (finished) {
+		if (!alive) {
 			return true;
 		}
 
-		elapsedAnimationTime += elapsedTime;
-		if (elapsedAnimationTime >= animationTime) {
+		if (!finished) {
+			elapsedAnimationTime += elapsedTime;
+			if (elapsedAnimationTime >= animationTime) {
 
-			finished = true;
+				elapsedAnimationTime = animationTime;
+				finished = true;
+			}
 		}
 
 		double increasePerTime = (endFactor - startFactor) / animationTime;
@@ -55,12 +59,20 @@ public class ScaleAnimation implements Animation {
 
 	private void _animate(SceneObject obj, Graphics2D g, long elapsedTime) {
 
-		if (factor == 0) {
+		g.translate(factor * 30, factor * 30);
 
-			factor = 0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001;
-		}
+		// if (factor == 0) {
+		//
+		// factor =
+		// 0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001;
+		// }
+		//
+		// g.scale(factor, factor);
+	}
 
-		g.scale(factor, factor);
+	@Override
+	public boolean alive() {
+		return alive;
 	}
 
 }

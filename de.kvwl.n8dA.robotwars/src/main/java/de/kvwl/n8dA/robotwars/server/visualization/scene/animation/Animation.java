@@ -10,4 +10,6 @@ public interface Animation {
 	 * true, wenn animation beendet
 	 */
 	public boolean animate(SceneObject obj, Graphics2D g, long elapsedTime);
+
+	public boolean alive();
 }

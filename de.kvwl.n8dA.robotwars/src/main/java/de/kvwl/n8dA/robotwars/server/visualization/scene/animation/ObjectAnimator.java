@@ -51,7 +51,7 @@ public class ObjectAnimator {
 			if (!animation.animate(obj, g, elapsedTime)) {
 
 				ready = false;
-			} else {
+			} else if (!animation.alive()) {
 
 				iterator.remove();
 			}
@@ -78,5 +78,10 @@ public class ObjectAnimator {
 	public boolean isRunning() {
 
 		return running.get();
+	}
+
+	public boolean isAlive() {
+		// TODO alive
+		return isRunning() || true;
 	}
 }
