@@ -38,7 +38,7 @@ public class ScaleAnimation implements Animation {
 		}
 
 		double increasePerTime = (endFactor - startFactor) / animationTime;
-		factor = factor + (increasePerTime * elapsedTime);
+		factor = (increasePerTime * elapsedAnimationTime);
 
 		if (startFactor < endFactor) {
 
@@ -54,7 +54,13 @@ public class ScaleAnimation implements Animation {
 	}
 
 	private void _animate(SceneObject obj, Graphics2D g, long elapsedTime) {
-		// TODO ScaleAnimation
+
+		if (factor == 0) {
+
+			factor = 0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001;
+		}
+
+		g.scale(factor, factor);
 	}
 
 }

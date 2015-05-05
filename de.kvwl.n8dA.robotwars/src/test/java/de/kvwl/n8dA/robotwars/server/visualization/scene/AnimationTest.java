@@ -59,5 +59,4 @@ public class AnimationTest {
 
 		return scene;
 	}
-
 }
