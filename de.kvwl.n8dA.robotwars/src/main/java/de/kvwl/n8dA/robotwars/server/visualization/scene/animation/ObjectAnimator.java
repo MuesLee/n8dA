@@ -5,6 +5,7 @@ import game.engine.stage.scene.object.SceneObject;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -38,17 +39,21 @@ public class ObjectAnimator {
 	 * Durchführen der Animation. <strong>!Nicht vergessen -
 	 * {@link #animationFinished()} !</strong>
 	 */
-	public final void animate(SceneObject obj, Graphics2D g, long elapsedTime) {
+	final void animate(SceneObject obj, Graphics2D g, long elapsedTime) {
 
 		boolean ready = true;
 
-		for (Animation animation : animations) {
+		Iterator<Animation> iterator = animations.iterator();
+		while (iterator.hasNext()) {
+
+			Animation animation = iterator.next();
 
 			if (!animation.animate(obj, g, elapsedTime)) {
 
 				ready = false;
 			} else {
 
+				iterator.remove();
 			}
 		}
 
