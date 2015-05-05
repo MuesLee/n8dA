@@ -4,11 +4,11 @@ import game.engine.stage.scene.object.SceneObject;
 
 import java.awt.Graphics2D;
 import java.util.LinkedList;
-import java.util.Queue;
+import java.util.List;
 
 public abstract class AnimatedSceneObject extends SceneObject {
 
-	private Queue<ObjectAnimator> animations = new LinkedList<ObjectAnimator>();
+	private List<ObjectAnimator> animations = new LinkedList<ObjectAnimator>();
 
 	/**
 	 * Override this method. Erste Anweisung muss super.paint sein, damit die
@@ -25,14 +25,17 @@ public abstract class AnimatedSceneObject extends SceneObject {
 
 	private void runAnimations(Graphics2D g, long elapsedTime) {
 
-		for (ObjectAnimator animation : animations) {
+		synchronized (animations) {
 
-			if (!animation.isAlive()) {
-				animations.remove(animation);
-				continue;
+			for (ObjectAnimator animation : animations) {
+
+				if (!animation.isAlive()) {
+					animations.remove(animation);
+					continue;
+				}
+
+				animation.animate(this, g, elapsedTime);
 			}
-
-			animation.animate(this, g, elapsedTime);
 		}
 	}
 

@@ -56,7 +56,6 @@ public class ScaleAnimation implements Animation {
 
 		_animate(obj, g, elapsedTime);
 
-		System.out.println("KK");
 		if (finished && endFactor == 1) {
 			alive.set(false);
 		}
