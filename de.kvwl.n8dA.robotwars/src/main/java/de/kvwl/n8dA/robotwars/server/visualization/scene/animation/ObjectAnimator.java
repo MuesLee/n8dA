@@ -13,6 +13,7 @@ public class ObjectAnimator {
 
 	private Object finishLock = new Object();
 	private AtomicBoolean running = new AtomicBoolean(false);
+	private AtomicBoolean alive = new AtomicBoolean(true);
 
 	private List<Animation> animations = new ArrayList<Animation>();
 
@@ -42,6 +43,16 @@ public class ObjectAnimator {
 	final void animate(SceneObject obj, Graphics2D g, long elapsedTime) {
 
 		boolean ready = true;
+		boolean alive = false;
+
+		if (!this.alive.get()) {
+
+			if (this.running.get()) {
+				animationFinished();
+			}
+
+			return;
+		}
 
 		Iterator<Animation> iterator = animations.iterator();
 		while (iterator.hasNext()) {
@@ -51,13 +62,19 @@ public class ObjectAnimator {
 			if (!animation.animate(obj, g, elapsedTime)) {
 
 				ready = false;
+				alive = true;
 			} else if (!animation.alive()) {
 
 				iterator.remove();
+			} else {
+
+				alive = true;
 			}
 		}
 
-		if (ready) {
+		this.alive.set(alive);
+
+		if (ready && running.get()) {
 			animationFinished();
 		}
 	}
@@ -81,7 +98,7 @@ public class ObjectAnimator {
 	}
 
 	public boolean isAlive() {
-		// TODO alive
-		return isRunning() || true;
+
+		return isRunning() || alive.get();
 	}
 }
