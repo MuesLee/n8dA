@@ -68,9 +68,10 @@ public class ScaleAnimation implements Animation {
 
 		transform.translate(+obj.getWidth() * 0.5, +obj.getHeight() * 0.5);
 
+		double factor = this.factor;
 		if (factor == 0) {
 
-			factor = 0.00001;
+			factor = 0.1;
 		}
 		transform.scale(factor, factor);
 
