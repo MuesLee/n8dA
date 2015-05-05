@@ -35,9 +35,16 @@ public class AnimationTest {
 		lbl.setTopLeftPosition(new Point(0, 0));
 		lbl.setText("Animation...");
 
-		ObjectAnimator animator = new ObjectAnimator(new ScaleAnimation(0, 1.1,
-				TimeUtils.NanosecondsOfSeconds(2)));
-		lbl.startAnimator(animator, false);
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+
+				lbl.startAnimator(new ObjectAnimator(new ScaleAnimation(0, 1.1,
+						TimeUtils.NanosecondsOfSeconds(2))), true);
+				System.out.println("Ani finished");
+			}
+		}).start();
 
 		final Scene scene = new Scene() {
 

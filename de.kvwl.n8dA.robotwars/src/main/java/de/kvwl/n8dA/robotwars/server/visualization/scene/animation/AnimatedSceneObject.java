@@ -55,10 +55,10 @@ public abstract class AnimatedSceneObject extends SceneObject {
 	 */
 	public void startAnimator(ObjectAnimator animation, boolean wait) {
 
-		animation.startAnimation(wait);
-
 		synchronized (animations) {
 			animations.add(animation);
 		}
+
+		animation.startAnimation(wait);
 	}
 }
