@@ -4,6 +4,7 @@ import game.engine.frame.SwingGameFrame;
 import game.engine.stage.scene.FPSScene;
 import game.engine.stage.scene.Scene;
 import game.engine.stage.scene.object.Point;
+import game.engine.time.TimeUtils;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -11,6 +12,8 @@ import java.io.IOException;
 import java.util.EventListener;
 
 import de.kvwl.n8dA.robotwars.server.visualization.scene.animation.Label;
+import de.kvwl.n8dA.robotwars.server.visualization.scene.animation.ObjectAnimator;
+import de.kvwl.n8dA.robotwars.server.visualization.scene.animation.ScaleAnimation;
 
 public class AnimationTest {
 
@@ -31,6 +34,10 @@ public class AnimationTest {
 		final Label lbl = new Label();
 		lbl.setTopLeftPosition(new Point(0, 0));
 		lbl.setText("Animation....");
+
+		ObjectAnimator animator = new ObjectAnimator(new ScaleAnimation(0, 1,
+				TimeUtils.NanosecondsOfSeconds(2)));
+		lbl.startAnimator(animator, false);
 
 		final Scene scene = new Scene() {
 
