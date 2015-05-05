@@ -40,9 +40,11 @@ public class AnimationTest {
 			@Override
 			public void run() {
 
-				lbl.startAnimator(new ObjectAnimator(new ScaleAnimation(0, 1.1,
-						TimeUtils.NanosecondsOfSeconds(2))), true);
-				System.out.println("Ani finished");
+				while (true) {
+					lbl.startAnimator(new ObjectAnimator(new ScaleAnimation(0,
+							1.0, TimeUtils.NanosecondsOfSeconds(2))), true);
+					System.out.println("Ani finished");
+				}
 			}
 		}).start();
 
