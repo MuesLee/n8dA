@@ -72,11 +72,17 @@ public class ObjectAnimator {
 			}
 		}
 
-		this.alive.set(alive);
+		if (!alive) {
+			die(alive);
+		}
 
 		if (ready && running.get()) {
 			animationFinished();
 		}
+	}
+
+	private void die(boolean alive) {
+		this.alive.set(alive);
 	}
 
 	/**

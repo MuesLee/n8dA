@@ -4,11 +4,12 @@ import game.engine.stage.scene.object.SceneObject;
 
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ScaleAnimation implements Animation {
 
-	boolean finished = false;
-	boolean alive = true;
+	private boolean finished = false;
+	private AtomicBoolean alive = new AtomicBoolean(true);
 
 	private long elapsedAnimationTime = 0;
 	private long animationTime;
@@ -29,7 +30,7 @@ public class ScaleAnimation implements Animation {
 	@Override
 	public boolean animate(SceneObject obj, Graphics2D g, long elapsedTime) {
 
-		if (!alive) {
+		if (!alive.get()) {
 			return true;
 		}
 
@@ -55,6 +56,10 @@ public class ScaleAnimation implements Animation {
 
 		_animate(obj, g, elapsedTime);
 
+		System.out.println("KK");
+		if (finished && endFactor == 1) {
+			alive.set(false);
+		}
 		return finished;
 	}
 
@@ -73,11 +78,12 @@ public class ScaleAnimation implements Animation {
 		transform.translate(-obj.getWidth() * 0.5, -obj.getHeight() * 0.5);
 
 		g.transform(transform);
+
 	}
 
 	@Override
 	public boolean alive() {
-		return alive;
+		return alive.get();
 	}
 
 }

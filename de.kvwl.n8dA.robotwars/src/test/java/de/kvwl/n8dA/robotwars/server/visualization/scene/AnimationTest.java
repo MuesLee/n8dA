@@ -33,9 +33,9 @@ public class AnimationTest {
 
 		final Label lbl = new Label();
 		lbl.setTopLeftPosition(new Point(0, 0));
-		lbl.setText("Animation....");
+		lbl.setText("Animation...");
 
-		ObjectAnimator animator = new ObjectAnimator(new ScaleAnimation(0, 1,
+		ObjectAnimator animator = new ObjectAnimator(new ScaleAnimation(0, 1.1,
 				TimeUtils.NanosecondsOfSeconds(2)));
 		lbl.startAnimator(animator, false);
 

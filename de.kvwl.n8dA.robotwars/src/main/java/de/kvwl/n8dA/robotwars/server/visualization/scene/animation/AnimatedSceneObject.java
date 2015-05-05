@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public abstract class AnimatedSceneObject extends SceneObject {
+
 	private Queue<ObjectAnimator> animations = new LinkedList<ObjectAnimator>();
 
 	/**
@@ -52,6 +53,9 @@ public abstract class AnimatedSceneObject extends SceneObject {
 	public void startAnimator(ObjectAnimator animation, boolean wait) {
 
 		animation.startAnimation(wait);
-		animations.add(animation);
+
+		synchronized (animations) {
+			animations.add(animation);
+		}
 	}
 }
