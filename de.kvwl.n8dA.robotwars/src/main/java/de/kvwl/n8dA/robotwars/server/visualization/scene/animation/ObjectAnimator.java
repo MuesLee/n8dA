@@ -3,59 +3,74 @@ package de.kvwl.n8dA.robotwars.server.visualization.scene.animation;
 import game.engine.stage.scene.object.SceneObject;
 
 import java.awt.Graphics2D;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public abstract class ObjectAnimator
-{
+public class ObjectAnimator {
 
 	private Object finishLock = new Object();
 	private AtomicBoolean running = new AtomicBoolean(false);
 
-	public ObjectAnimator()
-	{
+	private List<Animation> animations = new ArrayList<Animation>();
+
+	public ObjectAnimator(Animation... animations) {
+
+		Collections.addAll(this.animations, animations);
 	}
 
-	final void startAnimation(boolean wait)
-	{
+	final void startAnimation(boolean wait) {
 		running.set(true);
 
-		if (wait)
-		{
-			synchronized (finishLock)
-			{
+		if (wait) {
+			synchronized (finishLock) {
 
-				try
-				{
+				try {
 					finishLock.wait();
-				}
-				catch (InterruptedException e)
-				{
+				} catch (InterruptedException e) {
 				}
 			}
 		}
 	}
 
 	/**
-	 * Durchführen der Animation. <strong>!Nicht vergessen - {@link #animationFinished()} !</strong>
+	 * Durchführen der Animation. <strong>!Nicht vergessen -
+	 * {@link #animationFinished()} !</strong>
 	 */
-	abstract protected void animate(SceneObject obj, Graphics2D g, long elapsedTime);
+	public final void animate(SceneObject obj, Graphics2D g, long elapsedTime) {
+
+		boolean ready = true;
+
+		for (Animation animation : animations) {
+
+			if (!animation.animate(obj, g, elapsedTime)) {
+
+				ready = false;
+			} else {
+
+			}
+		}
+
+		if (ready) {
+			animationFinished();
+		}
+	}
 
 	/**
-	 * Tell that the animation is over, {@link #startAnimation(boolean)} returns.
+	 * Tell that the animation is over, {@link #startAnimation(boolean)}
+	 * returns.
 	 */
-	protected final void animationFinished()
-	{
+	protected final void animationFinished() {
 
-		synchronized (finishLock)
-		{
+		synchronized (finishLock) {
 			finishLock.notifyAll();
 		}
 
 		running.set(false);
 	}
 
-	public boolean isRunning()
-	{
+	public boolean isRunning() {
 
 		return running.get();
 	}
