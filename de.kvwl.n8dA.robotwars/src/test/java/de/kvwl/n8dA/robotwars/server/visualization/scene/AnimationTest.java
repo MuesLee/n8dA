@@ -8,6 +8,8 @@ import game.engine.time.TimeUtils;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.EventListener;
 
@@ -61,7 +63,16 @@ public class AnimationTest {
 
 			@Override
 			public EventListener[] getEventListeners() {
-				return null;
+				return new EventListener[] { new KeyAdapter() {
+					@Override
+					public void keyReleased(KeyEvent e) {
+
+						if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+
+							System.exit(0);
+						}
+					}
+				} };
 			}
 		};
 
