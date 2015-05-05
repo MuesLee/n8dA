@@ -3,6 +3,7 @@ package de.kvwl.n8dA.robotwars.server.visualization.scene.animation;
 import game.engine.stage.scene.object.SceneObject;
 
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 
 public class ScaleAnimation implements Animation {
 
@@ -59,15 +60,19 @@ public class ScaleAnimation implements Animation {
 
 	private void _animate(SceneObject obj, Graphics2D g, long elapsedTime) {
 
-		g.translate(factor * 30, factor * 30);
+		AffineTransform transform = new AffineTransform();
 
-		// if (factor == 0) {
-		//
-		// factor =
-		// 0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001;
-		// }
-		//
-		// g.scale(factor, factor);
+		transform.translate(+obj.getWidth() * 0.5, +obj.getHeight() * 0.5);
+
+		if (factor == 0) {
+
+			factor = 0.00001;
+		}
+		transform.scale(factor, factor);
+
+		transform.translate(-obj.getWidth() * 0.5, -obj.getHeight() * 0.5);
+
+		g.transform(transform);
 	}
 
 	@Override
