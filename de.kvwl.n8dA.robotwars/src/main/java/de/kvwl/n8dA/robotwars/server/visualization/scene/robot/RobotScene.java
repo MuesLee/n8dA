@@ -49,9 +49,9 @@ public class RobotScene implements Scene
 	private LabelObject lblRight = new LabelObject();
 
 	private BackgroundObject backedLabelLeft = new BackgroundObject(lblLeft, new ImageSceneObject(
-		InternalImage.loadFromPath(IMAGE_PATH, "txt_bg.png")), new Insets(0, 0, 0, 0));
+		InternalImage.loadFromPath(IMAGE_PATH, "txt_bg.png")), new Insets(0.08, 0.03, 0.03, 0.12));
 	private BackgroundObject backedLabelRight = new BackgroundObject(lblRight, new ImageSceneObject(
-		InternalImage.loadFromPath(IMAGE_PATH, "txt_bg.png")), new Insets(0, 0, 0, 0));
+		InternalImage.loadFromPath(IMAGE_PATH, "txt_bg.png")), new Insets(0.08, 0.03, 0.03, 0.12));
 
 	private Action acLeft;
 	private Action acRight;
