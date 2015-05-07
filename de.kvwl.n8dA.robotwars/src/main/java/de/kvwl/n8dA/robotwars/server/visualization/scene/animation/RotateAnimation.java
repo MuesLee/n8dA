@@ -80,7 +80,7 @@ public class RotateAnimation implements Animation
 			angle = Math.max(endAngle, angle);
 		}
 
-		_animate(obj, g, elapsedTime);
+		animate(obj, g, elapsedTime);
 
 		if (!running && endAngle == 1)
 		{
@@ -88,20 +88,19 @@ public class RotateAnimation implements Animation
 		}
 	}
 
-	private void _animate(SceneObject obj, Graphics2D g, long elapsedTime)
+	private void animate(SceneObject obj, Graphics2D g, long elapsedTime)
 	{
 
-		AffineTransform transform = new AffineTransform();
+		//AffineTransform transform = new AffineTransform();
 
-		transform.translate(+obj.getWidth() * 0.5, +obj.getHeight() * 0.5);
+		g.translate(+obj.getWidth() * 0.5, +obj.getHeight() * 0.5);
 
 		double angle = (positiveDirection) ? this.angle : -this.angle;
-		transform.rotate(angle);
+		g.rotate(angle);
 
-		transform.translate(-obj.getWidth() * 0.5, -obj.getHeight() * 0.5);
+		g.translate(-obj.getWidth() * 0.5, -obj.getHeight() * 0.5);
 
-		g.transform(transform);
-
+		// g.transform(transform);
 	}
 
 	@Override
