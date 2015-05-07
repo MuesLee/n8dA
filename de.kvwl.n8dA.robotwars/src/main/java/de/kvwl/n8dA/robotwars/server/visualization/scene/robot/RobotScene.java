@@ -14,6 +14,7 @@ import java.awt.Graphics2D;
 import java.util.EventListener;
 
 import de.kvwl.n8dA.robotwars.server.visualization.Position;
+import de.kvwl.n8dA.robotwars.server.visualization.scene.BackgroundObject;
 import de.kvwl.n8dA.robotwars.server.visualization.scene.robot.Action.DamagePhase;
 
 public class RobotScene implements Scene
@@ -41,6 +42,9 @@ public class RobotScene implements Scene
 
 	private LabelObject lblLeft = new LabelObject();
 	private LabelObject lblRight = new LabelObject();
+
+	private BackgroundObject backedLabelLeft = new BackgroundObject(lblLeft, lblLeft, null);
+	private BackgroundObject backedLabelRight = new BackgroundObject(lblRight, lblRight, null);
 
 	private Action acLeft;
 	private Action acRight;
@@ -80,8 +84,8 @@ public class RobotScene implements Scene
 	private void paintLabels(Graphics2D g2d, int width, int height2, long elapsedTime)
 	{
 
-		lblLeft.paintOnScene(g2d, elapsedTime);
-		lblRight.paintOnScene(g2d, elapsedTime);
+		backedLabelLeft.paintOnScene(g2d, elapsedTime);
+		backedLabelRight.paintOnScene(g2d, elapsedTime);
 	}
 
 	private void paintRobos(Graphics2D g2d, int width, int height, long elapsedTime)
@@ -116,13 +120,11 @@ public class RobotScene implements Scene
 		int _height = (int) (height * (SPACE_BOTTOM - SPACE_BOTTOM_TEXT));
 		int _width = (int) (width * WIDTH_TEXT);
 
-		lblLeft.setSize(_width, _height);
-		lblLeft.setPosition(_x, height - _height - _y);
-		//		lblLeft.setPosX(ALIGNEMENT_TEXT);
+		backedLabelLeft.setSize(_width, _height);
+		backedLabelLeft.setPosition(_x, height - _height - _y);
 
-		lblRight.setSize(_width, _height);
-		lblRight.setPosition(width - _width - _x, height - _height - _y);
-		//		lblRight.setPosX(1 - ALIGNEMENT_TEXT);
+		backedLabelRight.setSize(_width, _height);
+		backedLabelRight.setPosition(width - _width - _x, height - _height - _y);
 	}
 
 	private void revalidateRobots(int width, int height)
