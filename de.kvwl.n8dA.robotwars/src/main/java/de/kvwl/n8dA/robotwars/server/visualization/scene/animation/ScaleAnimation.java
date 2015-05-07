@@ -35,7 +35,7 @@ public class ScaleAnimation implements Animation
 		elapsedAnimationTime = 0;
 
 		alive = true;
-		running = false;
+		running = true;
 	}
 
 	@Override

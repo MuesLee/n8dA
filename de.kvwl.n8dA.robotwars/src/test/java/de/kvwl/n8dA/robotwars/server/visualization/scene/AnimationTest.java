@@ -59,6 +59,8 @@ public class AnimationTest
 
 				while (true)
 				{
+					ani.startAnimation(true);
+					System.out.println("Ani Ende");
 				}
 			}
 		}).start();
