@@ -2,14 +2,16 @@ package de.kvwl.n8dA.robotwars.server.visualization.scene.robot;
 
 import game.engine.stage.scene.Scene;
 import game.engine.stage.scene.object.AnimatedSceneObject;
+import game.engine.stage.scene.object.LabelObject;
 import game.engine.stage.scene.object.Point;
+import game.engine.stage.scene.object.ScaleStrategy;
+import game.engine.stage.scene.object.Orientation.HorizontalOrientation;
 import game.engine.time.TimeUtils;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.EventListener;
 
-import de.kvwl.n8dA.robotwars.server.visualization.LabelObject;
 import de.kvwl.n8dA.robotwars.server.visualization.Position;
 import de.kvwl.n8dA.robotwars.server.visualization.scene.robot.Action.DamagePhase;
 
@@ -25,7 +27,7 @@ public class RobotScene implements Scene
 	private static final double SPACE_SIDE_TEXT = 0.01;
 	private static final double SPACE_BOTTOM = 0.08;
 	private static final double SPACE_BOTTOM_TEXT = 0.01;
-	private static final double ALIGNEMENT_TEXT = 0.20;
+	//	private static final double ALIGNEMENT_TEXT = 0.20;
 
 	private static final double AC_ATK_HEIGHT = HEIGHT * 0.4;
 	private static final double AC_DEF_HEIGHT = HEIGHT * 0.8;
@@ -50,7 +52,12 @@ public class RobotScene implements Scene
 		rightRobo.setInverted(false);
 
 		lblLeft.setColor(Color.BLACK);
+		lblLeft.setHorizontalTextOrientation(HorizontalOrientation.West);
+		lblLeft.setScaleStrategy(ScaleStrategy.FitParent);
+
 		lblRight.setColor(Color.BLACK);
+		lblRight.setHorizontalTextOrientation(HorizontalOrientation.East);
+		lblRight.setScaleStrategy(ScaleStrategy.FitParent);
 	}
 
 	@Override
@@ -104,11 +111,11 @@ public class RobotScene implements Scene
 
 		lblLeft.setSize(_width, _height);
 		lblLeft.setPosition(_x, height - _height - _y);
-		lblLeft.setPosX(ALIGNEMENT_TEXT);
+		//		lblLeft.setPosX(ALIGNEMENT_TEXT);
 
 		lblRight.setSize(_width, _height);
 		lblRight.setPosition(width - _width - _x, height - _height - _y);
-		lblRight.setPosX(1 - ALIGNEMENT_TEXT);
+		//		lblRight.setPosX(1 - ALIGNEMENT_TEXT);
 	}
 
 	private void revalidateRobots(int width, int height)

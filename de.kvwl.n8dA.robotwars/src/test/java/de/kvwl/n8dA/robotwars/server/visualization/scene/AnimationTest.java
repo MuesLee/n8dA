@@ -16,7 +16,7 @@ import java.util.EventListener;
 
 import de.kvwl.n8dA.robotwars.server.visualization.scene.animation.AnimatedSceneObject;
 import de.kvwl.n8dA.robotwars.server.visualization.scene.animation.Animation;
-import de.kvwl.n8dA.robotwars.server.visualization.scene.animation.ScaleAnimation;
+import de.kvwl.n8dA.robotwars.server.visualization.scene.animation.RotateAnimation;
 
 public class AnimationTest
 {
@@ -44,7 +44,7 @@ public class AnimationTest
 		//		new ScaleAnimation(0,
 		//			1.0, TimeUtils.NanosecondsOfSeconds(2))
 
-		Animation animation = new ScaleAnimation(0, 1.0, TimeUtils.NanosecondsOfSeconds(2));
+		Animation animation = new RotateAnimation(0, Math.PI * 2, true, TimeUtils.NanosecondsOfSeconds(2));
 
 		final AnimatedSceneObject ani = new AnimatedSceneObject(lbl, animation);
 
