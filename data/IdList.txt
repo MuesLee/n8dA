@@ -30,7 +30,10 @@ AtomRoboter -> AtomRoboter
 BlueRoboter -> BlueRoboter
 GirlRoboter -> GirlRoboter
 GreenRoboter -> GreenRoboter
+KochRobot -> KochRobot
 KosmosRoboter -> KosmosRoboter
+MissingNo -> MissingNo
+NerdRoboter -> NerdRoboter
 NinjaRoboter -> NinjaRoboter
 PillenRoboter -> PillenRoboter
 RadRoboter -> RadRoboter
@@ -69,18 +72,21 @@ Nucular -> 1
 BlueRoboter -> 2
 Herzchen -> 0
 Digital -> 3
+Koch -> 8
 Space Fighter -> 4
+MissingNo -> $$: doppelte Id -> 8
+Nerd -> $$: doppelte Id -> 8
 Ninja -> 6
 Die Pille -> 5
 B(l)ender -> 7
-Repo-Bot -> 8
+Repo-Bot -> $$: doppelte Id -> 8
 
 
 Items
-HP Boost: 10 -> 50
-HP Reg: 1 -> 51
-EP Boost: 5 -> 52
-EP Reg: 1 -> 53
+Lebenspunkte Boost: 10 -> 50
+Lebenspunkte: 1 -> 51
+Energiepunkte Boost: 5 -> 52
+Energiepunkte Regeneration: 1 -> 53
 
 
 Effeckte
@@ -102,6 +108,7 @@ Elementareffekt -  AT:WATER MT:RESISTANCE SD:3 -> 114
 
 
 Alle Ids
+$$: doppelte Id -> 8
 0
 1
 2
@@ -164,16 +171,19 @@ GirlRoboter
 GreenRoboter
 Holzschild
 Kissen
+KochRobot
 KosmosRoboter
 Laser
 Laserschild
+MissingNo
 Molotovcocktail
+NerdRoboter
 NinjaRoboter
 PillenRoboter
 Plasma
 RadRoboter
 Rakete
-Sattellitenschuessel
+Satellitenschuessel
 Schwamm
 SmokingRoboter
 Spiegel

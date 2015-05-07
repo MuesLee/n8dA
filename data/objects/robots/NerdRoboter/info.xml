@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<robot>
+	<id>8</id>
+	<name>Nerd</name>
+	<configcosts>0</configcosts>
+	<healthpoints>125</healthpoints>
+	<energypoints>10</energypoints>
+	<animationid>NerdRoboter</animationid>
+	 <statuseffects>
+        
+    </statuseffects>
+	<defaultitems>
+		
+	</defaultitems>
+	<attacks>
+		
+	</attacks>
+	<defends>
+		
+	</defends>
+</robot>

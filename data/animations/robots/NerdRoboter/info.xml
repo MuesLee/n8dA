@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<animation>
+	<id>NerdRoboter</id>
+	<width>64</width>
+	<height>128</height>
+	<times size="1">
+		<time frame="0">200000000</time>
+	</times>
+</animation>
