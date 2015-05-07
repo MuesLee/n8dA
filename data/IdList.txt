@@ -72,14 +72,14 @@ Nucular -> 1
 BlueRoboter -> 2
 Herzchen -> 0
 Digital -> 3
-Koch -> 8
+Koch -> 55
 Space Fighter -> 4
-MissingNo -> $$: doppelte Id -> 8
-Nerd -> $$: doppelte Id -> 8
+MissingNo -> 54
+Nerd -> 56
 Ninja -> 6
 Die Pille -> 5
 B(l)ender -> 7
-Repo-Bot -> $$: doppelte Id -> 8
+Repo-Bot -> 8
 
 
 Items
@@ -108,7 +108,6 @@ Elementareffekt -  AT:WATER MT:RESISTANCE SD:3 -> 114
 
 
 Alle Ids
-$$: doppelte Id -> 8
 0
 1
 2
@@ -143,6 +142,9 @@ $$: doppelte Id -> 8
 51
 52
 53
+54
+55
+56
 100
 101
 102

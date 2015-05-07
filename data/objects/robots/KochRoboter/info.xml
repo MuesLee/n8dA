@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <robot>
-	<id>8</id>
+	<id>55</id>
 	<name>Koch</name>
 	<configcosts>0</configcosts>
 	<healthpoints>125</healthpoints>
