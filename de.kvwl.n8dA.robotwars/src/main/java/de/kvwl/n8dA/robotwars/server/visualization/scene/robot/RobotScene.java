@@ -1,7 +1,9 @@
 package de.kvwl.n8dA.robotwars.server.visualization.scene.robot;
 
+import game.engine.image.InternalImage;
 import game.engine.stage.scene.Scene;
 import game.engine.stage.scene.object.AnimatedSceneObject;
+import game.engine.stage.scene.object.ImageSceneObject;
 import game.engine.stage.scene.object.LabelObject;
 import game.engine.stage.scene.object.Point;
 import game.engine.stage.scene.object.ScaleStrategy;
@@ -15,17 +17,20 @@ import java.util.EventListener;
 
 import de.kvwl.n8dA.robotwars.server.visualization.Position;
 import de.kvwl.n8dA.robotwars.server.visualization.scene.BackgroundObject;
+import de.kvwl.n8dA.robotwars.server.visualization.scene.Insets;
 import de.kvwl.n8dA.robotwars.server.visualization.scene.robot.Action.DamagePhase;
 
 public class RobotScene implements Scene
 {
+
+	private static final String IMAGE_PATH = "/de/kvwl/n8dA/robotwars/commons/images/";
 
 	private static final int ANZ_BLINK_FOR_DAMAGE = 3;
 	private static final long AC_ANIMATION_SPEED = TimeUtils.NanosecondsOfMilliseconds(1800);
 
 	private static final double HEIGHT = 0.55;
 	private static final double WIDTH_TEXT = 0.33;
-	private static final double SPACE_SIDE = 0.035;
+	private static final double SPACE_SIDE = 0.08;
 	private static final double SPACE_SIDE_TEXT = 0.01;
 	private static final double SPACE_BOTTOM = 0.08;
 	private static final double SPACE_BOTTOM_TEXT = 0.01;
@@ -43,8 +48,10 @@ public class RobotScene implements Scene
 	private LabelObject lblLeft = new LabelObject();
 	private LabelObject lblRight = new LabelObject();
 
-	private BackgroundObject backedLabelLeft = new BackgroundObject(lblLeft, lblLeft, null);
-	private BackgroundObject backedLabelRight = new BackgroundObject(lblRight, lblRight, null);
+	private BackgroundObject backedLabelLeft = new BackgroundObject(lblLeft, new ImageSceneObject(
+		InternalImage.loadFromPath(IMAGE_PATH, "txt_bg.png")), new Insets(0, 0, 0, 0));
+	private BackgroundObject backedLabelRight = new BackgroundObject(lblRight, new ImageSceneObject(
+		InternalImage.loadFromPath(IMAGE_PATH, "txt_bg.png")), new Insets(0, 0, 0, 0));
 
 	private Action acLeft;
 	private Action acRight;
@@ -57,14 +64,14 @@ public class RobotScene implements Scene
 		rightRobo.setInverted(false);
 
 		lblLeft.setColor(Color.BLACK);
-		lblLeft.setHorizontalTextOrientation(HorizontalOrientation.West);
+		lblLeft.setHorizontalTextOrientation(HorizontalOrientation.Center);
 		lblLeft.setScaleStrategy(ScaleStrategy.FitParent);
 		lblLeft.setOutlinePaint(Color.YELLOW);
 		lblLeft.setStroke(new BasicStroke(1.5f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1, new float[] { 8, 8,
 				10 }, 0));
 
 		lblRight.setColor(Color.BLACK);
-		lblRight.setHorizontalTextOrientation(HorizontalOrientation.East);
+		lblRight.setHorizontalTextOrientation(HorizontalOrientation.Center);
 		lblRight.setScaleStrategy(ScaleStrategy.FitParent);
 		lblRight.setOutlinePaint(Color.GREEN);
 		lblRight.setStroke(new BasicStroke(1.5f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1, new float[] { 8, 8,
