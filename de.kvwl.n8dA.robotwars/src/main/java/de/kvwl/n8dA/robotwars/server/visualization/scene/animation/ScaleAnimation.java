@@ -4,12 +4,12 @@ import game.engine.stage.scene.object.SceneObject;
 
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
-import java.util.concurrent.atomic.AtomicBoolean;
 
-public class ScaleAnimation implements Animation {
+public class ScaleAnimation implements Animation
+{
 
-	private boolean finished = false;
-	private AtomicBoolean alive = new AtomicBoolean(true);
+	private boolean alive = false;
+	private boolean running = false;
 
 	private long elapsedAnimationTime = 0;
 	private long animationTime;
@@ -18,8 +18,8 @@ public class ScaleAnimation implements Animation {
 	private double endFactor;
 	private double factor;
 
-	public ScaleAnimation(double startFactor, double endFactor,
-			long animationTime) {
+	public ScaleAnimation(double startFactor, double endFactor, long animationTime)
+	{
 
 		this.startFactor = startFactor;
 		this.factor = startFactor;
@@ -28,48 +28,74 @@ public class ScaleAnimation implements Animation {
 	}
 
 	@Override
-	public boolean animate(SceneObject obj, Graphics2D g, long elapsedTime) {
+	public void prepare()
+	{
 
-		if (!alive.get()) {
-			return true;
+		factor = startFactor;
+		elapsedAnimationTime = 0;
+
+		alive = true;
+		running = false;
+	}
+
+	@Override
+	public void animatePost(SceneObject obj, Graphics2D g, long elapsedTime)
+	{
+	}
+
+	@Override
+	public void animatePre(SceneObject obj, Graphics2D g, long elapsedTime)
+	{
+
+		if (!alive)
+		{
+			running = false;
+			return;
 		}
 
-		if (!finished) {
+		if (running)
+		{
 			elapsedAnimationTime += elapsedTime;
-			if (elapsedAnimationTime >= animationTime) {
+			if (elapsedAnimationTime >= animationTime)
+			{
 
 				elapsedAnimationTime = animationTime;
-				finished = true;
+				running = false;
 			}
 		}
 
 		double increasePerTime = (endFactor - startFactor) / animationTime;
 		factor = (increasePerTime * elapsedAnimationTime);
 
-		if (startFactor < endFactor) {
+		if (startFactor < endFactor)
+		{
 
 			factor = Math.min(factor, endFactor);
-		} else {
+		}
+		else
+		{
 
 			factor = Math.max(endFactor, factor);
 		}
 
 		_animate(obj, g, elapsedTime);
 
-		if (finished && endFactor == 1) {
-			alive.set(false);
+		if (!running && endFactor == 1)
+		{
+			alive = false;
 		}
-		return finished;
 	}
 
-	private void _animate(SceneObject obj, Graphics2D g, long elapsedTime) {
+	private void _animate(SceneObject obj, Graphics2D g, long elapsedTime)
+	{
 
 		AffineTransform transform = new AffineTransform();
 
 		transform.translate(+obj.getWidth() * 0.5, +obj.getHeight() * 0.5);
 
 		double factor = this.factor;
-		if (factor == 0) {
+		if (factor == 0)
+		{
 
 			factor = 0.1;
 		}
@@ -82,8 +108,15 @@ public class ScaleAnimation implements Animation {
 	}
 
 	@Override
-	public boolean alive() {
-		return alive.get();
+	public boolean isAlive()
+	{
+		return alive;
 	}
 
+	@Override
+	public boolean isRunning()
+	{
+
+		return running;
+	}
 }

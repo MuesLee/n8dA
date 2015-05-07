@@ -3,6 +3,7 @@ package de.kvwl.n8dA.robotwars.server.visualization.scene;
 import game.engine.frame.SwingGameFrame;
 import game.engine.stage.scene.FPSScene;
 import game.engine.stage.scene.Scene;
+import game.engine.stage.scene.object.LabelObject;
 import game.engine.stage.scene.object.Point;
 import game.engine.time.TimeUtils;
 
@@ -13,13 +14,15 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.EventListener;
 
-import de.kvwl.n8dA.robotwars.server.visualization.scene.animation.Label;
-import de.kvwl.n8dA.robotwars.server.visualization.scene.animation.ObjectAnimator;
+import de.kvwl.n8dA.robotwars.server.visualization.scene.animation.AnimatedSceneObject;
+import de.kvwl.n8dA.robotwars.server.visualization.scene.animation.Animation;
 import de.kvwl.n8dA.robotwars.server.visualization.scene.animation.ScaleAnimation;
 
-public class AnimationTest {
+public class AnimationTest
+{
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws Exception
+	{
 
 		Scene scene = getScene();
 
@@ -31,43 +34,59 @@ public class AnimationTest {
 		disp.setVisible(true);
 	}
 
-	private static Scene getScene() throws IOException {
+	private static Scene getScene() throws IOException
+	{
 
-		final Label lbl = new Label();
+		final LabelObject lbl = new LabelObject();
 		lbl.setTopLeftPosition(new Point(0, 0));
 		lbl.setText("Animation...");
 
-		new Thread(new Runnable() {
+		//		new ScaleAnimation(0,
+		//			1.0, TimeUtils.NanosecondsOfSeconds(2))
+
+		Animation animation = new ScaleAnimation(0, 1.0, TimeUtils.NanosecondsOfSeconds(2));
+
+		final AnimatedSceneObject ani = new AnimatedSceneObject(lbl, animation);
+
+		ani.setTopLeftPosition(new Point(0, 0));
+
+		new Thread(new Runnable()
+		{
 
 			@Override
-			public void run() {
+			public void run()
+			{
 
-				while (true) {
-					lbl.startAnimator(new ObjectAnimator(new ScaleAnimation(0,
-							1.0, TimeUtils.NanosecondsOfSeconds(2))), true);
+				while (true)
+				{
 				}
 			}
 		}).start();
 
-		final Scene scene = new Scene() {
+		final Scene scene = new Scene()
+		{
 
 			@Override
-			public void paintScene(Graphics2D g, int width, int height,
-					long time) {
+			public void paintScene(Graphics2D g, int width, int height, long time)
+			{
 				g.setColor(Color.WHITE);
 				g.fillRect(0, 0, width, height);
 
-				lbl.setSize(width, height);
-				lbl.paintOnScene(g, time);
+				ani.setSize(width, height);
+				ani.paintOnScene(g, time);
 			}
 
 			@Override
-			public EventListener[] getEventListeners() {
-				return new EventListener[] { new KeyAdapter() {
+			public EventListener[] getEventListeners()
+			{
+				return new EventListener[] { new KeyAdapter()
+				{
 					@Override
-					public void keyReleased(KeyEvent e) {
+					public void keyReleased(KeyEvent e)
+					{
 
-						if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+						if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
+						{
 
 							System.exit(0);
 						}
