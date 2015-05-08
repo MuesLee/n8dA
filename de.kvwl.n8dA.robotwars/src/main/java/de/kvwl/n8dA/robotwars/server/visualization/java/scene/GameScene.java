@@ -1,8 +1,13 @@
 package de.kvwl.n8dA.robotwars.server.visualization.java.scene;
 
 import game.engine.stage.scene.Scene;
+import game.engine.stage.scene.object.CachedLabelObject;
+import game.engine.stage.scene.object.LabelObject;
 import game.engine.stage.scene.object.SceneObject;
+import game.engine.time.TimeUtils;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
@@ -22,6 +27,11 @@ import de.kvwl.n8dA.robotwars.server.visualization.CinematicVisualizer;
 import de.kvwl.n8dA.robotwars.server.visualization.java.Position;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.Animation;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.AnimationScene;
+import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.CompoundAnimation;
+import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.DelayAnimation;
+import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.QueuedAnimation;
+import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.RotateAnimation;
+import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.ScaleAnimation;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.background.BackgroundScene;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.robot.Action;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.robot.RobotScene;
@@ -212,7 +222,19 @@ public class GameScene implements Scene, CinematicVisualizer
 	@Override
 	public void roundIsAboutToStart(boolean wait)
 	{
-		//TODO TXT -> Fight
+
+		LabelObject obj = new CachedLabelObject("Fight");
+		obj.setOutlineColor(Color.LIGHT_GRAY);
+		obj.setColor(new Color(0, 0, 0));
+		obj.setStroke(new BasicStroke(1.5f));
+
+		Rectangle2D bounds = new Rectangle2D.Float(0, 0, 1, 1);
+
+		Animation animation = new QueuedAnimation(new CompoundAnimation(new ScaleAnimation(0, 1,
+			TimeUtils.NanosecondsOfSeconds(1)), new RotateAnimation(0, Math.PI * 2, false,
+			TimeUtils.NanosecondsOfSeconds(1))), new DelayAnimation(TimeUtils.NanosecondsOfSeconds(1)));
+
+		showAnimation(obj, animation, bounds, wait);
 	}
 
 	@Override
