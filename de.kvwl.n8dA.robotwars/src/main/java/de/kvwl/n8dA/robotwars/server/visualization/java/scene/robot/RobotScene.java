@@ -5,12 +5,11 @@ import game.engine.stage.scene.Scene;
 import game.engine.stage.scene.object.AnimatedSceneObject;
 import game.engine.stage.scene.object.ImageSceneObject;
 import game.engine.stage.scene.object.LabelObject;
+import game.engine.stage.scene.object.Orientation.HorizontalOrientation;
 import game.engine.stage.scene.object.Point;
 import game.engine.stage.scene.object.ScaleStrategy;
-import game.engine.stage.scene.object.Orientation.HorizontalOrientation;
 import game.engine.time.TimeUtils;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.EventListener;
@@ -66,16 +65,10 @@ public class RobotScene implements Scene
 		lblLeft.setColor(Color.BLACK);
 		lblLeft.setHorizontalTextOrientation(HorizontalOrientation.Center);
 		lblLeft.setScaleStrategy(ScaleStrategy.FitParent);
-		lblLeft.setOutlinePaint(Color.YELLOW);
-		lblLeft.setStroke(new BasicStroke(1.5f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1, new float[] { 8, 8,
-				10 }, 0));
 
 		lblRight.setColor(Color.BLACK);
 		lblRight.setHorizontalTextOrientation(HorizontalOrientation.Center);
 		lblRight.setScaleStrategy(ScaleStrategy.FitParent);
-		lblRight.setOutlinePaint(Color.GREEN);
-		lblRight.setStroke(new BasicStroke(1.5f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1, new float[] { 8, 8,
-				10 }, 0));
 	}
 
 	@Override
