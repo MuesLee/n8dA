@@ -18,10 +18,10 @@ import de.kvwl.n8dA.robotwars.server.input.DataLoader;
 import de.kvwl.n8dA.robotwars.server.network.RoboBattleServer;
 import de.kvwl.n8dA.robotwars.server.visualization.CinematicVisualizer;
 import de.kvwl.n8dA.robotwars.server.visualization.java.Position;
-import de.kvwl.n8dA.robotwars.server.visualization.scene.background.BackgroundScene;
-import de.kvwl.n8dA.robotwars.server.visualization.scene.robot.Action;
-import de.kvwl.n8dA.robotwars.server.visualization.scene.robot.RobotScene;
-import de.kvwl.n8dA.robotwars.server.visualization.scene.status.StatusScene;
+import de.kvwl.n8dA.robotwars.server.visualization.java.scene.background.BackgroundScene;
+import de.kvwl.n8dA.robotwars.server.visualization.java.scene.robot.Action;
+import de.kvwl.n8dA.robotwars.server.visualization.java.scene.robot.RobotScene;
+import de.kvwl.n8dA.robotwars.server.visualization.java.scene.status.StatusScene;
 
 //TODO Marvin: Game Scene optional
 public class GameScene implements Scene, CinematicVisualizer

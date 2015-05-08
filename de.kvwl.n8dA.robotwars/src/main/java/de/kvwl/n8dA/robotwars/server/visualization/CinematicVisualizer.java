@@ -3,7 +3,7 @@ package de.kvwl.n8dA.robotwars.server.visualization;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
 import de.kvwl.n8dA.robotwars.server.input.DataLoader;
-import de.kvwl.n8dA.robotwars.server.visualization.scene.robot.Action;
+import de.kvwl.n8dA.robotwars.server.visualization.java.scene.robot.Action;
 
 public interface CinematicVisualizer
 {

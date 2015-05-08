@@ -1,10 +1,10 @@
-package de.kvwl.n8dA.robotwars.server.visualization.scene.animation;
+package de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation;
 
 import game.engine.stage.scene.object.SceneObject;
 
 import java.awt.Graphics2D;
 
-public class ScaleAnimation implements Animation {
+public class RotateAnimation implements Animation {
 
 	private boolean alive = false;
 	private boolean running = false;
@@ -12,23 +12,25 @@ public class ScaleAnimation implements Animation {
 	private long elapsedAnimationTime = 0;
 	private long animationTime;
 
-	private double startFactor;
-	private double endFactor;
-	private double factor;
+	private double startAngle;
+	private double endAngle;
+	private double angle;
+	private boolean positiveDirection;
 
-	public ScaleAnimation(double startFactor, double endFactor,
-			long animationTime) {
+	public RotateAnimation(double startAngle, double endAngle,
+			boolean positiveDirection, long animationTime) {
 
-		this.startFactor = startFactor;
-		this.factor = startFactor;
-		this.endFactor = endFactor;
+		this.startAngle = startAngle;
+		this.angle = startAngle;
+		this.endAngle = endAngle;
+		this.positiveDirection = positiveDirection;
 		this.animationTime = animationTime;
 	}
 
 	@Override
 	public void prepare() {
 
-		factor = startFactor;
+		angle = startAngle;
 		elapsedAnimationTime = 0;
 
 		alive = true;
@@ -56,20 +58,20 @@ public class ScaleAnimation implements Animation {
 			}
 		}
 
-		double increasePerTime = (endFactor - startFactor) / animationTime;
-		factor = (increasePerTime * elapsedAnimationTime);
+		double increasePerTime = (endAngle - startAngle) / animationTime;
+		angle = (increasePerTime * elapsedAnimationTime);
 
-		if (startFactor < endFactor) {
+		if (startAngle < endAngle) {
 
-			factor = Math.min(factor, endFactor);
+			angle = Math.min(angle, endAngle);
 		} else {
 
-			factor = Math.max(endFactor, factor);
+			angle = Math.max(endAngle, angle);
 		}
 
 		animate(obj, g, elapsedTime);
 
-		if (!running && endFactor == 1) {
+		if (!running && endAngle == 1) {
 			alive = false;
 		}
 	}
@@ -78,14 +80,11 @@ public class ScaleAnimation implements Animation {
 
 		g.translate(+obj.getWidth() * 0.5, +obj.getHeight() * 0.5);
 
-		double factor = this.factor;
-		if (factor == 0) {
-
-			factor = 0.1;
-		}
-		g.scale(factor, factor);
+		double angle = (positiveDirection) ? this.angle : -this.angle;
+		g.rotate(angle);
 
 		g.translate(-obj.getWidth() * 0.5, -obj.getHeight() * 0.5);
+
 	}
 
 	@Override

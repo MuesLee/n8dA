@@ -14,7 +14,7 @@ import de.kvwl.n8dA.robotwars.server.input.DataLoader;
 import de.kvwl.n8dA.robotwars.server.visualization.CinematicVisualizer;
 import de.kvwl.n8dA.robotwars.server.visualization.java.audio.AudioController;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.GameScene;
-import de.kvwl.n8dA.robotwars.server.visualization.scene.robot.Action;
+import de.kvwl.n8dA.robotwars.server.visualization.java.scene.robot.Action;
 
 //TODO Marvin Wechsel zu Fullscreen
 public class CinematicVisualizerImpl extends SwingGameFrame implements CinematicVisualizer

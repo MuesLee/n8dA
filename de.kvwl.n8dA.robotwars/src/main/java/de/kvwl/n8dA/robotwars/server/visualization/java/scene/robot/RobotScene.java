@@ -1,4 +1,4 @@
-package de.kvwl.n8dA.robotwars.server.visualization.scene.robot;
+package de.kvwl.n8dA.robotwars.server.visualization.java.scene.robot;
 
 import game.engine.image.InternalImage;
 import game.engine.stage.scene.Scene;
@@ -18,7 +18,7 @@ import java.util.EventListener;
 import de.kvwl.n8dA.robotwars.server.visualization.java.Position;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.BackgroundObject;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.Insets;
-import de.kvwl.n8dA.robotwars.server.visualization.scene.robot.Action.DamagePhase;
+import de.kvwl.n8dA.robotwars.server.visualization.java.scene.robot.Action.DamagePhase;
 
 public class RobotScene implements Scene
 {

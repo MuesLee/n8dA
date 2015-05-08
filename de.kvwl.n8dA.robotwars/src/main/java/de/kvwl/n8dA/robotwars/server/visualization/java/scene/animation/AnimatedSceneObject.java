@@ -1,4 +1,4 @@
-package de.kvwl.n8dA.robotwars.server.visualization.scene.animation;
+package de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation;
 
 import game.engine.stage.scene.object.Point;
 import game.engine.stage.scene.object.SceneObject;

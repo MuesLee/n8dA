@@ -1,4 +1,4 @@
-package de.kvwl.n8dA.robotwars.server.visualization.scene.status;
+package de.kvwl.n8dA.robotwars.server.visualization.java.scene.status;
 
 import static java.lang.Math.round;
 import game.engine.image.InternalImage;

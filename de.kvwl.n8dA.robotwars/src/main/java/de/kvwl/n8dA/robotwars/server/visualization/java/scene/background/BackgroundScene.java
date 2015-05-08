@@ -1,4 +1,4 @@
-package de.kvwl.n8dA.robotwars.server.visualization.scene.background;
+package de.kvwl.n8dA.robotwars.server.visualization.java.scene.background;
 
 import game.engine.image.ImageUtils;
 import game.engine.image.InternalImage;

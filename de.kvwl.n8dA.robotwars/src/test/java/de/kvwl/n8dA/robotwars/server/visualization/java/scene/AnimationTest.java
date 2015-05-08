@@ -14,9 +14,9 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.EventListener;
 
-import de.kvwl.n8dA.robotwars.server.visualization.scene.animation.AnimatedSceneObject;
-import de.kvwl.n8dA.robotwars.server.visualization.scene.animation.Animation;
-import de.kvwl.n8dA.robotwars.server.visualization.scene.animation.RotateAnimation;
+import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.AnimatedSceneObject;
+import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.Animation;
+import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.RotateAnimation;
 
 public class AnimationTest
 {
