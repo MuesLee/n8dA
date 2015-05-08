@@ -316,7 +316,7 @@ public class BattleController {
 		obj.setOutlineColor(Color.BLACK);
 		obj.setFont(font);
 		Rectangle2D bounds = new Rectangle2D.Double(0.0, 0.0, 1, 1);
-		Animation animation = new ScaleAnimation(1, 3, 1000);
+		Animation animation = new ScaleAnimation(0.1, 1, 1000);
 		
 		cinematicVisualizer.showAnimation(obj, animation, bounds, animated);
 	}
@@ -438,6 +438,8 @@ public class BattleController {
 
 	private void endGame(GameStateType currentGameState) {
 
+		//TODO Timo: endGame Text einbauen
+		
 		String textGameOver = "GAME OVER";
 		Font font = new Font("Verdana", Font.BOLD, 20);
 
@@ -449,16 +451,14 @@ public class BattleController {
 		Animation aniScale = new ScaleAnimation(1, 3, 5000);
 		Animation aniDelay = new DelayAnimation(2000);
 		Animation animation = new CompoundAnimation(aniScale, aniDelay);
-		cinematicVisualizer.showAnimation(labelGameOver, animation, bounds,
-				true);
+		//cinematicVisualizer.showAnimation(labelGameOver, animation, bounds,			true);
 
 		String textShowWinner = getShowWinnerText();
 		LabelObject labelShowWinner = new CachedLabelObject(textShowWinner);
 		labelGameOver.setColor(Color.RED);
 		labelGameOver.setOutlineColor(Color.BLACK);
 		labelGameOver.setFont(font);
-		cinematicVisualizer.showAnimation(labelShowWinner, animation, bounds,
-				true);
+		//cinematicVisualizer.showAnimation(labelShowWinner, animation, bounds,			true);
 	}
 
 	private String getShowWinnerText() {
@@ -476,6 +476,7 @@ public class BattleController {
 			text = robotRight.getNickname() + " WON";
 			break;
 		default:
+			text = "ZAWORSKI!";
 			break;
 		}
 		return text;
