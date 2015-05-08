@@ -1,9 +1,21 @@
 package de.kvwl.n8dA.robotwars.server.visualization.java.scene;
 
+import game.engine.frame.SwingGameFrame;
+import game.engine.image.InternalImage;
+import game.engine.image.sprite.DefaultSprite;
+import game.engine.stage.scene.FPSScene;
+import game.engine.stage.scene.Scene;
+import game.engine.stage.scene.object.AnimatedSceneObject;
+import game.engine.stage.scene.object.CachedLabelObject;
+import game.engine.stage.scene.object.LabelObject;
+import game.engine.time.TimeUtils;
+
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,18 +31,13 @@ import de.kvwl.n8dA.robotwars.commons.game.statuseffects.StatusEffect;
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.TypeEffect;
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.TypeEffectModificationType;
 import de.kvwl.n8dA.robotwars.server.visualization.java.Position;
-import de.kvwl.n8dA.robotwars.server.visualization.java.scene.GameScene;
+import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.Animation;
+import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.AnimationScene;
+import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.RotateAnimation;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.robot.Action;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.robot.ActionType;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.robot.RobotScene;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.status.StatusScene;
-import game.engine.frame.SwingGameFrame;
-import game.engine.image.InternalImage;
-import game.engine.image.sprite.DefaultSprite;
-import game.engine.stage.scene.FPSScene;
-import game.engine.stage.scene.Scene;
-import game.engine.stage.scene.object.AnimatedSceneObject;
-import game.engine.time.TimeUtils;
 
 public class SceneTest
 {
@@ -56,6 +63,7 @@ public class SceneTest
 		final Queue<Integer> anis = new LinkedList<Integer>();
 
 		final StatusScene stats = new StatusScene();
+		final AnimationScene animationSC = new AnimationScene();
 		final RobotScene scene = new RobotScene()
 		{
 
@@ -76,6 +84,7 @@ public class SceneTest
 				stats.setEffects(Position.LEFT, effects);
 				stats.paintScene(g2d, width, height, elapsedTime);
 
+				animationSC.paintScene(g2d, width, height, elapsedTime);
 			}
 
 			@Override
@@ -152,6 +161,18 @@ public class SceneTest
 							{
 							}
 							scene.playActionAnimation(acLeft, acRight, true);
+						break;
+						default:
+							LabelObject obj = new CachedLabelObject("Unbekannte Aktion: " + anim.intValue() + " - "
+								+ KeyEvent.getKeyText(anim.intValue()));
+							obj.setColor(Color.RED);
+							obj.setOutlineColor(Color.GREEN);
+
+							Rectangle2D bounds = new Rectangle2D.Double(0.0, 0.0, 1, 1);
+							Animation animation = new RotateAnimation(0, Math.PI * 2, true,
+								TimeUtils.NanosecondsOfSeconds(2));
+
+							animationSC.showAnimation(obj, animation, bounds, true);
 						break;
 					}
 				}
