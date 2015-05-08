@@ -3,17 +3,17 @@ package de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation;
 import game.engine.stage.scene.object.SceneObject;
 
 import java.awt.Graphics2D;
-import java.util.LinkedList;
-import java.util.Queue;
 
 /**
  * Animationen werden eine nach der anderen abgespielt. {@link Animation#isAlive()} wird nur bei der
- * letzten animation in der Reihe berücksichtigt.
+ * letzten animation in der Reihe berücksichtigt. Alle abgearbeiteten Animationen werden, wenn sie
+ * weiterhin {@link Animation#isAlive()}= true sind, in ihrem zustand mit abgespielt.
  */
 public class QueuedAnimation implements Animation
 {
 
-	private Queue<Animation> animations = new LinkedList<Animation>();
+	private Animation[] animations;
+	private int actualAnimation;
 
 	private boolean isRunning = false;
 	private boolean isAlive = false;
@@ -21,11 +21,7 @@ public class QueuedAnimation implements Animation
 	public QueuedAnimation(Animation... animations)
 	{
 
-		for (int i = 0; i < animations.length; i++)
-		{
-
-			this.animations.add(animations[i]);
-		}
+		this.animations = animations;
 	}
 
 	@Override
@@ -33,6 +29,8 @@ public class QueuedAnimation implements Animation
 	{
 		isRunning = true;
 		isAlive = true;
+
+		actualAnimation = 0;
 
 		for (Animation animation : animations)
 		{
@@ -45,6 +43,17 @@ public class QueuedAnimation implements Animation
 	public void animatePre(SceneObject obj, Graphics2D g, long elapsedTime)
 	{
 
+		//Alle alten, fertigen, aber nicht toten Animationen zeichnen
+		for (int i = 0; i < actualAnimation; i++)
+		{
+			Animation animationAlive = animations[i];
+			if (animationAlive.isAlive())
+			{
+				animationAlive.animatePre(obj, g, elapsedTime);
+			}
+		}
+
+		//Jetzt die aktuelle Animation zeichen
 		Animation animation = getNextAnimation();
 		if (animation == null)
 		{
@@ -58,6 +67,17 @@ public class QueuedAnimation implements Animation
 	public void animatePost(SceneObject obj, Graphics2D g, long elapsedTime)
 	{
 
+		//Alle alten, fertigen, aber nicht toten Animationen zeichnen
+		for (int i = 0; i < actualAnimation; i++)
+		{
+			Animation animationAlive = animations[i];
+			if (animationAlive.isAlive())
+			{
+				animationAlive.animatePost(obj, g, elapsedTime);
+			}
+		}
+
+		//Jetzt die aktuelle Animation zeichen
 		Animation animation = getNextAnimation();
 		if (animation == null)
 		{
@@ -72,16 +92,16 @@ public class QueuedAnimation implements Animation
 
 		Animation next = null;
 
-		Animation animation = animations.peek();
+		Animation animation = (actualAnimation < animations.length) ? animations[actualAnimation] : null;
 		if (animation != null)
 		{
 			if (animation.isRunning())
 			{
 				next = animation;
 			}
-			else if (animations.size() > 1 || !animation.isAlive())
+			else if ((animations.length - actualAnimation) > 1 || !animation.isAlive())
 			{
-				animations.poll();
+				actualAnimation++;
 			}
 		}
 		else
