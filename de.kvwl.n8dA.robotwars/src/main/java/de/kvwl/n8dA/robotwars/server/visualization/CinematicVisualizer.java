@@ -55,12 +55,12 @@ public interface CinematicVisualizer
 	/**
 	 * Phase von beginn der Aktionsauswahl bis zum Beginn einer Runde.
 	 */
-	public void prepareForNextRound();
+	public void prepareForNextRound(boolean wait);
 
 	/**
 	 * Für beide Robos stehen Aktionen bereit. Das Runde beginnt.
 	 */
-	public void roundIsAboutToStart();
+	public void roundIsAboutToStart(boolean wait);
 
 	/**
 	 * Auf startzustand zurücksetzen

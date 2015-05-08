@@ -202,7 +202,7 @@ public class GameScene implements Scene, CinematicVisualizer
 	}
 
 	@Override
-	public void prepareForNextRound()
+	public void prepareForNextRound(boolean wait)
 	{
 
 		round++;
@@ -210,9 +210,8 @@ public class GameScene implements Scene, CinematicVisualizer
 	}
 
 	@Override
-	public void roundIsAboutToStart()
+	public void roundIsAboutToStart(boolean wait)
 	{
-		//XXX: No Implementation - roundIsAboutToStart
 	}
 
 	@Override

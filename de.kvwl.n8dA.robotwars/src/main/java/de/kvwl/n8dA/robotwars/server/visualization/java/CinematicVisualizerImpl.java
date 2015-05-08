@@ -110,18 +110,18 @@ public class CinematicVisualizerImpl extends SwingGameFrame implements Cinematic
 	}
 
 	@Override
-	public void roundIsAboutToStart()
+	public void roundIsAboutToStart(boolean wait)
 	{
 		audioController.playSound("fight");
-		gameScene.roundIsAboutToStart();
+		gameScene.roundIsAboutToStart(wait);
 	}
 
 	@Override
-	public void prepareForNextRound()
+	public void prepareForNextRound(boolean wait)
 	{
 
 		audioController.playSound("prepareToFight");
-		gameScene.prepareForNextRound();
+		gameScene.prepareForNextRound(wait);
 	}
 
 	@Override
