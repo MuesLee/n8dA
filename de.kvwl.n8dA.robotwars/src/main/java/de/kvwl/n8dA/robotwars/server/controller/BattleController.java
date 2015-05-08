@@ -71,7 +71,7 @@ public class BattleController {
 		setCurrentGameState(GameStateType.GAME_HAS_BEGUN);
 		getCinematicVisualizer().battleIsAboutToStart();
 		setCurrentGameState(GameStateType.WAITING_FOR_PLAYER_INPUT);
-		getCinematicVisualizer().prepareForNextRound();
+		getCinematicVisualizer().prepareForNextRound(true);
 	}
 
 	public void fightNextBattleRound() throws RobotsArentRdyToFightException {
@@ -89,7 +89,7 @@ public class BattleController {
 		setCurrentGameState(GameStateType.BATTLE_IS_ACTIVE);
 
 
-		getCinematicVisualizer().roundIsAboutToStart();
+		getCinematicVisualizer().roundIsAboutToStart(true);
 
 		computeBattleOutcome(robotLeft, robotRight);
 		
@@ -394,7 +394,7 @@ public class BattleController {
 			endGame(getCurrentGameState());
 			break;
 		case WAITING_FOR_PLAYER_INPUT:
-			getCinematicVisualizer().prepareForNextRound();
+			getCinematicVisualizer().prepareForNextRound(false);
 		case BATTLE_IS_ACTIVE:
 			break;
 		case GAME_HASNT_BEGUN:
