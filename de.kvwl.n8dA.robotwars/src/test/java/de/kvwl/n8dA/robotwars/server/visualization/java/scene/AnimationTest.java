@@ -3,6 +3,7 @@ package de.kvwl.n8dA.robotwars.server.visualization.java.scene;
 import game.engine.frame.SwingGameFrame;
 import game.engine.stage.scene.FPSScene;
 import game.engine.stage.scene.Scene;
+import game.engine.stage.scene.object.CachedLabelObject;
 import game.engine.stage.scene.object.LabelObject;
 import game.engine.stage.scene.object.Point;
 import game.engine.time.TimeUtils;
@@ -37,7 +38,7 @@ public class AnimationTest
 	private static Scene getScene() throws IOException
 	{
 
-		final LabelObject lbl = new LabelObject();
+		final LabelObject lbl = new CachedLabelObject();
 		lbl.setTopLeftPosition(new Point(0, 0));
 		lbl.setText("Animation...");
 
