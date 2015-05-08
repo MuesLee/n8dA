@@ -3,10 +3,8 @@ package de.kvwl.n8dA.robotwars.server.visualization.scene.animation;
 import game.engine.stage.scene.object.SceneObject;
 
 import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
 
-public class RotateAnimation implements Animation
-{
+public class RotateAnimation implements Animation {
 
 	private boolean alive = false;
 	private boolean running = false;
@@ -19,8 +17,8 @@ public class RotateAnimation implements Animation
 	private double angle;
 	private boolean positiveDirection;
 
-	public RotateAnimation(double startAngle, double endAngle, boolean positiveDirection, long animationTime)
-	{
+	public RotateAnimation(double startAngle, double endAngle,
+			boolean positiveDirection, long animationTime) {
 
 		this.startAngle = startAngle;
 		this.angle = startAngle;
@@ -30,8 +28,7 @@ public class RotateAnimation implements Animation
 	}
 
 	@Override
-	public void prepare()
-	{
+	public void prepare() {
 
 		angle = startAngle;
 		elapsedAnimationTime = 0;
@@ -41,25 +38,20 @@ public class RotateAnimation implements Animation
 	}
 
 	@Override
-	public void animatePost(SceneObject obj, Graphics2D g, long elapsedTime)
-	{
+	public void animatePost(SceneObject obj, Graphics2D g, long elapsedTime) {
 	}
 
 	@Override
-	public void animatePre(SceneObject obj, Graphics2D g, long elapsedTime)
-	{
+	public void animatePre(SceneObject obj, Graphics2D g, long elapsedTime) {
 
-		if (!alive)
-		{
+		if (!alive) {
 			running = false;
 			return;
 		}
 
-		if (running)
-		{
+		if (running) {
 			elapsedAnimationTime += elapsedTime;
-			if (elapsedAnimationTime >= animationTime)
-			{
+			if (elapsedAnimationTime >= animationTime) {
 
 				elapsedAnimationTime = animationTime;
 				running = false;
@@ -69,50 +61,39 @@ public class RotateAnimation implements Animation
 		double increasePerTime = (endAngle - startAngle) / animationTime;
 		angle = (increasePerTime * elapsedAnimationTime);
 
-		if (startAngle < endAngle)
-		{
+		if (startAngle < endAngle) {
 
 			angle = Math.min(angle, endAngle);
-		}
-		else
-		{
+		} else {
 
 			angle = Math.max(endAngle, angle);
 		}
 
-		_animate(obj, g, elapsedTime);
+		animate(obj, g, elapsedTime);
 
-		if (!running && endAngle == 1)
-		{
+		if (!running && endAngle == 1) {
 			alive = false;
 		}
 	}
 
-	private void _animate(SceneObject obj, Graphics2D g, long elapsedTime)
-	{
+	private void animate(SceneObject obj, Graphics2D g, long elapsedTime) {
 
-		AffineTransform transform = new AffineTransform();
-
-		transform.translate(+obj.getWidth() * 0.5, +obj.getHeight() * 0.5);
+		g.translate(+obj.getWidth() * 0.5, +obj.getHeight() * 0.5);
 
 		double angle = (positiveDirection) ? this.angle : -this.angle;
-		transform.rotate(angle);
+		g.rotate(angle);
 
-		transform.translate(-obj.getWidth() * 0.5, -obj.getHeight() * 0.5);
-
-		g.transform(transform);
+		g.translate(-obj.getWidth() * 0.5, -obj.getHeight() * 0.5);
 
 	}
 
 	@Override
-	public boolean isAlive()
-	{
+	public boolean isAlive() {
 		return alive;
 	}
 
 	@Override
-	public boolean isRunning()
-	{
+	public boolean isRunning() {
 
 		return running;
 	}
