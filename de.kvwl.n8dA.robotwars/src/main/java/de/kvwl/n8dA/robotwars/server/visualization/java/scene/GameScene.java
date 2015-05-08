@@ -1,9 +1,10 @@
 package de.kvwl.n8dA.robotwars.server.visualization.java.scene;
 
 import game.engine.stage.scene.Scene;
-import game.engine.stage.scene.object.LabelObject;
+import game.engine.stage.scene.object.SceneObject;
 
 import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.util.EventListener;
 import java.util.LinkedList;
@@ -20,12 +21,12 @@ import de.kvwl.n8dA.robotwars.server.network.RoboBattleServer;
 import de.kvwl.n8dA.robotwars.server.visualization.CinematicVisualizer;
 import de.kvwl.n8dA.robotwars.server.visualization.java.Position;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.Animation;
+import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.AnimationScene;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.background.BackgroundScene;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.robot.Action;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.robot.RobotScene;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.status.StatusScene;
 
-//TODO Marvin: Game Scene optional
 public class GameScene implements Scene, CinematicVisualizer
 {
 
@@ -34,6 +35,7 @@ public class GameScene implements Scene, CinematicVisualizer
 	private StatusScene status = new StatusScene();
 	private BackgroundScene background = new BackgroundScene();
 	private RobotScene robots = new RobotScene();
+	private AnimationScene animations = new AnimationScene();
 
 	private int round = 0;
 
@@ -44,6 +46,7 @@ public class GameScene implements Scene, CinematicVisualizer
 		background.paintScene(g2d, width, height, elapsedTime);
 		robots.paintScene(g2d, width, height, elapsedTime);
 		status.paintScene(g2d, width, height, elapsedTime);
+		animations.paintScene(g2d, width, height, elapsedTime);
 	}
 
 	@Override
@@ -192,10 +195,10 @@ public class GameScene implements Scene, CinematicVisualizer
 	}
 
 	@Override
-	public void showTextAnimation(LabelObject label, Animation animation, boolean wait)
+	public void showAnimation(SceneObject obj, Animation animation, Rectangle2D bounds, boolean wait)
 	{
-		// TODO Marvin: showTextAnimation
 
+		animations.showAnimation(obj, animation, bounds, wait);
 	}
 
 	@Override
@@ -209,7 +212,7 @@ public class GameScene implements Scene, CinematicVisualizer
 	@Override
 	public void roundIsAboutToStart()
 	{
-
+		//XXX: No Implementation - roundIsAboutToStart
 	}
 
 	@Override

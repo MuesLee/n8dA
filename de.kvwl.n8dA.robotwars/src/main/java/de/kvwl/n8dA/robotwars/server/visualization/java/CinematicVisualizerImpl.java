@@ -2,12 +2,13 @@ package de.kvwl.n8dA.robotwars.server.visualization.java;
 
 import game.engine.frame.SwingGameFrame;
 import game.engine.image.InternalImage;
-import game.engine.stage.scene.object.LabelObject;
+import game.engine.stage.scene.object.SceneObject;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.geom.Rectangle2D;
 
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
@@ -179,9 +180,9 @@ public class CinematicVisualizerImpl extends SwingGameFrame implements Cinematic
 	}
 
 	@Override
-	public void showTextAnimation(LabelObject label, Animation animation, boolean wait)
+	public void showAnimation(SceneObject obj, Animation animation, Rectangle2D bounds, boolean wait)
 	{
 
-		gameScene.showTextAnimation(label, animation, wait);
+		gameScene.showAnimation(obj, animation, bounds, wait);
 	}
 }

@@ -1,7 +1,10 @@
 package de.kvwl.n8dA.robotwars.server.visualization;
 
+import java.awt.geom.Rectangle2D;
+
+import game.engine.stage.scene.Scene;
 import game.engine.stage.scene.object.CachedLabelObject;
-import game.engine.stage.scene.object.LabelObject;
+import game.engine.stage.scene.object.SceneObject;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
 import de.kvwl.n8dA.robotwars.server.input.DataLoader;
@@ -41,11 +44,13 @@ public interface CinematicVisualizer
 	public void updateHealthpoints(Robot robot, RobotPosition position, boolean animated, boolean wait);
 
 	/**
-	 * Null werte werden durch defaults ersetzt. Nur der text und die Animation sind Pflicht.
+	 * Null werte werden durch defaults ersetzt. Nur der text und die Animation sind Pflicht. Bounds
+	 * sind relative positionsangaben. Relativ zur {@link Scene}. Nur Werte zwischen 0.0 und 1.0
+	 * sind sichtbar.
 	 *
 	 * @see CachedLabelObject Bessere Performance beim animieren
 	 */
-	public void showTextAnimation(LabelObject label, Animation animation, boolean wait);
+	public void showAnimation(SceneObject obj, Animation animation, Rectangle2D bounds, boolean wait);
 
 	/**
 	 * Phase von beginn der Aktionsauswahl bis zum Beginn einer Runde.
