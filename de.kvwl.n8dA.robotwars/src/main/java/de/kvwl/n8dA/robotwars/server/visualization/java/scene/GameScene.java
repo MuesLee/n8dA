@@ -1,6 +1,7 @@
 package de.kvwl.n8dA.robotwars.server.visualization.java.scene;
 
 import game.engine.stage.scene.Scene;
+import game.engine.stage.scene.object.LabelObject;
 
 import java.awt.Graphics2D;
 import java.io.IOException;
@@ -18,6 +19,7 @@ import de.kvwl.n8dA.robotwars.server.input.DataLoader;
 import de.kvwl.n8dA.robotwars.server.network.RoboBattleServer;
 import de.kvwl.n8dA.robotwars.server.visualization.CinematicVisualizer;
 import de.kvwl.n8dA.robotwars.server.visualization.java.Position;
+import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.Animation;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.background.BackgroundScene;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.robot.Action;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.robot.RobotScene;
@@ -187,6 +189,13 @@ public class GameScene implements Scene, CinematicVisualizer
 		LOG.debug("Play Fight Animation Left: {} Right: {} Wait: {}", acLeft, acRight, wait);
 
 		robots.playActionAnimation(acLeft, acRight, wait);
+	}
+
+	@Override
+	public void showTextAnimation(LabelObject label, Animation animation, boolean wait)
+	{
+		// TODO Marvin: showTextAnimation
+
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package de.kvwl.n8dA.robotwars.server.visualization.java;
 
 import game.engine.frame.SwingGameFrame;
 import game.engine.image.InternalImage;
+import game.engine.stage.scene.object.LabelObject;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -14,6 +15,7 @@ import de.kvwl.n8dA.robotwars.server.input.DataLoader;
 import de.kvwl.n8dA.robotwars.server.visualization.CinematicVisualizer;
 import de.kvwl.n8dA.robotwars.server.visualization.java.audio.AudioController;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.GameScene;
+import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.Animation;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.robot.Action;
 
 //TODO Marvin Wechsel zu Fullscreen
@@ -174,5 +176,12 @@ public class CinematicVisualizerImpl extends SwingGameFrame implements Cinematic
 		}
 
 		return instance;
+	}
+
+	@Override
+	public void showTextAnimation(LabelObject label, Animation animation, boolean wait)
+	{
+
+		gameScene.showTextAnimation(label, animation, wait);
 	}
 }
