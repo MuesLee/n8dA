@@ -1,5 +1,11 @@
 package de.kvwl.n8dA.robotwars.server.controller;
 
+import game.engine.stage.scene.object.CachedLabelObject;
+import game.engine.stage.scene.object.LabelObject;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +32,10 @@ import de.kvwl.n8dA.robotwars.server.network.RoboBattleServer;
 import de.kvwl.n8dA.robotwars.server.visualization.CinematicVisualizer;
 import de.kvwl.n8dA.robotwars.server.visualization.java.AnimationPosition;
 import de.kvwl.n8dA.robotwars.server.visualization.java.CinematicVisualizerImpl;
+import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.Animation;
+import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.CompoundAnimation;
+import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.DelayAnimation;
+import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.ScaleAnimation;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.robot.Action;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.robot.ActionType;
 
@@ -41,7 +51,6 @@ public class BattleController {
 	private Robot robotLeft;
 	private Robot robotRight;
 
-	
 	private List<Attack> allAttacks;
 	private List<Defense> allDefends;
 	private List<Robot> allRobots;
@@ -88,31 +97,35 @@ public class BattleController {
 		LOG.info("Battleround started");
 		setCurrentGameState(GameStateType.BATTLE_IS_ACTIVE);
 
-
 		getCinematicVisualizer().roundIsAboutToStart(true);
 
 		computeBattleOutcome(robotLeft, robotRight);
-		
+
 		consumeStatusEffects(robotLeft);
 		consumeStatusEffects(robotRight);
-		
-		cinematicVisualizer.updateEnergypoints(robotLeft, RobotPosition.LEFT, true, false);
-		cinematicVisualizer.updateEnergypoints(robotRight, RobotPosition.RIGHT, true, false);
-		cinematicVisualizer.updateHealthpoints(robotRight, RobotPosition.RIGHT, true, true);
-		cinematicVisualizer.updateHealthpoints(robotLeft, RobotPosition.LEFT, true, true);
-		
+
+		cinematicVisualizer.updateEnergypoints(robotLeft, RobotPosition.LEFT,
+				true, false);
+		cinematicVisualizer.updateEnergypoints(robotRight, RobotPosition.RIGHT,
+				true, false);
+		cinematicVisualizer.updateHealthpoints(robotRight, RobotPosition.RIGHT,
+				true, true);
+		cinematicVisualizer.updateHealthpoints(robotLeft, RobotPosition.LEFT,
+				true, true);
+
 		updateGameState(robotLeft, robotRight);
-	
-		if(currentGameState == GameStateType.WAITING_FOR_PLAYER_INPUT)
-		{
-			
+
+		if (currentGameState == GameStateType.WAITING_FOR_PLAYER_INPUT) {
+
 			regenerateEnergyOfRobots(robotLeft, robotRight,
 					ENERGY_REGENERATION_RATE);
 			performEachRoundsModificationOfRobot(robotLeft);
 			performEachRoundsModificationOfRobot(robotRight);
-			
-			cinematicVisualizer.updateStats(robotLeft, RobotPosition.LEFT , true, true);
-			cinematicVisualizer.updateStats(robotRight, RobotPosition.RIGHT , true, true);
+
+			cinematicVisualizer.updateStats(robotLeft, RobotPosition.LEFT,
+					true, true);
+			cinematicVisualizer.updateStats(robotRight, RobotPosition.RIGHT,
+					true, true);
 		}
 	}
 
@@ -158,7 +171,7 @@ public class BattleController {
 
 		RobotAction actionRobotRight = robotRight.getCurrentAction();
 		RobotAction actionRobotLeft = robotLeft.getCurrentAction();
-		
+
 		// Links ATT
 		if (actionRobotLeft instanceof Attack) {
 			// Links ATT Rechts ATT
@@ -173,9 +186,9 @@ public class BattleController {
 				computeOutcomeATTvsDEF(robotLeft, robotRight);
 			}
 		}
-		// Links DEF 
+		// Links DEF
 		else {
-			//Links DEF Rechts ATT
+			// Links DEF Rechts ATT
 			if (actionRobotRight instanceof Attack) {
 				LOG.info("Robot: " + robotRight + " attacks Robot: "
 						+ robotLeft);
@@ -224,42 +237,43 @@ public class BattleController {
 			// Voller Schaden für DEF
 			LOG.info("Weak defense!");
 			actionTypeDefender = ActionType.DefenseWithDamage;
-			
+
 			inflictStatusEffects(defender, defense);
-			
+
 			dealDamageToRobot(defender, attackDamage,
 					attack.getRobotActionType());
-			
+
 			inflictStatusEffects(defender, attack);
-			
+
 		} else if (defenseType.beats(attackType)) {
 
 			// teilweise Reflektion an ATT, keinen Schaden für DEF
 			LOG.info("Strong defense!");
 			actionTypeDefender = ActionType.ReflectingDefense;
-			
-			int reflectedDamage = (int) (attackDamage * defense.getBonusOnDefenseFactor());
+
+			int reflectedDamage = (int) (attackDamage * defense
+					.getBonusOnDefenseFactor());
 			dealDamageToRobot(attacker, reflectedDamage,
 					attack.getRobotActionType());
 			inflictStatusEffects(attacker, attack);
-			
-			
+
 			inflictStatusEffects(defender, defense);
-			//heilung für Reflektor
-			// int postBlockDamage = (int) (attackDamage * (NEUTRAL_DEFENSE_BLOCK_FACTOR-defense.getBonusOnDefenseFactor()));
-			//dealDamageToRobot(defender, postBlockDamage, attackType);
-			
+			// heilung für Reflektor
+			// int postBlockDamage = (int) (attackDamage *
+			// (NEUTRAL_DEFENSE_BLOCK_FACTOR-defense.getBonusOnDefenseFactor()));
+			// dealDamageToRobot(defender, postBlockDamage, attackType);
 
 		} else {
 			LOG.info("Neutral defense!");
-			int postBlockDamage = (int) (attackDamage * (NEUTRAL_DEFENSE_DAMAGE_FACTOR-defense.getBonusOnDefenseFactor()));
+			int postBlockDamage = (int) (attackDamage * (NEUTRAL_DEFENSE_DAMAGE_FACTOR - defense
+					.getBonusOnDefenseFactor()));
 			actionTypeDefender = ActionType.DefenseWithDamage;
-			
+
 			inflictStatusEffects(defender, defense);
-			
+
 			dealDamageToRobot(defender, postBlockDamage,
 					attack.getRobotActionType());
-			
+
 			inflictStatusEffects(defender, attack);
 		}
 
@@ -285,17 +299,30 @@ public class BattleController {
 								.getAnimation(), RobotPosition.LEFT),
 						actionTypeDefender, loader);
 			}
-			getCinematicVisualizer().playFightanimation(acLeft, acRight, true); 
-
-
+			getCinematicVisualizer().playFightanimation(acLeft, acRight, true);
+			
 		} catch (IOException e) {
 			LOG.error("boom", e);
 		}
 
 	}
 
-	void computeOutcomeDEFvsDEF(Robot defenderLeft, Robot defenderRight) {
+	private void showDamageNumbers(RobotPosition robotPosition, String text, boolean animated) {
 		
+		Font font = new Font("Verdana", Font.BOLD, 10);
+		LabelObject obj = new CachedLabelObject(text);
+		
+		obj.setColor(Color.RED);
+		obj.setOutlineColor(Color.BLACK);
+		obj.setFont(font);
+		Rectangle2D bounds = new Rectangle2D.Double(0.0, 0.0, 1, 1);
+		Animation animation = new ScaleAnimation(1, 3, 1000);
+		
+		cinematicVisualizer.showAnimation(obj, animation, bounds, animated);
+	}
+
+	void computeOutcomeDEFvsDEF(Robot defenderLeft, Robot defenderRight) {
+
 		inflictStatusEffects(defenderLeft, defenderLeft.getCurrentAction());
 		inflictStatusEffects(defenderRight, defenderRight.getCurrentAction());
 		Action acLeft = null;
@@ -325,10 +352,9 @@ public class BattleController {
 		dealDamageToRobot(attackerRight, damageLeft,
 				attackLeft.getRobotActionType());
 
-		
 		inflictStatusEffects(attackerRight, attackLeft);
 		inflictStatusEffects(attackerLeft, attackRight);
-		
+
 		Action acLeft = null;
 		Action acRight = null;
 		try {
@@ -339,6 +365,10 @@ public class BattleController {
 					.getCurrentAction().getAnimation(), RobotPosition.RIGHT),
 					ActionType.Attack, loader);
 			getCinematicVisualizer().playFightanimation(acLeft, acRight, true);
+			
+			showDamageNumbers(RobotPosition.LEFT, ""+attackRight.getDamage(), true);
+			showDamageNumbers(RobotPosition.RIGHT, ""+attackLeft.getDamage(), true);
+			
 		} catch (IOException e) {
 			LOG.error("boom", e);
 		}
@@ -383,8 +413,8 @@ public class BattleController {
 	 * @param robotRight
 	 */
 	private void updateGameState(Robot robotLeft, Robot robotRight) {
-
-		setCurrentGameState(getCurrentGameState(robotLeft, robotRight));
+		
+		currentGameState = getCurrentGameState(robotLeft, robotRight);
 
 		switch (getCurrentGameState()) {
 
@@ -402,11 +432,53 @@ public class BattleController {
 		default:
 			break;
 		}
-
+		
+		setCurrentGameState(currentGameState);
 	}
 
 	private void endGame(GameStateType currentGameState) {
 
+		String textGameOver = "GAME OVER";
+		Font font = new Font("Verdana", Font.BOLD, 20);
+
+		LabelObject labelGameOver = new CachedLabelObject(textGameOver);
+		labelGameOver.setColor(Color.RED);
+		labelGameOver.setOutlineColor(Color.BLACK);
+		labelGameOver.setFont(font);
+		Rectangle2D bounds = new Rectangle2D.Double(0.0, 0.0, 1, 1);
+		Animation aniScale = new ScaleAnimation(1, 3, 5000);
+		Animation aniDelay = new DelayAnimation(2000);
+		Animation animation = new CompoundAnimation(aniScale, aniDelay);
+		cinematicVisualizer.showAnimation(labelGameOver, animation, bounds,
+				true);
+
+		String textShowWinner = getShowWinnerText();
+		LabelObject labelShowWinner = new CachedLabelObject(textShowWinner);
+		labelGameOver.setColor(Color.RED);
+		labelGameOver.setOutlineColor(Color.BLACK);
+		labelGameOver.setFont(font);
+		cinematicVisualizer.showAnimation(labelShowWinner, animation, bounds,
+				true);
+	}
+
+	private String getShowWinnerText() {
+
+		String text = "";
+
+		switch (currentGameState) {
+		case DRAW:
+			text = "DRAW";
+			break;
+		case VICTORY_LEFT:
+			text = robotLeft.getNickname() + " WON";
+			break;
+		case VICTORY_RIGHT:
+			text = robotRight.getNickname() + " WON";
+			break;
+		default:
+			break;
+		}
+		return text;
 	}
 
 	/**
@@ -419,8 +491,9 @@ public class BattleController {
 	void inflictStatusEffects(Robot robot, RobotAction robotAction) {
 		List<StatusEffect> statusEffectsToBeInflicted = robotAction
 				.getStatusEffects();
-		
-		if (statusEffectsToBeInflicted == null || statusEffectsToBeInflicted.isEmpty())
+
+		if (statusEffectsToBeInflicted == null
+				|| statusEffectsToBeInflicted.isEmpty())
 			return;
 
 		for (StatusEffect statusEffect : statusEffectsToBeInflicted) {
@@ -429,9 +502,10 @@ public class BattleController {
 	}
 
 	private void resolveStatusEffect(Robot robot, StatusEffect newStatusEffect) {
-		
-		LOG.info("Robot " + robot + " is receiving StatusEffect: " +newStatusEffect);
-		
+
+		LOG.info("Robot " + robot + " is receiving StatusEffect: "
+				+ newStatusEffect);
+
 		if (newStatusEffect == null)
 			return;
 
@@ -439,13 +513,15 @@ public class BattleController {
 				.getStatusEffects();
 
 		if (robotsCurrentStatusEffects.isEmpty()) {
-			LOG.info("Robot " + robot + " has no active effects. No interaction.");
+			LOG.info("Robot " + robot
+					+ " has no active effects. No interaction.");
 			robot.addStatusEffect(newStatusEffect);
-			LOG.info("Robot " + robot + " has received StatusEffect: " +newStatusEffect);
+			LOG.info("Robot " + robot + " has received StatusEffect: "
+					+ newStatusEffect);
 		} else {
 
 			boolean effectWasResolved = false;
-			
+
 			for (StatusEffect statusEffect : robotsCurrentStatusEffects) {
 
 				if (statusEffect == null)
@@ -458,46 +534,47 @@ public class BattleController {
 					effectWasResolved = true;
 				}
 			}
-			if(!effectWasResolved)
-			{
+			if (!effectWasResolved) {
 				robotsCurrentStatusEffects.add(newStatusEffect);
 			}
-				
-			LOG.info("Robot " + robot + " now has following StatusEffects: " +robot.getStatusEffects());
+
+			LOG.info("Robot " + robot + " now has following StatusEffects: "
+					+ robot.getStatusEffects());
 		}
 	}
 
 	/**
-	 * Lowers the duration of the active effects by 1 and deletes the ones with less than 0 duration left
+	 * Lowers the duration of the active effects by 1 and deletes the ones with
+	 * less than 0 duration left
+	 * 
 	 * @param robot
 	 */
-	 void consumeStatusEffects(Robot robot) {
+	void consumeStatusEffects(Robot robot) {
 		List<StatusEffect> statusEffects = robot.getStatusEffects();
 		List<StatusEffect> toDelete = new ArrayList<StatusEffect>();
-		
-		LOG.debug("Consuming statusEffects for Robot: " +  robot.getNickname());
-		LOG.debug("Current statusEffects on Robot: " +  robot.getStatusEffects());
-		
+
+		LOG.debug("Consuming statusEffects for Robot: " + robot.getNickname());
+		LOG.debug("Current statusEffects on Robot: " + robot.getStatusEffects());
+
 		for (StatusEffect statusEffect : statusEffects) {
-			
-			if(statusEffect == null)
+
+			if (statusEffect == null)
 				continue;
-			
+
 			LOG.debug("Now inspecting: " + statusEffect.getName());
-			if(statusEffect.getRoundsLeft() > 0)
-			{
-				LOG.debug("Decreasing duration by one for " + statusEffect.getName());
+			if (statusEffect.getRoundsLeft() > 0) {
+				LOG.debug("Decreasing duration by one for "
+						+ statusEffect.getName());
 				statusEffect.decreaseRoundsLeft(1);
-			}	
-			else {
+			} else {
 				LOG.debug("Deleting " + statusEffect.getName());
 				toDelete.add(statusEffect);
 			}
 		}
 		statusEffects.removeAll(toDelete);
 		robot.setStatusEffects(statusEffects);
-		LOG.debug("Consuming completed for Robot: " +  robot.getNickname());
-		LOG.debug("Current statusEffects on Robot: " +  robot.getStatusEffects());
+		LOG.debug("Consuming completed for Robot: " + robot.getNickname());
+		LOG.debug("Current statusEffects on Robot: " + robot.getStatusEffects());
 	}
 
 	/**
@@ -543,7 +620,7 @@ public class BattleController {
 
 		robotLeft.setEnergyPoints(Math.min(energyRobotLeft,
 				robotLeft.getMaxEnergyPoints()));
-		
+
 		robotRight.setEnergyPoints(Math.min(energyRobotRight,
 				robotRight.getMaxEnergyPoints()));
 
@@ -551,7 +628,9 @@ public class BattleController {
 	}
 
 	/**
-	 * Substracts the energycosts of the currentAction from the robots energypoints
+	 * Substracts the energycosts of the currentAction from the robots
+	 * energypoints
+	 * 
 	 * @param robot
 	 */
 	private void consumeEnergyForRobotAction(Robot robot) {
