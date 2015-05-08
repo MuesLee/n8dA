@@ -8,6 +8,7 @@ import game.engine.stage.scene.object.LabelObject;
 import game.engine.stage.scene.object.Point;
 import game.engine.time.TimeUtils;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyAdapter;
@@ -44,10 +45,15 @@ public class AnimationTest
 		lbl.setTopLeftPosition(new Point(0, 0));
 		lbl.setText("Animation...");
 
+		lbl.setStroke(new BasicStroke(1.5f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1.0f,
+			new float[] { 4, 4, 6 }, 0));
+		lbl.setOutlineColor(Color.RED);
+		lbl.setColor(Color.GREEN);
+
 		//		new ScaleAnimation(0,
 		//			1.0, TimeUtils.NanosecondsOfSeconds(2))
 
-		long animationTime = TimeUtils.NanosecondsOfSeconds(2);
+		long animationTime = TimeUtils.NanosecondsOfSeconds(1);
 		Animation animation = new CompoundAnimation(new RotateAnimation(0, Math.PI * 2, true, animationTime),
 			new ScaleAnimation(0, 1, animationTime));
 

@@ -17,25 +17,17 @@ public interface CinematicVisualizer
 	 * Ein Roboter hat sich auf dem Server angemeldet und tritt der Arena bei. Nur das Bild wird
 	 * gesetzt.
 	 * 
-	 * @param robot
-	 * @param position
 	 */
 	public void robotHasEnteredTheArena(Robot robot, RobotPosition position, DataLoader loader);
 
 	/**
 	 * Eine Kanpanimation abspielen. Reflection usw. wird automatisch beachtet
 	 * 
-	 * @param animations
 	 */
 	public void playFightanimation(Action acLeft, Action acRight, boolean wait);
 
 	/**
 	 * Update leben und energie eines roboters
-	 * 
-	 * @param robot
-	 * @param position
-	 * @param animated
-	 * @param wait
 	 */
 	public void updateStats(Robot robot, RobotPosition position, boolean animated, boolean wait);
 
