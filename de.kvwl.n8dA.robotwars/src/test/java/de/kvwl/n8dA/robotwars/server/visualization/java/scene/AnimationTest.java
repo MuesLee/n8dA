@@ -17,7 +17,9 @@ import java.util.EventListener;
 
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.AnimatedSceneObject;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.Animation;
+import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.CompoundAnimation;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.RotateAnimation;
+import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.ScaleAnimation;
 
 public class AnimationTest
 {
@@ -45,7 +47,9 @@ public class AnimationTest
 		//		new ScaleAnimation(0,
 		//			1.0, TimeUtils.NanosecondsOfSeconds(2))
 
-		Animation animation = new RotateAnimation(0, Math.PI * 2, true, TimeUtils.NanosecondsOfSeconds(2));
+		long animationTime = TimeUtils.NanosecondsOfSeconds(2);
+		Animation animation = new CompoundAnimation(new RotateAnimation(0, Math.PI * 2, true, animationTime),
+			new ScaleAnimation(0, 1, animationTime));
 
 		final AnimatedSceneObject ani = new AnimatedSceneObject(lbl, animation);
 
