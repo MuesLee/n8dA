@@ -172,7 +172,7 @@ public class SceneTest
 
 							Rectangle2D bounds = new Rectangle2D.Double(0.0, 0.0, 1, 1);
 							Animation animation = new QueuedAnimation(new DelayAnimation(
-								TimeUtils.NanosecondsOfSeconds(1)), new ScaleAnimation(0, 1,
+								TimeUtils.NanosecondsOfSeconds(1)), new ScaleAnimation(1, 0,
 								TimeUtils.NanosecondsOfSeconds(2)), new DelayAnimation(
 								TimeUtils.NanosecondsOfSeconds(1)));
 

@@ -7,6 +7,8 @@ import java.awt.Graphics2D;
 public class ScaleAnimation implements Animation
 {
 
+	private static final double NEAREST_TO_POSITIVE_ZERO = 1e-323;
+
 	private boolean alive = false;
 	private boolean running = false;
 
@@ -93,7 +95,7 @@ public class ScaleAnimation implements Animation
 		if (factor == 0)
 		{
 
-			factor = 0.1;
+			factor = NEAREST_TO_POSITIVE_ZERO;
 		}
 		g.scale(factor, factor);
 
