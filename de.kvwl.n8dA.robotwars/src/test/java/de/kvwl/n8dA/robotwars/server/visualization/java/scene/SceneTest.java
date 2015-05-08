@@ -33,8 +33,8 @@ import de.kvwl.n8dA.robotwars.commons.game.statuseffects.TypeEffectModificationT
 import de.kvwl.n8dA.robotwars.server.visualization.java.Position;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.Animation;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.AnimationScene;
-import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.CompoundAnimation;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.DelayAnimation;
+import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.QueuedAnimation;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.RotateAnimation;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.robot.Action;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.robot.ActionType;
@@ -171,9 +171,10 @@ public class SceneTest
 							obj.setOutlineColor(Color.GREEN);
 
 							Rectangle2D bounds = new Rectangle2D.Double(0.0, 0.0, 1, 1);
-							Animation animation = new CompoundAnimation(new RotateAnimation(0, Math.PI * 2, true,
+							Animation animation = new QueuedAnimation(new DelayAnimation(
+								TimeUtils.NanosecondsOfSeconds(1)), new RotateAnimation(0, Math.PI * 2, true,
 								TimeUtils.NanosecondsOfSeconds(2)), new DelayAnimation(
-								TimeUtils.NanosecondsOfSeconds(3)));
+								TimeUtils.NanosecondsOfSeconds(1)));
 
 							animationSC.showAnimation(obj, animation, bounds, true);
 						break;

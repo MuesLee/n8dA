@@ -9,6 +9,9 @@ public class CompoundAnimation implements Animation
 
 	private Animation[] animations;
 
+	private boolean isRunning = false;
+	private boolean isAlive = false;
+
 	public CompoundAnimation(Animation... animations)
 	{
 		this.animations = animations;
@@ -17,6 +20,8 @@ public class CompoundAnimation implements Animation
 	@Override
 	public void prepare()
 	{
+		isRunning = true;
+		isAlive = true;
 
 		for (Animation animation : animations)
 		{
@@ -29,40 +34,59 @@ public class CompoundAnimation implements Animation
 	public void animatePre(SceneObject obj, Graphics2D g, long elapsedTime)
 	{
 
+		boolean running = false;
+		boolean alive = false;
+
 		for (Animation animation : animations)
 		{
 
 			animation.animatePre(obj, g, elapsedTime);
+
+			if (animation.isRunning())
+			{
+				running = true;
+			}
+
+			if (animation.isAlive())
+			{
+				alive = true;
+			}
 		}
+
+		isRunning = running;
+		isAlive = alive;
 	}
 
 	@Override
 	public void animatePost(SceneObject obj, Graphics2D g, long elapsedTime)
 	{
 
+		boolean running = false;
+		boolean alive = false;
+
 		for (Animation animation : animations)
 		{
 
 			animation.animatePost(obj, g, elapsedTime);
+
+			if (animation.isRunning())
+			{
+				running = true;
+			}
+
+			if (animation.isAlive())
+			{
+				alive = true;
+			}
 		}
+
+		isRunning = running;
+		isAlive = alive;
 	}
 
 	@Override
 	public boolean isRunning()
 	{
-
-		boolean isRunning = false;
-
-		for (Animation animation : animations)
-		{
-
-			if (animation.isRunning())
-			{
-
-				isRunning = true;
-				break;
-			}
-		}
 
 		return isRunning;
 	}
@@ -70,19 +94,6 @@ public class CompoundAnimation implements Animation
 	@Override
 	public boolean isAlive()
 	{
-
-		boolean isAlive = false;
-
-		for (Animation animation : animations)
-		{
-
-			if (animation.isAlive())
-			{
-
-				isAlive = true;
-				break;
-			}
-		}
 
 		return isAlive;
 	}

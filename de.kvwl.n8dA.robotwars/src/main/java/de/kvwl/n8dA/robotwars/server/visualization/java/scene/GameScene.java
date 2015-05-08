@@ -212,6 +212,7 @@ public class GameScene implements Scene, CinematicVisualizer
 	@Override
 	public void roundIsAboutToStart(boolean wait)
 	{
+		//TODO TXT -> Fight
 	}
 
 	@Override

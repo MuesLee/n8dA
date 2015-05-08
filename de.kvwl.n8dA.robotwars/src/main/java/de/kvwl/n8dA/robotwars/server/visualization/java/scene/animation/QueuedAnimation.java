@@ -7,7 +7,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- *
+ * Animationen werden eine nach der anderen abgespielt. {@link Animation#isAlive()} wird nur bei der
+ * letzten animation in der Reihe berücksichtigt.
  */
 public class QueuedAnimation implements Animation
 {
@@ -32,6 +33,12 @@ public class QueuedAnimation implements Animation
 	{
 		isRunning = true;
 		isAlive = true;
+
+		for (Animation animation : animations)
+		{
+
+			animation.prepare();
+		}
 	}
 
 	@Override
@@ -76,6 +83,12 @@ public class QueuedAnimation implements Animation
 			{
 				animations.poll();
 			}
+		}
+		else
+		{
+
+			isRunning = false;
+			isAlive = false;
 		}
 
 		return next;
