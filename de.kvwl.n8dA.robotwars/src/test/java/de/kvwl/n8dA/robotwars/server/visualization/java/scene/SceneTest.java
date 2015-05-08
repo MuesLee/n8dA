@@ -35,7 +35,7 @@ import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.Animatio
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.AnimationScene;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.DelayAnimation;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.QueuedAnimation;
-import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.RotateAnimation;
+import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.ScaleAnimation;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.robot.Action;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.robot.ActionType;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.robot.RobotScene;
@@ -172,7 +172,7 @@ public class SceneTest
 
 							Rectangle2D bounds = new Rectangle2D.Double(0.0, 0.0, 1, 1);
 							Animation animation = new QueuedAnimation(new DelayAnimation(
-								TimeUtils.NanosecondsOfSeconds(1)), new RotateAnimation(0, Math.PI * 2, true,
+								TimeUtils.NanosecondsOfSeconds(1)), new ScaleAnimation(0, 1,
 								TimeUtils.NanosecondsOfSeconds(2)), new DelayAnimation(
 								TimeUtils.NanosecondsOfSeconds(1)));
 
