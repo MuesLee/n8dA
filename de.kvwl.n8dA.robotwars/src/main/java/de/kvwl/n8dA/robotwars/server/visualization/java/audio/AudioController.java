@@ -1,4 +1,4 @@
-package de.kvwl.n8dA.robotwars.server.visualization.audio;
+package de.kvwl.n8dA.robotwars.server.visualization.java.audio;
 
 import java.io.BufferedInputStream;
 import java.io.File;

@@ -11,7 +11,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.font.LineMetrics;
 
-import de.kvwl.n8dA.robotwars.server.visualization.Position;
+import de.kvwl.n8dA.robotwars.server.visualization.java.Position;
 
 public class HealthPoints extends SceneObject {
 

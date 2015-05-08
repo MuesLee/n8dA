@@ -1,4 +1,4 @@
-package de.kvwl.n8dA.robotwars.server.visualization.scene;
+package de.kvwl.n8dA.robotwars.server.visualization.java.scene;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -18,7 +18,8 @@ import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.StatusEffect;
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.TypeEffect;
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.TypeEffectModificationType;
-import de.kvwl.n8dA.robotwars.server.visualization.Position;
+import de.kvwl.n8dA.robotwars.server.visualization.java.Position;
+import de.kvwl.n8dA.robotwars.server.visualization.java.scene.GameScene;
 import de.kvwl.n8dA.robotwars.server.visualization.scene.robot.Action;
 import de.kvwl.n8dA.robotwars.server.visualization.scene.robot.ActionType;
 import de.kvwl.n8dA.robotwars.server.visualization.scene.robot.RobotScene;

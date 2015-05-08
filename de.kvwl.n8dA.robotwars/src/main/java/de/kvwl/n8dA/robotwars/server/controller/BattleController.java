@@ -23,9 +23,9 @@ import de.kvwl.n8dA.robotwars.commons.game.util.GameStateType;
 import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
 import de.kvwl.n8dA.robotwars.server.input.DataLoader;
 import de.kvwl.n8dA.robotwars.server.network.RoboBattleServer;
-import de.kvwl.n8dA.robotwars.server.visualization.AnimationPosition;
 import de.kvwl.n8dA.robotwars.server.visualization.CinematicVisualizer;
-import de.kvwl.n8dA.robotwars.server.visualization.CinematicVisualizerImpl;
+import de.kvwl.n8dA.robotwars.server.visualization.java.AnimationPosition;
+import de.kvwl.n8dA.robotwars.server.visualization.java.CinematicVisualizerImpl;
 import de.kvwl.n8dA.robotwars.server.visualization.scene.robot.Action;
 import de.kvwl.n8dA.robotwars.server.visualization.scene.robot.ActionType;
 

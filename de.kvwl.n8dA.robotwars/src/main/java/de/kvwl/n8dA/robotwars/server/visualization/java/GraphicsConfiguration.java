@@ -1,4 +1,4 @@
-package de.kvwl.n8dA.robotwars.server.visualization;
+package de.kvwl.n8dA.robotwars.server.visualization.java;
 
 import java.awt.DisplayMode;
 import java.awt.GraphicsDevice;

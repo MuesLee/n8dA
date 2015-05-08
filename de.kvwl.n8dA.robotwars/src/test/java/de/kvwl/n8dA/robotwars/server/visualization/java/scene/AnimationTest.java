@@ -1,4 +1,4 @@
-package de.kvwl.n8dA.robotwars.server.visualization.scene;
+package de.kvwl.n8dA.robotwars.server.visualization.java.scene;
 
 import game.engine.frame.SwingGameFrame;
 import game.engine.stage.scene.FPSScene;

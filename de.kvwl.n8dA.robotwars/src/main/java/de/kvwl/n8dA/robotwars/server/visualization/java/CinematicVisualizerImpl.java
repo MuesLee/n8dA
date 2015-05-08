@@ -1,4 +1,4 @@
-package de.kvwl.n8dA.robotwars.server.visualization;
+package de.kvwl.n8dA.robotwars.server.visualization.java;
 
 import game.engine.frame.SwingGameFrame;
 import game.engine.image.InternalImage;
@@ -11,8 +11,9 @@ import java.awt.event.WindowEvent;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
 import de.kvwl.n8dA.robotwars.server.input.DataLoader;
-import de.kvwl.n8dA.robotwars.server.visualization.audio.AudioController;
-import de.kvwl.n8dA.robotwars.server.visualization.scene.GameScene;
+import de.kvwl.n8dA.robotwars.server.visualization.CinematicVisualizer;
+import de.kvwl.n8dA.robotwars.server.visualization.java.audio.AudioController;
+import de.kvwl.n8dA.robotwars.server.visualization.java.scene.GameScene;
 import de.kvwl.n8dA.robotwars.server.visualization.scene.robot.Action;
 
 //TODO Marvin Wechsel zu Fullscreen

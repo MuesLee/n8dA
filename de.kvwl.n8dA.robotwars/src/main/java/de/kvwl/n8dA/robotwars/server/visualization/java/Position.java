@@ -1,4 +1,4 @@
-package de.kvwl.n8dA.robotwars.server.visualization;
+package de.kvwl.n8dA.robotwars.server.visualization.java;
 
 import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
 

@@ -11,7 +11,7 @@ import java.io.IOException;
 
 import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
 import de.kvwl.n8dA.robotwars.server.input.DataLoader;
-import de.kvwl.n8dA.robotwars.server.visualization.AnimationPosition;
+import de.kvwl.n8dA.robotwars.server.visualization.java.AnimationPosition;
 
 public class Action extends SceneObject
 {

@@ -1,4 +1,4 @@
-package de.kvwl.n8dA.robotwars.server.visualization.scene;
+package de.kvwl.n8dA.robotwars.server.visualization.java.scene;
 
 import java.awt.Graphics2D;
 

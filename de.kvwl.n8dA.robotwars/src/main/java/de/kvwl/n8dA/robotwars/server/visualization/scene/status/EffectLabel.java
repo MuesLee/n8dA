@@ -16,7 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.StatusEffect;
-import de.kvwl.n8dA.robotwars.server.visualization.Position;
+import de.kvwl.n8dA.robotwars.server.visualization.java.Position;
 
 public class EffectLabel extends SceneObject {
 
