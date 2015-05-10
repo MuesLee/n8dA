@@ -2,6 +2,7 @@ package de.kvwl.n8dA.robotwars.server.controller;
 
 import game.engine.stage.scene.object.CachedLabelObject;
 import game.engine.stage.scene.object.LabelObject;
+import game.engine.time.TimeUtils;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -308,7 +309,7 @@ public class BattleController {
 	}
 
 	private void showDamageNumbers(RobotPosition robotPosition, String text,
-			boolean animated) {
+			boolean block) {
 
 		Font font = new Font("Verdana", Font.BOLD, 10);
 		LabelObject obj = new CachedLabelObject(text);
@@ -317,9 +318,10 @@ public class BattleController {
 		obj.setOutlineColor(Color.BLACK);
 		obj.setFont(font);
 		Rectangle2D bounds = new Rectangle2D.Double(0.0, 0.0, 1, 1);
-		Animation animation = new ScaleAnimation(0.1, 1, 1000);
+		Animation animation = new ScaleAnimation(0.1, 1,
+				TimeUtils.NanosecondsOfSeconds(1));
 
-		cinematicVisualizer.showAnimation(obj, animation, bounds, animated);
+		cinematicVisualizer.showAnimation(obj, animation, bounds, block);
 	}
 
 	void computeOutcomeDEFvsDEF(Robot defenderLeft, Robot defenderRight) {
