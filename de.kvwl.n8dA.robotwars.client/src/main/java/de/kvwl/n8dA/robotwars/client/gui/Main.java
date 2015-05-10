@@ -104,11 +104,11 @@ public class Main {
 			@Override
 			public void run() {
 
+				LOG.debug("ShutdownHook -> Force close");
 				try {
 					battleClient.disconnectFromServer();
-				} catch (Exception e) {
+				} catch (Throwable e) {
 				}
-				System.exit(0);
 			}
 		}));
 	}
