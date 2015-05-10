@@ -1,0 +1,2 @@
+Die Dateistruktur unter /lib muss in den lokalen maven repository folder kopiert werden.
+Die Javadocs für die GameEgine können unter folgender Adresse gefunden und eingebunden werden: http://brunothg.github.io/GameEngine/javadocs/
