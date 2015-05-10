@@ -1,19 +1,19 @@
 package de.kvwl.n8dA.robotwars.server.visualization.java.scene.robot;
 
+import game.engine.stage.scene.object.SceneObject;
+import game.engine.stage.scene.object.Size;
+import game.engine.stage.scene.object.SpriteSceneObject;
+import game.engine.time.TimeUtils;
+
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
-import game.engine.stage.scene.object.AnimatedSceneObject;
-import game.engine.stage.scene.object.SceneObject;
-import game.engine.stage.scene.object.Size;
-import game.engine.time.TimeUtils;
+public class Robot extends SceneObject {
 
-public class Robot extends SceneObject
-{
+	private static final long BLINK_TIME = TimeUtils
+			.NanosecondsOfMilliseconds(100);
 
-	private static final long BLINK_TIME = TimeUtils.NanosecondsOfMilliseconds(100);
-
-	private AnimatedSceneObject robo;
+	private SpriteSceneObject robo;
 
 	private boolean visible = true;
 	private int blinks = 0;
@@ -23,70 +23,55 @@ public class Robot extends SceneObject
 	private boolean inverted = false;
 
 	@Override
-	protected void paint(Graphics2D g2d, long time)
-	{
+	protected void paint(Graphics2D g2d, long time) {
 
 		checkVisibility(time);
 
-		if (visible)
-		{
+		if (visible) {
 
 			revalidate();
 			paintRobot(g2d, time);
 		}
 	}
 
-	private void checkVisibility(long time)
-	{
+	private void checkVisibility(long time) {
 
-		if (blinks > 0)
-		{
+		if (blinks > 0) {
 
-			if (timeSinceLastSwitch >= BLINK_TIME)
-			{
+			if (timeSinceLastSwitch >= BLINK_TIME) {
 
 				long anzBlinks = timeSinceLastSwitch / BLINK_TIME;
 
-				if (anzBlinks % 2 != 0)
-				{
+				if (anzBlinks % 2 != 0) {
 					visible = !visible;
 				}
 
 				timeSinceLastSwitch %= BLINK_TIME;
 				blinks -= anzBlinks;
 
-				if (blinks <= 0)
-				{
+				if (blinks <= 0) {
 					blinkAnimationFinished();
 				}
-			}
-			else
-			{
+			} else {
 
 				timeSinceLastSwitch += time;
 			}
-		}
-		else
-		{
+		} else {
 
 			visible = true;
 		}
 	}
 
-	private void blinkAnimationFinished()
-	{
+	private void blinkAnimationFinished() {
 
-		synchronized (blinkWait)
-		{
+		synchronized (blinkWait) {
 
 			blinkWait.notifyAll();
 		}
 	}
 
-	private void revalidate()
-	{
-		if (robo == null)
-		{
+	private void revalidate() {
+		if (robo == null) {
 
 			return;
 		}
@@ -94,14 +79,11 @@ public class Robot extends SceneObject
 		robo.setSize(getWidth(), getHeight());
 	}
 
-	private void paintRobot(Graphics2D g2d, long time)
-	{
+	private void paintRobot(Graphics2D g2d, long time) {
 
-		if (robo != null)
-		{
+		if (robo != null) {
 
-			if (inverted)
-			{
+			if (inverted) {
 				double hWidth = getWidth() * 0.5;
 				double hHeight = getHeight() * 0.5;
 
@@ -121,43 +103,33 @@ public class Robot extends SceneObject
 		}
 	}
 
-	public void blink(int times, boolean wait)
-	{
+	public void blink(int times, boolean wait) {
 
-		if (times < 1)
-		{
+		if (times < 1) {
 			return;
 		}
 
 		blinks += 2 * (times + 1);
 
-		if (wait)
-		{
-			synchronized (blinkWait)
-			{
+		if (wait) {
+			synchronized (blinkWait) {
 
-				try
-				{
+				try {
 					blinkWait.wait();
-				}
-				catch (InterruptedException e)
-				{
+				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 			}
 		}
 	}
 
-	public void setRobo(AnimatedSceneObject robo)
-	{
+	public void setRobo(SpriteSceneObject robo) {
 		this.robo = robo;
 	}
 
-	public double getRatio()
-	{
+	public double getRatio() {
 
-		if (robo == null)
-		{
+		if (robo == null) {
 
 			return 0.5;
 		}
@@ -167,13 +139,11 @@ public class Robot extends SceneObject
 		return tS.getWidth() / (double) tS.getHeight();
 	}
 
-	public boolean isInverted()
-	{
+	public boolean isInverted() {
 		return inverted;
 	}
 
-	public void setInverted(boolean inverted)
-	{
+	public void setInverted(boolean inverted) {
 		this.inverted = inverted;
 	}
 

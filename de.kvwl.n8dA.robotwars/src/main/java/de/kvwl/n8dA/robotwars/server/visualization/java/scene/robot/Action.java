@@ -1,6 +1,6 @@
 package de.kvwl.n8dA.robotwars.server.visualization.java.scene.robot;
 
-import game.engine.stage.scene.object.AnimatedSceneObject;
+import game.engine.stage.scene.object.SpriteSceneObject;
 import game.engine.stage.scene.object.SceneObject;
 import game.engine.stage.scene.object.Size;
 
@@ -13,10 +13,9 @@ import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
 import de.kvwl.n8dA.robotwars.server.input.DataLoader;
 import de.kvwl.n8dA.robotwars.server.visualization.java.AnimationPosition;
 
-public class Action extends SceneObject
-{
+public class Action extends SceneObject {
 
-	private AnimatedSceneObject animation = null;
+	private SpriteSceneObject animation = null;
 
 	private ActionType type = ActionType.Defense;
 
@@ -26,8 +25,7 @@ public class Action extends SceneObject
 
 	private boolean inverted = false;
 
-	public Action(AnimatedSceneObject ani, ActionType type)
-	{
+	public Action(SpriteSceneObject ani, ActionType type) {
 
 		animation = ani;
 
@@ -35,18 +33,15 @@ public class Action extends SceneObject
 	}
 
 	@Override
-	protected void paint(Graphics2D g, long elapsedTime)
-	{
+	protected void paint(Graphics2D g, long elapsedTime) {
 
-		if (animation == null)
-		{
+		if (animation == null) {
 			g.setColor(Color.MAGENTA);
 			g.fillRect(0, 0, getWidth(), getHeight());
 			return;
 		}
 
-		if (inverted)
-		{
+		if (inverted) {
 			double hWidth = getWidth() * 0.5;
 			double hHeight = getHeight() * 0.5;
 
@@ -66,87 +61,74 @@ public class Action extends SceneObject
 		animation.paintOnScene(g, elapsedTime);
 	}
 
-	public AnimatedSceneObject getAnimation()
-	{
+	public SpriteSceneObject getAnimation() {
 		return animation;
 	}
 
-	public ActionType getType()
-	{
+	public ActionType getType() {
 		return type;
 	}
 
-	public void setType(ActionType type)
-	{
+	public void setType(ActionType type) {
 		this.type = type;
 	}
 
-	public double getRatio()
-	{
+	public double getRatio() {
 
 		Size ts = animation.getTileSize();
 
 		return ts.getWidth() / (double) ts.getHeight();
 	}
 
-	public double getDone()
-	{
+	public double getDone() {
 		return done;
 	}
 
-	public void setDone(double done)
-	{
+	public void setDone(double done) {
 		this.done = done;
 	}
 
-	public boolean isVisible()
-	{
+	public boolean isVisible() {
 		return visible;
 	}
 
-	public void setVisible(boolean visible)
-	{
+	public void setVisible(boolean visible) {
 		this.visible = visible;
 	}
 
-	public DamagePhase getDamage()
-	{
+	public DamagePhase getDamage() {
 		return damageDone;
 	}
 
-	public void setDamage(DamagePhase damageDone)
-	{
+	public void setDamage(DamagePhase damageDone) {
 		this.damageDone = damageDone;
 	}
 
-	public void invert()
-	{
+	public void invert() {
 
 		setInverted(!isInverted());
 	}
 
-	public boolean isInverted()
-	{
+	public boolean isInverted() {
 		return inverted;
 	}
 
-	public void setInverted(boolean inverted)
-	{
+	public void setInverted(boolean inverted) {
 		this.inverted = inverted;
 	}
 
-	public static Action create(AnimationPosition ani, ActionType type, DataLoader loader) throws IOException
-	{
+	public static Action create(AnimationPosition ani, ActionType type,
+			DataLoader loader) throws IOException {
 
-		AnimatedSceneObject anima = loader.createAnimatedSceneObject(ani.getAnimation());
+		SpriteSceneObject anima = loader.createAnimatedSceneObject(ani
+				.getAnimation());
 
 		Action ac = new Action(anima, type);
 		ac.setDone(0);
 		ac.setDamage(DamagePhase.Not);
 		ac.setVisible(true);
 
-		if (ani.getPosition() == RobotPosition.LEFT)
-		{
+		if (ani.getPosition() == RobotPosition.LEFT) {
 
 			ac.invert();
 		}
@@ -155,11 +137,11 @@ public class Action extends SceneObject
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 
-		return String.format("Type: %s Done: %.2f Visible: %b DamagePhase: %s Inverted: %b", type, done, visible,
-			damageDone, inverted);
+		return String.format(
+				"Type: %s Done: %.2f Visible: %b DamagePhase: %s Inverted: %b",
+				type, done, visible, damageDone, inverted);
 	}
 
 	public static enum DamagePhase {

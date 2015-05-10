@@ -1,8 +1,8 @@
 package de.kvwl.n8dA.robotwars.server.visualization.java.scene;
 
 import game.engine.stage.scene.Scene;
-import game.engine.stage.scene.object.CachedLabelObject;
-import game.engine.stage.scene.object.LabelObject;
+import game.engine.stage.scene.object.CachedLabelSceneObject;
+import game.engine.stage.scene.object.LabelSceneObject;
 import game.engine.stage.scene.object.SceneObject;
 import game.engine.time.TimeUtils;
 
@@ -37,10 +37,10 @@ import de.kvwl.n8dA.robotwars.server.visualization.java.scene.robot.Action;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.robot.RobotScene;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.status.StatusScene;
 
-public class GameScene implements Scene, CinematicVisualizer
-{
+public class GameScene implements Scene, CinematicVisualizer {
 
-	private static final Logger LOG = LoggerFactory.getLogger(RoboBattleServer.class);
+	private static final Logger LOG = LoggerFactory
+			.getLogger(RoboBattleServer.class);
 
 	private StatusScene status = new StatusScene();
 	private BackgroundScene background = new BackgroundScene();
@@ -50,8 +50,8 @@ public class GameScene implements Scene, CinematicVisualizer
 	private int round = 0;
 
 	@Override
-	public void paintScene(Graphics2D g2d, int width, int height, long elapsedTime)
-	{
+	public void paintScene(Graphics2D g2d, int width, int height,
+			long elapsedTime) {
 
 		background.paintScene(g2d, width, height, elapsedTime);
 		robots.paintScene(g2d, width, height, elapsedTime);
@@ -60,8 +60,7 @@ public class GameScene implements Scene, CinematicVisualizer
 	}
 
 	@Override
-	public EventListener[] getEventListeners()
-	{
+	public EventListener[] getEventListeners() {
 
 		List<EventListener> lis = new LinkedList<EventListener>();
 
@@ -72,50 +71,47 @@ public class GameScene implements Scene, CinematicVisualizer
 		return lis.toArray(new EventListener[lis.size()]);
 	}
 
-	private void addListener(EventListener[] eventListeners, List<EventListener> lis)
-	{
+	private void addListener(EventListener[] eventListeners,
+			List<EventListener> lis) {
 
-		if (eventListeners == null || lis == null)
-		{
+		if (eventListeners == null || lis == null) {
 			return;
 		}
 
-		for (int i = 0; i < eventListeners.length; i++)
-		{
+		for (int i = 0; i < eventListeners.length; i++) {
 			lis.add(eventListeners[i]);
 		}
 	}
 
 	@Override
-	public void battleIsAboutToStart()
-	{
+	public void battleIsAboutToStart() {
 
 		round = 0;
 	}
 
 	@Override
-	public void robotHasEnteredTheArena(Robot robot, RobotPosition position, DataLoader loader)
-	{
+	public void robotHasEnteredTheArena(Robot robot, RobotPosition position,
+			DataLoader loader) {
 
 		Position pos = Position.from(position);
 
-		try
-		{
-			robots.setRobo((robot != null) ? loader.createAnimatedSceneObject(robot.getAnimation()) : null, pos);
+		try {
+			robots.setRobo(
+					(robot != null) ? loader.createAnimatedSceneObject(robot
+							.getAnimation()) : null, pos);
 			robots.setRobotName((robot != null) ? robot.getNickname() : "", pos);
-		}
-		catch (IOException e)
-		{
+		} catch (IOException e) {
 
 			robots.setRobotName("", pos);
-			throw new RuntimeException("Roboter nicht gefunden. Laden nicht möglich.");
+			throw new RuntimeException(
+					"Roboter nicht gefunden. Laden nicht möglich.");
 		}
 
 		updateStats(false, false, position, robot);
 	}
 
-	private void updateStats(boolean animated, boolean wait, RobotPosition pos, Robot robo)
-	{
+	private void updateStats(boolean animated, boolean wait, RobotPosition pos,
+			Robot robo) {
 
 		updateHealthpoints(robo, pos, animated, wait);
 		updateEnergypoints(robo, pos, animated, wait);
@@ -123,15 +119,14 @@ public class GameScene implements Scene, CinematicVisualizer
 	}
 
 	@Override
-	public void updateEfects(Robot robo, RobotPosition pos)
-	{
+	public void updateEfects(Robot robo, RobotPosition pos) {
 
-		LOG.debug("Update Effect Statistics for Robot {} at Position {}", robo, pos);
+		LOG.debug("Update Effect Statistics for Robot {} at Position {}", robo,
+				pos);
 
 		Position position = Position.from(pos);
 
-		if (robo == null)
-		{
+		if (robo == null) {
 
 			return;
 		}
@@ -141,112 +136,107 @@ public class GameScene implements Scene, CinematicVisualizer
 	}
 
 	@Override
-	public void updateEnergypoints(Robot robo, RobotPosition pos, boolean animated, boolean wait)
-	{
+	public void updateEnergypoints(Robot robo, RobotPosition pos,
+			boolean animated, boolean wait) {
 
-		LOG.debug("Update Energy Statistics for Robot {} at Position {}", robo, pos);
+		LOG.debug("Update Energy Statistics for Robot {} at Position {}", robo,
+				pos);
 
 		Position position = Position.from(pos);
 
-		if (robo == null)
-		{
+		if (robo == null) {
 
 			return;
 		}
 
 		status.setMaxEnergyPoints(position, robo.getMaxEnergyPoints());
 
-		if (animated)
-		{
+		if (animated) {
 
-			status.startEnergyPointAnimation(position, robo.getEnergyPoints(), wait);
-		}
-		else
-		{
+			status.startEnergyPointAnimation(position, robo.getEnergyPoints(),
+					wait);
+		} else {
 
 			status.setEnergyPoints(position, robo.getEnergyPoints());
 		}
 	}
 
 	@Override
-	public void updateHealthpoints(Robot robo, RobotPosition pos, boolean animated, boolean wait)
-	{
+	public void updateHealthpoints(Robot robo, RobotPosition pos,
+			boolean animated, boolean wait) {
 
-		LOG.debug("Update Health Statistics for Robot {} at Position {}", robo, pos);
+		LOG.debug("Update Health Statistics for Robot {} at Position {}", robo,
+				pos);
 
 		Position position = Position.from(pos);
 
-		if (robo == null)
-		{
+		if (robo == null) {
 
 			return;
 		}
 
 		status.setMaxHealthPoints(position, robo.getMaxHealthPoints());
 
-		if (animated)
-		{
+		if (animated) {
 
-			status.startHealthPointAnimation(position, robo.getHealthPoints(), wait);
-		}
-		else
-		{
+			status.startHealthPointAnimation(position, robo.getHealthPoints(),
+					wait);
+		} else {
 
 			status.setHealthPoints(position, robo.getHealthPoints());
 		}
 	}
 
 	@Override
-	public void playFightanimation(Action acLeft, Action acRight, boolean wait)
-	{
-		LOG.debug("Play Fight Animation Left: {} Right: {} Wait: {}", acLeft, acRight, wait);
+	public void playFightanimation(Action acLeft, Action acRight, boolean wait) {
+		LOG.debug("Play Fight Animation Left: {} Right: {} Wait: {}", acLeft,
+				acRight, wait);
 
 		robots.playActionAnimation(acLeft, acRight, wait);
 	}
 
 	@Override
-	public void showAnimation(SceneObject obj, Animation animation, Rectangle2D bounds, boolean wait)
-	{
+	public void showAnimation(SceneObject obj, Animation animation,
+			Rectangle2D bounds, boolean wait) {
 
 		animations.showAnimation(obj, animation, bounds, wait);
 	}
 
 	@Override
-	public void prepareForNextRound(boolean wait)
-	{
+	public void prepareForNextRound(boolean wait) {
 
 		round++;
 		status.setRound(round);
 	}
 
 	@Override
-	public void roundIsAboutToStart(boolean wait)
-	{
+	public void roundIsAboutToStart(boolean wait) {
 
-		LabelObject obj = new CachedLabelObject("Fight");
+		LabelSceneObject obj = new CachedLabelSceneObject("Fight");
 		obj.setOutlineColor(Color.LIGHT_GRAY);
 		obj.setColor(new Color(0, 0, 0));
 		obj.setStroke(new BasicStroke(1.5f));
 
 		Rectangle2D bounds = new Rectangle2D.Float(0, 0, 1, 1);
 
-		Animation animation = new QueuedAnimation(new CompoundAnimation(new ScaleAnimation(0, 1,
-			TimeUtils.NanosecondsOfSeconds(1)), new RotateAnimation(0, Math.PI * 2, false,
-			TimeUtils.NanosecondsOfSeconds(1))), new DelayAnimation(TimeUtils.NanosecondsOfSeconds(1)));
+		Animation animation = new QueuedAnimation(new CompoundAnimation(
+				new ScaleAnimation(0, 1, TimeUtils.NanosecondsOfSeconds(1)),
+				new RotateAnimation(0, Math.PI * 2, false,
+						TimeUtils.NanosecondsOfSeconds(1))),
+				new DelayAnimation(TimeUtils.NanosecondsOfSeconds(1)));
 
 		showAnimation(obj, animation, bounds, wait);
 	}
 
 	@Override
-	public void updateStats(Robot robot, RobotPosition position, boolean animated, boolean wait)
-	{
+	public void updateStats(Robot robot, RobotPosition position,
+			boolean animated, boolean wait) {
 
 		updateStats(animated, wait, position, robot);
 	}
 
 	@Override
-	public void reset()
-	{
+	public void reset() {
 
 		robots.setRobo(null, Position.LEFT);
 		robots.setRobo(null, Position.RIGHT);

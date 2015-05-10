@@ -1,7 +1,7 @@
 package de.kvwl.n8dA.robotwars.server.controller;
 
-import game.engine.stage.scene.object.CachedLabelObject;
-import game.engine.stage.scene.object.LabelObject;
+import game.engine.stage.scene.object.CachedLabelSceneObject;
+import game.engine.stage.scene.object.LabelSceneObject;
 import game.engine.time.TimeUtils;
 
 import java.awt.Color;
@@ -312,7 +312,7 @@ public class BattleController {
 			boolean block) {
 
 		Font font = new Font("Verdana", Font.BOLD, 10);
-		LabelObject obj = new CachedLabelObject(text);
+		LabelSceneObject obj = new CachedLabelSceneObject(text);
 
 		obj.setColor(Color.RED);
 		obj.setOutlineColor(Color.BLACK);
@@ -448,19 +448,23 @@ public class BattleController {
 		String textGameOver = "GAME OVER";
 		Font font = new Font("Verdana", Font.BOLD, 20);
 
-		LabelObject labelGameOver = new CachedLabelObject(textGameOver);
+		LabelSceneObject labelGameOver = new CachedLabelSceneObject(
+				textGameOver);
 		labelGameOver.setColor(Color.RED);
 		labelGameOver.setOutlineColor(Color.BLACK);
 		labelGameOver.setFont(font);
 		Rectangle2D bounds = new Rectangle2D.Double(0.0, 0.0, 1, 1);
-		Animation aniScale = new ScaleAnimation(1, 3, 5000);
-		Animation aniDelay = new DelayAnimation(2000);
+		Animation aniScale = new ScaleAnimation(1, 3,
+				TimeUtils.NanosecondsOfSeconds(5));
+		Animation aniDelay = new DelayAnimation(
+				TimeUtils.NanosecondsOfSeconds(2));
 		Animation animation = new QueuedAnimation(aniScale, aniDelay);
 		cinematicVisualizer.showAnimation(labelGameOver, animation, bounds,
 				true);
 
 		String textShowWinner = getShowWinnerText();
-		LabelObject labelShowWinner = new CachedLabelObject(textShowWinner);
+		LabelSceneObject labelShowWinner = new CachedLabelSceneObject(
+				textShowWinner);
 		labelShowWinner.setColor(Color.RED);
 		labelShowWinner.setOutlineColor(Color.BLACK);
 		labelShowWinner.setFont(font);
