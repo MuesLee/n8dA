@@ -33,7 +33,6 @@ import de.kvwl.n8dA.robotwars.server.visualization.CinematicVisualizer;
 import de.kvwl.n8dA.robotwars.server.visualization.java.AnimationPosition;
 import de.kvwl.n8dA.robotwars.server.visualization.java.CinematicVisualizerImpl;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.Animation;
-import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.CompoundAnimation;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.DelayAnimation;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.QueuedAnimation;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.ScaleAnimation;
@@ -301,24 +300,25 @@ public class BattleController {
 						actionTypeDefender, loader);
 			}
 			getCinematicVisualizer().playFightanimation(acLeft, acRight, true);
-			
+
 		} catch (IOException e) {
 			LOG.error("boom", e);
 		}
 
 	}
 
-	private void showDamageNumbers(RobotPosition robotPosition, String text, boolean animated) {
-		
+	private void showDamageNumbers(RobotPosition robotPosition, String text,
+			boolean animated) {
+
 		Font font = new Font("Verdana", Font.BOLD, 10);
 		LabelObject obj = new CachedLabelObject(text);
-		
+
 		obj.setColor(Color.RED);
 		obj.setOutlineColor(Color.BLACK);
 		obj.setFont(font);
 		Rectangle2D bounds = new Rectangle2D.Double(0.0, 0.0, 1, 1);
 		Animation animation = new ScaleAnimation(0.1, 1, 1000);
-		
+
 		cinematicVisualizer.showAnimation(obj, animation, bounds, animated);
 	}
 
@@ -366,10 +366,12 @@ public class BattleController {
 					.getCurrentAction().getAnimation(), RobotPosition.RIGHT),
 					ActionType.Attack, loader);
 			getCinematicVisualizer().playFightanimation(acLeft, acRight, true);
-			
-			showDamageNumbers(RobotPosition.LEFT, ""+attackRight.getDamage(), true);
-			showDamageNumbers(RobotPosition.RIGHT, ""+attackLeft.getDamage(), true);
-			
+
+			showDamageNumbers(RobotPosition.LEFT, "" + attackRight.getDamage(),
+					true);
+			showDamageNumbers(RobotPosition.RIGHT, "" + attackLeft.getDamage(),
+					true);
+
 		} catch (IOException e) {
 			LOG.error("boom", e);
 		}
@@ -414,7 +416,7 @@ public class BattleController {
 	 * @param robotRight
 	 */
 	private void updateGameState(Robot robotLeft, Robot robotRight) {
-		
+
 		currentGameState = getCurrentGameState(robotLeft, robotRight);
 
 		switch (getCurrentGameState()) {
@@ -433,14 +435,14 @@ public class BattleController {
 		default:
 			break;
 		}
-		
+
 		setCurrentGameState(currentGameState);
 	}
 
 	private void endGame(GameStateType currentGameState) {
 
-		//TODO Timo: endGame Text einbauen
-		
+		// TODO Timo: endGame Text einbauen
+
 		String textGameOver = "GAME OVER";
 		Font font = new Font("Verdana", Font.BOLD, 20);
 
@@ -452,14 +454,16 @@ public class BattleController {
 		Animation aniScale = new ScaleAnimation(1, 3, 5000);
 		Animation aniDelay = new DelayAnimation(2000);
 		Animation animation = new QueuedAnimation(aniScale, aniDelay);
-		cinematicVisualizer.showAnimation(labelGameOver, animation, bounds,			true);
+		cinematicVisualizer.showAnimation(labelGameOver, animation, bounds,
+				true);
 
 		String textShowWinner = getShowWinnerText();
 		LabelObject labelShowWinner = new CachedLabelObject(textShowWinner);
 		labelShowWinner.setColor(Color.RED);
 		labelShowWinner.setOutlineColor(Color.BLACK);
 		labelShowWinner.setFont(font);
-		cinematicVisualizer.showAnimation(labelShowWinner, animation, bounds,			true);
+		cinematicVisualizer.showAnimation(labelShowWinner, animation, bounds,
+				true);
 	}
 
 	private String getShowWinnerText() {
