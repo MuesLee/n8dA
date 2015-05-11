@@ -3,7 +3,7 @@ package de.kvwl.n8dA.robotwars.server.visualization.java.scene.robot;
 import game.engine.image.InternalImage;
 import game.engine.stage.scene.Scene;
 import game.engine.stage.scene.object.CachedLabelSceneObject;
-import game.engine.stage.scene.object.ImageSceneObject;
+import game.engine.stage.scene.object.CachedNinePatchImageSceneObject;
 import game.engine.stage.scene.object.LabelSceneObject;
 import game.engine.stage.scene.object.Orientation.HorizontalOrientation;
 import game.engine.stage.scene.object.Point;
@@ -49,11 +49,13 @@ public class RobotScene implements Scene {
 	private LabelSceneObject lblRight = new CachedLabelSceneObject();
 
 	private BackgroundObject backedLabelLeft = new BackgroundObject(lblLeft,
-			new ImageSceneObject(InternalImage.loadFromPath(IMAGE_PATH,
-					"txt_bg.png")), new Insets(0.08, 0.03, 0.03, 0.12));
+			new CachedNinePatchImageSceneObject(InternalImage.loadFromPath(
+					IMAGE_PATH, "txt_bg.9.png")), new Insets(0.08, 0.03, 0.03,
+					0.12));
 	private BackgroundObject backedLabelRight = new BackgroundObject(lblRight,
-			new ImageSceneObject(InternalImage.loadFromPath(IMAGE_PATH,
-					"txt_bg.png")), new Insets(0.08, 0.03, 0.03, 0.12));
+			new CachedNinePatchImageSceneObject(InternalImage.loadFromPath(
+					IMAGE_PATH, "txt_bg.9.png")), new Insets(0.08, 0.03, 0.03,
+					0.12));
 
 	private Action acLeft;
 	private Action acRight;
