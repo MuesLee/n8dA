@@ -1,5 +1,7 @@
 /target/
 /activemq/
 
-*.log
-*.lck
+/n8da_rewards.lck
+/n8da_rewards.log
+/n8da_rewards.properties
+/n8da_rewards.script
