@@ -52,7 +52,14 @@ public class CinematicVisualizerImpl extends SwingGameFrame implements Cinematic
 	private void setup()
 	{
 
-		setIconImage(InternalImage.loadFromPath(IMAGE_PATH, "icon.png"));
+		try
+		{
+			setIconImage(InternalImage.loadFromPath(IMAGE_PATH, "icon.png"));
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 		setAlwaysOnTop(true);
 
 		setScene(gameScene);

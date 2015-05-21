@@ -17,7 +17,7 @@ public class HighscoreListVisualizerImpl extends SwingGameFrame implements Highs
 {
 
 	private static final long serialVersionUID = 1L;
-	private static final String IMAGE_PATH = "/de/kvwl/n8dA/infrastructure/rewards/commons/images/";
+	private static final String IMAGE_PATH = "/de/kvwl/n8dA/infrastructure/commons/images/";
 
 	HighscoreScene highscoreScene = new HighscoreScene();
 
@@ -39,7 +39,14 @@ public class HighscoreListVisualizerImpl extends SwingGameFrame implements Highs
 	private void setup()
 	{
 
-		setIconImage(InternalImage.loadFromPath(IMAGE_PATH, "icon.png"));
+		try
+		{
+			setIconImage(InternalImage.loadFromPath(IMAGE_PATH, "icon.png"));
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 		setAlwaysOnTop(true);
 
 		setScene(highscoreScene);
