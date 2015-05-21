@@ -3,5 +3,5 @@ package de.kvwl.n8dA.infrastructure.commons.interfaces;
 public interface HighscoreListVisualizer {
 
 	
-	//TODO: Marvin Implement me!
+	//TODO Marvin Define me!
 }
