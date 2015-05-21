@@ -2,7 +2,7 @@
 <robot>
 	<id>54</id>
 	<name>MissingNo</name>
-	<configcosts>1001</configcosts>
+	<configcosts>0</configcosts>
 	<healthpoints>125</healthpoints>
 	<energypoints>10</energypoints>
 	<animationid>MissingNo</animationid>

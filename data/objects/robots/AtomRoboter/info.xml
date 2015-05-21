@@ -2,20 +2,17 @@
 <robot>
 	<id>1</id>
 	<name>Nucular</name>
-	<configcosts>-60</configcosts>
+	<configcosts>0</configcosts>
 	<healthpoints>125</healthpoints>
 	<energypoints>10</energypoints>
 	<animationid>AtomRoboter</animationid>
 	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->
     </statuseffects>
 	<defaultitems>
-		<id>52</id>
-			<id>52</id>
-				<id>52</id>
 		
 	</defaultitems>
 	<attacks>
-			<id>24</id>
+		
 	</attacks>
 	<defends>
 		

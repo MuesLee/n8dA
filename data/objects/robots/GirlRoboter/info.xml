@@ -2,21 +2,19 @@
 <robot>
 	<id>0</id>
 	<name>Herzchen</name>
-	<configcosts>-200</configcosts>
+	<configcosts>0</configcosts>
 	<healthpoints>125</healthpoints>
 	<energypoints>10</energypoints>
 	<animationid>GirlRoboter</animationid>
 	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->
     </statuseffects>
 	<defaultitems>
-		<id>50</id>
-		<id>50</id>
-		<id>50</id>
+		
 	</defaultitems>
 	<attacks>
 		
 	</attacks>
 	<defends>
-		<id>21</id>
+		
 	</defends>
 </robot>

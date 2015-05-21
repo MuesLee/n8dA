@@ -2,19 +2,19 @@
 <robot>
 	<id>3</id>
 	<name>Digital</name>
-	<configcosts>-185</configcosts>
+	<configcosts>0</configcosts>
 	<healthpoints>125</healthpoints>
 	<energypoints>10</energypoints>
 	<animationid>GreenRoboter</animationid>
 	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->
     </statuseffects>
 	<defaultitems>
-		<id>51</id>
+		
 	</defaultitems>
 	<attacks>
 		
 	</attacks>
 	<defends>
-		<id>29</id>
+		
 	</defends>
 </robot>

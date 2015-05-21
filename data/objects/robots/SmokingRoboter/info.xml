@@ -2,7 +2,7 @@
 <robot>
 	<id>8</id>
 	<name>Repo-Bot</name>
-	<configcosts>-200</configcosts>
+	<configcosts>0</configcosts>
 	<healthpoints>125</healthpoints>
 	<energypoints>10</energypoints>
 	<animationid>SmokingRoboter</animationid>
@@ -13,9 +13,9 @@
 		
 	</defaultitems>
 	<attacks>
-			<id>14</id>
+		
 	</attacks>
 	<defends>
-			<id>21</id>
+		
 	</defends>
 </robot>
