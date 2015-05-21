@@ -41,7 +41,8 @@ public class CinematicVisualizerImpl extends SwingGameFrame implements Cinematic
 	private CinematicVisualizerImpl(GraphicsConfiguration config)
 	{
 
-		// super(config.getDevice(), config.getDisplayMode(), "RoboBattle");
+		//Switch Konstruktoren wenn Vollbild
+		//		super(config.getDevice(), config.getDisplayMode(), "RoboBattle");
 		super("RoboBattle");
 		this.audioController = new AudioController();
 
