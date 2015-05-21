@@ -141,4 +141,10 @@ public class CreditAccessClient implements CreditAccess
 		return server.getAllGamePersonsForGame(gameName);
 	}
 
+	@Override
+	public List<GamePerson> getAllGamePersons() throws RemoteException {
+		// TODO Auto-generated method stub
+		return server.getAllGamePersons();
+	}
+
 }

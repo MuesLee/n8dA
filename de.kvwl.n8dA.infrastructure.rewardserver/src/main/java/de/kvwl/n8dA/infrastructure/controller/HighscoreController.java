@@ -30,9 +30,9 @@ public class HighscoreController {
 
 	private List<Game> games;
 
-	Timer timer;
-	BasicCreditAccess server;
-	HighscoreListVisualizer visualizer;
+	private Timer timer;
+	private BasicCreditAccess server;
+	private HighscoreListVisualizer visualizer;
 
 	public HighscoreController(BasicCreditAccess server) {
 		this.server = server;
@@ -46,13 +46,13 @@ public class HighscoreController {
 
 		refreshGameList();
 
-		HighscoreListVisualizerImpl visualizer = new HighscoreListVisualizerImpl();
-		visualizer.setVisible(true);
-		this.visualizer = visualizer;
 	}
 
 	public void showHighscoreView() {
 		startTimer();
+		HighscoreListVisualizerImpl visualizer = new HighscoreListVisualizerImpl();
+		visualizer.setVisible(true);
+		this.visualizer = visualizer;
 	}
 
 	private void startTimer() {
@@ -71,32 +71,32 @@ public class HighscoreController {
 	void switchHighscoreList() {
 
 		String listTitle = "Kaputt";
-		List<GamePerson> gamePersons;
-		
-		if (CURRENT_LIST_INDEX == -1) {
-			listTitle = "Gesamtpunktzahl";
-
-		} else {
-			Game game = games.get(CURRENT_LIST_INDEX);
-			listTitle = game.getName();
-		}
+		int gameListSize = games.size();
 
 		try {
-			gamePersons = server
-					.getAllGamePersonsForGame(listTitle);
-			List<HighscoreEntry> highscoreList;
-			highscoreList = createHighscoreList(gamePersons);
+			List<GamePerson> gamePersons;
+
+			if (CURRENT_LIST_INDEX == -1 || CURRENT_LIST_INDEX >= gameListSize) {
+				gamePersons = server.getAllGamePersons();
+				listTitle = "Gesamtpunktzahl";
+			} else {
+				Game game = games.get(CURRENT_LIST_INDEX);
+				listTitle = game.getName();
+				gamePersons = server.getAllGamePersonsForGame(listTitle);
+			}
+
+			List<HighscoreEntry> highscoreList = createHighscoreList(gamePersons);
+
 			visualizer.showHighscoreList(listTitle, highscoreList);
+
 		} catch (RemoteException e) {
 			LOG.error("GamePersonList für " + listTitle
 					+ " konnte nicht vom Server abgerufen werden", e);
 		}
-		
-		if(CURRENT_LIST_INDEX == games.size()-1)
-		{
+
+		if (CURRENT_LIST_INDEX == (gameListSize - 1) || CURRENT_LIST_INDEX >=gameListSize) {
 			CURRENT_LIST_INDEX = -1;
-		}
-		else {
+		} else {
 			CURRENT_LIST_INDEX++;
 		}
 	}
@@ -111,12 +111,11 @@ public class HighscoreController {
 
 	List<HighscoreEntry> createHighscoreList(List<GamePerson> gamePersons) {
 
-		if(gamePersons == null || gamePersons.isEmpty())
-		{
+		if (gamePersons == null || gamePersons.isEmpty()) {
 			return Collections.emptyList();
 		}
 		List<HighscoreEntry> highscoreEntries = new ArrayList<>();
-		
+
 		Map<String, Integer> aggregatedPoints = aggregateGamePersonsPoints(gamePersons);
 
 		Set<String> persons = aggregatedPoints.keySet();
