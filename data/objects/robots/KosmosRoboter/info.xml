@@ -6,7 +6,7 @@
 	<healthpoints>125</healthpoints>
 	<energypoints>10</energypoints>
 	<animationid>KosmosRoboter</animationid>
-	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->
+	<statuseffects>
     </statuseffects>
 	<defaultitems>
 		

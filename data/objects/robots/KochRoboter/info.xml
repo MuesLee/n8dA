@@ -6,7 +6,7 @@
 	<healthpoints>125</healthpoints>
 	<energypoints>10</energypoints>
 	<animationid>KochRobot</animationid>
-	 <statuseffects>
+	<statuseffects>
         
     </statuseffects>
 	<defaultitems>
