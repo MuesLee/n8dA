@@ -41,7 +41,8 @@ public class CinematicVisualizerImpl extends SwingGameFrame implements Cinematic
 	private CinematicVisualizerImpl(GraphicsConfiguration config)
 	{
 
-		// super(config.getDevice(), config.getDisplayMode(), "RoboBattle");
+		//Switch Konstruktoren wenn Vollbild
+		//		super(config.getDevice(), config.getDisplayMode(), "RoboBattle");
 		super("RoboBattle");
 		this.audioController = new AudioController();
 
@@ -51,7 +52,14 @@ public class CinematicVisualizerImpl extends SwingGameFrame implements Cinematic
 	private void setup()
 	{
 
-		setIconImage(InternalImage.loadFromPath(IMAGE_PATH, "icon.png"));
+		try
+		{
+			setIconImage(InternalImage.loadFromPath(IMAGE_PATH, "icon.png"));
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 		setAlwaysOnTop(true);
 
 		setScene(gameScene);
