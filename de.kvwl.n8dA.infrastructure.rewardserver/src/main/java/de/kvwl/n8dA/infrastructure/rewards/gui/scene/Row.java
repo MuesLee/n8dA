@@ -14,7 +14,10 @@ import game.engine.stage.scene.object.Orientation.VerticalOrientation;
 public class Row extends SceneObject
 {
 
-	private static final Color COLOR_ENTRY_FG = Color.BLACK;
+	private static final Color COLOR_ENTRY_FG_RANG = new Color(235, 101, 254);
+	private static final Color COLOR_ENTRY_FG_NAME = Color.BLACK;
+	private static final Color COLOR_ENTRY_FG_POINTS = new Color(255, 255, 0);
+
 	private static final double SPACE = 0.03;
 	private static final double WIDTH_RANG = 0.2;
 	private static final double WIDTH_NAME = 0.6;
@@ -29,9 +32,6 @@ public class Row extends SceneObject
 
 	public Row()
 	{
-
-		row.setPaint(COLOR_ENTRY_FG);
-		row.setOutlinePaint(Color.WHITE);
 
 		row.setHorizontalTextOrientation(HorizontalOrientation.Center);
 		row.setVerticalTextOrientation(VerticalOrientation.Center);
@@ -52,18 +52,24 @@ public class Row extends SceneObject
 		int posPoints = posName + widthName;
 		int widthPoints = width - widthRang - widthName;
 
+		row.setPaint(COLOR_ENTRY_FG_RANG);
+		row.setOutlinePaint(COLOR_ENTRY_FG_RANG);
 		row.setTopLeftPosition(new Point(posRang, 0));
 		row.setSize(widthRang, (int) (getHeight() * 0.9));
 		row.setHorizontalTextOrientation(POS_RANG);
 		row.setText(String.format("%d.", rang));
 		row.paintOnScene(g, 0);
 
+		row.setPaint(COLOR_ENTRY_FG_NAME);
+		row.setOutlinePaint(COLOR_ENTRY_FG_NAME);
 		row.setTopLeftPosition(new Point(posName, 0));
 		row.setSize(widthName, (int) (getHeight() * 0.9));
 		row.setHorizontalTextOrientation(POS_NAME);
 		row.setText(String.format("%s", entry.getName()));
 		row.paintOnScene(g, 0);
 
+		row.setPaint(COLOR_ENTRY_FG_POINTS);
+		row.setOutlinePaint(COLOR_ENTRY_FG_POINTS);
 		row.setTopLeftPosition(new Point(posPoints, 0));
 		row.setSize(widthPoints, (int) (getHeight() * 0.9));
 		row.setHorizontalTextOrientation(POS_POINTS);
