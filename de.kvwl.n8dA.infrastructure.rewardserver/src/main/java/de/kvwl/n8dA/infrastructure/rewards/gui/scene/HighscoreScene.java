@@ -29,7 +29,6 @@ public class HighscoreScene implements Scene, HighscoreListVisualizer
 	private static final Color COLOR_CAPTION_BG = Color.DARK_GRAY;
 	private static final Color COLOR_CAPTION_FG = Color.YELLOW;
 	private static final Color COLOR_BG_CAPTION_LINE = Color.BLACK;
-	private static final Color COLOR_ENTRY_FG = Color.BLACK;
 
 	private static final double CAPTION_HEIGHT = 0.15;
 	private static final String IMAGE_PATH = "/de/kvwl/n8dA/infrastructure/commons/images/";
@@ -40,7 +39,7 @@ public class HighscoreScene implements Scene, HighscoreListVisualizer
 	private NinePatchImageSceneObject bg = new CachedNinePatchImageSceneObject(InternalImage.loadFromPath(IMAGE_PATH,
 		"txt_bg.9.png"));
 	private LabelSceneObject caption = new CachedLabelSceneObject("Highscore");
-	private LabelSceneObject row = new LabelSceneObject();
+	private Row row = new Row();
 
 	public HighscoreScene()
 	{
@@ -54,10 +53,6 @@ public class HighscoreScene implements Scene, HighscoreListVisualizer
 		caption.setScaleStrategy(ScaleStrategy.FitParent);
 
 		row.setTopLeftPosition(new Point(0, 0));
-		row.setPaint(COLOR_ENTRY_FG);
-		row.setHorizontalTextOrientation(HorizontalOrientation.Center);
-		row.setVerticalTextOrientation(VerticalOrientation.Center);
-		row.setScaleStrategy(ScaleStrategy.FitParentHeight);
 	}
 
 	@Override
@@ -148,13 +143,13 @@ public class HighscoreScene implements Scene, HighscoreListVisualizer
 			{
 				entry = highscore.get(i);
 			}
-			paintRowValue(gRow, width, _height, entry);
+			paintRowValue(gRow, width, _height, entry, i + 1);
 
 			gRow.dispose();
 		}
 	}
 
-	private void paintRowValue(Graphics2D g, int width, int height, HighscoreEntry entry)
+	private void paintRowValue(Graphics2D g, int width, int height, HighscoreEntry entry, int rang)
 	{
 
 		if (entry == null)
@@ -162,8 +157,9 @@ public class HighscoreScene implements Scene, HighscoreListVisualizer
 			return;
 		}
 
-		row.setSize(width, (int) (height * 0.9));
-		row.setText(String.format("%s - %d", entry.getName(), entry.getPoints()));
+		row.setSize(width, height);
+		row.setEntry(entry);
+		row.setRang(rang);
 		row.paintOnScene(g, 0);
 	}
 
