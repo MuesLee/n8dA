@@ -262,9 +262,7 @@ public class RewardServer extends UnicastRemoteObject implements BasicCreditAcce
 	@Override
 	public List<Game> getAllGames() throws RemoteException {
 		
-		List<Game> findAll = gameDao.findAll();
-		
-		return findAll;
+		return gameDao.findAll();
 	}
 
 	@Override
