@@ -77,7 +77,7 @@ public abstract class BaseDaoHSQL<T> implements BaseDao<T> {
 
 	@SuppressWarnings("unchecked")
 	public List<T> findAll() {
-		return getEntityManager().createQuery("from " + getEntityBeanTyp().getName())
+		return getEntityManager().createQuery("SELECT derp FROM " + getEntityBeanTyp().getName() +" derp")
 				.getResultList();
 	}
 }
