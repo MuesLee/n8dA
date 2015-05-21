@@ -19,6 +19,10 @@ public class Row extends SceneObject
 	private static final double WIDTH_RANG = 0.2;
 	private static final double WIDTH_NAME = 0.6;
 
+	private static final HorizontalOrientation POS_RANG = HorizontalOrientation.West;
+	private static final HorizontalOrientation POS_NAME = HorizontalOrientation.Center;
+	private static final HorizontalOrientation POS_POINTS = HorizontalOrientation.East;
+
 	private HighscoreEntry entry;
 	private LabelSceneObject row = new LabelSceneObject();
 	private int rang = 0;
@@ -48,19 +52,19 @@ public class Row extends SceneObject
 
 		row.setTopLeftPosition(new Point(posRang, 0));
 		row.setSize(widthRang, (int) (getHeight() * 0.9));
-		row.setHorizontalTextOrientation(HorizontalOrientation.West);
+		row.setHorizontalTextOrientation(POS_RANG);
 		row.setText(String.format("%d.", rang));
 		row.paintOnScene(g, 0);
 
 		row.setTopLeftPosition(new Point(posName, 0));
 		row.setSize(widthName, (int) (getHeight() * 0.9));
-		row.setHorizontalTextOrientation(HorizontalOrientation.Center);
+		row.setHorizontalTextOrientation(POS_NAME);
 		row.setText(String.format("%s", entry.getName()));
 		row.paintOnScene(g, 0);
 
 		row.setTopLeftPosition(new Point(posPoints, 0));
 		row.setSize(widthPoints, (int) (getHeight() * 0.9));
-		row.setHorizontalTextOrientation(HorizontalOrientation.East);
+		row.setHorizontalTextOrientation(POS_POINTS);
 		row.setText(String.format("%d", entry.getPoints()));
 		row.paintOnScene(g, 0);
 	}
