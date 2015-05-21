@@ -97,13 +97,17 @@ public class RewardServer extends UnicastRemoteObject implements BasicCreditAcce
 	private void addTestData()
 	{
 
-		String testGameName = "TestGame";
+		String testGameName1 = "Rebellen schubsen";
+		String testGameName2 = "zerschlagen Imperium man muss";
 		int testGamePoints = 100;
-		Game game = new Game(testGameName);
-		gameDao.add(game);
+		Game game1 = new Game(testGameName1);
+		Game game2 = new Game(testGameName2);
+		gameDao.add(game1);
+		gameDao.add(game2);
 	
 		try {
-			persistConfigurationPointsForPerson("Lord Vader",testGameName , testGamePoints);
+			persistConfigurationPointsForPerson("Lord Vader",testGameName1 , testGamePoints);
+			persistConfigurationPointsForPerson("Yoda",testGameName2 , testGamePoints+20);
 		} catch (RemoteException e) {
 			LOG.error("Fehler bei Persistierung der Testdaten",e);
 		}
