@@ -325,7 +325,7 @@ public class BattleController {
 					RobotScene.SPACE_BOTTOM, 0.3, 0.3);
 
 		} else {
-			bounds = new Rectangle2D.Double(RobotScene.SPACE_SIDE*6,
+			bounds = new Rectangle2D.Double(RobotScene.SPACE_SIDE*8,
 					RobotScene.SPACE_BOTTOM, 0.3, 0.3);
 		}
 
@@ -466,9 +466,9 @@ public class BattleController {
 		labelGameOver.setFont(font);
 		Rectangle2D bounds = new Rectangle2D.Double(0, 0, 1, 1);
 		Animation aniScale = new ScaleAnimation(0.5, 1,
-				TimeUtils.NanosecondsOfSeconds(5));
-		Animation aniDelay = new DelayAnimation(
 				TimeUtils.NanosecondsOfSeconds(2));
+		Animation aniDelay = new DelayAnimation(
+				TimeUtils.NanosecondsOfSeconds(1));
 		Animation animation = new QueuedAnimation(aniScale, aniDelay);
 		cinematicVisualizer.showAnimation(labelGameOver, animation, bounds,
 				true);
