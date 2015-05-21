@@ -23,6 +23,7 @@ import de.kvwl.n8dA.infrastructure.commons.entity.Person;
 import de.kvwl.n8dA.infrastructure.commons.exception.NoSuchPersonException;
 import de.kvwl.n8dA.infrastructure.commons.interfaces.BasicCreditAccess;
 import de.kvwl.n8dA.infrastructure.commons.util.NetworkUtils;
+import de.kvwl.n8dA.infrastructure.controller.HighscoreController;
 import de.kvwl.n8dA.infrastructure.rewardserver.dao.GameDaoHSQL;
 import de.kvwl.n8dA.infrastructure.rewardserver.dao.GamePersonDaoHSQL;
 import de.kvwl.n8dA.infrastructure.rewardserver.dao.PersonDaoHSQL;
@@ -42,6 +43,8 @@ public class RewardServer extends UnicastRemoteObject implements BasicCreditAcce
 	private static String REWARD_SERVER_FULL_TCP_ADDRESS;
 
 	private static String REWARD_SERVER_REGISTRY_PORT;
+
+	private HighscoreController highscoreController;
 
 	protected RewardServer() throws RemoteException
 	{
@@ -114,6 +117,9 @@ public class RewardServer extends UnicastRemoteObject implements BasicCreditAcce
 			{
 				LocateRegistry.createRegistry(port);
 			}
+			
+			highscoreController = new HighscoreController(this);
+			highscoreController.showHighscoreView();
 		}
 
 		catch (RemoteException ex)

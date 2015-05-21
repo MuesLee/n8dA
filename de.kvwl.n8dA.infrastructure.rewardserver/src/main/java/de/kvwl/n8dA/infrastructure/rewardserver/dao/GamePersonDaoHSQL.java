@@ -44,5 +44,13 @@ public class GamePersonDaoHSQL extends BaseDaoHSQL<GamePerson> {
 		return gamePerson;
 
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<GamePerson> findAllGamePersons()
+	{
+		Query createNamedQuery = getEntityManager().createNamedQuery(
+				"findAllGamePersons");
+		return createNamedQuery.getResultList();
+	}
 
 }
