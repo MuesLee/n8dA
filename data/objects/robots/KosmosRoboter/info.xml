@@ -12,9 +12,9 @@
 		
 	</defaultitems>
 	<attacks>
-		
+			<id>16</id>
 	</attacks>
 	<defends>
-		
+			<id>29</id>
 	</defends>
 </robot>

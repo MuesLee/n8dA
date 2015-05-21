@@ -2,7 +2,7 @@
 <robot>
 	<id>6</id>
 	<name>Ninja</name>
-	<configcosts>0</configcosts>
+	<configcosts>-200</configcosts>
 	<healthpoints>125</healthpoints>
 	<energypoints>10</energypoints>
 	<animationid>NinjaRoboter</animationid>
@@ -12,9 +12,9 @@
 		
 	</defaultitems>
 	<attacks>
-		
+			<id>11</id>
 	</attacks>
 	<defends>
-		
+			<id>18</id>
 	</defends>
 </robot>

@@ -2,7 +2,7 @@
 <robot>
 	<id>7</id>
 	<name>B(l)ender</name>
-	<configcosts>0</configcosts>
+	<configcosts>-300</configcosts>
 	<healthpoints>125</healthpoints>
 	<energypoints>10</energypoints>
 	<animationid>RadRoboter</animationid>
@@ -10,12 +10,13 @@
    
     </statuseffects>
 	<defaultitems>
-		
+			<id>52</id>
 	</defaultitems>
 	<attacks>
 		
 	</attacks>
 	<defends>
-		
+			<id>23</id>
+				<id>21</id>
 	</defends>
 </robot>

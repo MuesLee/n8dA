@@ -2,18 +2,18 @@
 <robot>
 	<id>5</id>
 	<name>Die Pille</name>
-	<configcosts>0</configcosts>
+	<configcosts>-200</configcosts>
 	<healthpoints>125</healthpoints>
 	<energypoints>10</energypoints>
 	<animationid>PillenRoboter</animationid>
 	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->    </statuseffects>
 	<defaultitems>
-		
+			<id>51</id>
 	</defaultitems>
 	<attacks>
-		
+			<id>9</id>
 	</attacks>
 	<defends>
-		
+			<id>21</id>
 	</defends>
 </robot>
