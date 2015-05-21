@@ -80,7 +80,11 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
-
+		<dependency>
+			<groupId>de.bno</groupId>
+			<artifactId>de.bno.gameengine</artifactId>
+			<version>1.2.1</version>
+		</dependency>
 	</dependencies>
 
 	<repositories>
