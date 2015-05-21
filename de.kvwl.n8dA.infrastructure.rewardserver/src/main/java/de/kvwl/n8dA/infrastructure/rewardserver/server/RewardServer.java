@@ -84,7 +84,6 @@ public class RewardServer extends UnicastRemoteObject implements BasicCreditAcce
 
 			rewardServer = new RewardServer();
 			rewardServer.startServer(Integer.parseInt(REWARD_SERVER_REGISTRY_PORT));
-			rewardServer.testStuff();
 		}
 		catch (RemoteException e)
 		{
@@ -95,12 +94,19 @@ public class RewardServer extends UnicastRemoteObject implements BasicCreditAcce
 
 	}
 
-	private void testStuff()
+	private void addTestData()
 	{
 
-		Game game = new Game("TestGame");
-
+		String testGameName = "TestGame";
+		int testGamePoints = 100;
+		Game game = new Game(testGameName);
 		gameDao.add(game);
+	
+		try {
+			persistConfigurationPointsForPerson("Lord Vader",testGameName , testGamePoints);
+		} catch (RemoteException e) {
+			LOG.error("Fehler bei Persistierung der Testdaten",e);
+		}
 	}
 
 	public void startServer(int port)
@@ -117,6 +123,7 @@ public class RewardServer extends UnicastRemoteObject implements BasicCreditAcce
 			{
 				LocateRegistry.createRegistry(port);
 			}
+			addTestData();
 			
 			highscoreController = new HighscoreController(this);
 			highscoreController.showHighscoreView();

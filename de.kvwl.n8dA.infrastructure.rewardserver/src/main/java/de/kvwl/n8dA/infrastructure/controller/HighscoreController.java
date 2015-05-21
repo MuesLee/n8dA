@@ -49,10 +49,11 @@ public class HighscoreController {
 	}
 
 	public void showHighscoreView() {
-		startTimer();
 		HighscoreListVisualizerImpl visualizer = new HighscoreListVisualizerImpl();
 		visualizer.setVisible(true);
 		this.visualizer = visualizer;
+		switchHighscoreList();
+		startTimer();
 	}
 
 	private void startTimer() {
@@ -65,11 +66,13 @@ public class HighscoreController {
 
 		};
 
-		timer.schedule(task, 0, _LIST_SWITCH_RATE_IN_MS);
+		timer.schedule(task, _LIST_SWITCH_RATE_IN_MS, _LIST_SWITCH_RATE_IN_MS);
 	}
 
 	void switchHighscoreList() {
-
+		
+		LOG.debug("Wechsle HighScoreList...");
+		
 		String listTitle = "Kaputt";
 		int gameListSize = games.size();
 
@@ -86,7 +89,9 @@ public class HighscoreController {
 			}
 
 			List<HighscoreEntry> highscoreList = createHighscoreList(gamePersons);
-
+			
+			LOG.debug("... zeige HighscoreListe für: " + listTitle);
+			
 			visualizer.showHighscoreList(listTitle, highscoreList);
 
 		} catch (RemoteException e) {
