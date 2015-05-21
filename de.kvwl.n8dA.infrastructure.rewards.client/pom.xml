@@ -54,7 +54,7 @@
 		<dependency>
 			<groupId>de.kvwl</groupId>
 			<artifactId>de.kvwl.n8dA.infrastructure.commons</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.2-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
