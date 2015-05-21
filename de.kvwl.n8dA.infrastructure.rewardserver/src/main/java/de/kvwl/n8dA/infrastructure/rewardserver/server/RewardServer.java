@@ -87,7 +87,7 @@ public class RewardServer extends UnicastRemoteObject implements BasicCreditAcce
 		{
 			e.printStackTrace();
 		}
-		// TODO: Timo: persistence.xml -> drop and create zu
+		// TODO Timo: persistence.xml -> drop and create zu
 		// create-or-extend-tables ändern
 
 	}
