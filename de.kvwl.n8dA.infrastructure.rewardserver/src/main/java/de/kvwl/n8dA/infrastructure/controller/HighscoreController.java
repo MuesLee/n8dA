@@ -26,7 +26,7 @@ public class HighscoreController {
 
 	private static final int _LIST_SWITCH_RATE_IN_MS = 10000;
 
-	private static int CURRENT_LIST_INDEX = 0;
+	private static int CURRENT_LIST_INDEX = -1;
 
 	private List<Game> games;
 
@@ -69,14 +69,35 @@ public class HighscoreController {
 	}
 
 	void switchHighscoreList() {
-		Game game = games.get(CURRENT_LIST_INDEX);
-		String gameName = game.getName();
+
+		String listTitle = "Kaputt";
+		List<GamePerson> gamePersons;
+		
+		if (CURRENT_LIST_INDEX == -1) {
+			listTitle = "Gesamtpunktzahl";
+
+		} else {
+			Game game = games.get(CURRENT_LIST_INDEX);
+			listTitle = game.getName();
+		}
 
 		try {
-			server.getAllGamePersonsForGame(gameName);
+			gamePersons = server
+					.getAllGamePersonsForGame(listTitle);
+			List<HighscoreEntry> highscoreList;
+			highscoreList = createHighscoreList(gamePersons);
+			visualizer.showHighscoreList(listTitle, highscoreList);
 		} catch (RemoteException e) {
-			LOG.error("GamePersonList für " + gameName
+			LOG.error("GamePersonList für " + listTitle
 					+ " konnte nicht vom Server abgerufen werden", e);
+		}
+		
+		if(CURRENT_LIST_INDEX == games.size()-1)
+		{
+			CURRENT_LIST_INDEX = -1;
+		}
+		else {
+			CURRENT_LIST_INDEX++;
 		}
 	}
 
@@ -88,42 +109,45 @@ public class HighscoreController {
 		}
 	}
 
-	List<HighscoreEntry> createHighscoreList(
-			List<GamePerson> gamePersons) {
-		List<HighscoreEntry> highscoreEntries = new ArrayList<>();
+	List<HighscoreEntry> createHighscoreList(List<GamePerson> gamePersons) {
 
-		Map<String, Integer> aggregatedPoints = aggregateGamePersonsPoints(gamePersons);
+		if(gamePersons == null || gamePersons.isEmpty())
+		{
+			return Collections.emptyList();
+		}
+		List<HighscoreEntry> highscoreEntries = new ArrayList<>();
 		
+		Map<String, Integer> aggregatedPoints = aggregateGamePersonsPoints(gamePersons);
+
 		Set<String> persons = aggregatedPoints.keySet();
 		for (String person : persons) {
-			
+
 			int points = aggregatedPoints.get(person);
 			HighscoreEntry highscoreEntry = new HighscoreEntry(person, points);
 			highscoreEntries.add(highscoreEntry);
 		}
 
 		Collections.sort(highscoreEntries);
-		
+
 		return highscoreEntries;
 	}
-	
-	private Map<String, Integer> aggregateGamePersonsPoints(List<GamePerson> gamePersons)
-	{
+
+	private Map<String, Integer> aggregateGamePersonsPoints(
+			List<GamePerson> gamePersons) {
 		Map<String, Integer> result = new HashMap<>();
-		
+
 		for (GamePerson gamePerson : gamePersons) {
 			String personName = gamePerson.getPerson().getName();
 			Integer gamePoints = gamePerson.getPoints();
-			
-			if(result.containsKey(personName))
-			{
+
+			if (result.containsKey(personName)) {
 				Integer storedGamePoints = result.get(personName);
 				gamePoints += storedGamePoints;
 			}
-			
+
 			result.put(personName, gamePoints);
 		}
-		
+
 		return result;
 	}
 }
