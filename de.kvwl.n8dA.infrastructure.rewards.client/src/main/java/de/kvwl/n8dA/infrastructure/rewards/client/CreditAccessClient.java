@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import de.kvwl.n8dA.infrastructure.commons.entity.GamePerson;
 import de.kvwl.n8dA.infrastructure.commons.exception.NoSuchPersonException;
-import de.kvwl.n8dA.infrastructure.commons.interfaces.CreditAccesHandler;
+import de.kvwl.n8dA.infrastructure.commons.interfaces.BasicCreditAccess;
 import de.kvwl.n8dA.infrastructure.commons.interfaces.CreditAccess;
 import de.kvwl.n8dA.infrastructure.commons.util.NetworkUtils;
 
@@ -25,7 +25,7 @@ public class CreditAccessClient implements CreditAccess
 
 	private static final Logger LOG = LoggerFactory.getLogger(CreditAccessClient.class);
 
-	private CreditAccesHandler server;
+	private BasicCreditAccess server;
 	private UUID uuid;
 	private String ipAdressServer;
 
@@ -86,7 +86,7 @@ public class CreditAccessClient implements CreditAccess
 	public void initConnectionToServer() throws RemoteException, MalformedURLException, NotBoundException
 	{
 		String url = "//" + ipAdressServer + "/" + NetworkUtils.REWARD_SERVER_NAME;
-		server = (CreditAccesHandler) Naming.lookup(url);
+		server = (BasicCreditAccess) Naming.lookup(url);
 		LOG.info("Client: " + uuid + " connected to Server");
 	}
 

@@ -4,19 +4,12 @@ import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
-import de.kvwl.n8dA.infrastructure.commons.exception.NoSuchPersonException;
-
 /**
  * 
- * Verbindung zu unserem Punkteserver
+ * Interface für Clientfunktionen zum Punkteserver
  *
  */
-public interface CreditAccess
+public interface CreditAccess extends BasicCreditAccess
 {
 	void initConnectionToServer() throws RemoteException, MalformedURLException, NotBoundException;
-
-	int getConfigurationPointsForPerson(String name) throws NoSuchPersonException, RemoteException;
-	
-	void persistConfigurationPointsForPerson(String personName, String gameName, int points) throws RemoteException;
-
 }

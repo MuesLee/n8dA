@@ -7,13 +7,17 @@ import java.util.List;
 import de.kvwl.n8dA.infrastructure.commons.entity.GamePerson;
 import de.kvwl.n8dA.infrastructure.commons.exception.NoSuchPersonException;
 
-public interface CreditAccesHandler extends Remote{
-	
-	public int getConfigurationPointsForPerson(String name)
-			throws NoSuchPersonException, RemoteException;
-	
-	public void persistConfigurationPointsForPerson(String personName, String gameName, int points) throws RemoteException;
+/**
+ * Interface für allgemeine Serverzugriffe 
+ *
+ */
+
+public interface BasicCreditAccess extends Remote{
 	
 	public List<GamePerson> getAllGamesForPersonName(String personName) throws RemoteException;
+	
+	public int getConfigurationPointsForPerson(String name) throws RemoteException, NoSuchPersonException;
 
+	public void persistConfigurationPointsForPerson(String personName,
+			String gameName, int points) throws RemoteException;;
 }

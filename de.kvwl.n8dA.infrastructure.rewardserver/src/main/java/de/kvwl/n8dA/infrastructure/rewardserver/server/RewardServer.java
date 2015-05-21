@@ -21,13 +21,14 @@ import de.kvwl.n8dA.infrastructure.commons.entity.Game;
 import de.kvwl.n8dA.infrastructure.commons.entity.GamePerson;
 import de.kvwl.n8dA.infrastructure.commons.entity.Person;
 import de.kvwl.n8dA.infrastructure.commons.exception.NoSuchPersonException;
-import de.kvwl.n8dA.infrastructure.commons.interfaces.CreditAccesHandler;
+import de.kvwl.n8dA.infrastructure.commons.interfaces.BasicCreditAccess;
 import de.kvwl.n8dA.infrastructure.commons.util.NetworkUtils;
+import de.kvwl.n8dA.infrastructure.controller.HighscoreController;
 import de.kvwl.n8dA.infrastructure.rewardserver.dao.GameDaoHSQL;
 import de.kvwl.n8dA.infrastructure.rewardserver.dao.GamePersonDaoHSQL;
 import de.kvwl.n8dA.infrastructure.rewardserver.dao.PersonDaoHSQL;
 
-public class RewardServer extends UnicastRemoteObject implements CreditAccesHandler
+public class RewardServer extends UnicastRemoteObject implements BasicCreditAccess
 {
 
 	private static final long serialVersionUID = 1L;
@@ -42,6 +43,8 @@ public class RewardServer extends UnicastRemoteObject implements CreditAccesHand
 	private static String REWARD_SERVER_FULL_TCP_ADDRESS;
 
 	private static String REWARD_SERVER_REGISTRY_PORT;
+
+	private HighscoreController highscoreController;
 
 	protected RewardServer() throws RemoteException
 	{
@@ -87,7 +90,7 @@ public class RewardServer extends UnicastRemoteObject implements CreditAccesHand
 		{
 			e.printStackTrace();
 		}
-		// TODO: Timo: persistence.xml -> drop and create zu
+		// TODO Timo: persistence.xml -> drop and create zu
 		// create-or-extend-tables ändern
 
 	}
@@ -114,6 +117,9 @@ public class RewardServer extends UnicastRemoteObject implements CreditAccesHand
 			{
 				LocateRegistry.createRegistry(port);
 			}
+			
+			highscoreController = new HighscoreController(this);
+			highscoreController.showHighscoreView();
 		}
 
 		catch (RemoteException ex)
@@ -198,7 +204,6 @@ public class RewardServer extends UnicastRemoteObject implements CreditAccesHand
 		return findAllGamesByPersonName;
 	}
 
-	@Override
 	public void persistConfigurationPointsForPerson(String personName, String gameName, int points)
 		throws RemoteException
 	{
@@ -241,5 +246,6 @@ public class RewardServer extends UnicastRemoteObject implements CreditAccesHand
 			}
 		}
 	}
+
 
 }
