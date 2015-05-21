@@ -31,6 +31,8 @@ public class Row extends SceneObject
 	{
 
 		row.setPaint(COLOR_ENTRY_FG);
+		row.setOutlinePaint(Color.WHITE);
+
 		row.setHorizontalTextOrientation(HorizontalOrientation.Center);
 		row.setVerticalTextOrientation(VerticalOrientation.Center);
 		row.setScaleStrategy(ScaleStrategy.FitParentHeight);
