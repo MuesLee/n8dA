@@ -29,6 +29,7 @@ public class HighscoreScene implements Scene, HighscoreListVisualizer
 	private static final Color COLOR_CAPTION_BG = Color.DARK_GRAY;
 	private static final Color COLOR_CAPTION_FG = Color.YELLOW;
 	private static final Color COLOR_BG_CAPTION_LINE = Color.BLACK;
+	private static final Color COLOR_ENTRY_FG = Color.BLACK;
 
 	private static final double CAPTION_HEIGHT = 0.15;
 	private static final String IMAGE_PATH = "/de/kvwl/n8dA/infrastructure/commons/images/";
@@ -51,6 +52,12 @@ public class HighscoreScene implements Scene, HighscoreListVisualizer
 		caption.setHorizontalTextOrientation(HorizontalOrientation.Center);
 		caption.setVerticalTextOrientation(VerticalOrientation.Center);
 		caption.setScaleStrategy(ScaleStrategy.FitParent);
+
+		row.setTopLeftPosition(new Point(0, 0));
+		row.setPaint(COLOR_ENTRY_FG);
+		row.setHorizontalTextOrientation(HorizontalOrientation.Center);
+		row.setVerticalTextOrientation(VerticalOrientation.Center);
+		row.setScaleStrategy(ScaleStrategy.FitParentHeight);
 	}
 
 	@Override
@@ -65,7 +72,6 @@ public class HighscoreScene implements Scene, HighscoreListVisualizer
 
 		synchronized (lock)
 		{
-
 			syncPaint(g, width, height, elapsedTime);
 		}
 	}
@@ -126,12 +132,6 @@ public class HighscoreScene implements Scene, HighscoreListVisualizer
 	private void paintRows(Graphics2D g, int width, int height)
 	{
 		int rowHeight = height / Math.max(10, highscore.size());
-		paintRowBackground(g, rowHeight, height, width, 0);
-	}
-
-	private void paintRowBackground(Graphics2D g, int rowHeight, int height, int width, int y)
-	{
-
 		int rows = height / rowHeight;
 		int lastRowHeight = height - ((rows - 1) * rowHeight);
 
@@ -139,17 +139,47 @@ public class HighscoreScene implements Scene, HighscoreListVisualizer
 		{
 			int _height = (i == rows - 1) ? lastRowHeight : rowHeight;
 
-			if (i % 2 == 0)
-			{
-				g.setColor(COLOR_BG_1);
-			}
-			else
-			{
-				g.setColor(COLOR_BG_2);
-			}
+			Graphics2D gRow = (Graphics2D) g.create(0, (i * (rowHeight)), width, _height);
 
-			g.fillRect(0, y + (i * (rowHeight)), width, _height);
+			paintRowBackground(gRow, width, _height, (i % 2 == 0) ? true : false);
+
+			HighscoreEntry entry = null;
+			if (i < highscore.size())
+			{
+				entry = highscore.get(i);
+			}
+			paintRowValue(gRow, width, _height, entry);
+
+			gRow.dispose();
 		}
+	}
+
+	private void paintRowValue(Graphics2D g, int width, int height, HighscoreEntry entry)
+	{
+
+		if (entry == null)
+		{
+			return;
+		}
+
+		row.setSize(width, (int) (height * 0.9));
+		row.setText(String.format("%s - %d", entry.getName(), entry.getPoints()));
+		row.paintOnScene(g, 0);
+	}
+
+	private void paintRowBackground(Graphics2D g, int width, int height, boolean r2)
+	{
+
+		if (r2)
+		{
+			g.setColor(COLOR_BG_1);
+		}
+		else
+		{
+			g.setColor(COLOR_BG_2);
+		}
+
+		g.fillRect(0, 0, width, height);
 	}
 
 	@Override
