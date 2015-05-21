@@ -82,7 +82,6 @@ public class HighscoreListVisualizerImpl extends SwingGameFrame implements Highs
 					case KeyEvent.VK_ESCAPE:
 						setVisible(false);
 						dispose();
-						System.exit(0);
 					break;
 				}
 			}

@@ -11,6 +11,7 @@ import org.apache.log4j.BasicConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.kvwl.n8dA.infrastructure.commons.entity.Game;
 import de.kvwl.n8dA.infrastructure.commons.entity.GamePerson;
 import de.kvwl.n8dA.infrastructure.commons.exception.NoSuchPersonException;
 import de.kvwl.n8dA.infrastructure.commons.interfaces.BasicCreditAccess;
@@ -127,6 +128,17 @@ public class CreditAccessClient implements CreditAccess
 	public List<GamePerson> getAllGamesForPersonName(String personName) throws RemoteException
 	{
 		return server.getAllGamesForPersonName(personName);
+	}
+
+	@Override
+	public List<Game> getAllGames() throws RemoteException {
+		return server.getAllGames();
+	}
+
+	@Override
+	public List<GamePerson> getAllGamePersonsForGame(String gameName)
+			throws RemoteException {
+		return server.getAllGamePersonsForGame(gameName);
 	}
 
 }
