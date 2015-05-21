@@ -5,6 +5,8 @@ public class HighscoreEntry {
 	String name;
 	int points;
 	
+	private boolean highlighted = false;
+	
 	public HighscoreEntry(String name, int points) {
 		super();
 		this.name = name;
@@ -21,6 +23,12 @@ public class HighscoreEntry {
 	}
 	public void setPoints(int points) {
 		this.points = points;
+	}
+	public boolean isHighlighted() {
+		return highlighted;
+	}
+	public void setHighlighted(boolean highlighted) {
+		this.highlighted = highlighted;
 	}
 	
 	
