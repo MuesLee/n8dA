@@ -39,6 +39,7 @@ import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.QueuedAn
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.ScaleAnimation;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.robot.Action;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.robot.ActionType;
+import de.kvwl.n8dA.robotwars.server.visualization.java.scene.robot.RobotScene;
 
 public class BattleController {
 
@@ -317,7 +318,17 @@ public class BattleController {
 		obj.setColor(Color.RED);
 		obj.setOutlineColor(Color.BLACK);
 		obj.setFont(font);
-		Rectangle2D bounds = new Rectangle2D.Double(0.0, 0.0, 1, 1);
+
+		Rectangle2D bounds;
+		if (robotPosition == RobotPosition.LEFT) {
+			bounds = new Rectangle2D.Double(RobotScene.SPACE_SIDE/2,
+					RobotScene.SPACE_BOTTOM, 0.3, 0.3);
+
+		} else {
+			bounds = new Rectangle2D.Double(RobotScene.SPACE_SIDE*6,
+					RobotScene.SPACE_BOTTOM, 0.3, 0.3);
+		}
+
 		Animation animation = new ScaleAnimation(0.1, 1,
 				TimeUtils.NanosecondsOfSeconds(1));
 
@@ -453,8 +464,8 @@ public class BattleController {
 		labelGameOver.setColor(Color.RED);
 		labelGameOver.setOutlineColor(Color.BLACK);
 		labelGameOver.setFont(font);
-		Rectangle2D bounds = new Rectangle2D.Double(0.0, 0.0, 1, 1);
-		Animation aniScale = new ScaleAnimation(1, 3,
+		Rectangle2D bounds = new Rectangle2D.Double(0, 0, 1, 1);
+		Animation aniScale = new ScaleAnimation(0.5, 1,
 				TimeUtils.NanosecondsOfSeconds(5));
 		Animation aniDelay = new DelayAnimation(
 				TimeUtils.NanosecondsOfSeconds(2));
