@@ -280,5 +280,16 @@ public class RewardServer extends UnicastRemoteObject implements BasicCreditAcce
 		return gamePersonDao.findAllGamePersons();
 	}
 
+	@Override
+	public List<GamePerson> getFirst10GamePersonsForGame(String gameName)
+			throws RemoteException {
+		return gamePersonDao.findFirst10PersonsForGameName(gameName);
+	}
+
+	@Override
+	public List<GamePerson> getFirst10GamePersons() throws RemoteException {
+		return gamePersonDao.findFirst10GamePersons();
+	}
+
 
 }

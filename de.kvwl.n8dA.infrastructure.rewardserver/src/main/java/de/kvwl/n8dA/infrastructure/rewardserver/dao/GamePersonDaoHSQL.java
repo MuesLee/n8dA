@@ -52,5 +52,23 @@ public class GamePersonDaoHSQL extends BaseDaoHSQL<GamePerson> {
 				"findAllGamePersons");
 		return createNamedQuery.getResultList();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<GamePerson> findFirst10GamePersons()
+	{
+		Query createNamedQuery = getEntityManager().createNamedQuery(
+				"findFirst10GamePersons");
+		createNamedQuery.setMaxResults(10);
+		return createNamedQuery.getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<GamePerson> findFirst10PersonsForGameName(String gameName) {
+		Query createNamedQuery = getEntityManager().createNamedQuery(
+				"findFirst10PersonsForGameName");
+		createNamedQuery.setParameter("gameName", gameName);
+		createNamedQuery.setMaxResults(10);
+		return createNamedQuery.getResultList();
+	}
 
 }
