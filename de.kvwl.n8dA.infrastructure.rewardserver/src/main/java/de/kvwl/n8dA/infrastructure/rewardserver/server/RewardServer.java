@@ -175,6 +175,7 @@ public class RewardServer extends UnicastRemoteObject implements BasicCreditAcce
 		}
 	}
 
+	@Override
 	public int getConfigurationPointsForPerson(String name) throws NoSuchPersonException, RemoteException
 	{
 
@@ -192,7 +193,7 @@ public class RewardServer extends UnicastRemoteObject implements BasicCreditAcce
 
 		return points;
 	}
-
+	@Override
 	public List<GamePerson> getAllGamesForPersonName(String personName)
 	{
 		LOG.info("All Games requested for " + personName);
@@ -203,7 +204,7 @@ public class RewardServer extends UnicastRemoteObject implements BasicCreditAcce
 
 		return findAllGamesByPersonName;
 	}
-
+	@Override
 	public void persistConfigurationPointsForPerson(String personName, String gameName, int points)
 		throws RemoteException
 	{
@@ -245,6 +246,22 @@ public class RewardServer extends UnicastRemoteObject implements BasicCreditAcce
 					+ ". Now has " + points);
 			}
 		}
+	}
+
+	@Override
+	public List<Game> getAllGames() throws RemoteException {
+		
+		List<Game> findAll = gameDao.findAll();
+		
+		return findAll;
+	}
+
+	@Override
+	public List<GamePerson> getAllGamePersonsForGame(String gameName)
+			throws RemoteException {
+		List<GamePerson> findAllPersonsForGameName = gamePersonDao.findAllPersonsForGameName(gameName);
+		
+		return findAllPersonsForGameName;
 	}
 
 

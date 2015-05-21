@@ -4,6 +4,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
+import de.kvwl.n8dA.infrastructure.commons.entity.Game;
 import de.kvwl.n8dA.infrastructure.commons.entity.GamePerson;
 import de.kvwl.n8dA.infrastructure.commons.exception.NoSuchPersonException;
 
@@ -15,9 +16,13 @@ import de.kvwl.n8dA.infrastructure.commons.exception.NoSuchPersonException;
 public interface BasicCreditAccess extends Remote{
 	
 	public List<GamePerson> getAllGamesForPersonName(String personName) throws RemoteException;
+	public List<Game> getAllGames() throws RemoteException;
+	public List<GamePerson> getAllGamePersonsForGame(String gameName) throws RemoteException;
 	
 	public int getConfigurationPointsForPerson(String name) throws RemoteException, NoSuchPersonException;
 
 	public void persistConfigurationPointsForPerson(String personName,
-			String gameName, int points) throws RemoteException;;
+			String gameName, int points) throws RemoteException;
+	
+	
 }
