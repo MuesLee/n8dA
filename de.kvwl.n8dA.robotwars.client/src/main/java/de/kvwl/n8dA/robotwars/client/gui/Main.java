@@ -10,15 +10,16 @@ import org.slf4j.LoggerFactory;
 import de.kvwl.n8dA.infrastructure.commons.interfaces.CreditAccess;
 import de.kvwl.n8dA.infrastructure.rewards.client.CreditAccessClient;
 import de.kvwl.n8dA.robotwars.client.RoboBattlePlayerClient;
-import de.kvwl.n8dA.robotwars.client.gui.LoginDialog.CanceledException;
 
-public class Main {
+public class Main
+{
 
 	private static final Logger LOG = LoggerFactory.getLogger(Main.class);
 
 	public static String SOURCE_FOLDER = "../data";
 
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 
 		setLaF();
 
@@ -29,59 +30,54 @@ public class Main {
 
 		LoginResult result = getCreditPoints(battleClient);
 
-		ClientFrame clientFrame = new ClientFrame(battleClient,
-				result.getCredits(), result.getPlayerName());
+		ClientFrame clientFrame = new ClientFrame(battleClient, result.getCredits(), result.getPlayerName());
 		clientFrame.setVisible(true);
 	}
 
-	private static LoginResult getCreditPoints(
-			RoboBattlePlayerClient battleClient) {
-		String rewardServerIpAdress = battleClient
-				.getProperty("REWARD_SERVER_IP_ADDRESS");
-		
-		boolean enableSM = Boolean.parseBoolean(battleClient.getProperty("ENABLE_SECURITY_MANAGER"));
-		CreditAccess creditClient = new CreditAccessClient(rewardServerIpAdress,enableSM);
-		try {
-			creditClient.initConnectionToServer();
-		} catch (Exception e) {
-			JOptionPane
-					.showMessageDialog(
-							null,
-							"Die Verbindung zum Punkteserver konnte nicht aufgebaut werden. Standardwerte werden benutzt.\n"
-									+ e.getMessage(),
-							"Fehler beim Verbindungsaufbau",
-							JOptionPane.ERROR_MESSAGE);
+	private static LoginResult getCreditPoints(RoboBattlePlayerClient battleClient)
+	{
+		String rewardServerIpAdress = battleClient.getProperty("REWARD_SERVER_IP_ADDRESS");
 
-			LOG.debug("Default credit points: {}",
-					battleClient.getProperty("DEFAULT_CREDITS"));
+		boolean enableSM = Boolean.parseBoolean(battleClient.getProperty("ENABLE_SECURITY_MANAGER"));
+		CreditAccess creditClient = new CreditAccessClient(rewardServerIpAdress, enableSM);
+		try
+		{
+			creditClient.initConnectionToServer();
+			return LoginDialog.getCreditPoints(creditClient);
+		}
+		catch (Exception e)
+		{
+			JOptionPane.showMessageDialog(
+				null,
+				"Die Verbindung zum Punkteserver konnte nicht aufgebaut werden. Standardwerte werden benutzt.\n"
+					+ e.getMessage(), "Fehler beim Verbindungsaufbau", JOptionPane.ERROR_MESSAGE);
+
+			LOG.debug("Default credit points: {}", battleClient.getProperty("DEFAULT_CREDITS"));
 
 			LoginResult result = new LoginResult();
-			result.setCredits(Long.valueOf(battleClient
-					.getProperty("DEFAULT_CREDITS")));
+			result.setCredits(Long.valueOf(battleClient.getProperty("DEFAULT_CREDITS")));
 			result.setPlayerName("unregistered");
 
 			return result;
 		}
 
-		try {
-			return LoginDialog.getCreditPoints(creditClient);
-		} catch (CanceledException e) {
-			throw new RuntimeException(e);
-		}
 	}
 
-	private static RoboBattlePlayerClient createBattleClient() {
+	private static RoboBattlePlayerClient createBattleClient()
+	{
 		RoboBattlePlayerClient client;
-		try {
+		try
+		{
 			client = new RoboBattlePlayerClient();
 			createShutdownHook(client);
 
 			client.init();
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			JOptionPane.showMessageDialog(null,
-					"Die Verbindung zum Spieleserver konnte nicht aufgebaut werden. \n"
-							+ e.getMessage(), "Fehler beim Verbindungsaufbau",
-					JOptionPane.ERROR_MESSAGE);
+				"Die Verbindung zum Spieleserver konnte nicht aufgebaut werden. \n" + e.getMessage(),
+				"Fehler beim Verbindungsaufbau", JOptionPane.ERROR_MESSAGE);
 
 			throw new RuntimeException(e);
 		}
@@ -89,27 +85,36 @@ public class Main {
 		return client;
 	}
 
-	private static void setLaF() {
+	private static void setLaF()
+	{
 
-		try {
+		try
+		{
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (ClassNotFoundException | InstantiationException
-				| IllegalAccessException | UnsupportedLookAndFeelException e) {
+		}
+		catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+			| UnsupportedLookAndFeelException e)
+		{
 		}
 	}
 
-	private static void createShutdownHook(
-			final RoboBattlePlayerClient battleClient) {
+	private static void createShutdownHook(final RoboBattlePlayerClient battleClient)
+	{
 
-		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable()
+		{
 
 			@Override
-			public void run() {
+			public void run()
+			{
 
 				LOG.debug("ShutdownHook -> Force close");
-				try {
+				try
+				{
 					battleClient.disconnectFromServer();
-				} catch (Throwable e) {
+				}
+				catch (Throwable e)
+				{
 				}
 			}
 		}));
