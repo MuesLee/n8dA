@@ -97,20 +97,20 @@ public class RewardServer extends UnicastRemoteObject implements BasicCreditAcce
 	private void addTestData()
 	{
 
-		String testGameName1 = "Rebellen schubsen";
-		String testGameName2 = "zerschlagen Imperium man muss";
-		int testGamePoints = 100;
-		Game game1 = new Game(testGameName1);
-		Game game2 = new Game(testGameName2);
-		gameDao.add(game1);
-		gameDao.add(game2);
-	
-		try {
-			persistConfigurationPointsForPerson("Lord Vader",testGameName1 , testGamePoints);
-			persistConfigurationPointsForPerson("Yoda",testGameName2 , testGamePoints+20);
-		} catch (RemoteException e) {
-			LOG.error("Fehler bei Persistierung der Testdaten",e);
-		}
+		//		String testGameName1 = "Rebellen schubsen";
+		//		String testGameName2 = "zerschlagen Imperium man muss";
+		//		int testGamePoints = 100;
+		//		Game game1 = new Game(testGameName1);
+		//		Game game2 = new Game(testGameName2);
+		//		gameDao.add(game1);
+		//		gameDao.add(game2);
+
+		//		try {
+		//			persistConfigurationPointsForPerson("Lord Vader",testGameName1 , testGamePoints);
+		//			persistConfigurationPointsForPerson("Yoda",testGameName2 , testGamePoints+20);
+		//		} catch (RemoteException e) {
+		//			LOG.error("Fehler bei Persistierung der Testdaten",e);
+		//		}
 	}
 
 	public void startServer(int port)
@@ -128,7 +128,7 @@ public class RewardServer extends UnicastRemoteObject implements BasicCreditAcce
 				LocateRegistry.createRegistry(port);
 			}
 			addTestData();
-			
+
 			highscoreController = new HighscoreController(this);
 			highscoreController.showHighscoreView();
 		}
@@ -204,6 +204,7 @@ public class RewardServer extends UnicastRemoteObject implements BasicCreditAcce
 
 		return points;
 	}
+
 	@Override
 	public List<GamePerson> getAllGamesForPersonName(String personName)
 	{
@@ -215,6 +216,7 @@ public class RewardServer extends UnicastRemoteObject implements BasicCreditAcce
 
 		return findAllGamesByPersonName;
 	}
+
 	@Override
 	public void persistConfigurationPointsForPerson(String personName, String gameName, int points)
 		throws RemoteException
@@ -229,6 +231,13 @@ public class RewardServer extends UnicastRemoteObject implements BasicCreditAcce
 			LOG.info("Person: " + personName + " has not played " + gameName + " before. Creating new game entry");
 
 			Game game = gameDao.findById(gameName);
+			if (game == null)
+			{
+				LOG.info("It is: " + gameName + " first play ever . Creating new game entry");
+				game = new Game(gameName);
+				gameDao.add(game);
+				highscoreController.refreshGameList();
+			}
 			Person person = personDao.findById(personName);
 
 			if (person == null)
@@ -260,34 +269,36 @@ public class RewardServer extends UnicastRemoteObject implements BasicCreditAcce
 	}
 
 	@Override
-	public List<Game> getAllGames() throws RemoteException {
-		
+	public List<Game> getAllGames() throws RemoteException
+	{
+
 		return gameDao.findAll();
 	}
 
 	@Override
-	public List<GamePerson> getAllGamePersonsForGame(String gameName)
-			throws RemoteException {
+	public List<GamePerson> getAllGamePersonsForGame(String gameName) throws RemoteException
+	{
 		List<GamePerson> findAllPersonsForGameName = gamePersonDao.findAllPersonsForGameName(gameName);
-		
+
 		return findAllPersonsForGameName;
 	}
 
 	@Override
-	public List<GamePerson> getAllGamePersons() throws RemoteException {
+	public List<GamePerson> getAllGamePersons() throws RemoteException
+	{
 		return gamePersonDao.findAllGamePersons();
 	}
 
 	@Override
-	public List<GamePerson> getFirst10GamePersonsForGame(String gameName)
-			throws RemoteException {
+	public List<GamePerson> getFirst10GamePersonsForGame(String gameName) throws RemoteException
+	{
 		return gamePersonDao.findFirst10PersonsForGameName(gameName);
 	}
 
 	@Override
-	public List<GamePerson> getFirst10GamePersons() throws RemoteException {
+	public List<GamePerson> getFirst10GamePersons() throws RemoteException
+	{
 		return gamePersonDao.findFirst10GamePersons();
 	}
-
 
 }

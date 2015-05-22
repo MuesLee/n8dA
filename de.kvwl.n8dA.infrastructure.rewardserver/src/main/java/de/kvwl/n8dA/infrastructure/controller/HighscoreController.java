@@ -20,9 +20,9 @@ import de.kvwl.n8dA.infrastructure.commons.interfaces.BasicCreditAccess;
 import de.kvwl.n8dA.infrastructure.commons.interfaces.HighscoreListVisualizer;
 import de.kvwl.n8dA.infrastructure.rewards.gui.HighscoreListVisualizerImpl;
 
-public class HighscoreController {
-	private static final Logger LOG = LoggerFactory
-			.getLogger(HighscoreController.class);
+public class HighscoreController
+{
+	private static final Logger LOG = LoggerFactory.getLogger(HighscoreController.class);
 
 	private static final int _LIST_SWITCH_RATE_IN_MS = 10000;
 
@@ -34,13 +34,15 @@ public class HighscoreController {
 	private BasicCreditAccess server;
 	private HighscoreListVisualizer visualizer;
 
-	public HighscoreController(BasicCreditAccess server) {
+	public HighscoreController(BasicCreditAccess server)
+	{
 		this.server = server;
 		init();
 
 	}
 
-	private void init() {
+	private void init()
+	{
 		games = new ArrayList<>();
 		timer = new Timer("HighscoreListSwitch-Timer");
 
@@ -48,7 +50,8 @@ public class HighscoreController {
 
 	}
 
-	public void showHighscoreView() {
+	public void showHighscoreView()
+	{
 		HighscoreListVisualizerImpl visualizer = new HighscoreListVisualizerImpl();
 		visualizer.setVisible(true);
 		this.visualizer = visualizer;
@@ -56,11 +59,14 @@ public class HighscoreController {
 		startTimer();
 	}
 
-	private void startTimer() {
-		TimerTask task = new TimerTask() {
+	private void startTimer()
+	{
+		TimerTask task = new TimerTask()
+		{
 
 			@Override
-			public void run() {
+			public void run()
+			{
 				switchHighscoreList();
 			}
 
@@ -69,54 +75,69 @@ public class HighscoreController {
 		timer.schedule(task, _LIST_SWITCH_RATE_IN_MS, _LIST_SWITCH_RATE_IN_MS);
 	}
 
-	void switchHighscoreList() {
-		
+	void switchHighscoreList()
+	{
+
 		LOG.debug("Wechsle HighScoreList...");
-		
+
 		String listTitle = "Kaputt";
 		int gameListSize = games.size();
 
-		try {
+		try
+		{
 			List<GamePerson> gamePersons;
 
-			if (CURRENT_LIST_INDEX == -1 || CURRENT_LIST_INDEX >= gameListSize) {
+			if (CURRENT_LIST_INDEX == -1 || CURRENT_LIST_INDEX >= gameListSize)
+			{
 				gamePersons = server.getFirst10GamePersons();
 				listTitle = "Gesamtpunktzahl";
-			} else {
+			}
+			else
+			{
 				Game game = games.get(CURRENT_LIST_INDEX);
 				listTitle = game.getName();
 				gamePersons = server.getFirst10GamePersonsForGame(listTitle);
 			}
 
 			List<HighscoreEntry> highscoreList = createHighscoreList(gamePersons);
-			
+
 			LOG.debug("... zeige HighscoreListe für: " + listTitle);
-			
+
 			visualizer.showHighscoreList(listTitle, highscoreList);
 
-		} catch (RemoteException e) {
-			LOG.error("GamePersonList für " + listTitle
-					+ " konnte nicht vom Server abgerufen werden", e);
+		}
+		catch (RemoteException e)
+		{
+			LOG.error("GamePersonList für " + listTitle + " konnte nicht vom Server abgerufen werden", e);
 		}
 
-		if (CURRENT_LIST_INDEX == (gameListSize - 1) || CURRENT_LIST_INDEX >=gameListSize) {
+		if (CURRENT_LIST_INDEX == (gameListSize - 1) || CURRENT_LIST_INDEX >= gameListSize)
+		{
 			CURRENT_LIST_INDEX = -1;
-		} else {
+		}
+		else
+		{
 			CURRENT_LIST_INDEX++;
 		}
 	}
 
-	private void refreshGameList() {
-		try {
+	public void refreshGameList()
+	{
+		try
+		{
 			games = server.getAllGames();
-		} catch (RemoteException e) {
+		}
+		catch (RemoteException e)
+		{
 			LOG.error("GameList konnte vom Server nicht abgerufen werden", e);
 		}
 	}
 
-	List<HighscoreEntry> createHighscoreList(List<GamePerson> gamePersons) {
+	List<HighscoreEntry> createHighscoreList(List<GamePerson> gamePersons)
+	{
 
-		if (gamePersons == null || gamePersons.isEmpty()) {
+		if (gamePersons == null || gamePersons.isEmpty())
+		{
 			return Collections.emptyList();
 		}
 		List<HighscoreEntry> highscoreEntries = new ArrayList<>();
@@ -124,7 +145,8 @@ public class HighscoreController {
 		Map<String, Integer> aggregatedPoints = aggregateGamePersonsPoints(gamePersons);
 
 		Set<String> persons = aggregatedPoints.keySet();
-		for (String person : persons) {
+		for (String person : persons)
+		{
 
 			int points = aggregatedPoints.get(person);
 			HighscoreEntry highscoreEntry = new HighscoreEntry(person, points);
@@ -136,15 +158,17 @@ public class HighscoreController {
 		return highscoreEntries;
 	}
 
-	private Map<String, Integer> aggregateGamePersonsPoints(
-			List<GamePerson> gamePersons) {
+	private Map<String, Integer> aggregateGamePersonsPoints(List<GamePerson> gamePersons)
+	{
 		Map<String, Integer> result = new HashMap<>();
 
-		for (GamePerson gamePerson : gamePersons) {
+		for (GamePerson gamePerson : gamePersons)
+		{
 			String personName = gamePerson.getPerson().getName();
 			Integer gamePoints = gamePerson.getPoints();
 
-			if (result.containsKey(personName)) {
+			if (result.containsKey(personName))
+			{
 				Integer storedGamePoints = result.get(personName);
 				gamePoints += storedGamePoints;
 			}
