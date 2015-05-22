@@ -23,6 +23,8 @@ import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
+import de.kvwl.n8dA.robotwars.commons.game.items.EPRegItem;
+import de.kvwl.n8dA.robotwars.commons.game.items.HPRegItem;
 import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
 import de.kvwl.n8dA.robotwars.commons.game.items.RoboModificator;
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.StatusEffect;
@@ -119,13 +121,19 @@ public class BattleController {
 
 		if (currentGameState == GameStateType.WAITING_FOR_PLAYER_INPUT) {
 
-			regenerateEnergyOfRobots(robotLeft, robotRight,
-					ENERGY_REGENERATION_RATE);
-			performEachRoundsModificationOfRobot(robotLeft);
-			performEachRoundsModificationOfRobot(robotRight);
 
+			String energyRegTextLeft = Integer.toString(getRobotsEnergyRegThroughItems(robotLeft) +ENERGY_REGENERATION_RATE);
+			regenerateEnergyOfRobot(robotLeft,ENERGY_REGENERATION_RATE);
+			performEachRoundsModificationOfRobot(robotLeft);
+			showEnergyRegNumber(RobotPosition.LEFT, energyRegTextLeft, false);
 			cinematicVisualizer.updateStats(robotLeft, RobotPosition.LEFT,
 					true, true);
+			
+			regenerateEnergyOfRobot(robotRight,ENERGY_REGENERATION_RATE);
+			
+			String energyRegTextRight = Integer.toString(getRobotsEnergyRegThroughItems(robotRight) +ENERGY_REGENERATION_RATE);
+			showEnergyRegNumber(RobotPosition.RIGHT, energyRegTextRight, false);
+			performEachRoundsModificationOfRobot(robotRight);
 			cinematicVisualizer.updateStats(robotRight, RobotPosition.RIGHT,
 					true, true);
 		}
@@ -234,6 +242,8 @@ public class BattleController {
 		Action acRight = null;
 
 		int attackDamage = attack.getDamage();
+		int damageReceived = 0;
+		RobotPosition damagedRobotsPosition = RobotPosition.LEFT;
 		if (attackType.beats(defenseType)) {
 
 			// Voller Schaden für DEF
@@ -242,8 +252,9 @@ public class BattleController {
 
 			inflictStatusEffects(defender, defense);
 
-			dealDamageToRobot(defender, attackDamage,
+			damageReceived = dealDamageToRobot(defender, attackDamage,
 					attack.getRobotActionType());
+			damagedRobotsPosition = defender.getRobotPosition();
 
 			inflictStatusEffects(defender, attack);
 
@@ -255,8 +266,9 @@ public class BattleController {
 
 			int reflectedDamage = (int) (attackDamage * defense
 					.getBonusOnDefenseFactor());
-			dealDamageToRobot(attacker, reflectedDamage,
+			damageReceived = dealDamageToRobot(attacker, reflectedDamage,
 					attack.getRobotActionType());
+			damagedRobotsPosition = attacker.getRobotPosition();
 			inflictStatusEffects(attacker, attack);
 
 			inflictStatusEffects(defender, defense);
@@ -273,9 +285,9 @@ public class BattleController {
 
 			inflictStatusEffects(defender, defense);
 
-			dealDamageToRobot(defender, postBlockDamage,
+			damageReceived = dealDamageToRobot(defender, postBlockDamage,
 					attack.getRobotActionType());
-
+			damagedRobotsPosition = defender.getRobotPosition();
 			inflictStatusEffects(defender, attack);
 		}
 
@@ -303,17 +315,69 @@ public class BattleController {
 			}
 			getCinematicVisualizer().playFightanimation(acLeft, acRight, true);
 
+			showDamageNumber(damagedRobotsPosition,
+					Integer.toString(damageReceived), true);
+
 		} catch (IOException e) {
 			LOG.error("boom", e);
 		}
-
 	}
 
-	private void showDamageNumbers(RobotPosition robotPosition, String text,
+	private void showHPHealNumber(RobotPosition robotPosition, String text,
+			boolean block) {
+		Font font = new Font("Verdana", Font.BOLD, 8);
+		LabelSceneObject obj = new CachedLabelSceneObject("+" + text);
+
+		obj.setColor(Color.GREEN);
+		obj.setOutlineColor(Color.BLACK);
+		obj.setFont(font);
+
+		Rectangle2D bounds;
+		if (robotPosition == RobotPosition.LEFT) {
+			bounds = new Rectangle2D.Double(RobotScene.SPACE_SIDE / 2,
+					RobotScene.SPACE_BOTTOM, 0.2, 0.2);
+
+		} else {
+			bounds = new Rectangle2D.Double(RobotScene.SPACE_SIDE * 8,
+					RobotScene.SPACE_BOTTOM, 0.2, 0.2);
+		}
+
+		Animation animation = new ScaleAnimation(0.1, 1,
+				TimeUtils.NanosecondsOfSeconds(1));
+
+		cinematicVisualizer.showAnimation(obj, animation, bounds, block);
+	}
+	
+	private void showEnergyRegNumber(RobotPosition robotPosition, String text,
+			boolean block) {
+		Font font = new Font("Verdana", Font.BOLD, 8);
+		LabelSceneObject obj = new CachedLabelSceneObject("+" + text);
+		
+		obj.setColor(Color.CYAN);
+		obj.setOutlineColor(Color.BLACK);
+		obj.setFont(font);
+		
+		Rectangle2D bounds;
+		if (robotPosition == RobotPosition.LEFT) {
+			bounds = new Rectangle2D.Double(RobotScene.SPACE_SIDE / 2.5,
+					RobotScene.SPACE_BOTTOM, 0.2, 0.2);
+			
+		} else {
+			bounds = new Rectangle2D.Double(RobotScene.SPACE_SIDE * 10,
+					RobotScene.SPACE_BOTTOM, 0.2, 0.2);
+		}
+		
+		Animation animation = new ScaleAnimation(0.1, 1,
+				TimeUtils.NanosecondsOfSeconds(1));
+		
+		cinematicVisualizer.showAnimation(obj, animation, bounds, block);
+	}
+
+	private void showDamageNumber(RobotPosition robotPosition, String text,
 			boolean block) {
 
 		Font font = new Font("Verdana", Font.BOLD, 10);
-		LabelSceneObject obj = new CachedLabelSceneObject(text);
+		LabelSceneObject obj = new CachedLabelSceneObject("-" + text);
 
 		obj.setColor(Color.RED);
 		obj.setOutlineColor(Color.BLACK);
@@ -358,13 +422,11 @@ public class BattleController {
 		Attack attackLeft = (Attack) attackerLeft.getCurrentAction();
 		Attack attackRight = (Attack) attackerRight.getCurrentAction();
 
-		int damageLeft = attackLeft.getDamage();
-		int damageRight = attackRight.getDamage();
+		int damageLeft = dealDamageToRobot(attackerLeft,
+				attackRight.getDamage(), attackRight.getRobotActionType());
 
-		dealDamageToRobot(attackerLeft, damageRight,
-				attackRight.getRobotActionType());
-		dealDamageToRobot(attackerRight, damageLeft,
-				attackLeft.getRobotActionType());
+		int damageRight = dealDamageToRobot(attackerRight,
+				attackLeft.getDamage(), attackLeft.getRobotActionType());
 
 		inflictStatusEffects(attackerRight, attackLeft);
 		inflictStatusEffects(attackerLeft, attackRight);
@@ -380,10 +442,8 @@ public class BattleController {
 					ActionType.Attack, loader);
 			getCinematicVisualizer().playFightanimation(acLeft, acRight, true);
 
-			showDamageNumbers(RobotPosition.LEFT, "" + attackRight.getDamage(),
-					true);
-			showDamageNumbers(RobotPosition.RIGHT, "" + attackLeft.getDamage(),
-					true);
+			showDamageNumber(RobotPosition.LEFT, "" + damageRight, true);
+			showDamageNumber(RobotPosition.RIGHT, "" + damageLeft, true);
 
 		} catch (IOException e) {
 			LOG.error("boom", e);
@@ -410,6 +470,11 @@ public class BattleController {
 				continue;
 			roboMod.performEachRoundsModification(robot);
 			LOG.info("Robot " + robot + " has received an upgrade: " + roboMod);
+			if (roboMod instanceof HPRegItem) {
+				HPRegItem hpReg = (HPRegItem) roboMod;
+				showHPHealNumber(robot.getRobotPosition(),
+						Integer.toString(hpReg.getHpReg()), false);
+			}
 		}
 
 		List<StatusEffect> roboStats = robot.getStatusEffects();
@@ -612,7 +677,7 @@ public class BattleController {
 	 * @param damage
 	 * @param robotActionType
 	 */
-	private void dealDamageToRobot(Robot robot, int damage,
+	private int dealDamageToRobot(Robot robot, int damage,
 			RobotActionType robotActionType) {
 		LOG.info("Robot: " + robot + " would receive " + damage + " damage.");
 
@@ -634,24 +699,39 @@ public class BattleController {
 
 		robot.setHealthPoints(healthPoints);
 		LOG.info("Robot: " + robot + " has " + healthPoints + " HP left.");
+
+		return damage;
 	}
 
-	private void regenerateEnergyOfRobots(Robot robotLeft, Robot robotRight,
-			int energyReg) {
+	private void regenerateEnergyOfRobot(Robot robot, int energyReg) {
 
-		int energyRobotLeft = robotLeft.getEnergyPoints();
-		int energyRobotRight = robotRight.getEnergyPoints();
+		int energyRobot= robot.getEnergyPoints();
+		int regeneratedEnergyCombined = energyReg;
 
-		energyRobotLeft += energyReg;
-		energyRobotRight += energyReg;
+		energyRobot += energyReg;
 
-		robotLeft.setEnergyPoints(Math.min(energyRobotLeft,
-				robotLeft.getMaxEnergyPoints()));
+		robot.setEnergyPoints(Math.min(energyRobot,
+				robot.getMaxEnergyPoints()));
 
-		robotRight.setEnergyPoints(Math.min(energyRobotRight,
-				robotRight.getMaxEnergyPoints()));
-
-		LOG.info("Robots regenerated energy: " + energyReg);
+		LOG.info("Robot " + robot + " regenerated energy: " + energyReg);
+		
+		showEnergyRegNumber(robot.getRobotPosition(), Integer.toString(regeneratedEnergyCombined), false);
+	}
+	
+	private int getRobotsEnergyRegThroughItems(Robot robot)
+	{
+		int energyRegThroughItems = 0;
+		
+		List<RoboItem> equippedItems = robot.getEquippedItems();
+		for (RoboItem roboItem : equippedItems) {
+			if(roboItem != null && roboItem instanceof EPRegItem)
+			{
+				EPRegItem epRegItem = (EPRegItem) roboItem;
+				energyRegThroughItems += epRegItem.getEpReg();
+			}
+		}
+		
+		return energyRegThroughItems;
 	}
 
 	/**
