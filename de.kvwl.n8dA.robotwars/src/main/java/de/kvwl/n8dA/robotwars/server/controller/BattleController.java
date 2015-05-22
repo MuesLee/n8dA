@@ -321,11 +321,11 @@ public class BattleController {
 
 		Rectangle2D bounds;
 		if (robotPosition == RobotPosition.LEFT) {
-			bounds = new Rectangle2D.Double(RobotScene.SPACE_SIDE/2,
+			bounds = new Rectangle2D.Double(RobotScene.SPACE_SIDE / 2,
 					RobotScene.SPACE_BOTTOM, 0.3, 0.3);
 
 		} else {
-			bounds = new Rectangle2D.Double(RobotScene.SPACE_SIDE*8,
+			bounds = new Rectangle2D.Double(RobotScene.SPACE_SIDE * 8,
 					RobotScene.SPACE_BOTTOM, 0.3, 0.3);
 		}
 
@@ -461,8 +461,8 @@ public class BattleController {
 
 		LabelSceneObject labelGameOver = new CachedLabelSceneObject(
 				textGameOver);
-		labelGameOver.setColor(Color.RED);
-		labelGameOver.setOutlineColor(Color.BLACK);
+		labelGameOver.setColor(Color.BLACK);
+		labelGameOver.setOutlineColor(Color.WHITE);
 		labelGameOver.setFont(font);
 		Rectangle2D bounds = new Rectangle2D.Double(0, 0, 1, 1);
 		Animation aniScale = new ScaleAnimation(0.5, 1,
@@ -479,8 +479,12 @@ public class BattleController {
 		labelShowWinner.setColor(Color.RED);
 		labelShowWinner.setOutlineColor(Color.BLACK);
 		labelShowWinner.setFont(font);
+		aniScale = new ScaleAnimation(0.5, 1, TimeUtils.NanosecondsOfSeconds(2));
+		aniDelay = new DelayAnimation(TimeUtils.NanosecondsOfSeconds(1));
+		animation = new QueuedAnimation(aniScale, aniDelay);
 		cinematicVisualizer.showAnimation(labelShowWinner, animation, bounds,
 				true);
+		LOG.info("############# I AM FREEE ##############");
 	}
 
 	private String getShowWinnerText() {

@@ -25,7 +25,6 @@ public class CompoundAnimation implements Animation
 
 		for (Animation animation : animations)
 		{
-
 			animation.prepare();
 		}
 	}

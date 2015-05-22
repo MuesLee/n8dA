@@ -34,7 +34,6 @@ public class QueuedAnimation implements Animation
 
 		for (Animation animation : animations)
 		{
-
 			animation.prepare();
 		}
 	}

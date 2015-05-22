@@ -190,7 +190,6 @@ public class CinematicVisualizerImpl extends SwingGameFrame implements Cinematic
 	@Override
 	public void showAnimation(SceneObject obj, Animation animation, Rectangle2D bounds, boolean wait)
 	{
-
 		gameScene.showAnimation(obj, animation, bounds, wait);
 	}
 }
