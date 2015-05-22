@@ -38,7 +38,9 @@ public class Main {
 			RoboBattlePlayerClient battleClient) {
 		String rewardServerIpAdress = battleClient
 				.getProperty("REWARD_SERVER_IP_ADDRESS");
-		CreditAccess creditClient = new CreditAccessClient(rewardServerIpAdress);
+		
+		boolean enableSM = Boolean.parseBoolean(battleClient.getProperty("ENABLE_SECURITY_MANAGER"));
+		CreditAccess creditClient = new CreditAccessClient(rewardServerIpAdress,enableSM);
 		try {
 			creditClient.initConnectionToServer();
 		} catch (Exception e) {
