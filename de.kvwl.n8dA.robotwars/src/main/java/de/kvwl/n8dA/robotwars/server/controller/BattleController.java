@@ -335,11 +335,11 @@ public class BattleController {
 		Rectangle2D bounds;
 		if (robotPosition == RobotPosition.LEFT) {
 			bounds = new Rectangle2D.Double(RobotScene.SPACE_SIDE / 2,
-					RobotScene.SPACE_BOTTOM, 0.2, 0.2);
+					RobotScene.SPACE_BOTTOM*2, 0.1, 0.1);
 
 		} else {
-			bounds = new Rectangle2D.Double(RobotScene.SPACE_SIDE * 8,
-					RobotScene.SPACE_BOTTOM, 0.2, 0.2);
+			bounds = new Rectangle2D.Double(RobotScene.SPACE_SIDE * 10,
+					RobotScene.SPACE_BOTTOM*2,0.1, 0.1);
 		}
 
 		Animation animation = new ScaleAnimation(0.1, 1,
@@ -359,12 +359,12 @@ public class BattleController {
 		
 		Rectangle2D bounds;
 		if (robotPosition == RobotPosition.LEFT) {
-			bounds = new Rectangle2D.Double(RobotScene.SPACE_SIDE / 2.5,
-					RobotScene.SPACE_BOTTOM, 0.2, 0.2);
+			bounds = new Rectangle2D.Double(RobotScene.SPACE_SIDE,
+					RobotScene.SPACE_BOTTOM*3, 0.1, 0.1);
 			
 		} else {
 			bounds = new Rectangle2D.Double(RobotScene.SPACE_SIDE * 10,
-					RobotScene.SPACE_BOTTOM, 0.2, 0.2);
+					RobotScene.SPACE_BOTTOM*3,0.1, 0.1);
 		}
 		
 		Animation animation = new ScaleAnimation(0.1, 1,

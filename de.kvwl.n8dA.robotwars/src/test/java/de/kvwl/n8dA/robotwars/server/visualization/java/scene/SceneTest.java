@@ -143,6 +143,7 @@ public class SceneTest {
 								Math.random() * 50, true);
 						break;
 					case KeyEvent.VK_1:
+						//EP REG RECHTS
 						Font font = new Font("Verdana", Font.BOLD, 8);
 						LabelSceneObject obj = new CachedLabelSceneObject("+" + 1);
 						
@@ -152,12 +153,13 @@ public class SceneTest {
 						
 						Rectangle2D bounds;
 							bounds = new Rectangle2D.Double(RobotScene.SPACE_SIDE * 10,
-									RobotScene.SPACE_BOTTOM, 0.2, 0.2);
+									RobotScene.SPACE_BOTTOM*3,0.1, 0.1);
 						Animation animation = new ScaleAnimation(0.1, 1,
 								TimeUtils.NanosecondsOfSeconds(1));
 						animationSC.showAnimation(obj, animation, bounds, false);
 						break;
 					case KeyEvent.VK_2:
+						//HP REG RECHTS
 						Font font2 = new Font("Verdana", Font.BOLD, 10);
 						LabelSceneObject obj2 = new CachedLabelSceneObject("-" + 1);
 						
@@ -167,10 +169,42 @@ public class SceneTest {
 						
 						Rectangle2D bounds2;
 						bounds2 = new Rectangle2D.Double(RobotScene.SPACE_SIDE * 10,
-								RobotScene.SPACE_BOTTOM, 0.3, 0.3);
+								RobotScene.SPACE_BOTTOM*2,0.1, 0.1);
 						Animation animation2 = new ScaleAnimation(0.1, 1,
 								TimeUtils.NanosecondsOfSeconds(1));
 						animationSC.showAnimation(obj2, animation2, bounds2, false);
+						break;
+					case KeyEvent.VK_3:
+						//EP REG LINKS
+						Font font4 = new Font("Verdana", Font.BOLD, 8);
+						LabelSceneObject obj4 = new CachedLabelSceneObject("+" + 1);
+						
+						obj4.setColor(Color.CYAN);
+						obj4.setOutlineColor(Color.BLACK);
+						obj4.setFont(font4);
+						
+						Rectangle2D bounds4;
+						bounds4 = new Rectangle2D.Double(RobotScene.SPACE_SIDE,
+								RobotScene.SPACE_BOTTOM*3, 0.1, 0.1);
+						Animation animation4 = new ScaleAnimation(0.1, 1,
+								TimeUtils.NanosecondsOfSeconds(1));
+						animationSC.showAnimation(obj4, animation4, bounds4, false);
+						break;
+					case KeyEvent.VK_4:
+						//HP REG LINKS
+						Font font5 = new Font("Verdana", Font.BOLD, 10);
+						LabelSceneObject obj5 = new CachedLabelSceneObject("-" + 1);
+						
+						obj5.setColor(Color.RED);
+						obj5.setOutlineColor(Color.BLACK);
+						obj5.setFont(font5);
+						
+						Rectangle2D bounds5;
+						bounds5 = new Rectangle2D.Double(RobotScene.SPACE_SIDE / 2,
+								RobotScene.SPACE_BOTTOM*2, 0.1, 0.1);
+						Animation animation5 = new ScaleAnimation(0.1, 1,
+								TimeUtils.NanosecondsOfSeconds(1));
+						animationSC.showAnimation(obj5, animation5, bounds5, false);
 						break;
 					case KeyEvent.VK_SPACE:
 						Action acLeft = null;
