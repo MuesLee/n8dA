@@ -10,7 +10,7 @@ public class EnergyConsumingEffect extends StatusEffect {
 	public EnergyConsumingEffect(int startDuration) {
 		super(startDuration);
 		setPositive(false);
-		setIconName("stat_epLoss.png");
+		setIconName("energy.png");
 		
 	}
 
@@ -25,6 +25,12 @@ public class EnergyConsumingEffect extends StatusEffect {
 		//nothing to do here.
 	}
 
+	@Override
+	public String getModifierText() {
+		
+		return "Entzug von " + _ENERGY_LOSS;
+	}
+	
 	@Override
 	public StatusEffect clone() {
 		StatusEffect clonedEffect = new EnergyConsumingEffect(this.getStartDuration());

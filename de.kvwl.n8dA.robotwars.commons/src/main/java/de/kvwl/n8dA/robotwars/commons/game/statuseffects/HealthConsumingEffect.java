@@ -11,7 +11,7 @@ public class HealthConsumingEffect extends StatusEffect {
 	{
 	super(startDuration);
 	setPositive(false);
-	setIconName("stat_hpLoss.png");
+	setIconName("life.png");
 	}
 	
 	@Override
@@ -21,6 +21,12 @@ public class HealthConsumingEffect extends StatusEffect {
 		robot.setHealthPoints(robotHealth);
 	}
 
+	@Override
+	public String getModifierText() {
+		
+		return "Entzug von " + _HP_LOSS;
+	}
+	
 	@Override
 	public void performInitialRobotModification(Robot robot) {
 		// nothing to do here.

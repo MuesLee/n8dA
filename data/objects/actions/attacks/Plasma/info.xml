@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <attack>
-	<damage>25</damage>
+	<damage>35</damage>
 	<type>LIGHTNING</type>
 <powertype>HEAVY</powertype>
 	<animationid>Plasma</animationid>
-	<energycosts>6</energycosts>
-	<configcosts>200</configcosts>
+	<energycosts>10</energycosts>
+	<configcosts>350</configcosts>
 	<name>Plasma</name>
 	<id>15</id>
 	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->
-        <id>101</id>
+        <id>116</id>
 	<id>111</id>
     </statuseffects>
 </attack>
