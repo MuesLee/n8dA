@@ -10,8 +10,8 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -481,7 +481,7 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 	public List<Robot> getAllPossibleRobots(String playerId)
 	{
 		List<Robot> loadedRobots = loader.loadRobots();
-		List<Robot> allRobots = new LinkedList<>();
+		List<Robot> allRobots = new ArrayList<>(loadedRobots);
 		
 		Collections.copy(allRobots , loadedRobots);
 
