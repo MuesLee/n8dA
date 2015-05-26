@@ -11,7 +11,7 @@ public class EPRegItem extends RoboItem
 	public EPRegItem()
 	{
 		setId(53);
-		setName("Energiepunkte Regeneration: " + epReg);
+		setName("Energiepunkte Regeneration: " + getEpReg());
 		setConfigurationPointCosts(125);
 	}
 
@@ -24,13 +24,17 @@ public class EPRegItem extends RoboItem
 	public void performEachRoundsModification(Robot robot)
 	{
 
-		robot.setEnergyPoints(Math.min(robot.getEnergyPoints() + epReg, robot.getMaxEnergyPoints()));
+		robot.setEnergyPoints(Math.min(robot.getEnergyPoints() + getEpReg(), robot.getMaxEnergyPoints()));
 	}
 
 	@Override
 	public EPRegItem clone()
 	{
 		return new EPRegItem();
+	}
+
+	public int getEpReg() {
+		return epReg;
 	}
 
 }

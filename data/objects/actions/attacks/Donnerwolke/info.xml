@@ -10,6 +10,6 @@
 	<id>25</id>
 	<statuseffects> 
         <id>101</id>
-		<id>105</id>
+		<id>111</id>
     </statuseffects>
 </attack>

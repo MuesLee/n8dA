@@ -11,6 +11,7 @@ import game.engine.stage.scene.object.SpriteSceneObject;
 import game.engine.time.TimeUtils;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.KeyAdapter;
@@ -30,6 +31,7 @@ import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.StatusEffect;
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.TypeEffect;
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.TypeEffectModificationType;
+import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
 import de.kvwl.n8dA.robotwars.server.visualization.java.Position;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.Animation;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.AnimationScene;
@@ -140,6 +142,70 @@ public class SceneTest {
 						stats.startEnergyPointAnimation(Position.RIGHT,
 								Math.random() * 50, true);
 						break;
+					case KeyEvent.VK_1:
+						//EP REG RECHTS
+						Font font = new Font("Verdana", Font.BOLD, 8);
+						LabelSceneObject obj = new CachedLabelSceneObject("+" + 1);
+						
+						obj.setColor(Color.CYAN);
+						obj.setOutlineColor(Color.BLACK);
+						obj.setFont(font);
+						
+						Rectangle2D bounds;
+							bounds = new Rectangle2D.Double(RobotScene.SPACE_SIDE * 10,
+									RobotScene.SPACE_BOTTOM*3,0.1, 0.1);
+						Animation animation = new ScaleAnimation(0.1, 1,
+								TimeUtils.NanosecondsOfSeconds(1));
+						animationSC.showAnimation(obj, animation, bounds, false);
+						break;
+					case KeyEvent.VK_2:
+						//HP REG RECHTS
+						Font font2 = new Font("Verdana", Font.BOLD, 10);
+						LabelSceneObject obj2 = new CachedLabelSceneObject("-" + 1);
+						
+						obj2.setColor(Color.RED);
+						obj2.setOutlineColor(Color.BLACK);
+						obj2.setFont(font2);
+						
+						Rectangle2D bounds2;
+						bounds2 = new Rectangle2D.Double(RobotScene.SPACE_SIDE * 10,
+								RobotScene.SPACE_BOTTOM*2,0.1, 0.1);
+						Animation animation2 = new ScaleAnimation(0.1, 1,
+								TimeUtils.NanosecondsOfSeconds(1));
+						animationSC.showAnimation(obj2, animation2, bounds2, false);
+						break;
+					case KeyEvent.VK_3:
+						//EP REG LINKS
+						Font font4 = new Font("Verdana", Font.BOLD, 8);
+						LabelSceneObject obj4 = new CachedLabelSceneObject("+" + 1);
+						
+						obj4.setColor(Color.CYAN);
+						obj4.setOutlineColor(Color.BLACK);
+						obj4.setFont(font4);
+						
+						Rectangle2D bounds4;
+						bounds4 = new Rectangle2D.Double(RobotScene.SPACE_SIDE,
+								RobotScene.SPACE_BOTTOM*3, 0.1, 0.1);
+						Animation animation4 = new ScaleAnimation(0.1, 1,
+								TimeUtils.NanosecondsOfSeconds(1));
+						animationSC.showAnimation(obj4, animation4, bounds4, false);
+						break;
+					case KeyEvent.VK_4:
+						//HP REG LINKS
+						Font font5 = new Font("Verdana", Font.BOLD, 10);
+						LabelSceneObject obj5 = new CachedLabelSceneObject("-" + 1);
+						
+						obj5.setColor(Color.RED);
+						obj5.setOutlineColor(Color.BLACK);
+						obj5.setFont(font5);
+						
+						Rectangle2D bounds5;
+						bounds5 = new Rectangle2D.Double(RobotScene.SPACE_SIDE / 2,
+								RobotScene.SPACE_BOTTOM*2, 0.1, 0.1);
+						Animation animation5 = new ScaleAnimation(0.1, 1,
+								TimeUtils.NanosecondsOfSeconds(1));
+						animationSC.showAnimation(obj5, animation5, bounds5, false);
+						break;
 					case KeyEvent.VK_SPACE:
 						Action acLeft = null;
 						Action acRight = null;
@@ -169,15 +235,15 @@ public class SceneTest {
 						scene.playActionAnimation(acLeft, acRight, true);
 						break;
 					default:
-						LabelSceneObject obj = new CachedLabelSceneObject(
+						LabelSceneObject obj3 = new CachedLabelSceneObject(
 								"Unbekannte Aktion: " + anim.intValue() + " - "
 										+ KeyEvent.getKeyText(anim.intValue()));
-						obj.setColor(Color.RED);
-						obj.setOutlineColor(Color.GREEN);
+						obj3.setColor(Color.RED);
+						obj3.setOutlineColor(Color.GREEN);
 
-						Rectangle2D bounds = new Rectangle2D.Double(0.0, 0.0,
+						Rectangle2D bounds3 = new Rectangle2D.Double(0.0, 0.0,
 								1, 1);
-						Animation animation = new QueuedAnimation(
+						Animation animation3 = new QueuedAnimation(
 								new DelayAnimation(TimeUtils
 										.NanosecondsOfSeconds(1)),
 								new ScaleAnimation(1, 0, TimeUtils
@@ -185,7 +251,7 @@ public class SceneTest {
 								new DelayAnimation(TimeUtils
 										.NanosecondsOfSeconds(1)));
 
-						animationSC.showAnimation(obj, animation, bounds, true);
+						animationSC.showAnimation(obj3, animation3, bounds3, true);
 						break;
 					}
 				}

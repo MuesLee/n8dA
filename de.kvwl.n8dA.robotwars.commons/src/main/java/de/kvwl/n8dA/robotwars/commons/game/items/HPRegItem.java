@@ -11,7 +11,7 @@ public class HPRegItem extends RoboItem
 
 	public HPRegItem()
 	{
-		setName("Lebenspunkte: " + hpReg);
+		setName("Lebenspunkte Regeneration: " + getHpReg());
 		setId(51);
 		setConfigurationPointCosts(150);
 	}
@@ -27,7 +27,7 @@ public class HPRegItem extends RoboItem
 	public void performEachRoundsModification(Robot robot)
 	{
 
-		robot.setHealthPoints(Math.min(robot.getHealthPoints() + hpReg, robot.getMaxHealthPoints()));
+		robot.setHealthPoints(Math.min(robot.getHealthPoints() + getHpReg(), robot.getMaxHealthPoints()));
 	}
 
 	@Override
@@ -37,4 +37,7 @@ public class HPRegItem extends RoboItem
 		return new HPRegItem();
 	}
 
+	public int getHpReg() {
+		return hpReg;
+	}
 }
