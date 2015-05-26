@@ -122,17 +122,13 @@ public class BattleController {
 		if (currentGameState == GameStateType.WAITING_FOR_PLAYER_INPUT) {
 
 
-			String energyRegTextLeft = Integer.toString(getRobotsEnergyRegThroughItems(robotLeft) +ENERGY_REGENERATION_RATE);
 			regenerateEnergyOfRobot(robotLeft,ENERGY_REGENERATION_RATE);
 			performEachRoundsModificationOfRobot(robotLeft);
-			showEnergyRegNumber(RobotPosition.LEFT, energyRegTextLeft, false);
 			cinematicVisualizer.updateStats(robotLeft, RobotPosition.LEFT,
 					true, true);
 			
 			regenerateEnergyOfRobot(robotRight,ENERGY_REGENERATION_RATE);
 			
-			String energyRegTextRight = Integer.toString(getRobotsEnergyRegThroughItems(robotRight) +ENERGY_REGENERATION_RATE);
-			showEnergyRegNumber(RobotPosition.RIGHT, energyRegTextRight, false);
 			performEachRoundsModificationOfRobot(robotRight);
 			cinematicVisualizer.updateStats(robotRight, RobotPosition.RIGHT,
 					true, true);
@@ -465,16 +461,20 @@ public class BattleController {
 	private void performEachRoundsModificationOfRobot(Robot robot) {
 		List<RoboItem> equippedItems = robot.getEquippedItems();
 
+		int hpRegged = 0;
 		for (RoboModificator roboMod : equippedItems) {
 			if (roboMod == null)
 				continue;
 			roboMod.performEachRoundsModification(robot);
 			LOG.info("Robot " + robot + " has received an upgrade: " + roboMod);
 			if (roboMod instanceof HPRegItem) {
-				HPRegItem hpReg = (HPRegItem) roboMod;
-				showHPHealNumber(robot.getRobotPosition(),
-						Integer.toString(hpReg.getHpReg()), false);
+			HPRegItem hpReg = (HPRegItem) roboMod;
+			hpRegged += hpReg.getHpReg();
 			}
+		}
+		if(hpRegged>0)
+		{
+			showHPHealNumber(robot.getRobotPosition(),Integer.toString(hpRegged), false);
 		}
 
 		List<StatusEffect> roboStats = robot.getStatusEffects();
@@ -715,6 +715,7 @@ public class BattleController {
 
 		LOG.info("Robot " + robot + " regenerated energy: " + energyReg);
 		
+		regeneratedEnergyCombined += getRobotsEnergyRegThroughItems(robot);
 		showEnergyRegNumber(robot.getRobotPosition(), Integer.toString(regeneratedEnergyCombined), false);
 	}
 	
