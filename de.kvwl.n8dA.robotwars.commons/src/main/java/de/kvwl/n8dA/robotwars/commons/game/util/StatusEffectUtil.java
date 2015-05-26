@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
+import de.kvwl.n8dA.robotwars.commons.game.statuseffects.EnergyConsumingEffect;
+import de.kvwl.n8dA.robotwars.commons.game.statuseffects.HealthConsumingEffect;
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.StatusEffect;
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.TypeEffect;
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.TypeEffectModificationType;
@@ -49,6 +51,11 @@ public class StatusEffectUtil
 		TypeEffect waterResMega = new TypeEffect(RobotActionType.WATER, TypeEffectModificationType.RESISTANCE, 3);
 		waterResMega.setId(114L);
 		
+		HealthConsumingEffect healthConsumingEffect = new HealthConsumingEffect(4);
+		healthConsumingEffect.setId(115L);
+		EnergyConsumingEffect energyConsumingEffect = new EnergyConsumingEffect(3);
+		energyConsumingEffect.setId(116L);
+		
 		
 		statusEffects.add(lightningRes);
 		statusEffects.add(fireRes);
@@ -65,6 +72,8 @@ public class StatusEffectUtil
 		statusEffects.add(lightningResMega);
 		statusEffects.add(fireResMega);
 		statusEffects.add(waterResMega);
+		statusEffects.add(energyConsumingEffect);
+		statusEffects.add(healthConsumingEffect);
 		return statusEffects;
 	}
 

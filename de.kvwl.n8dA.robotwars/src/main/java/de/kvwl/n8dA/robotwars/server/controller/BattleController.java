@@ -27,6 +27,8 @@ import de.kvwl.n8dA.robotwars.commons.game.items.EPRegItem;
 import de.kvwl.n8dA.robotwars.commons.game.items.HPRegItem;
 import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
 import de.kvwl.n8dA.robotwars.commons.game.items.RoboModificator;
+import de.kvwl.n8dA.robotwars.commons.game.statuseffects.EnergyConsumingEffect;
+import de.kvwl.n8dA.robotwars.commons.game.statuseffects.HealthConsumingEffect;
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.StatusEffect;
 import de.kvwl.n8dA.robotwars.commons.game.util.GameStateType;
 import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
@@ -218,10 +220,10 @@ public class BattleController {
 		robotRight.setCurrentAction(null);
 	}
 
-	private void showHPHealNumber(RobotPosition robotPosition, String text,
+	private void showHPModificationNumberText(RobotPosition robotPosition, String text,
 			boolean block) {
 		Font font = new Font("Verdana", Font.BOLD, 8);
-		LabelSceneObject obj = new CachedLabelSceneObject("+" + text);
+		LabelSceneObject obj = new CachedLabelSceneObject(text);
 
 		obj.setColor(Color.GREEN);
 		obj.setOutlineColor(Color.BLACK);
@@ -475,16 +477,35 @@ public class BattleController {
 			hpRegged += hpReg.getHpReg();
 			}
 		}
-		if(hpRegged>0)
-		{
-			showHPHealNumber(robot.getRobotPosition(),Integer.toString(hpRegged), false);
-		}
 
 		List<StatusEffect> roboStats = robot.getStatusEffects();
+		int hpLost =0;
+		int epLost =0;
 		for (RoboModificator statusEffect : roboStats) {
 			if (statusEffect == null)
 				continue;
 			statusEffect.performEachRoundsModification(robot);
+			
+			if(statusEffect instanceof HealthConsumingEffect)
+			{
+				hpLost += HealthConsumingEffect.getHpLoss();
+			}
+			else if (statusEffect instanceof EnergyConsumingEffect) {
+				epLost += EnergyConsumingEffect.getEnergyLoss();
+			}
+		}
+		
+		if(epLost>0)
+		{
+			showEnergyRegNumber(robot.getRobotPosition(), "-"+Integer.toString(epLost), false);
+		}
+		if(hpLost>0)
+		{
+			showHPModificationNumberText(robot.getRobotPosition(),"-"+Integer.toString(hpLost), true);
+		}
+		if(hpRegged>0)
+		{
+			showHPModificationNumberText(robot.getRobotPosition(),"+"+Integer.toString(hpRegged), false);
 		}
 
 	}
