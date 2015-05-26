@@ -57,7 +57,6 @@ public class BattleController {
 
 	private List<Attack> allAttacks;
 	private List<Defense> allDefends;
-	private List<Robot> allRobots;
 	private List<RoboItem> allItems;
 	private List<StatusEffect> allStatusEffects;
 
@@ -83,8 +82,12 @@ public class BattleController {
 
 		setCurrentGameState(GameStateType.GAME_HAS_BEGUN);
 		getCinematicVisualizer().battleIsAboutToStart();
+		server.sendGameStateInfoToClients(currentGameState);
+		
 		setCurrentGameState(GameStateType.WAITING_FOR_PLAYER_INPUT);
+		
 		getCinematicVisualizer().prepareForNextRound(true);
+		server.sendGameStateInfoToClients(currentGameState);
 	}
 
 	public void fightNextBattleRound() throws RobotsArentRdyToFightException {
@@ -100,7 +103,8 @@ public class BattleController {
 
 		LOG.info("Battleround started");
 		setCurrentGameState(GameStateType.BATTLE_IS_ACTIVE);
-
+		server.sendGameStateInfoToClients(currentGameState);
+		
 		getCinematicVisualizer().roundIsAboutToStart(true);
 
 		computeBattleOutcome(robotLeft, robotRight);
@@ -118,9 +122,8 @@ public class BattleController {
 				true, true);
 
 		updateGameState(robotLeft, robotRight);
-
+		
 		if (currentGameState == GameStateType.WAITING_FOR_PLAYER_INPUT) {
-
 
 			regenerateEnergyOfRobot(robotLeft,ENERGY_REGENERATION_RATE);
 			performEachRoundsModificationOfRobot(robotLeft);
@@ -128,11 +131,11 @@ public class BattleController {
 					true, true);
 			
 			regenerateEnergyOfRobot(robotRight,ENERGY_REGENERATION_RATE);
-			
 			performEachRoundsModificationOfRobot(robotRight);
 			cinematicVisualizer.updateStats(robotRight, RobotPosition.RIGHT,
 					true, true);
 		}
+		server.sendGameStateInfoToClients(currentGameState);
 	}
 
 	GameStateType getCurrentGameState(Robot robotLeft, Robot robotRight) {
@@ -549,6 +552,7 @@ public class BattleController {
 		animation = new QueuedAnimation(aniScale, aniDelay);
 		cinematicVisualizer.showAnimation(labelShowWinner, animation, bounds,
 				true);
+		server.sendGameStateInfoToClients(currentGameState);
 		LOG.info("############# I AM FREEE ##############");
 	}
 
@@ -827,14 +831,6 @@ public class BattleController {
 		throw new UnknownRobotException();
 	}
 
-	public List<Robot> getAllRobots() {
-		return allRobots;
-	}
-
-	public void setAllRobots(List<Robot> allRobots) {
-		this.allRobots = allRobots;
-	}
-
 	public List<RoboItem> getAllItems() {
 		return allItems;
 	}
@@ -856,13 +852,12 @@ public class BattleController {
 	}
 
 	/**
-	 * Sets the Actual Game State and publishs it to the Clients
+	 * Sets the Actual Game State
 	 * 
 	 * @param currentGameState
 	 */
 	public void setCurrentGameState(GameStateType currentGameState) {
 		this.currentGameState = currentGameState;
-		server.sendGameStateInfoToClients(currentGameState);
 	}
 
 	public void setRobotIsReady(Robot robot) throws UnknownRobotException {

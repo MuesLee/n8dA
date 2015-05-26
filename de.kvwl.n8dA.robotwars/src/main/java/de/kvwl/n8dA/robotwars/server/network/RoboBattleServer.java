@@ -10,6 +10,8 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -198,8 +200,6 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 
 		battleController.setAllAttacks(loader.loadRobotAttacks());
 		battleController.setAllDefends(loader.loadRobotDefends());
-
-		battleController.setAllRobots(loader.loadRobots());
 
 		battleController.setAllItems(ItemUtil.getAllRoboItems());
 		battleController.setAllStatusEffects(StatusEffectUtil.getAllStatusEffects());
@@ -480,15 +480,18 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 	@Override
 	public List<Robot> getAllPossibleRobots(String playerId)
 	{
-		List<Robot> allRobots = battleController.getAllRobots();
+		List<Robot> loadedRobots = loader.loadRobots();
+		List<Robot> allRobots = new LinkedList<>();
+		
+		Collections.copy(allRobots , loadedRobots);
 
 		if (playerId == null || playerId.isEmpty())
 		{
 			return allRobots;
 		}
 
-		List<Robot> loadUserRobots = loader.loadUserRobots(playerId);
-		allRobots.addAll(loadUserRobots);
+		List<Robot> loadedUserRobots = loader.loadUserRobots(playerId);
+		allRobots.addAll(loadedUserRobots);
 
 		LOG.debug("All Robots requested: " + allRobots);
 		return allRobots;

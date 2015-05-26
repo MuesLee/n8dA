@@ -62,7 +62,7 @@
 		<dependency>
 			<groupId>de.kvwl</groupId>
 			<artifactId>de.kvwl.n8dA.infrastructure.rewards.client</artifactId>
-			<version>0.0.2-SNAPSHOT</version>
+			<version>0.0.3-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>de.bno</groupId>
@@ -77,7 +77,7 @@
 		<dependency>
 			<groupId>de.kvwl</groupId>
 			<artifactId>de.kvwl.n8dA.robotwars.commons</artifactId>
-			<version>0.0.4-SNAPSHOT</version>
+			<version>0.0.5-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
