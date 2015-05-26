@@ -160,6 +160,7 @@ public class LoginDialog extends JDialog implements ActionListener
 	{
 
 		LoginDialog login = new LoginDialog(creditClient);
+		login.setLocationRelativeTo(null);
 		login.setVisible(true);
 
 		if (login.isCanceled())
