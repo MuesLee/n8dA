@@ -219,110 +219,6 @@ public class BattleController {
 		robotRight.setCurrentAction(null);
 	}
 
-	/**
-	 * ATT vs Strong DEF -> Some dmg reflected, no dmg to DEF ATT vs Weak DEF ->
-	 * full dmg to DEF ATT vs. neutral DEF -> some dmg blocked, some dmg to DEF
-	 * 
-	 * @param attacker
-	 * @param defender
-	 */
-
-	void computeOutcomeATTvsDEF(Robot attacker, Robot defender) {
-		Attack attack = (Attack) attacker.getCurrentAction();
-		Defense defense = (Defense) defender.getCurrentAction();
-
-		RobotActionType attackType = attack.getRobotActionType();
-		RobotActionType defenseType = defense.getRobotActionType();
-
-		LOG.info("Robot: " + attacker + " attacks with: " + attack
-				+ "\nRobot: " + defender + " defends with: " + defense);
-
-		ActionType actionTypeDefender = null;
-		Action acLeft = null;
-		Action acRight = null;
-
-		int attackDamage = attack.getDamage();
-		int damageReceived = 0;
-		RobotPosition damagedRobotsPosition = RobotPosition.LEFT;
-		if (attackType.beats(defenseType)) {
-
-			// Voller Schaden für DEF
-			LOG.info("Weak defense!");
-			actionTypeDefender = ActionType.DefenseWithDamage;
-
-			inflictStatusEffects(defender, defense);
-
-			damageReceived = dealDamageToRobot(defender, attackDamage,
-					attack.getRobotActionType());
-			damagedRobotsPosition = defender.getRobotPosition();
-
-			inflictStatusEffects(defender, attack);
-
-		} else if (defenseType.beats(attackType)) {
-
-			// teilweise Reflektion an ATT, keinen Schaden für DEF
-			LOG.info("Strong defense!");
-			actionTypeDefender = ActionType.ReflectingDefense;
-
-			int reflectedDamage = (int) (attackDamage * defense
-					.getBonusOnDefenseFactor());
-			damageReceived = dealDamageToRobot(attacker, reflectedDamage,
-					attack.getRobotActionType());
-			damagedRobotsPosition = attacker.getRobotPosition();
-			inflictStatusEffects(attacker, attack);
-
-			inflictStatusEffects(defender, defense);
-			// heilung für Reflektor
-			// int postBlockDamage = (int) (attackDamage *
-			// (NEUTRAL_DEFENSE_BLOCK_FACTOR-defense.getBonusOnDefenseFactor()));
-			// dealDamageToRobot(defender, postBlockDamage, attackType);
-
-		} else {
-			LOG.info("Neutral defense!");
-			int postBlockDamage = (int) (attackDamage * (NEUTRAL_DEFENSE_DAMAGE_FACTOR - defense
-					.getBonusOnDefenseFactor()));
-			actionTypeDefender = ActionType.DefenseWithDamage;
-
-			inflictStatusEffects(defender, defense);
-
-			damageReceived = dealDamageToRobot(defender, postBlockDamage,
-					attack.getRobotActionType());
-			damagedRobotsPosition = defender.getRobotPosition();
-			inflictStatusEffects(defender, attack);
-		}
-
-		// Spiele Entsprechende Animation
-		try {
-
-			if (attacker.getRobotPosition().equals(RobotPosition.LEFT)) {
-				acLeft = Action.create(
-						new AnimationPosition(attacker.getCurrentAction()
-								.getAnimation(), RobotPosition.LEFT),
-						ActionType.Attack, loader);
-				acRight = Action.create(
-						new AnimationPosition(defender.getCurrentAction()
-								.getAnimation(), RobotPosition.RIGHT),
-						actionTypeDefender, loader);
-			} else {
-				acRight = Action.create(
-						new AnimationPosition(attacker.getCurrentAction()
-								.getAnimation(), RobotPosition.RIGHT),
-						ActionType.Attack, loader);
-				acLeft = Action.create(
-						new AnimationPosition(defender.getCurrentAction()
-								.getAnimation(), RobotPosition.LEFT),
-						actionTypeDefender, loader);
-			}
-			getCinematicVisualizer().playFightanimation(acLeft, acRight, true);
-
-			showDamageNumber(damagedRobotsPosition,
-					Integer.toString(damageReceived), true);
-
-		} catch (IOException e) {
-			LOG.error("boom", e);
-		}
-	}
-
 	private void showHPHealNumber(RobotPosition robotPosition, String text,
 			boolean block) {
 		Font font = new Font("Verdana", Font.BOLD, 8);
@@ -399,6 +295,110 @@ public class BattleController {
 		cinematicVisualizer.showAnimation(obj, animation, bounds, block);
 	}
 
+	/**
+	 * ATT vs Strong DEF -> Some dmg reflected, no dmg to DEF ATT vs Weak DEF ->
+	 * full dmg to DEF ATT vs. neutral DEF -> some dmg blocked, some dmg to DEF
+	 * 
+	 * @param attacker
+	 * @param defender
+	 */
+	
+	void computeOutcomeATTvsDEF(Robot attacker, Robot defender) {
+		Attack attack = (Attack) attacker.getCurrentAction();
+		Defense defense = (Defense) defender.getCurrentAction();
+	
+		RobotActionType attackType = attack.getRobotActionType();
+		RobotActionType defenseType = defense.getRobotActionType();
+	
+		LOG.info("Robot: " + attacker + " attacks with: " + attack
+				+ "\nRobot: " + defender + " defends with: " + defense);
+	
+		ActionType actionTypeDefender = null;
+		Action acLeft = null;
+		Action acRight = null;
+	
+		int attackDamage = attack.getDamage();
+		int damageReceived = 0;
+		RobotPosition damagedRobotsPosition = RobotPosition.LEFT;
+		if (attackType.beats(defenseType)) {
+	
+			// Voller Schaden für DEF
+			LOG.info("Weak defense!");
+			actionTypeDefender = ActionType.DefenseWithDamage;
+	
+			inflictStatusEffects(defender, defense);
+	
+			damageReceived = dealDamageToRobot(defender, attackDamage,
+					attack.getRobotActionType());
+			damagedRobotsPosition = defender.getRobotPosition();
+	
+			inflictStatusEffects(defender, attack);
+	
+		} else if (defenseType.beats(attackType)) {
+	
+			// teilweise Reflektion an ATT, keinen Schaden für DEF
+			LOG.info("Strong defense!");
+			actionTypeDefender = ActionType.ReflectingDefense;
+	
+			int reflectedDamage = (int) (attackDamage * defense
+					.getBonusOnDefenseFactor());
+			damageReceived = dealDamageToRobot(attacker, reflectedDamage,
+					attack.getRobotActionType());
+			damagedRobotsPosition = attacker.getRobotPosition();
+			inflictStatusEffects(attacker, attack);
+	
+			inflictStatusEffects(defender, defense);
+			// heilung für Reflektor
+			// int postBlockDamage = (int) (attackDamage *
+			// (NEUTRAL_DEFENSE_BLOCK_FACTOR-defense.getBonusOnDefenseFactor()));
+			// dealDamageToRobot(defender, postBlockDamage, attackType);
+	
+		} else {
+			LOG.info("Neutral defense!");
+			int postBlockDamage = (int) (attackDamage * (NEUTRAL_DEFENSE_DAMAGE_FACTOR - defense
+					.getBonusOnDefenseFactor()));
+			actionTypeDefender = ActionType.DefenseWithDamage;
+	
+			inflictStatusEffects(defender, defense);
+	
+			damageReceived = dealDamageToRobot(defender, postBlockDamage,
+					attack.getRobotActionType());
+			damagedRobotsPosition = defender.getRobotPosition();
+			inflictStatusEffects(defender, attack);
+		}
+	
+		// Spiele Entsprechende Animation
+		try {
+	
+			if (attacker.getRobotPosition().equals(RobotPosition.LEFT)) {
+				acLeft = Action.create(
+						new AnimationPosition(attacker.getCurrentAction()
+								.getAnimation(), RobotPosition.LEFT),
+						ActionType.Attack, loader);
+				acRight = Action.create(
+						new AnimationPosition(defender.getCurrentAction()
+								.getAnimation(), RobotPosition.RIGHT),
+						actionTypeDefender, loader);
+			} else {
+				acRight = Action.create(
+						new AnimationPosition(attacker.getCurrentAction()
+								.getAnimation(), RobotPosition.RIGHT),
+						ActionType.Attack, loader);
+				acLeft = Action.create(
+						new AnimationPosition(defender.getCurrentAction()
+								.getAnimation(), RobotPosition.LEFT),
+						actionTypeDefender, loader);
+			}
+			getCinematicVisualizer().playFightanimation(acLeft, acRight, true);
+	
+			showDamageNumber(damagedRobotsPosition,
+					Integer.toString(damageReceived), true);
+	
+		} catch (IOException e) {
+			LOG.error("boom", e);
+		}
+	}
+
 	void computeOutcomeDEFvsDEF(Robot defenderLeft, Robot defenderRight) {
 
 		inflictStatusEffects(defenderLeft, defenderLeft.getCurrentAction());
@@ -442,8 +442,8 @@ public class BattleController {
 					ActionType.Attack, loader);
 			getCinematicVisualizer().playFightanimation(acLeft, acRight, true);
 
-			showDamageNumber(RobotPosition.LEFT, "" + damageRight, true);
-			showDamageNumber(RobotPosition.RIGHT, "" + damageLeft, true);
+			showDamageNumber(RobotPosition.RIGHT, "" + damageRight, true);
+			showDamageNumber(RobotPosition.LEFT, "" + damageLeft, true);
 
 		} catch (IOException e) {
 			LOG.error("boom", e);
