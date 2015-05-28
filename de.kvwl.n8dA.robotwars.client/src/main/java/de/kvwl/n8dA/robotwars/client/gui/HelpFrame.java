@@ -58,7 +58,7 @@ public class HelpFrame extends JFrame {
 		content += "<b>Resistenz:</b> 75% weniger Schaden durch dieses Element<br>";
 		content += "<b>Anfälligkeit:</b> 75% mehr Schaden durch dieses Element<br><br>";
 		content += "<i>Neue Elementar-Statuseffekte konsumieren bzw. verlängern bestehende Statuseffekte des selben Elements!</i>";
-		content += "<i>Statuseffekte, die die Energie oder das Leben verändern, laufen hingegen parallel!</i>";
+		content += "<br><i>Statuseffekte, die die Energie oder das Leben verändern, laufen hingegen parallel!</i>";
 		
 		
 		content+=end;
