@@ -482,8 +482,6 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 	{
 		List<Robot> loadedRobots = loader.loadRobots();
 		List<Robot> allRobots = new ArrayList<>(loadedRobots);
-		
-		Collections.copy(allRobots , loadedRobots);
 
 		if (playerId == null || playerId.isEmpty())
 		{
