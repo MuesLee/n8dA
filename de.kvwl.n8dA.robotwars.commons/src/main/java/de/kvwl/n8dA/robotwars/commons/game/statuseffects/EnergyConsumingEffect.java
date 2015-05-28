@@ -5,7 +5,7 @@ import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 public class EnergyConsumingEffect extends StatusEffect {
 
 	private static final int _ENERGY_LOSS = 2;
-	private static final long serialVersionUID = 8338221145711995544L;
+	private static final long serialVersionUID = 1L;
 
 	public EnergyConsumingEffect(int startDuration) {
 		super(startDuration);
@@ -30,7 +30,7 @@ public class EnergyConsumingEffect extends StatusEffect {
 
 		return "Entzug von " + _ENERGY_LOSS;
 	}
-	
+
 	@Override
 	public boolean resolveInteractionWith(StatusEffect newStatusEffect) {
 		return false;
