@@ -70,8 +70,7 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 	private RoboBattleJMSProducerServer producer;
 	private RoboBattleJMSReceiverServer receiver;
 	private CreditAccess creditAccess;
-	
-	
+
 	private BrokerService broker;
 
 	private UUID clientUUIDLeft;
@@ -96,8 +95,10 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 
 			RoboBattleServer server = new RoboBattleServer();
 			server.loadProperties();
-			BATTLE_SERVER_FULL_TCP_ADDRESS = server.getProperty("BATTLE_SERVER_FULL_TCP_ADDRESS");
-			BATTLE_SERVER_REGISTRY_PORT = server.getProperty("BATTLE_SERVER_REGISTRY_PORT");
+			BATTLE_SERVER_FULL_TCP_ADDRESS = server
+					.getProperty("BATTLE_SERVER_FULL_TCP_ADDRESS");
+			BATTLE_SERVER_REGISTRY_PORT = server
+					.getProperty("BATTLE_SERVER_REGISTRY_PORT");
 			server.startServer(Integer.parseInt(BATTLE_SERVER_REGISTRY_PORT));
 
 		} catch (NumberFormatException e) {
@@ -111,16 +112,11 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		}
 	}
 
-	public void startServer(int port)
-	{
-		try
-		{
+	public void startServer(int port) {
+		try {
 			loadProperties();
 			startActiveMQBroker();
-			
-			creditAccess = new CreditAccessClient(getProperty("REWARD_SERVER_IP_ADDRESS"), Boolean.valueOf(getProperty("ENABLE_SECURITY_MANAGER")));
-			creditAccess.initConnectionToServer();
-			
+
 			initJMS();
 
 			loadGameData();
@@ -128,14 +124,10 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 			if (registry == null) {
 				LocateRegistry.createRegistry(port);
 			}
-		}
-		catch (RemoteException ex)
-		{
-			LOG.error("Fehler beim Erstellen der Verbindung",ex.getMessage());
+		} catch (RemoteException ex) {
+			LOG.error("Fehler beim Erstellen der Verbindung", ex.getMessage());
 		} catch (IOException e) {
 			LOG.error("Config File nicht gefunden!", e);
-		} catch (NotBoundException e) {
-			LOG.error("Fehler beim Erstellen der Verbindung mit Punkteserver",e.getMessage());
 		}
 		try {
 			Naming.rebind(NetworkUtils.SERVER_NAME, this);
@@ -145,6 +137,23 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		} catch (RemoteException ex) {
 			LOG.error(ex.getMessage());
 		}
+
+		try {
+			creditAccess = new CreditAccessClient(
+					getProperty("REWARD_SERVER_IP_ADDRESS"),
+					Boolean.valueOf(getProperty("ENABLE_SECURITY_MANAGER")));
+			creditAccess.initConnectionToServer();
+		} catch (NotBoundException e1) {
+			LOG.error("Fehler beim Erstellen der Verbindung mit Punkteserver",
+					e1.getMessage());
+		} catch (RemoteException e1) {
+			LOG.error("Fehler beim Erstellen der Verbindung mit Punkteserver",
+					e1.getMessage());
+		} catch (MalformedURLException e1) {
+			LOG.error("Fehler beim Erstellen der Verbindung mit Punkteserver",
+					e1.getMessage());
+		}
+
 	}
 
 	private void startActiveMQBroker() {
@@ -163,7 +172,7 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		}
 
 	}
-	
+
 	public String getProperty(String property) {
 		return properties.getProperty(property);
 	}
