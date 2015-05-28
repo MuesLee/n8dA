@@ -115,11 +115,11 @@ public class GameScene implements Scene, CinematicVisualizer {
 
 		updateHealthpoints(robo, pos, animated, wait);
 		updateEnergypoints(robo, pos, animated, wait);
-		updateEfects(robo, pos);
+		updateEffects(robo, pos);
 	}
 
 	@Override
-	public void updateEfects(Robot robo, RobotPosition pos) {
+	public void updateEffects(Robot robo, RobotPosition pos) {
 
 		LOG.debug("Update Effect Statistics for Robot {} at Position {}", robo,
 				pos);

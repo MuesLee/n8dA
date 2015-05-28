@@ -147,10 +147,10 @@ public class CinematicVisualizerImpl extends SwingGameFrame implements Cinematic
 	}
 
 	@Override
-	public void updateEfects(Robot robot, RobotPosition position)
+	public void updateEffects(Robot robot, RobotPosition position)
 	{
 
-		gameScene.updateEfects(robot, position);
+		gameScene.updateEffects(robot, position);
 	}
 
 	@Override
