@@ -52,10 +52,11 @@ import de.kvwl.n8dA.robotwars.server.input.DataLoaderFileSystemImpl;
 import de.kvwl.n8dA.robotwars.server.network.messaging.RoboBattleJMSProducerServer;
 import de.kvwl.n8dA.robotwars.server.network.messaging.RoboBattleJMSReceiverServer;
 
-public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleHandler, MessageListener
-{
+public class RoboBattleServer extends UnicastRemoteObject implements
+		RoboBattleHandler, MessageListener {
 
-	private static final Logger LOG = LoggerFactory.getLogger(RoboBattleServer.class);
+	private static final Logger LOG = LoggerFactory
+			.getLogger(RoboBattleServer.class);
 
 	private static final long serialVersionUID = 1L;
 
@@ -77,42 +78,34 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 
 	private Properties properties;
 
-	protected RoboBattleServer() throws RemoteException
-	{
+	protected RoboBattleServer() throws RemoteException {
 		super();
 		loader = new DataLoaderFileSystemImpl(Paths.get("../data"));
 		this.battleController = new BattleController(loader);
 		this.battleController.setServer(this);
 	}
 
-	public static void main(String[] args)
-	{
-		try
-		{
+	public static void main(String[] args) {
+		try {
 			BasicConfigurator.configure();
 
 			BATTLE_SERVER_FULL_TCP_ADDRESS = JOptionPane.showInputDialog(null,
-				"Bitte die vollständige TCP-Adresse des Servers eingeben!",
-				NetworkUtils.BATTLE_SERVER_DEFAULT_FULL_TCP_ADDRESS);
-			BATTLE_SERVER_REGISTRY_PORT = JOptionPane.showInputDialog(null, "Bitte den Registry-Port eingeben!",
-				NetworkUtils.BATTLE_SERVER_DEFAULT_REGISTRY_PORT);
+					"Bitte die vollständige TCP-Adresse des Servers eingeben!",
+					NetworkUtils.BATTLE_SERVER_DEFAULT_FULL_TCP_ADDRESS);
+			BATTLE_SERVER_REGISTRY_PORT = JOptionPane.showInputDialog(null,
+					"Bitte den Registry-Port eingeben!",
+					NetworkUtils.BATTLE_SERVER_DEFAULT_REGISTRY_PORT);
 			RoboBattleServer server = new RoboBattleServer();
 
 			server.startServer(Integer.parseInt(BATTLE_SERVER_REGISTRY_PORT));
 
-		}
-		catch (NumberFormatException e)
-		{
+		} catch (NumberFormatException e) {
 
 			e.printStackTrace();
 			System.exit(-1);
-		}
-		catch (RemoteException e)
-		{
+		} catch (RemoteException e) {
 			e.printStackTrace();
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -122,15 +115,13 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 		try
 		{
 			loadProperties();
-			
 			startActiveMQBroker();
 
 			initJMS();
 
 			loadGameData();
 			Registry registry = LocateRegistry.getRegistry(port);
-			if (registry == null)
-			{
+			if (registry == null) {
 				LocateRegistry.createRegistry(port);
 			}
 		}
@@ -141,27 +132,20 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 		} catch (IOException e) {
 			LOG.error("Config File nicht gefunden!", e);
 		}
-		try
-		{
+		try {
 			Naming.rebind(NetworkUtils.SERVER_NAME, this);
 			LOG.info("##### SERVER STARTED ####");
-		}
-		catch (MalformedURLException ex)
-		{
+		} catch (MalformedURLException ex) {
 			LOG.error(ex.getMessage());
-		}
-		catch (RemoteException ex)
-		{
+		} catch (RemoteException ex) {
 			LOG.error(ex.getMessage());
 		}
 	}
 
-	private void startActiveMQBroker()
-	{
+	private void startActiveMQBroker() {
 		LOG.info("Starting ActiveMQ Broker");
 
-		try
-		{
+		try {
 			broker = new BrokerService();
 			KahaDBPersistenceAdapter adaptor = new KahaDBPersistenceAdapter();
 			adaptor.setDirectory(new File("activemq"));
@@ -169,9 +153,7 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 			broker.setUseJmx(true);
 			broker.addConnector(BATTLE_SERVER_FULL_TCP_ADDRESS);
 			broker.start();
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
@@ -194,137 +176,127 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 	}
 
 	@SuppressWarnings("unused")
-	private void stopActiveMQBroker()
-	{
-		try
-		{
+	private void stopActiveMQBroker() {
+		try {
 			broker.stop();
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void initJMS()
-	{
-		producer = new RoboBattleJMSProducerServer(BATTLE_SERVER_FULL_TCP_ADDRESS);
-		receiver = new RoboBattleJMSReceiverServer(BATTLE_SERVER_FULL_TCP_ADDRESS);
+	private void initJMS() {
+		producer = new RoboBattleJMSProducerServer(
+				BATTLE_SERVER_FULL_TCP_ADDRESS);
+		receiver = new RoboBattleJMSReceiverServer(
+				BATTLE_SERVER_FULL_TCP_ADDRESS);
 		receiver.setMessageListener(this);
 	}
 
-	private void loadGameData()
-	{
+	private void loadGameData() {
 
-		LOG.debug("Loaded Robots --------------------------------------> " + loader.loadRobots());
-		LOG.debug("Loaded Attacks --------------------------------------> " + loader.loadRobotAttacks());
-		LOG.debug("Loaded Defends --------------------------------------> " + loader.loadRobotDefends());
-		LOG.debug("Loaded Items --------------------------------------> " + ItemUtil.getAllRoboItems());
+		LOG.debug("Loaded Robots --------------------------------------> "
+				+ loader.loadRobots());
+		LOG.debug("Loaded Attacks --------------------------------------> "
+				+ loader.loadRobotAttacks());
+		LOG.debug("Loaded Defends --------------------------------------> "
+				+ loader.loadRobotDefends());
+		LOG.debug("Loaded Items --------------------------------------> "
+				+ ItemUtil.getAllRoboItems());
 		LOG.debug("Loaded StatusEffects --------------------------------------> "
-			+ StatusEffectUtil.getAllStatusEffects());
+				+ StatusEffectUtil.getAllStatusEffects());
 
 		battleController.setAllAttacks(loader.loadRobotAttacks());
 		battleController.setAllDefends(loader.loadRobotDefends());
 
 		battleController.setAllItems(ItemUtil.getAllRoboItems());
-		battleController.setAllStatusEffects(StatusEffectUtil.getAllStatusEffects());
+		battleController.setAllStatusEffects(StatusEffectUtil
+				.getAllStatusEffects());
 
 	}
 
-	public void persistCustomRobot(Robot robot, String userId) throws IOException, JDOMException
-	{
+	public void persistCustomRobot(Robot robot, String userId)
+			throws IOException, JDOMException {
 
-		if (robot.isLoadedAsUserRobot())
-		{
+		if (robot.isLoadedAsUserRobot()) {
 
-			LOG.info("CustomRobot: " + robot + " can not be safed. Was loaded as Custom Bot.");
+			LOG.info("CustomRobot: " + robot
+					+ " can not be safed. Was loaded as Custom Bot.");
 			return;
 		}
 
 		loader.createUserRobot(robot, userId);
 
-		LOG.info("Custom Robot:" + robot + " from User:" + userId + " persisted");
+		LOG.info("Custom Robot:" + robot + " from User:" + userId
+				+ " persisted");
 	}
 
-	private void handleMessage(Message message)
-	{
+	private void handleMessage(Message message) {
 
 		UUID clientUUID = null;
 		String uuidAsString = null;
 		boolean playerIsRdy = false;
 		boolean clientDisconnected = false;
-		try
-		{
+		try {
 
-			uuidAsString = message.getStringProperty(ClientProperty.UUID.getName());
-			playerIsRdy = message.getBooleanProperty(ClientProperty.READY_TO_START_THE_BATTLE.getName());
-			clientDisconnected = message.getBooleanProperty(ClientProperty.DISCONNECT.getName());
+			uuidAsString = message.getStringProperty(ClientProperty.UUID
+					.getName());
+			playerIsRdy = message
+					.getBooleanProperty(ClientProperty.READY_TO_START_THE_BATTLE
+							.getName());
+			clientDisconnected = message
+					.getBooleanProperty(ClientProperty.DISCONNECT.getName());
 			clientUUID = UUID.fromString(uuidAsString);
 
-			if (playerIsRdy)
-			{
-				LOG.info("Message from UUID: " + clientUUID + ". Client is ready");
+			if (playerIsRdy) {
+				LOG.info("Message from UUID: " + clientUUID
+						+ ". Client is ready");
 				battleController.setRobotIsReady(getRobotForUUID(clientUUID));
 			}
-			if (clientDisconnected)
-			{
-				LOG.info("Message from UUID: " + clientUUID + ". Client disconnected");
+			if (clientDisconnected) {
+				LOG.info("Message from UUID: " + clientUUID
+						+ ". Client disconnected");
 				disconnectClient(clientUUID);
 			}
 
-		}
-		catch (JMSException e)
-		{
-			LOG.error("Error handling Message from: " + uuidAsString + " Content: Is Ready = " + playerIsRdy
-				+ ", disconnected =" + clientDisconnected, e);
-		}
-		catch (UnknownRobotException e)
-		{
+		} catch (JMSException e) {
+			LOG.error("Error handling Message from: " + uuidAsString
+					+ " Content: Is Ready = " + playerIsRdy
+					+ ", disconnected =" + clientDisconnected, e);
+		} catch (UnknownRobotException e) {
 			LOG.error("Unbekannter Roboter", e);
 		}
 	}
 
-	private void handleObjectMessage(ObjectMessage message)
-	{
+	private void handleObjectMessage(ObjectMessage message) {
 
-		try
-		{
+		try {
 
 			ObjectMessage objectMessage = (ObjectMessage) message;
 			Serializable object = objectMessage.getObject();
 			RobotAction robotAction = (RobotAction) object;
-			String uuidAsString = objectMessage.getStringProperty(ClientProperty.UUID.getName());
+			String uuidAsString = objectMessage
+					.getStringProperty(ClientProperty.UUID.getName());
 			UUID clientUUID = UUID.fromString(uuidAsString);
 
 			setActionForRobot(robotAction, clientUUID);
-			LOG.info("Message from UUID: " + clientUUID + ". Action: " + robotAction);
+			LOG.info("Message from UUID: " + clientUUID + ". Action: "
+					+ robotAction);
 
-		}
-		catch (JMSException e)
-		{
+		} catch (JMSException e) {
 			LOG.error("Error while receiving Player input", e);
-		}
-		catch (ClassCastException e)
-		{
+		} catch (ClassCastException e) {
 			LOG.error("Wrong class format for player input", e);
-		}
-		catch (UnknownRobotException e)
-		{
+		} catch (UnknownRobotException e) {
 			LOG.error("Wrong robot...", e);
-		}
-		catch (RobotHasInsufficientEnergyException e)
-		{
+		} catch (RobotHasInsufficientEnergyException e) {
 			LOG.error("Robot has not Energy to use this action", e);
-		}
-		catch (WrongGameStateException e)
-		{
+		} catch (WrongGameStateException e) {
 			LOG.error("Not the right to time to send input...", e);
 		}
 
 	}
 
-	private Robot getRobotForUUID(UUID uuid) throws UnknownRobotException
-	{
+	private Robot getRobotForUUID(UUID uuid) throws UnknownRobotException {
 		if (uuid.equals(clientUUIDLeft))
 			return battleController.getRobotLeft();
 		if (uuid.equals(clientUUIDRight))
@@ -334,31 +306,24 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 
 	}
 
-	private void disconnectClient(UUID clientUUID)
-	{
+	private void disconnectClient(UUID clientUUID) {
 
 		LOG.info("Client disconnected: " + clientUUID);
 
-		if (clientUUID.equals(clientUUIDLeft))
-		{
+		if (clientUUID.equals(clientUUIDLeft)) {
 			battleController.setRobotLeft(null);
 			sendGameStateInfoToClients(GameStateType.VICTORY_RIGHT);
 			resetGame();
-		}
-		else if (clientUUID.equals(clientUUIDRight))
-		{
+		} else if (clientUUID.equals(clientUUIDRight)) {
 			battleController.setRobotRight(null);
 			sendGameStateInfoToClients(GameStateType.VICTORY_LEFT);
-		}
-		else
-		{
+		} else {
 			LOG.info("Unknown Client wanted to disconnect:" + clientUUID);
 		}
 		resetGame();
 	}
 
-	private void resetGame()
-	{
+	private void resetGame() {
 		LOG.info("Resetting game....");
 
 		clientUUIDLeft = null;
@@ -370,146 +335,120 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 
 	}
 
-	public void setActionForRobot(RobotAction robotAction, UUID uuid) throws UnknownRobotException,
-		RobotHasInsufficientEnergyException, WrongGameStateException
-	{
+	public void setActionForRobot(RobotAction robotAction, UUID uuid)
+			throws UnknownRobotException, RobotHasInsufficientEnergyException,
+			WrongGameStateException {
 		LOG.info("Action: " + robotAction + " received from UUID: " + uuid);
 
 		battleController.setActionForRobot(robotAction, getRobotForUUID(uuid));
 	}
 
 	@Override
-	public Robot getSynchronizedRobot(UUID uuid) throws RemoteException, UnknownRobotException
-	{
+	public Robot getSynchronizedRobot(UUID uuid) throws RemoteException,
+			UnknownRobotException {
 
-		Robot robot = battleController.getLocalRobotForRemoteRobot(getRobotForUUID(uuid));
-		LOG.info("UUID: " + uuid + " has requested update of Robot. Received " + robot);
+		Robot robot = battleController
+				.getLocalRobotForRemoteRobot(getRobotForUUID(uuid));
+		LOG.info("UUID: " + uuid + " has requested update of Robot. Received "
+				+ robot);
 
 		return robot;
 	}
 
 	@Override
-	public Robot getSynchronizedRobotOfEnemy(UUID ownUUID) throws RemoteException, UnknownRobotException
-	{
+	public Robot getSynchronizedRobotOfEnemy(UUID ownUUID)
+			throws RemoteException, UnknownRobotException {
 
 		LOG.info("UUID: " + ownUUID + " has requested update of Enemy Robot.");
 		Robot robot = null;
 
-		if (ownUUID.equals(clientUUIDLeft))
-		{
+		if (ownUUID.equals(clientUUIDLeft)) {
 			robot = battleController.getRobotRight();
-		}
-		else if (ownUUID.equals(clientUUIDRight))
-		{
+		} else if (ownUUID.equals(clientUUIDRight)) {
 			robot = battleController.getRobotLeft();
-		}
-		else
-		{
+		} else {
 			throw new UnknownRobotException();
 		}
-		LOG.info("UUID: " + ownUUID + " has requested update of Enemy Robot. Received " + robot);
+		LOG.info("UUID: " + ownUUID
+				+ " has requested update of Enemy Robot. Received " + robot);
 
 		return robot;
 	}
 
-	public void sendGameStateInfoToClients(GameStateType gameStateType)
-	{
+	public void sendGameStateInfoToClients(GameStateType gameStateType) {
 		LOG.info("Sending GameType Update to Clients: " + gameStateType);
 		producer.sendGameStateNotificationToAllClients(gameStateType);
 	}
 
 	@Override
-	public RobotPosition registerRobotAndClientForBattle(Robot robot, UUID uuid, String playerId)
-		throws RemoteException, NoFreeSlotInBattleArenaException
-	{
-		LOG.info("Robot: " + robot + " played by " + playerId + " on Client: " + uuid
-			+ "\nwants tries register at server");
+	public RobotPosition registerRobotAndClientForBattle(Robot robot,
+			UUID uuid, String playerId) throws RemoteException,
+			NoFreeSlotInBattleArenaException {
+		LOG.info("Robot: " + robot + " played by " + playerId + " on Client: "
+				+ uuid + "\nwants tries register at server");
 
 		battleController.performInitialModificationOfRobot(robot);
 
-		if (battleController.getRobotLeft() == null)
-		{
+		if (battleController.getRobotLeft() == null) {
 			robot.setRobotPosition(RobotPosition.LEFT);
 			battleController.setRobotLeft(robot);
 			clientUUIDLeft = uuid;
 			LOG.info("Robot registered: " + robot + " ClientUUID: " + uuid);
 
-			try
-			{
+			try {
 				persistCustomRobot(robot, playerId);
-			}
-			catch (IOException e)
-			{
+			} catch (IOException e) {
 				LOG.error("Error while persisting custom robot", e);
-			}
-			catch (JDOMException e)
-			{
+			} catch (JDOMException e) {
 				LOG.error("Error while persisting custom robot", e);
 			}
 
 			return RobotPosition.LEFT;
 
-		}
-		else if (battleController.getRobotRight() == null)
-		{
+		} else if (battleController.getRobotRight() == null) {
 			robot.setRobotPosition(RobotPosition.RIGHT);
 			battleController.setRobotRight(robot);
 			clientUUIDRight = uuid;
 
 			LOG.info("Robot registered: " + robot + " ClientUUID: " + uuid);
 
-			try
-			{
+			try {
 				persistCustomRobot(robot, playerId);
-			}
-			catch (IOException e)
-			{
+			} catch (IOException e) {
 				LOG.error("Error while persisting custom robot", e);
-			}
-			catch (JDOMException e)
-			{
+			} catch (JDOMException e) {
 				LOG.error("Error while persisting custom robot", e);
 			}
 
 			return RobotPosition.RIGHT;
-		}
-		else
-		{
+		} else {
 			throw new NoFreeSlotInBattleArenaException();
 		}
 	}
 
 	@Override
-	public void onMessage(Message message)
-	{
+	public void onMessage(Message message) {
 
 		LOG.info("Message received");
 
-		if (message instanceof ObjectMessage)
-		{
+		if (message instanceof ObjectMessage) {
 			LOG.info("Received Message is Object Message");
 			handleObjectMessage((ObjectMessage) message);
-		}
-		else if (message instanceof Message)
-		{
+		} else if (message instanceof Message) {
 			LOG.info("Received Message is classic Message");
 			handleMessage(message);
-		}
-		else
-		{
+		} else {
 			LOG.error("Message could not be identified");
 		}
 
 	}
 
 	@Override
-	public List<Robot> getAllPossibleRobots(String playerId)
-	{
+	public List<Robot> getAllPossibleRobots(String playerId) {
 		List<Robot> loadedRobots = loader.loadRobots();
 		List<Robot> allRobots = new ArrayList<>(loadedRobots);
 
-		if (playerId == null || playerId.isEmpty())
-		{
+		if (playerId == null || playerId.isEmpty()) {
 			return allRobots;
 		}
 
@@ -521,14 +460,12 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 	}
 
 	@Override
-	public List<RoboItem> getAllPossibleItems()
-	{
+	public List<RoboItem> getAllPossibleItems() {
 		return battleController.getAllItems();
 	}
 
 	@Override
-	public List<Attack> getAllPossibleAttacks()
-	{
+	public List<Attack> getAllPossibleAttacks() {
 		List<Attack> allAttacks = battleController.getAllAttacks();
 		LOG.debug("All Attacks requested: " + allAttacks);
 
@@ -536,8 +473,7 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 	}
 
 	@Override
-	public List<Defense> getAllPossibleDefends()
-	{
+	public List<Defense> getAllPossibleDefends() {
 		List<Defense> allDefends = battleController.getAllDefends();
 		LOG.debug("All Defends requested: " + allDefends);
 
@@ -545,9 +481,10 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 	}
 
 	@Override
-	public List<StatusEffect> getAllPossibleStatusEffects() throws RemoteException
-	{
-		List<StatusEffect> allStatusEffects = battleController.getAllStatusEffects();
+	public List<StatusEffect> getAllPossibleStatusEffects()
+			throws RemoteException {
+		List<StatusEffect> allStatusEffects = battleController
+				.getAllStatusEffects();
 		LOG.debug("All StatusEffects requested: " + allStatusEffects);
 		return allStatusEffects;
 	}
