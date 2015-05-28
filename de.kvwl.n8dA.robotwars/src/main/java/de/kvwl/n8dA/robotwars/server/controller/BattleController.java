@@ -561,6 +561,7 @@ public class BattleController {
 
 		// TODO Timo: endGame Text einbauen
 
+		cinematicVisualizer.playSound("gameOver");
 		String textGameOver = "GAME OVER";
 		Font font = new Font("Verdana", Font.BOLD, 20);
 
@@ -581,7 +582,7 @@ public class BattleController {
 		String textShowWinner = getShowWinnerText();
 		LabelSceneObject labelShowWinner = new CachedLabelSceneObject(
 				textShowWinner);
-		labelShowWinner.setColor(Color.RED);
+		labelShowWinner.setColor(Color.WHITE);
 		labelShowWinner.setOutlineColor(Color.BLACK);
 		labelShowWinner.setFont(font);
 		aniScale = new ScaleAnimation(0.5, 1, TimeUtils.NanosecondsOfSeconds(2));
@@ -602,10 +603,10 @@ public class BattleController {
 			text = "DRAW";
 			break;
 		case VICTORY_LEFT:
-			text = robotLeft.getNickname() + " WON";
+			text = robotLeft.getNickname() + " wins!";
 			break;
 		case VICTORY_RIGHT:
-			text = robotRight.getNickname() + " WON";
+			text = robotRight.getNickname() + " wins!";
 			break;
 		default:
 			text = "ZAWORSKI!";

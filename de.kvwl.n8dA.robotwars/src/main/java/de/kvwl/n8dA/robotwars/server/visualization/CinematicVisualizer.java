@@ -70,4 +70,6 @@ public interface CinematicVisualizer {
 	 * Auf startzustand zurücksetzen
 	 */
 	public void reset();
+
+	public void playSound(String string);
 }

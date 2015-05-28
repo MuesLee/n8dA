@@ -262,4 +262,10 @@ public class GameScene implements Scene, CinematicVisualizer {
 		status.resetEffects(Position.LEFT);
 		status.resetEffects(Position.RIGHT);
 	}
+
+	@Override
+	public void playSound(String string) {
+		// TODO Auto-generated method stub
+		
+	}
 }

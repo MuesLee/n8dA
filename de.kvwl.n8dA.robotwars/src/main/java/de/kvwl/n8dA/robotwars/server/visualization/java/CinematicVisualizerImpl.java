@@ -192,4 +192,9 @@ public class CinematicVisualizerImpl extends SwingGameFrame implements Cinematic
 	{
 		gameScene.showAnimation(obj, animation, bounds, wait);
 	}
+
+	@Override
+	public void playSound(String soundName) {
+		audioController.playSound(soundName);
+	}
 }

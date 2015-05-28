@@ -15,6 +15,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.EventListener;
 
+import de.kvwl.n8dA.robotwars.server.visualization.java.CinematicVisualizerImpl;
 import de.kvwl.n8dA.robotwars.server.visualization.java.Position;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.BackgroundObject;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.Insets;
@@ -374,6 +375,7 @@ public class RobotScene implements Scene
 
 					acRight.setVisible(true);
 					acRight.setDone(Math.min(acRight.getDone() + elapsedAni, 1));
+					CinematicVisualizerImpl.get().playSound("defenseReflection");
 				}
 
 				if (isAtkFinished)
@@ -459,11 +461,12 @@ public class RobotScene implements Scene
 		{
 
 			leftRobo.blink(ANZ_BLINK_FOR_DAMAGE, wait);
+			CinematicVisualizerImpl.get().playSound("default_hit");
 		}
 		else
 		{
-
 			rightRobo.blink(ANZ_BLINK_FOR_DAMAGE, wait);
+			CinematicVisualizerImpl.get().playSound("default_hit");
 		}
 	}
 
