@@ -190,6 +190,9 @@ public class SceneTest {
 								TimeUtils.NanosecondsOfSeconds(1));
 						animationSC.showAnimation(obj4, animation4, bounds4, false);
 						break;
+					case KeyEvent.VK_L:
+						showEntranceTextRobotLeft(animationSC);
+						break;
 					case KeyEvent.VK_4:
 						//HP REG LINKS
 						Font font5 = new Font("Verdana", Font.BOLD, 10);
@@ -343,6 +346,45 @@ public class SceneTest {
 		}).start();
 
 		return scene;
+	}
+	
+	private static void showEntranceTextRobotLeft(AnimationScene animationSC) {
+		
+		
+		String text ="HORST";
+		Font font = new Font("Comic Sans MS", Font.BOLD, 20);
+		LabelSceneObject labelGameOver = new CachedLabelSceneObject(
+				text);
+		labelGameOver.setColor(Color.WHITE);
+		labelGameOver.setOutlineColor(Color.BLACK);
+		labelGameOver.setFont(font);
+		Rectangle2D bounds = new Rectangle2D.Double(0, 0, 1, 1);
+		Animation aniScale = new ScaleAnimation(0.5, 1,
+				TimeUtils.NanosecondsOfSeconds(2));
+		Animation aniDelayFirst = new DelayAnimation(
+				TimeUtils.NanosecondsOfSeconds(2));
+		Animation aniDelay = new DelayAnimation(
+				TimeUtils.NanosecondsOfSeconds(3));
+		Animation animation = new QueuedAnimation(aniScale, aniDelayFirst);
+		animationSC.showAnimation(labelGameOver, animation, bounds,
+				true);
+		animation=aniDelay;
+		animationSC.showAnimation(labelGameOver, animation, bounds, false);
+		
+		text = "wants to fight!";
+		font = new Font("Comic Sans MS", Font.BOLD, 20);
+
+		labelGameOver = new CachedLabelSceneObject(
+				text);
+		labelGameOver.setColor(Color.RED);
+		labelGameOver.setOutlineColor(Color.BLACK);
+		labelGameOver.setFont(font);
+		 bounds = new Rectangle2D.Double(0, RobotScene.SPACE_BOTTOM*1.3, 1, 1);
+		 aniDelay = new DelayAnimation(
+				TimeUtils.NanosecondsOfSeconds(3));
+		 animation = aniDelay;
+		 animationSC.showAnimation(labelGameOver, animation, bounds,
+				true);
 	}
 
 }

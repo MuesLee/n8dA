@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.activemq.util.GenerateJDBCStatements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,6 +39,7 @@ import de.kvwl.n8dA.robotwars.server.visualization.CinematicVisualizer;
 import de.kvwl.n8dA.robotwars.server.visualization.java.AnimationPosition;
 import de.kvwl.n8dA.robotwars.server.visualization.java.CinematicVisualizerImpl;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.Animation;
+import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.AnimationScene;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.DelayAnimation;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.QueuedAnimation;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.ScaleAnimation;
@@ -227,7 +229,7 @@ public class BattleController {
 
 	private void showHPModificationNumberText(RobotPosition robotPosition,
 			String text, boolean positive, boolean block) {
-		Font font = new Font("Verdana", Font.BOLD, 8);
+		Font font = new Font("Comic Sans MS", Font.BOLD, 8);
 
 		LabelSceneObject obj;
 		if (positive) {
@@ -259,7 +261,7 @@ public class BattleController {
 
 	private void showEnergyRegNumber(RobotPosition robotPosition, String text,
 			boolean positive, boolean block) {
-		Font font = new Font("Verdana", Font.BOLD, 8);
+		Font font = new Font("Comic Sans MS", Font.BOLD, 8);
 
 		LabelSceneObject obj;
 		if (positive) {
@@ -292,7 +294,7 @@ public class BattleController {
 	private void showDamageNumber(RobotPosition robotPosition, String text,
 			boolean block) {
 
-		Font font = new Font("Verdana", Font.BOLD, 10);
+		Font font = new Font("Comic Sans MS", Font.BOLD, 10);
 		LabelSceneObject obj = new CachedLabelSceneObject("-" + text);
 
 		obj.setColor(Color.RED);
@@ -564,34 +566,7 @@ public class BattleController {
 
 		cinematicVisualizer.playSound("gameOver");
 		String textGameOver = "GAME OVER";
-		Font font = new Font("Verdana", Font.BOLD, 20);
-
-		LabelSceneObject labelGameOver = new CachedLabelSceneObject(
-				textGameOver);
-		labelGameOver.setColor(Color.BLACK);
-		labelGameOver.setOutlineColor(Color.WHITE);
-		labelGameOver.setFont(font);
-		Rectangle2D bounds = new Rectangle2D.Double(0, 0, 1, 1);
-		Animation aniScale = new ScaleAnimation(0.5, 1,
-				TimeUtils.NanosecondsOfSeconds(2));
-		Animation aniDelay = new DelayAnimation(
-				TimeUtils.NanosecondsOfSeconds(1));
-		Animation animation = new QueuedAnimation(aniScale, aniDelay);
-		cinematicVisualizer.showAnimation(labelGameOver, animation, bounds,
-				true);
-
-		String textShowWinner = getShowWinnerText();
-		LabelSceneObject labelShowWinner = new CachedLabelSceneObject(
-				textShowWinner);
-		labelShowWinner.setColor(Color.WHITE);
-		labelShowWinner.setOutlineColor(Color.BLACK);
-		labelShowWinner.setFont(font);
-		aniScale = new ScaleAnimation(0.5, 1, TimeUtils.NanosecondsOfSeconds(2));
-		aniDelay = new DelayAnimation(TimeUtils.NanosecondsOfSeconds(1));
-		animation = new QueuedAnimation(aniScale, aniDelay);
-		cinematicVisualizer.showAnimation(labelShowWinner, animation, bounds,
-				true);
-		LOG.info("############# I AM FREEE ##############");
+		showTextWithCaption(textGameOver, getShowWinnerText());
 	}
 
 	private String getShowWinnerText() {
@@ -804,6 +779,43 @@ public class BattleController {
 		getCinematicVisualizer().robotHasEnteredTheArena(robotLeft,
 				RobotPosition.LEFT, loader);
 		this.robotLeft = robotLeft;
+		showTextWithCaption(robotLeft.getNickname(), "wants to fight!");
+	}
+
+	private static void showTextWithCaption(String firstText, String lowerText) {
+		
+		Font font = new Font("Comic Sans MS", Font.BOLD, 20);
+		LabelSceneObject labelGameOver = new CachedLabelSceneObject(
+				firstText);
+		labelGameOver.setColor(Color.WHITE);
+		labelGameOver.setOutlineColor(Color.BLACK);
+		labelGameOver.setFont(font);
+		Rectangle2D bounds = new Rectangle2D.Double(0, 0, 1, 1);
+		Animation aniScale = new ScaleAnimation(0.5, 1,
+				TimeUtils.NanosecondsOfSeconds(2));
+		Animation aniDelayFirst = new DelayAnimation(
+				TimeUtils.NanosecondsOfSeconds(2));
+		Animation aniDelay = new DelayAnimation(
+				TimeUtils.NanosecondsOfSeconds(3));
+		Animation animation = new QueuedAnimation(aniScale, aniDelayFirst);
+		CinematicVisualizerImpl.get().showAnimation(labelGameOver, animation, bounds,
+				true);
+		animation=aniDelay;
+		CinematicVisualizerImpl.get().showAnimation(labelGameOver, animation, bounds, false);
+		
+		font = new Font("Comic Sans MS", Font.BOLD, 20);
+
+		labelGameOver = new CachedLabelSceneObject(
+				firstText);
+		labelGameOver.setColor(Color.RED);
+		labelGameOver.setOutlineColor(Color.BLACK);
+		labelGameOver.setFont(font);
+		 bounds = new Rectangle2D.Double(0, RobotScene.SPACE_BOTTOM*1.3, 1, 1);
+		 aniDelay = new DelayAnimation(
+				TimeUtils.NanosecondsOfSeconds(3));
+		 animation = aniDelay;
+		 CinematicVisualizerImpl.get().showAnimation(labelGameOver, animation, bounds,
+				true);
 	}
 
 	public Robot getRobotRight() {
@@ -814,6 +826,7 @@ public class BattleController {
 		getCinematicVisualizer().robotHasEnteredTheArena(robotRight,
 				RobotPosition.RIGHT, loader);
 		this.robotRight = robotRight;
+		showTextWithCaption(robotRight.getNickname(), "accepts the challenge!");
 	}
 
 	/**
