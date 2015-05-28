@@ -10,7 +10,7 @@
 	<id>13</id>
 	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->
         <id>101</id>
-	<id>111</id>
+	<id>105</id>
 	<id>116</id>
     </statuseffects>
 </attack>
