@@ -602,25 +602,34 @@ public class BattleController {
 
 			String winner = getWinner();
 			String loser = getLoser();
-			
+
 			int winnersPoints = server.getConfigurationPointsForPlayer(winner);
 			int losersPoints = server.getConfigurationPointsForPlayer(loser);
-			int earnedPoints = getPointsForMatch(winnersPoints, losersPoints, true);
-			int lostPoints = getPointsForMatch(winnersPoints, losersPoints, false);
-			int roboBattlePointsWinner = server.getRoboBattlePointsForPlayer(winner);
-			int roboBattlePointsLoser = server.getRoboBattlePointsForPlayer(loser);
-			
-			roboBattlePointsWinner+=earnedPoints;
-			
+			int earnedPoints = getPointsForMatch(winnersPoints, losersPoints,
+					true);
+			int lostPoints = getPointsForMatch(winnersPoints, losersPoints,
+					false);
+			int roboBattlePointsWinner = server
+					.getRoboBattlePointsForPlayer(winner);
+			int roboBattlePointsLoser = server
+					.getRoboBattlePointsForPlayer(loser);
+
+			roboBattlePointsWinner += earnedPoints;
+			roboBattlePointsLoser -= lostPoints;
+			if (roboBattlePointsLoser > 0) {
+				roboBattlePointsLoser = 0;
+			}
+			roboBattlePointsWinner += earnedPoints;
+
 			server.persistPointsForPlayer(winner, earnedPoints);
 			server.persistPointsForPlayer(loser, lostPoints);
-			
+
 			cinematicVisualizer.playSound("gameOver");
 			showTextWithCaption("GAME OVER", winner + " wins!");
-			
+
 			showTextWithCaption(winner, " earns " + earnedPoints + " points!");
 			showTextWithCaption(loser, " loses " + lostPoints + " points!");
-			
+
 			break;
 		case DRAW:
 			cinematicVisualizer.playSound("gameOver");

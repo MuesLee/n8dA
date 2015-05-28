@@ -76,7 +76,12 @@ public class GamePersonDaoHSQL extends BaseDaoHSQL<GamePerson> {
 		createNamedQuery.setParameter("gameName", gameName);
 		createNamedQuery.setParameter("personName", person);
 
-		return (GamePerson) createNamedQuery.getSingleResult();
+		try {
+			GamePerson singleResult = (GamePerson) createNamedQuery.getSingleResult();
+			return singleResult;
+		} catch (NoResultException e) {
+			return null;
+		}
 
 	}
 
