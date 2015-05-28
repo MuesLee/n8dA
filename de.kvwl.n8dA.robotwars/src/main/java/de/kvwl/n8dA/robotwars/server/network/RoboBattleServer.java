@@ -29,6 +29,7 @@ import org.jdom2.JDOMException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.kvwl.n8dA.infrastructure.commons.exception.NoSuchPersonException;
 import de.kvwl.n8dA.infrastructure.commons.interfaces.CreditAccess;
 import de.kvwl.n8dA.infrastructure.rewards.client.CreditAccessClient;
 import de.kvwl.n8dA.robotwars.commons.exception.NoFreeSlotInBattleArenaException;
@@ -154,6 +155,25 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 					e1.getMessage());
 		}
 
+	}
+	
+	public int getPointsForPlayer(String playerName)
+	{
+		try {
+			return creditAccess.getConfigurationPointsForPerson(playerName);
+		} catch (RemoteException | NoSuchPersonException e) {
+			LOG.error("!Fuck!", e);
+		}
+		return 0;
+	}
+	
+	public void persistPointsForPlayer(String playerName, int points)
+	{
+		try {
+			creditAccess.persistConfigurationPointsForPerson(playerName, "RoboBattle", points);
+		} catch (RemoteException e) {
+			LOG.error("DAMN!", e);
+		}
 	}
 
 	private void startActiveMQBroker() {
