@@ -11,7 +11,7 @@ public class HealthConsumingEffect extends StatusEffect {
 	{
 	super(startDuration);
 	setPositive(false);
-	setIconName("life.png");
+	setIconName("lifeBorder.png");
 	}
 	
 	@Override
