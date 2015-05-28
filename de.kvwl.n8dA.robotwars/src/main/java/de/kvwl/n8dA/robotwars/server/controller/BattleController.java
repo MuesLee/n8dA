@@ -559,13 +559,41 @@ public class BattleController {
 	}
 
 	private void endGame(GameStateType currentGameState) {
-
+		String winner = getWinner();
+		String loser = getLoser();
+		
 		cinematicVisualizer.playSound("gameOver");
-		String textGameOver = "GAME OVER";
-		showTextWithCaption(textGameOver, getShowWinnerText());
+		showTextWithCaption("GAME OVER", winner+" wins!");
+		
+		int earnedPoints = 0;
+		int lostPoints = 0;
+		
+		showTextWithCaption(winner, " earns " + earnedPoints +  " points!");
+		showTextWithCaption(loser, " loses " + lostPoints +  " points!");
+		
 	}
 
-	private String getShowWinnerText() {
+	private String getLoser() {
+		String text = "";
+
+		switch (currentGameState) {
+		case DRAW:
+			text = "DRAW";
+			break;
+		case VICTORY_LEFT:
+			text = robotRight.getNickname();
+			break;
+		case VICTORY_RIGHT:
+			text = robotLeft.getNickname();
+			break;
+		default:
+			text = "ZAWORSKI!";
+			break;
+		}
+		return text;
+	}
+
+	private String getWinner() {
 
 		String text = "";
 
@@ -574,10 +602,10 @@ public class BattleController {
 			text = "DRAW";
 			break;
 		case VICTORY_LEFT:
-			text = robotLeft.getNickname() + " wins!";
+			text = robotLeft.getNickname();
 			break;
 		case VICTORY_RIGHT:
-			text = robotRight.getNickname() + " wins!";
+			text = robotRight.getNickname();
 			break;
 		default:
 			text = "ZAWORSKI!";
