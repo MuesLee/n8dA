@@ -11,35 +11,42 @@ public class EnergyConsumingEffect extends StatusEffect {
 		super(startDuration);
 		setPositive(false);
 		setIconName("energy.png");
-		
+
 	}
 
 	@Override
 	public void performInitialRobotModification(Robot robot) {
 		int energyPoints = robot.getEnergyPoints();
-		robot.setEnergyPoints(energyPoints-getEnergyLoss());
+		robot.setEnergyPoints(energyPoints - getEnergyLoss());
 	}
 
 	@Override
 	public void performEachRoundsModification(Robot robot) {
-		//nothing to do here.
+		// nothing to do here.
 	}
 
 	@Override
 	public String getModifierText() {
-		
+
 		return "Entzug von " + _ENERGY_LOSS;
 	}
-	
+
 	@Override
 	public StatusEffect clone() {
-		StatusEffect clonedEffect = new EnergyConsumingEffect(this.getStartDuration());
+		StatusEffect clonedEffect = new EnergyConsumingEffect(
+				this.getStartDuration());
 		clonedEffect.setRoundsLeft(this.getRoundsLeft());
 		return clonedEffect;
 	}
 
 	public static int getEnergyLoss() {
 		return _ENERGY_LOSS;
+	}
+
+	@Override
+	public String toString() {
+
+		return "ENERGYCONSUMINGEFFECT - RATE: " + _ENERGY_LOSS;
 	}
 
 }
