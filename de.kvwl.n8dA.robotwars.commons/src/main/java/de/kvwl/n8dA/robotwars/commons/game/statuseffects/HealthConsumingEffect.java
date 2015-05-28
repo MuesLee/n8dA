@@ -5,7 +5,7 @@ import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 public class HealthConsumingEffect extends StatusEffect {
 
 	private static final int _HP_LOSS = 2;
-	private static final long serialVersionUID = -5912015607779717900L;
+	private static final long serialVersionUID = 1L;
 
 	public HealthConsumingEffect(int startDuration) {
 		super(startDuration);
@@ -31,6 +31,7 @@ public class HealthConsumingEffect extends StatusEffect {
 		// nothing to do here.
 
 	}
+
 	@Override
 	public boolean resolveInteractionWith(StatusEffect newStatusEffect) {
 		return false;
