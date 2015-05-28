@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.nio.file.Paths;
 import java.rmi.Naming;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -28,6 +29,8 @@ import org.jdom2.JDOMException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.kvwl.n8dA.infrastructure.commons.interfaces.CreditAccess;
+import de.kvwl.n8dA.infrastructure.rewards.client.CreditAccessClient;
 import de.kvwl.n8dA.robotwars.commons.exception.NoFreeSlotInBattleArenaException;
 import de.kvwl.n8dA.robotwars.commons.exception.RobotHasInsufficientEnergyException;
 import de.kvwl.n8dA.robotwars.commons.exception.UnknownRobotException;
@@ -66,6 +69,9 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 	private BattleController battleController;
 	private RoboBattleJMSProducerServer producer;
 	private RoboBattleJMSReceiverServer receiver;
+	private CreditAccess creditAccess;
+	
+	
 	private BrokerService broker;
 
 	private UUID clientUUIDLeft;
@@ -111,7 +117,10 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		{
 			loadProperties();
 			startActiveMQBroker();
-
+			
+			creditAccess = new CreditAccessClient(getProperty("REWARD_SERVER_IP_ADDRESS"), Boolean.valueOf(getProperty("ENABLE_SECURITY_MANAGER")));
+			creditAccess.initConnectionToServer();
+			
 			initJMS();
 
 			loadGameData();
@@ -120,12 +129,13 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 				LocateRegistry.createRegistry(port);
 			}
 		}
-
 		catch (RemoteException ex)
 		{
 			LOG.error("Fehler beim Erstellen der Verbindung",ex.getMessage());
 		} catch (IOException e) {
 			LOG.error("Config File nicht gefunden!", e);
+		} catch (NotBoundException e) {
+			LOG.error("Fehler beim Erstellen der Verbindung mit Punkteserver",e.getMessage());
 		}
 		try {
 			Naming.rebind(NetworkUtils.SERVER_NAME, this);

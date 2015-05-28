@@ -76,6 +76,11 @@
 			<artifactId>de.kvwl.n8dA.robotwars.commons</artifactId>
 			<version>0.0.9-SNAPSHOT</version>
 		</dependency>
+				<dependency>
+			<groupId>de.kvwl</groupId>
+			<artifactId>de.kvwl.n8dA.infrastructure.rewards.client</artifactId>
+			<version>0.0.3-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<repositories>
