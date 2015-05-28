@@ -52,6 +52,7 @@ public class Robot extends Entity
 	private boolean loadedAsUserRobot = false;
 
 	private String nickname = "";
+	private String robotOwner = "";
 
 	public Robot()
 	{
@@ -284,6 +285,14 @@ public class Robot extends Entity
 	public void setInitialEnergyPoints(int initialEnergyPoints)
 	{
 		this.initialEnergyPoints = initialEnergyPoints;
+	}
+
+	public String getRobotOwner() {
+		return robotOwner;
+	}
+
+	public void setRobotOwner(String robotOwner) {
+		this.robotOwner = robotOwner;
 	}
 
 }
