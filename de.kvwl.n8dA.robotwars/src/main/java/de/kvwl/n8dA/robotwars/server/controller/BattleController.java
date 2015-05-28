@@ -560,8 +560,6 @@ public class BattleController {
 
 	private void endGame(GameStateType currentGameState) {
 
-		// TODO Timo: endGame Text einbauen
-
 		cinematicVisualizer.playSound("gameOver");
 		String textGameOver = "GAME OVER";
 		showTextWithCaption(textGameOver, getShowWinnerText());

@@ -4,7 +4,7 @@
 	<type>LIGHTNING</type>
 <powertype>HEAVY</powertype>
 	<animationid>Plasma</animationid>
-	<energycosts>12</energycosts>
+	<energycosts>10</energycosts>
 	<configcosts>400</configcosts>
 	<name>Plasma</name>
 	<id>15</id>

@@ -4,7 +4,7 @@
 	<type>FIRE</type>
 	<powertype>HEAVY</powertype>
 	<animationid>Feuerball</animationid>
-	<energycosts>12</energycosts>
+	<energycosts>10</energycosts>
 	<configcosts>400</configcosts>
 	<name>Feuerball</name>
 	<id>24</id>

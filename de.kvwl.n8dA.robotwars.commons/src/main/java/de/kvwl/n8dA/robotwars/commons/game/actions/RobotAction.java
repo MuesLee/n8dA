@@ -6,7 +6,6 @@ import de.kvwl.n8dA.robotwars.commons.game.entities.Entity;
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.StatusEffect;
 import de.kvwl.n8dA.robotwars.commons.gui.Animation;
 
-//TODO Timo: Beschreibung der Actions anpassen. -> Reaktion auf Tooltipwunsch
 public abstract class RobotAction extends Entity {
 
 	private static final long serialVersionUID = 3093807349848858832L;
