@@ -291,4 +291,12 @@ public class RewardServer extends UnicastRemoteObject implements BasicCreditAcce
 	{
 		return gamePersonDao.findFirst10PersonsForGameName(gameName);
 	}
+
+	@Override
+	public int getGamePointsForPerson(String person, String name)
+			throws RemoteException, NoSuchPersonException {
+		// TODO Auto-generated method stub
+	GamePerson findGamePersonForPersonAndGame = gamePersonDao.findGamePersonForPersonAndGame(person, name);
+	return findGamePersonForPersonAndGame != null ? findGamePersonForPersonAndGame.getPoints():0;
+	}
 }

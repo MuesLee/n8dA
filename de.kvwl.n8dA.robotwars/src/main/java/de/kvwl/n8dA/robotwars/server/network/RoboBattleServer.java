@@ -157,10 +157,20 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 
 	}
 	
-	public int getPointsForPlayer(String playerName)
+	public int getConfigurationPointsForPlayer(String playerName)
 	{
 		try {
 			return creditAccess.getConfigurationPointsForPerson(playerName);
+		} catch (RemoteException | NoSuchPersonException e) {
+			LOG.error("!Fuck!", e);
+		}
+		return 0;
+	}
+	
+	public int getRoboBattlePointsForPlayer(String playerName)
+	{
+		try {
+			return creditAccess.getGamePointsForPerson(playerName, "RoboBattle");
 		} catch (RemoteException | NoSuchPersonException e) {
 			LOG.error("!Fuck!", e);
 		}

@@ -21,7 +21,8 @@ public interface BasicCreditAccess extends Remote{
 	public List<GamePerson> getFirst10GamePersonsForGame(String gameName) throws RemoteException;
 	public List<GamePerson> getAllGamePersons()throws RemoteException;
 	public int getConfigurationPointsForPerson(String name) throws RemoteException, NoSuchPersonException;
-
+	public int getGamePointsForPerson(String person,String name) throws RemoteException, NoSuchPersonException;
+	
 	public void persistConfigurationPointsForPerson(String personName,
 			String gameName, int points) throws RemoteException;
 }

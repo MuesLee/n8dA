@@ -153,4 +153,11 @@ public class CreditAccessClient implements CreditAccess
 		// TODO Auto-generated method stub
 		return server.getFirst10GamePersonsForGame(gameName);
 	}
+
+	@Override
+	public int getGamePointsForPerson(String person, String name)
+			throws RemoteException, NoSuchPersonException {
+		// TODO Auto-generated method stub
+		return server.getGamePointsForPerson(person, name);
+	}
 }

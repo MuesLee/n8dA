@@ -19,6 +19,7 @@ import javax.persistence.Transient;
 	@NamedQuery(name = "findAllPersonsForGameName", query = "SELECT gp FROM GamePerson gp JOIN gp.game g WHERE g.name = :gameName"),
 	@NamedQuery(name = "findPersonInGame", query = "SELECT gp FROM GamePerson gp JOIN gp.game g JOIN gp.person p WHERE g.name = :gameName AND p.name = :personName"),
 	@NamedQuery(name = "findAllGamePersons", query = "SELECT gp FROM GamePerson gp JOIN gp.game g"),
+	@NamedQuery(name = "findGamePersonForPersonAndGame", query = "SELECT gp FROM GamePerson gp JOIN gp.game g WHERE g.name = :gameName AND p.name = :personName"),
 	@NamedQuery(name = "findFirst10PersonsForGameName", query = "SELECT gp FROM GamePerson gp JOIN gp.game g WHERE g.name = :gameName ORDER BY gp.points DESC")
 })
 
