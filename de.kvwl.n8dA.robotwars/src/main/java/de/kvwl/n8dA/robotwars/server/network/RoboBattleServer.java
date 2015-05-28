@@ -90,8 +90,8 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 
 			RoboBattleServer server = new RoboBattleServer();
 			server.loadProperties();
-			BATTLE_SERVER_FULL_TCP_ADDRESS = server.getProperty(BATTLE_SERVER_FULL_TCP_ADDRESS);
-			BATTLE_SERVER_REGISTRY_PORT = server.getProperty(BATTLE_SERVER_REGISTRY_PORT);
+			BATTLE_SERVER_FULL_TCP_ADDRESS = server.getProperty("BATTLE_SERVER_FULL_TCP_ADDRESS");
+			BATTLE_SERVER_REGISTRY_PORT = server.getProperty("BATTLE_SERVER_REGISTRY_PORT");
 			server.startServer(Integer.parseInt(BATTLE_SERVER_REGISTRY_PORT));
 
 		} catch (NumberFormatException e) {
