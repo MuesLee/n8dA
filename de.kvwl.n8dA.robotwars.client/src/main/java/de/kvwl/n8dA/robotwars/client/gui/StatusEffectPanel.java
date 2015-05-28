@@ -15,9 +15,7 @@ import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
 import javax.swing.plaf.basic.BasicProgressBarUI;
 
-import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.StatusEffect;
-import de.kvwl.n8dA.robotwars.commons.game.statuseffects.TypeEffect;
 
 public class StatusEffectPanel extends JPanel {
 
@@ -78,26 +76,9 @@ public class StatusEffectPanel extends JPanel {
 	}
 
 	private Color getStatusBarColor(StatusEffect statusEffect) {
-		Color color = null;
-		if (statusEffect instanceof TypeEffect) {
-			TypeEffect typeEffect = (TypeEffect) statusEffect;
-			RobotActionType actionType = typeEffect.getActionType();
-			switch (actionType) {
-			case FIRE:
-				color = Color.RED;
-				break;
-			case LIGHTNING:
-				color = Color.YELLOW;
-				break;
-			case WATER:
-				color = Color.CYAN;
-				break;
-			default:
-				color = Color.WHITE;
-				break;
-			}
-		}
-		return color;
+		
+		return statusEffect.isPositive() ? Color.green : Color.RED;
+		
 	}
 
 	private void setValueForStatusBar(JProgressBar statusBar,
