@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <attack>
-	<damage>25</damage>
+	<damage>15</damage>
 	<type>WATER</type>
 	<powertype>HEAVY</powertype>
 	<animationid>Blubber</animationid>
-	<energycosts>6</energycosts>
-	<configcosts>200</configcosts>
+	<energycosts>4</energycosts>
+	<configcosts>150</configcosts>
 	<name>Blubber</name>
 	<id>26</id>
 	<statuseffects>
 		<id>102</id>
 		<id>109</id>
+		<id>116</id>
     </statuseffects>
 </attack>

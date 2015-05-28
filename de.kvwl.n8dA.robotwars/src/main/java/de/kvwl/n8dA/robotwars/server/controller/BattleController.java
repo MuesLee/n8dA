@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.activemq.util.GenerateJDBCStatements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,7 +38,6 @@ import de.kvwl.n8dA.robotwars.server.visualization.CinematicVisualizer;
 import de.kvwl.n8dA.robotwars.server.visualization.java.AnimationPosition;
 import de.kvwl.n8dA.robotwars.server.visualization.java.CinematicVisualizerImpl;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.Animation;
-import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.AnimationScene;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.DelayAnimation;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.QueuedAnimation;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.ScaleAnimation;
@@ -806,7 +804,7 @@ public class BattleController {
 		font = new Font("Comic Sans MS", Font.BOLD, 20);
 
 		labelGameOver = new CachedLabelSceneObject(
-				firstText);
+				lowerText);
 		labelGameOver.setColor(Color.RED);
 		labelGameOver.setOutlineColor(Color.BLACK);
 		labelGameOver.setFont(font);
