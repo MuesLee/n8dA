@@ -1,6 +1,7 @@
 package de.kvwl.n8dA.robotwars.server.network;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.MalformedURLException;
@@ -12,13 +13,13 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.UUID;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
-import javax.swing.JOptionPane;
 
 import org.apache.activemq.broker.BrokerService;
 import org.apache.activemq.store.kahadb.KahaDBPersistenceAdapter;
@@ -58,6 +59,8 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 
 	private static final long serialVersionUID = 1L;
 
+	private static final String PROPERTY_NAME = "config.properties";
+
 	private static String BATTLE_SERVER_REGISTRY_PORT;
 
 	private BattleController battleController;
@@ -72,6 +75,8 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 
 	private DataLoader loader;
 
+	private Properties properties;
+
 	protected RoboBattleServer() throws RemoteException {
 		super();
 		loader = new DataLoaderFileSystemImpl(Paths.get("../data"));
@@ -83,14 +88,10 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		try {
 			BasicConfigurator.configure();
 
-			BATTLE_SERVER_FULL_TCP_ADDRESS = JOptionPane.showInputDialog(null,
-					"Bitte die vollständige TCP-Adresse des Servers eingeben!",
-					NetworkUtils.BATTLE_SERVER_DEFAULT_FULL_TCP_ADDRESS);
-			BATTLE_SERVER_REGISTRY_PORT = JOptionPane.showInputDialog(null,
-					"Bitte den Registry-Port eingeben!",
-					NetworkUtils.BATTLE_SERVER_DEFAULT_REGISTRY_PORT);
 			RoboBattleServer server = new RoboBattleServer();
-
+			server.loadProperties();
+			BATTLE_SERVER_FULL_TCP_ADDRESS = server.getProperty("BATTLE_SERVER_FULL_TCP_ADDRESS");
+			BATTLE_SERVER_REGISTRY_PORT = server.getProperty("BATTLE_SERVER_REGISTRY_PORT");
 			server.startServer(Integer.parseInt(BATTLE_SERVER_REGISTRY_PORT));
 
 		} catch (NumberFormatException e) {
@@ -104,8 +105,11 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		}
 	}
 
-	public void startServer(int port) {
-		try {
+	public void startServer(int port)
+	{
+		try
+		{
+			loadProperties();
 			startActiveMQBroker();
 
 			initJMS();
@@ -117,8 +121,11 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 			}
 		}
 
-		catch (RemoteException ex) {
-			LOG.error(ex.getMessage());
+		catch (RemoteException ex)
+		{
+			LOG.error("Fehler beim Erstellen der Verbindung",ex.getMessage());
+		} catch (IOException e) {
+			LOG.error("Config File nicht gefunden!", e);
 		}
 		try {
 			Naming.rebind(NetworkUtils.SERVER_NAME, this);
@@ -145,6 +152,22 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 			e.printStackTrace();
 		}
 
+	}
+	
+	public String getProperty(String property) {
+		return properties.getProperty(property);
+	}
+
+	public void loadProperties() throws IOException {
+		properties = new Properties();
+		try {
+			FileInputStream file = new FileInputStream("./" + PROPERTY_NAME);
+			properties.load(file);
+			file.close();
+		} catch (IOException e) {
+			throw new IOException("Die Datei " + PROPERTY_NAME
+					+ " konnte nicht gefunden werden.");
+		}
 	}
 
 	@SuppressWarnings("unused")
