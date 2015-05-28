@@ -10,7 +10,7 @@ public class HealthConsumingEffect extends StatusEffect {
 	public HealthConsumingEffect(int startDuration) {
 		super(startDuration);
 		setPositive(false);
-		setIconName("lifeBorder.png");
+		setIconName("stat_life.png");
 	}
 
 	@Override
@@ -31,6 +31,10 @@ public class HealthConsumingEffect extends StatusEffect {
 		// nothing to do here.
 
 	}
+	@Override
+	public boolean resolveInteractionWith(StatusEffect newStatusEffect) {
+		return false;
+	}
 
 	@Override
 	public StatusEffect clone() {
@@ -49,5 +53,4 @@ public class HealthConsumingEffect extends StatusEffect {
 
 		return "HEALTHCONSUMINGEFFECT - RATE: " + _HP_LOSS;
 	}
-
 }

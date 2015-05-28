@@ -80,7 +80,7 @@ public class ItemUtil
 		}
 		
 		String text = "<html><p>Typ:&nbsp<img src=\"" +
-		iconURL + "\" height=\"16\" width=\"16\"></p>" + "<p>Kosten: " + robotAction.getEnergyCosts() + "</p><p>"+actionsStrengthValue+"</p><p><b><u>Verursacht:</u></b></p>";
+		iconURL + "\"></p>" + "<p>Kosten: " + robotAction.getEnergyCosts() + "</p><p>"+actionsStrengthValue+"</p><p><b><u>Verursacht:</u></b></p>";
 		
 		for (StatusEffect statusEffect : statusEffects)
 		{

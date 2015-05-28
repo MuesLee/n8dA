@@ -758,7 +758,7 @@ public class BattleController {
 
 		regeneratedEnergyCombined += getRobotsEnergyRegThroughItems(robot);
 		showEnergyRegNumber(robot.getRobotPosition(),
-				Integer.toString(regeneratedEnergyCombined), true, false);
+				Integer.toString(regeneratedEnergyCombined), true, true);
 	}
 
 	private int getRobotsEnergyRegThroughItems(Robot robot) {

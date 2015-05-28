@@ -100,4 +100,41 @@ public abstract class StatusEffect extends Entity implements RoboModificator
 		this.iconName = iconName;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result
+				+ ((iconName == null) ? 0 : iconName.hashCode());
+		result = prime * result + (isPositive ? 1231 : 1237);
+		result = prime * result + roundsLeft;
+		result = prime * result + startDuration;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		StatusEffect other = (StatusEffect) obj;
+		if (iconName == null) {
+			if (other.iconName != null)
+				return false;
+		} else if (!iconName.equals(other.iconName))
+			return false;
+		if (isPositive != other.isPositive)
+			return false;
+		if (roundsLeft != other.roundsLeft)
+			return false;
+		if (startDuration != other.startDuration)
+			return false;
+		return true;
+	}
+	
+	
+
 }
