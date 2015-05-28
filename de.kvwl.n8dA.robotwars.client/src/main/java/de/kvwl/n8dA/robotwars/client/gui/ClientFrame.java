@@ -113,7 +113,7 @@ public class ClientFrame extends JFrame implements ConfigurationListener
 	private void openBattle(Robot robot, String playerName)
 	{
 		closeAnimations();
-
+		robot.setRobotOwner(playerName);
 		BattlePanel battlePanel = new BattlePanel(battleClient, robot, playerName);
 		show(battlePanel);
 	}
