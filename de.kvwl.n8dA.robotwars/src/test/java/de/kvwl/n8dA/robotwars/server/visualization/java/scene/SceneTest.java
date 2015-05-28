@@ -31,7 +31,6 @@ import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.StatusEffect;
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.TypeEffect;
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.TypeEffectModificationType;
-import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
 import de.kvwl.n8dA.robotwars.server.visualization.java.Position;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.Animation;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.AnimationScene;
@@ -143,71 +142,82 @@ public class SceneTest {
 								Math.random() * 50, true);
 						break;
 					case KeyEvent.VK_1:
-						//EP REG RECHTS
+						// EP REG RECHTS
 						Font font = new Font("Verdana", Font.BOLD, 8);
-						LabelSceneObject obj = new CachedLabelSceneObject("+" + 1);
-						
+						LabelSceneObject obj = new CachedLabelSceneObject(
+								"+" + 1);
+
 						obj.setColor(Color.CYAN);
 						obj.setOutlineColor(Color.BLACK);
 						obj.setFont(font);
-						
+
 						Rectangle2D bounds;
-							bounds = new Rectangle2D.Double(RobotScene.SPACE_SIDE * 10,
-									RobotScene.SPACE_BOTTOM*3,0.1, 0.1);
+						bounds = new Rectangle2D.Double(
+								RobotScene.SPACE_SIDE * 10,
+								RobotScene.SPACE_BOTTOM * 3, 0.1, 0.1);
 						Animation animation = new ScaleAnimation(0.1, 1,
 								TimeUtils.NanosecondsOfSeconds(1));
-						animationSC.showAnimation(obj, animation, bounds, false);
+						animationSC
+								.showAnimation(obj, animation, bounds, false);
 						break;
 					case KeyEvent.VK_2:
-						//HP REG RECHTS
+						// HP REG RECHTS
 						Font font2 = new Font("Verdana", Font.BOLD, 10);
-						LabelSceneObject obj2 = new CachedLabelSceneObject("-" + 1);
-						
+						LabelSceneObject obj2 = new CachedLabelSceneObject(
+								"-" + 1);
+
 						obj2.setColor(Color.RED);
 						obj2.setOutlineColor(Color.BLACK);
 						obj2.setFont(font2);
-						
+
 						Rectangle2D bounds2;
-						bounds2 = new Rectangle2D.Double(RobotScene.SPACE_SIDE * 10,
-								RobotScene.SPACE_BOTTOM*2,0.1, 0.1);
+						bounds2 = new Rectangle2D.Double(
+								RobotScene.SPACE_SIDE * 10,
+								RobotScene.SPACE_BOTTOM * 2, 0.1, 0.1);
 						Animation animation2 = new ScaleAnimation(0.1, 1,
 								TimeUtils.NanosecondsOfSeconds(1));
-						animationSC.showAnimation(obj2, animation2, bounds2, false);
+						animationSC.showAnimation(obj2, animation2, bounds2,
+								false);
 						break;
 					case KeyEvent.VK_3:
-						//EP REG LINKS
+						// EP REG LINKS
 						Font font4 = new Font("Verdana", Font.BOLD, 8);
-						LabelSceneObject obj4 = new CachedLabelSceneObject("+" + 1);
-						
+						LabelSceneObject obj4 = new CachedLabelSceneObject(
+								"+" + 1);
+
 						obj4.setColor(Color.CYAN);
 						obj4.setOutlineColor(Color.BLACK);
 						obj4.setFont(font4);
-						
+
 						Rectangle2D bounds4;
 						bounds4 = new Rectangle2D.Double(RobotScene.SPACE_SIDE,
-								RobotScene.SPACE_BOTTOM*3, 0.1, 0.1);
+								RobotScene.SPACE_BOTTOM * 3, 0.1, 0.1);
 						Animation animation4 = new ScaleAnimation(0.1, 1,
 								TimeUtils.NanosecondsOfSeconds(1));
-						animationSC.showAnimation(obj4, animation4, bounds4, false);
+						animationSC.showAnimation(obj4, animation4, bounds4,
+								false);
 						break;
 					case KeyEvent.VK_L:
 						showEntranceTextRobotLeft(animationSC);
 						break;
 					case KeyEvent.VK_4:
-						//HP REG LINKS
+						// HP REG LINKS
 						Font font5 = new Font("Verdana", Font.BOLD, 10);
-						LabelSceneObject obj5 = new CachedLabelSceneObject("-" + 1);
-						
+						LabelSceneObject obj5 = new CachedLabelSceneObject(
+								"-" + 1);
+
 						obj5.setColor(Color.RED);
 						obj5.setOutlineColor(Color.BLACK);
 						obj5.setFont(font5);
-						
+
 						Rectangle2D bounds5;
-						bounds5 = new Rectangle2D.Double(RobotScene.SPACE_SIDE / 2,
-								RobotScene.SPACE_BOTTOM*2, 0.1, 0.1);
+						bounds5 = new Rectangle2D.Double(
+								RobotScene.SPACE_SIDE / 2,
+								RobotScene.SPACE_BOTTOM * 2, 0.1, 0.1);
 						Animation animation5 = new ScaleAnimation(0.1, 1,
 								TimeUtils.NanosecondsOfSeconds(1));
-						animationSC.showAnimation(obj5, animation5, bounds5, false);
+						animationSC.showAnimation(obj5, animation5, bounds5,
+								false);
 						break;
 					case KeyEvent.VK_SPACE:
 						Action acLeft = null;
@@ -254,7 +264,8 @@ public class SceneTest {
 								new DelayAnimation(TimeUtils
 										.NanosecondsOfSeconds(1)));
 
-						animationSC.showAnimation(obj3, animation3, bounds3, true);
+						animationSC.showAnimation(obj3, animation3, bounds3,
+								true);
 						break;
 					}
 				}
@@ -347,14 +358,12 @@ public class SceneTest {
 
 		return scene;
 	}
-	
+
 	private static void showEntranceTextRobotLeft(AnimationScene animationSC) {
-		
-		
-		String text ="HORST";
+
+		String text = "HORST";
 		Font font = new Font("Comic Sans MS", Font.BOLD, 20);
-		LabelSceneObject labelGameOver = new CachedLabelSceneObject(
-				text);
+		LabelSceneObject labelGameOver = new CachedLabelSceneObject(text);
 		labelGameOver.setColor(Color.WHITE);
 		labelGameOver.setOutlineColor(Color.BLACK);
 		labelGameOver.setFont(font);
@@ -366,25 +375,21 @@ public class SceneTest {
 		Animation aniDelay = new DelayAnimation(
 				TimeUtils.NanosecondsOfSeconds(3));
 		Animation animation = new QueuedAnimation(aniScale, aniDelayFirst);
-		animationSC.showAnimation(labelGameOver, animation, bounds,
-				true);
-		animation=aniDelay;
+		animationSC.showAnimation(labelGameOver, animation, bounds, true);
+		animation = aniDelay;
 		animationSC.showAnimation(labelGameOver, animation, bounds, false);
-		
+
 		text = "wants to fight!";
 		font = new Font("Comic Sans MS", Font.BOLD, 20);
 
-		labelGameOver = new CachedLabelSceneObject(
-				text);
+		labelGameOver = new CachedLabelSceneObject(text);
 		labelGameOver.setColor(Color.RED);
 		labelGameOver.setOutlineColor(Color.BLACK);
 		labelGameOver.setFont(font);
-		 bounds = new Rectangle2D.Double(0, RobotScene.SPACE_BOTTOM*1.3, 1, 1);
-		 aniDelay = new DelayAnimation(
-				TimeUtils.NanosecondsOfSeconds(3));
-		 animation = aniDelay;
-		 animationSC.showAnimation(labelGameOver, animation, bounds,
-				true);
+		bounds = new Rectangle2D.Double(0, RobotScene.SPACE_BOTTOM * 1.3, 1, 1);
+		aniDelay = new DelayAnimation(TimeUtils.NanosecondsOfSeconds(3));
+		animation = aniDelay;
+		animationSC.showAnimation(labelGameOver, animation, bounds, true);
 	}
 
 }
