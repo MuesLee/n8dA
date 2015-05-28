@@ -1,6 +1,7 @@
 package de.kvwl.n8dA.robotwars.server.network;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.MalformedURLException;
@@ -11,8 +12,8 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Properties;
 import java.util.UUID;
 
 import javax.jms.JMSException;
@@ -58,6 +59,8 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 
 	private static final long serialVersionUID = 1L;
 
+	private static final String PROPERTY_NAME = "config.properties";
+
 	private static String BATTLE_SERVER_REGISTRY_PORT;
 
 	private BattleController battleController;
@@ -71,6 +74,8 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 	private static String BATTLE_SERVER_FULL_TCP_ADDRESS;
 
 	private DataLoader loader;
+
+	private Properties properties;
 
 	protected RoboBattleServer() throws RemoteException
 	{
@@ -116,6 +121,8 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 	{
 		try
 		{
+			loadProperties();
+			
 			startActiveMQBroker();
 
 			initJMS();
@@ -130,7 +137,9 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 
 		catch (RemoteException ex)
 		{
-			LOG.error(ex.getMessage());
+			LOG.error("Fehler beim Erstellen der Verbindung",ex.getMessage());
+		} catch (IOException e) {
+			LOG.error("Config File nicht gefunden!", e);
 		}
 		try
 		{
@@ -166,6 +175,22 @@ public class RoboBattleServer extends UnicastRemoteObject implements RoboBattleH
 			e.printStackTrace();
 		}
 
+	}
+	
+	public String getProperty(String property) {
+		return properties.getProperty(property);
+	}
+
+	private void loadProperties() throws IOException {
+		properties = new Properties();
+		try {
+			FileInputStream file = new FileInputStream("./" + PROPERTY_NAME);
+			properties.load(file);
+			file.close();
+		} catch (IOException e) {
+			throw new IOException("Die Datei " + PROPERTY_NAME
+					+ " konnte nicht gefunden werden.");
+		}
 	}
 
 	@SuppressWarnings("unused")

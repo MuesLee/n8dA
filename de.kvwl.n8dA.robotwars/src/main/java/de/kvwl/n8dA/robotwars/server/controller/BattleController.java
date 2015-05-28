@@ -141,6 +141,9 @@ public class BattleController {
 					true, true);
 			updateGameState(robotLeft, robotRight);
 		}
+		if (currentGameState == GameStateType.WAITING_FOR_PLAYER_INPUT) {
+			getCinematicVisualizer().prepareForNextRound(false);
+		}
 
 		server.sendGameStateInfoToClients(currentGameState);
 	}
@@ -223,96 +226,6 @@ public class BattleController {
 
 		robotLeft.setCurrentAction(null);
 		robotRight.setCurrentAction(null);
-	}
-
-	private void showHPModificationNumberText(RobotPosition robotPosition,
-			String text, boolean positive, boolean block) {
-		Font font = new Font("Comic Sans MS", Font.BOLD, 8);
-
-		LabelSceneObject obj;
-		if (positive) {
-			obj = new CachedLabelSceneObject("+" + text);
-			obj.setColor(Color.GREEN);
-			obj.setOutlineColor(Color.BLACK);
-		} else {
-			obj = new CachedLabelSceneObject("-" + text);
-			obj.setColor(Color.RED);
-			obj.setOutlineColor(Color.BLACK);
-		}
-		obj.setFont(font);
-
-		Rectangle2D bounds;
-		if (robotPosition == RobotPosition.LEFT) {
-			bounds = new Rectangle2D.Double(RobotScene.SPACE_SIDE / 2,
-					RobotScene.SPACE_BOTTOM * 2, 0.1, 0.1);
-
-		} else {
-			bounds = new Rectangle2D.Double(RobotScene.SPACE_SIDE * 10,
-					RobotScene.SPACE_BOTTOM * 2, 0.1, 0.1);
-		}
-
-		Animation animation = new ScaleAnimation(0.1, 1,
-				TimeUtils.NanosecondsOfSeconds(1));
-
-		cinematicVisualizer.showAnimation(obj, animation, bounds, block);
-	}
-
-	private void showEnergyRegNumber(RobotPosition robotPosition, String text,
-			boolean positive, boolean block) {
-		Font font = new Font("Comic Sans MS", Font.BOLD, 8);
-
-		LabelSceneObject obj;
-		if (positive) {
-			obj = new CachedLabelSceneObject("+" + text);
-			obj.setColor(Color.CYAN);
-			obj.setOutlineColor(Color.BLACK);
-		} else {
-			obj = new CachedLabelSceneObject("-" + text);
-			obj.setColor(Color.ORANGE);
-			obj.setOutlineColor(Color.BLACK);
-		}
-		obj.setFont(font);
-
-		Rectangle2D bounds;
-		if (robotPosition == RobotPosition.LEFT) {
-			bounds = new Rectangle2D.Double(RobotScene.SPACE_SIDE,
-					RobotScene.SPACE_BOTTOM * 3, 0.1, 0.1);
-
-		} else {
-			bounds = new Rectangle2D.Double(RobotScene.SPACE_SIDE * 10,
-					RobotScene.SPACE_BOTTOM * 3, 0.1, 0.1);
-		}
-
-		Animation animation = new ScaleAnimation(0.1, 1,
-				TimeUtils.NanosecondsOfSeconds(1));
-
-		cinematicVisualizer.showAnimation(obj, animation, bounds, block);
-	}
-
-	private void showDamageNumber(RobotPosition robotPosition, String text,
-			boolean block) {
-
-		Font font = new Font("Comic Sans MS", Font.BOLD, 10);
-		LabelSceneObject obj = new CachedLabelSceneObject("-" + text);
-
-		obj.setColor(Color.RED);
-		obj.setOutlineColor(Color.BLACK);
-		obj.setFont(font);
-
-		Rectangle2D bounds;
-		if (robotPosition == RobotPosition.LEFT) {
-			bounds = new Rectangle2D.Double(RobotScene.SPACE_SIDE / 2,
-					RobotScene.SPACE_BOTTOM, 0.3, 0.3);
-
-		} else {
-			bounds = new Rectangle2D.Double(RobotScene.SPACE_SIDE * 8,
-					RobotScene.SPACE_BOTTOM, 0.3, 0.3);
-		}
-
-		Animation animation = new ScaleAnimation(0.1, 1,
-				TimeUtils.NanosecondsOfSeconds(1));
-
-		cinematicVisualizer.showAnimation(obj, animation, bounds, block);
 	}
 
 	/**
@@ -482,6 +395,130 @@ public class BattleController {
 		}
 	}
 
+	private void showHPModificationNumberText(RobotPosition robotPosition,
+			String text, boolean positive, boolean block) {
+		Font font = new Font("Comic Sans MS", Font.BOLD, 8);
+
+		LabelSceneObject obj;
+		if (positive) {
+			obj = new CachedLabelSceneObject("+" + text);
+			obj.setColor(Color.GREEN);
+			obj.setOutlineColor(Color.BLACK);
+		} else {
+			obj = new CachedLabelSceneObject("-" + text);
+			obj.setColor(Color.RED);
+			obj.setOutlineColor(Color.BLACK);
+		}
+		obj.setFont(font);
+
+		Rectangle2D bounds;
+		if (robotPosition == RobotPosition.LEFT) {
+			bounds = new Rectangle2D.Double(RobotScene.SPACE_SIDE / 2,
+					RobotScene.SPACE_BOTTOM * 2, 0.1, 0.1);
+
+		} else {
+			bounds = new Rectangle2D.Double(RobotScene.SPACE_SIDE * 10,
+					RobotScene.SPACE_BOTTOM * 2, 0.1, 0.1);
+		}
+
+		Animation animation = new ScaleAnimation(0.1, 1,
+				TimeUtils.NanosecondsOfSeconds(1));
+
+		cinematicVisualizer.showAnimation(obj, animation, bounds, block);
+	}
+
+	private void showEnergyRegNumber(RobotPosition robotPosition, String text,
+			boolean positive, boolean block) {
+		Font font = new Font("Comic Sans MS", Font.BOLD, 8);
+
+		LabelSceneObject obj;
+		if (positive) {
+			obj = new CachedLabelSceneObject("+" + text);
+			obj.setColor(Color.CYAN);
+			obj.setOutlineColor(Color.BLACK);
+		} else {
+			obj = new CachedLabelSceneObject("-" + text);
+			obj.setColor(Color.ORANGE);
+			obj.setOutlineColor(Color.BLACK);
+		}
+		obj.setFont(font);
+
+		Rectangle2D bounds;
+		if (robotPosition == RobotPosition.LEFT) {
+			bounds = new Rectangle2D.Double(RobotScene.SPACE_SIDE,
+					RobotScene.SPACE_BOTTOM * 3, 0.1, 0.1);
+
+		} else {
+			bounds = new Rectangle2D.Double(RobotScene.SPACE_SIDE * 10,
+					RobotScene.SPACE_BOTTOM * 3, 0.1, 0.1);
+		}
+
+		Animation animation = new ScaleAnimation(0.1, 1,
+				TimeUtils.NanosecondsOfSeconds(1));
+
+		cinematicVisualizer.showAnimation(obj, animation, bounds, block);
+	}
+
+	private void showDamageNumber(RobotPosition robotPosition, String text,
+			boolean block) {
+
+		Font font = new Font("Comic Sans MS", Font.BOLD, 10);
+		LabelSceneObject obj = new CachedLabelSceneObject("-" + text);
+
+		obj.setColor(Color.RED);
+		obj.setOutlineColor(Color.BLACK);
+		obj.setFont(font);
+
+		Rectangle2D bounds;
+		if (robotPosition == RobotPosition.LEFT) {
+			bounds = new Rectangle2D.Double(RobotScene.SPACE_SIDE / 2,
+					RobotScene.SPACE_BOTTOM, 0.3, 0.3);
+
+		} else {
+			bounds = new Rectangle2D.Double(RobotScene.SPACE_SIDE * 8,
+					RobotScene.SPACE_BOTTOM, 0.3, 0.3);
+		}
+
+		Animation animation = new ScaleAnimation(0.1, 1,
+				TimeUtils.NanosecondsOfSeconds(1));
+
+		cinematicVisualizer.showAnimation(obj, animation, bounds, block);
+	}
+
+	private static void showTextWithCaption(String firstText, String lowerText) {
+
+		Font font = new Font("Comic Sans MS", Font.BOLD, 20);
+		LabelSceneObject labelGameOver = new CachedLabelSceneObject(firstText);
+		labelGameOver.setColor(Color.WHITE);
+		labelGameOver.setOutlineColor(Color.BLACK);
+		labelGameOver.setFont(font);
+		Rectangle2D bounds = new Rectangle2D.Double(0, 0, 1, 1);
+		Animation aniScale = new ScaleAnimation(0.5, 1,
+				TimeUtils.NanosecondsOfSeconds(2));
+		Animation aniDelayFirst = new DelayAnimation(
+				TimeUtils.NanosecondsOfSeconds(2));
+		Animation aniDelay = new DelayAnimation(
+				TimeUtils.NanosecondsOfSeconds(3));
+		Animation animation = new QueuedAnimation(aniScale, aniDelayFirst);
+		CinematicVisualizerImpl.get().showAnimation(labelGameOver, animation,
+				bounds, true);
+		animation = aniDelay;
+		CinematicVisualizerImpl.get().showAnimation(labelGameOver, animation,
+				bounds, false);
+
+		font = new Font("Comic Sans MS", Font.BOLD, 20);
+
+		labelGameOver = new CachedLabelSceneObject(lowerText);
+		labelGameOver.setColor(Color.RED);
+		labelGameOver.setOutlineColor(Color.BLACK);
+		labelGameOver.setFont(font);
+		bounds = new Rectangle2D.Double(0, RobotScene.SPACE_BOTTOM * 1.3, 1, 1);
+		aniDelay = new DelayAnimation(TimeUtils.NanosecondsOfSeconds(3));
+		animation = aniDelay;
+		CinematicVisualizerImpl.get().showAnimation(labelGameOver, animation,
+				bounds, true);
+	}
+
 	private void performEachRoundsModificationOfRobot(Robot robot) {
 		List<RoboItem> equippedItems = robot.getEquippedItems();
 
@@ -546,7 +583,6 @@ public class BattleController {
 			endGame(getCurrentGameState());
 			break;
 		case WAITING_FOR_PLAYER_INPUT:
-			getCinematicVisualizer().prepareForNextRound(false);
 		case BATTLE_IS_ACTIVE:
 			break;
 		case GAME_HASNT_BEGUN:
@@ -559,59 +595,49 @@ public class BattleController {
 	}
 
 	private void endGame(GameStateType currentGameState) {
-		String winner = getWinner();
-		String loser = getLoser();
-		
-		cinematicVisualizer.playSound("gameOver");
-		showTextWithCaption("GAME OVER", winner+" wins!");
-		
-		int earnedPoints = 0;
-		int lostPoints = 0;
-		
-		showTextWithCaption(winner, " earns " + earnedPoints +  " points!");
-		showTextWithCaption(loser, " loses " + lostPoints +  " points!");
-		
-	}
-
-	private String getLoser() {
-		String text = "";
 
 		switch (currentGameState) {
-		case DRAW:
-			text = "DRAW";
-			break;
 		case VICTORY_LEFT:
-			text = robotRight.getNickname();
-			break;
 		case VICTORY_RIGHT:
-			text = robotLeft.getNickname();
+
+			String winner = getWinner();
+			String loser = getLoser();
+			
+			int winnersPoints = 0;
+			int losersPoints = 0;
+			int earnedPoints = getPointsForMatch(winnersPoints, losersPoints, true);
+			int lostPoints = getPointsForMatch(winnersPoints, losersPoints, true);
+			
+			cinematicVisualizer.playSound("gameOver");
+			showTextWithCaption("GAME OVER", winner + " wins!");
+			
+			
+			showTextWithCaption(winner, " earns " + earnedPoints + " points!");
+			showTextWithCaption(loser, " loses " + lostPoints + " points!");
+			
+			break;
+		case DRAW:
+			cinematicVisualizer.playSound("gameOver");
+			showTextWithCaption("GAME OVER", "Draw.");
 			break;
 		default:
-			text = "ZAWORSKI!";
 			break;
 		}
-		return text;
 	}
 
-	private String getWinner() {
-
-		String text = "";
-
-		switch (currentGameState) {
-		case DRAW:
-			text = "DRAW";
-			break;
-		case VICTORY_LEFT:
-			text = robotLeft.getNickname();
-			break;
-		case VICTORY_RIGHT:
-			text = robotRight.getNickname();
-			break;
-		default:
-			text = "ZAWORSKI!";
-			break;
+	public Robot getLocalRobotForRemoteRobot(Robot robot)
+			throws UnknownRobotException {
+		Robot robotLeft = getRobotLeft();
+		if (robot.equals(robotLeft)) {
+			return robotLeft;
 		}
-		return text;
+
+		Robot robotRight = getRobotRight();
+		if (robot.equals(robotRight)) {
+			return robotRight;
+		}
+
+		throw new UnknownRobotException();
 	}
 
 	/**
@@ -795,6 +821,60 @@ public class BattleController {
 		LOG.info("Robot " + robot + " has " + energyRobot + " EP left.");
 	}
 
+	private int getPointsForMatch(int winnersPoints, int losersPoints,
+			boolean calculateForWinner) {
+		int basePoints = 50;
+
+		int calculatedPoints = 0;
+		if (calculateForWinner) {
+			calculatedPoints = basePoints;
+		} else {
+			calculatedPoints -= basePoints;
+		}
+		return calculatedPoints;
+	}
+
+	private String getLoser() {
+		String text = "";
+
+		switch (currentGameState) {
+		case DRAW:
+			text = "DRAW";
+			break;
+		case VICTORY_LEFT:
+			text = robotRight.getNickname();
+			break;
+		case VICTORY_RIGHT:
+			text = robotLeft.getNickname();
+			break;
+		default:
+			text = "ZAWORSKI!";
+			break;
+		}
+		return text;
+	}
+
+	private String getWinner() {
+
+		String text = "";
+
+		switch (currentGameState) {
+		case DRAW:
+			text = "DRAW";
+			break;
+		case VICTORY_LEFT:
+			text = robotLeft.getNickname();
+			break;
+		case VICTORY_RIGHT:
+			text = robotRight.getNickname();
+			break;
+		default:
+			text = "ZAWORSKI!";
+			break;
+		}
+		return text;
+	}
+
 	public Robot getRobotLeft() {
 		return robotLeft;
 	}
@@ -804,42 +884,6 @@ public class BattleController {
 				RobotPosition.LEFT, loader);
 		this.robotLeft = robotLeft;
 		showTextWithCaption(robotLeft.getNickname(), "wants to fight!");
-	}
-
-	private static void showTextWithCaption(String firstText, String lowerText) {
-		
-		Font font = new Font("Comic Sans MS", Font.BOLD, 20);
-		LabelSceneObject labelGameOver = new CachedLabelSceneObject(
-				firstText);
-		labelGameOver.setColor(Color.WHITE);
-		labelGameOver.setOutlineColor(Color.BLACK);
-		labelGameOver.setFont(font);
-		Rectangle2D bounds = new Rectangle2D.Double(0, 0, 1, 1);
-		Animation aniScale = new ScaleAnimation(0.5, 1,
-				TimeUtils.NanosecondsOfSeconds(2));
-		Animation aniDelayFirst = new DelayAnimation(
-				TimeUtils.NanosecondsOfSeconds(2));
-		Animation aniDelay = new DelayAnimation(
-				TimeUtils.NanosecondsOfSeconds(3));
-		Animation animation = new QueuedAnimation(aniScale, aniDelayFirst);
-		CinematicVisualizerImpl.get().showAnimation(labelGameOver, animation, bounds,
-				true);
-		animation=aniDelay;
-		CinematicVisualizerImpl.get().showAnimation(labelGameOver, animation, bounds, false);
-		
-		font = new Font("Comic Sans MS", Font.BOLD, 20);
-
-		labelGameOver = new CachedLabelSceneObject(
-				lowerText);
-		labelGameOver.setColor(Color.RED);
-		labelGameOver.setOutlineColor(Color.BLACK);
-		labelGameOver.setFont(font);
-		 bounds = new Rectangle2D.Double(0, RobotScene.SPACE_BOTTOM*1.3, 1, 1);
-		 aniDelay = new DelayAnimation(
-				TimeUtils.NanosecondsOfSeconds(3));
-		 animation = aniDelay;
-		 CinematicVisualizerImpl.get().showAnimation(labelGameOver, animation, bounds,
-				true);
 	}
 
 	public Robot getRobotRight() {
@@ -887,21 +931,6 @@ public class BattleController {
 		} catch (RobotsArentRdyToFightException e) {
 			LOG.error("Waiting for action of second robot");
 		}
-	}
-
-	public Robot getLocalRobotForRemoteRobot(Robot robot)
-			throws UnknownRobotException {
-		Robot robotLeft = getRobotLeft();
-		if (robot.equals(robotLeft)) {
-			return robotLeft;
-		}
-
-		Robot robotRight = getRobotRight();
-		if (robot.equals(robotRight)) {
-			return robotRight;
-		}
-
-		throw new UnknownRobotException();
 	}
 
 	public List<RoboItem> getAllItems() {
