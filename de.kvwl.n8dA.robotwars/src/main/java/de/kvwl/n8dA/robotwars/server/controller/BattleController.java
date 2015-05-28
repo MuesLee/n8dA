@@ -139,6 +139,7 @@ public class BattleController {
 			performEachRoundsModificationOfRobot(robotRight);
 			cinematicVisualizer.updateStats(robotRight, RobotPosition.RIGHT,
 					true, true);
+			updateGameState(robotLeft, robotRight);
 		}
 
 		server.sendGameStateInfoToClients(currentGameState);
@@ -590,7 +591,6 @@ public class BattleController {
 		animation = new QueuedAnimation(aniScale, aniDelay);
 		cinematicVisualizer.showAnimation(labelShowWinner, animation, bounds,
 				true);
-		server.sendGameStateInfoToClients(currentGameState);
 		LOG.info("############# I AM FREEE ##############");
 	}
 
