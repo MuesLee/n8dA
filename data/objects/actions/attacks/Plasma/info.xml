@@ -4,8 +4,8 @@
 	<type>LIGHTNING</type>
 <powertype>HEAVY</powertype>
 	<animationid>Plasma</animationid>
-	<energycosts>10</energycosts>
-	<configcosts>350</configcosts>
+	<energycosts>12</energycosts>
+	<configcosts>400</configcosts>
 	<name>Plasma</name>
 	<id>15</id>
 	 <statuseffects> <!-- Tag nicht optional, ids darin sind aber optional -->
