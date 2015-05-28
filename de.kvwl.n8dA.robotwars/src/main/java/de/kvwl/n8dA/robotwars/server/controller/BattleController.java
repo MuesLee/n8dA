@@ -114,17 +114,14 @@ public class BattleController {
 		consumeStatusEffects(robotLeft);
 		consumeStatusEffects(robotRight);
 
-		cinematicVisualizer.updateEnergypoints(robotLeft, RobotPosition.LEFT,
-				true, false);
-		cinematicVisualizer.updateEnergypoints(robotRight, RobotPosition.RIGHT,
-				true, false);
 		cinematicVisualizer.updateHealthpoints(robotRight, RobotPosition.RIGHT,
 				true, true);
 		cinematicVisualizer.updateHealthpoints(robotLeft, RobotPosition.LEFT,
 				true, true);
-
-		updateGameState(robotLeft, robotRight);
-		
+		cinematicVisualizer.updateEnergypoints(robotLeft, RobotPosition.LEFT,
+				true, false);
+		cinematicVisualizer.updateEnergypoints(robotRight, RobotPosition.RIGHT,
+				true, false);
 		if (currentGameState == GameStateType.WAITING_FOR_PLAYER_INPUT) {
 
 			regenerateEnergyOfRobot(robotLeft,ENERGY_REGENERATION_RATE);
@@ -137,6 +134,9 @@ public class BattleController {
 			cinematicVisualizer.updateStats(robotRight, RobotPosition.RIGHT,
 					true, true);
 		}
+		
+		
+		updateGameState(robotLeft, robotRight);
 		server.sendGameStateInfoToClients(currentGameState);
 	}
 
@@ -220,13 +220,22 @@ public class BattleController {
 		robotRight.setCurrentAction(null);
 	}
 
-	private void showHPModificationNumberText(RobotPosition robotPosition, String text,
+	private void showHPModificationNumberText(RobotPosition robotPosition, String text,boolean positive,
 			boolean block) {
 		Font font = new Font("Verdana", Font.BOLD, 8);
-		LabelSceneObject obj = new CachedLabelSceneObject(text);
 
-		obj.setColor(Color.GREEN);
-		obj.setOutlineColor(Color.BLACK);
+		LabelSceneObject obj;
+		if(positive)
+		{
+			obj = new CachedLabelSceneObject("+" + text);
+			obj.setColor(Color.GREEN);
+			obj.setOutlineColor(Color.BLACK);
+		}
+		else {
+			obj = new CachedLabelSceneObject("-" + text);
+			obj.setColor(Color.RED);
+			obj.setOutlineColor(Color.BLACK);
+		}
 		obj.setFont(font);
 
 		Rectangle2D bounds;
@@ -245,13 +254,22 @@ public class BattleController {
 		cinematicVisualizer.showAnimation(obj, animation, bounds, block);
 	}
 	
-	private void showEnergyRegNumber(RobotPosition robotPosition, String text,
+	private void showEnergyRegNumber(RobotPosition robotPosition, String text, boolean positive,
 			boolean block) {
 		Font font = new Font("Verdana", Font.BOLD, 8);
-		LabelSceneObject obj = new CachedLabelSceneObject("+" + text);
 		
-		obj.setColor(Color.CYAN);
-		obj.setOutlineColor(Color.BLACK);
+		LabelSceneObject obj;
+		if(positive)
+		{
+			obj = new CachedLabelSceneObject("+" + text);
+			obj.setColor(Color.CYAN);
+			obj.setOutlineColor(Color.BLACK);
+		}
+		else {
+			obj = new CachedLabelSceneObject("-" + text);
+			obj.setColor(Color.ORANGE);
+			obj.setOutlineColor(Color.BLACK);
+		}
 		obj.setFont(font);
 		
 		Rectangle2D bounds;
@@ -497,15 +515,15 @@ public class BattleController {
 		
 		if(epLost>0)
 		{
-			showEnergyRegNumber(robot.getRobotPosition(), "-"+Integer.toString(epLost), false);
+			showEnergyRegNumber(robot.getRobotPosition(), Integer.toString(epLost),false, false);
 		}
 		if(hpLost>0)
 		{
-			showHPModificationNumberText(robot.getRobotPosition(),"-"+Integer.toString(hpLost), true);
+			showHPModificationNumberText(robot.getRobotPosition(),Integer.toString(hpLost),false, true);
 		}
 		if(hpRegged>0)
 		{
-			showHPModificationNumberText(robot.getRobotPosition(),"+"+Integer.toString(hpRegged), false);
+			showHPModificationNumberText(robot.getRobotPosition(),Integer.toString(hpRegged), true,false);
 		}
 
 	}
@@ -741,7 +759,7 @@ public class BattleController {
 		LOG.info("Robot " + robot + " regenerated energy: " + energyReg);
 		
 		regeneratedEnergyCombined += getRobotsEnergyRegThroughItems(robot);
-		showEnergyRegNumber(robot.getRobotPosition(), Integer.toString(regeneratedEnergyCombined), false);
+		showEnergyRegNumber(robot.getRobotPosition(), Integer.toString(regeneratedEnergyCombined),true, false);
 	}
 	
 	private int getRobotsEnergyRegThroughItems(Robot robot)
