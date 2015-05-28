@@ -20,7 +20,6 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
-import javax.swing.JOptionPane;
 
 import org.apache.activemq.broker.BrokerService;
 import org.apache.activemq.store.kahadb.KahaDBPersistenceAdapter;
@@ -89,14 +88,10 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		try {
 			BasicConfigurator.configure();
 
-			BATTLE_SERVER_FULL_TCP_ADDRESS = JOptionPane.showInputDialog(null,
-					"Bitte die vollständige TCP-Adresse des Servers eingeben!",
-					NetworkUtils.BATTLE_SERVER_DEFAULT_FULL_TCP_ADDRESS);
-			BATTLE_SERVER_REGISTRY_PORT = JOptionPane.showInputDialog(null,
-					"Bitte den Registry-Port eingeben!",
-					NetworkUtils.BATTLE_SERVER_DEFAULT_REGISTRY_PORT);
 			RoboBattleServer server = new RoboBattleServer();
-
+			server.loadProperties();
+			BATTLE_SERVER_FULL_TCP_ADDRESS = server.getProperty(BATTLE_SERVER_FULL_TCP_ADDRESS);
+			BATTLE_SERVER_REGISTRY_PORT = server.getProperty(BATTLE_SERVER_REGISTRY_PORT);
 			server.startServer(Integer.parseInt(BATTLE_SERVER_REGISTRY_PORT));
 
 		} catch (NumberFormatException e) {
@@ -163,7 +158,7 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		return properties.getProperty(property);
 	}
 
-	private void loadProperties() throws IOException {
+	public void loadProperties() throws IOException {
 		properties = new Properties();
 		try {
 			FileInputStream file = new FileInputStream("./" + PROPERTY_NAME);
