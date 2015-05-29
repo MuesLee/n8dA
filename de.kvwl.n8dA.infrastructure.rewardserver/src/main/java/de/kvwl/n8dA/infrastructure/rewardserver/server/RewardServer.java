@@ -307,4 +307,19 @@ public class RewardServer extends UnicastRemoteObject implements
 			personDao.delete(findById);
 		}
 	}
+
+	@Override
+	public void overwriteRecord(String personName, String gameName, int points)
+			throws RemoteException {
+		GamePerson findGamePersonForPersonAndGame = gamePersonDao.findGamePersonForPersonAndGame(personName, gameName);
+		if(findGamePersonForPersonAndGame!= null)
+		{
+			findGamePersonForPersonAndGame.setPoints(points);
+			gamePersonDao.update(findGamePersonForPersonAndGame);
+		}
+		else {
+			GamePerson gamePer = new GamePerson(new Game(gameName), new Person(personName), points);
+			gamePersonDao.add(gamePer);
+		}
+	}
 }
