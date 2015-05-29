@@ -22,6 +22,7 @@ import de.kvwl.n8dA.infrastructure.commons.entity.GamePerson;
 import de.kvwl.n8dA.infrastructure.commons.entity.Person;
 import de.kvwl.n8dA.infrastructure.commons.interfaces.BasicCreditAccess;
 import de.kvwl.n8dA.infrastructure.rewards.client.CreditAccessClient;
+import de.kvwl.n8dA.infrastructure.rewards.client.Settings;
 
 public class RewardCentral extends JFrame implements ActionListener
 {
@@ -265,7 +266,7 @@ public class RewardCentral extends JFrame implements ActionListener
 			e.printStackTrace();
 		}
 
-		CreditAccessClient client = new CreditAccessClient("localhost");
+		CreditAccessClient client = new CreditAccessClient(Settings.getString("ip_address_server", "localhost"), Settings.getBoolean("install_security_manager", false));
 		client.initConnectionToServer();
 
 		RewardCentral rewardCentral = new RewardCentral(client);
