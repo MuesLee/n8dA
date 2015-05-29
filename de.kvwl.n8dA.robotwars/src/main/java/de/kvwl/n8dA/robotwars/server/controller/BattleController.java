@@ -77,6 +77,7 @@ public class BattleController {
 
 		this.setCinematicVisualizer(CinematicVisualizerImpl.get());
 		this.getCinematicVisualizer().reset();
+		setCurrentGameState(GameStateType.GAME_HASNT_BEGUN);
 	}
 
 	private void startTheBattle() {
@@ -598,8 +599,8 @@ public class BattleController {
 		case VICTORY_LEFT:
 		case VICTORY_RIGHT:
 
-			String winner = getWinner();
-			String loser = getLoser();
+			String winner = getWinner(currentGameState);
+			String loser = getLoser(currentGameState);
 
 			cinematicVisualizer.playSound("gameOver");
 			showTextWithCaption("GAME OVER", winner + " wins!");
@@ -896,7 +897,7 @@ public class BattleController {
 		LOG.info("Robot " + robot + " has " + energyRobot + " EP left.");
 	}
 
-	private String getLoser() {
+	private String getLoser(GameStateType currentGameState) {
 		String text = "";
 
 		switch (currentGameState) {
@@ -910,13 +911,13 @@ public class BattleController {
 			text = robotLeft.getNickname();
 			break;
 		default:
-			text = "ZAWORSKI!";
+			text = "Player";
 			break;
 		}
 		return text;
 	}
 
-	private String getWinner() {
+	private String getWinner(GameStateType currentGameState) {
 
 		String text = "";
 
@@ -931,7 +932,7 @@ public class BattleController {
 			text = robotRight.getNickname();
 			break;
 		default:
-			text = "ZAWORSKI!";
+			text = "Server";
 			break;
 		}
 		return text;

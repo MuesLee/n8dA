@@ -157,9 +157,8 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		}
 
 	}
-	
-	public int getConfigurationPointsForPlayer(String playerName)
-	{
+
+	public int getConfigurationPointsForPlayer(String playerName) {
 		try {
 			return creditAccess.getConfigurationPointsForPerson(playerName);
 		} catch (RemoteException | NoSuchPersonException e) {
@@ -167,21 +166,21 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		}
 		return 0;
 	}
-	
-	public int getRoboBattlePointsForPlayer(String playerName)
-	{
+
+	public int getRoboBattlePointsForPlayer(String playerName) {
 		try {
-			return creditAccess.getGamePointsForPerson(playerName, "RoboBattle");
+			return creditAccess
+					.getGamePointsForPerson(playerName, "RoboBattle");
 		} catch (RemoteException | NoSuchPersonException e) {
 			LOG.error("!Fuck!", e);
 		}
 		return 0;
 	}
-	
-	public void persistPointsForPlayer(String playerName, int points)
-	{
+
+	public void persistPointsForPlayer(String playerName, int points) {
 		try {
-			creditAccess.persistConfigurationPointsForPerson(playerName, "RoboBattle", points);
+			creditAccess.persistConfigurationPointsForPerson(playerName,
+					"RoboBattle", points);
 		} catch (RemoteException e) {
 			LOG.error("DAMN!", e);
 		}
@@ -355,16 +354,21 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 
 		LOG.info("Client disconnected: " + clientUUID);
 
-		if (clientUUID.equals(clientUUIDLeft)) {
-			battleController.setCurrentGameState(GameStateType.VICTORY_RIGHT);
-			battleController.endGame(GameStateType.VICTORY_RIGHT);
-			sendGameStateInfoToClients(GameStateType.VICTORY_RIGHT);
-			resetGame();
-		} else if (clientUUID.equals(clientUUIDRight)) {
-			battleController.setRobotRight(null);
-			sendGameStateInfoToClients(GameStateType.VICTORY_LEFT);
-		} else {
-			LOG.info("Unknown Client wanted to disconnect:" + clientUUID);
+		GameStateType currentGameState = battleController.getCurrentGameState();
+		if (currentGameState == GameStateType.BATTLE_IS_ACTIVE
+				|| currentGameState == GameStateType.WAITING_FOR_PLAYER_INPUT) {
+			if (clientUUID.equals(clientUUIDLeft)) {
+				battleController
+						.setCurrentGameState(GameStateType.VICTORY_RIGHT);
+				battleController.endGame(GameStateType.VICTORY_RIGHT);
+				sendGameStateInfoToClients(GameStateType.VICTORY_RIGHT);
+			} else if (clientUUID.equals(clientUUIDRight)) {
+				battleController.setRobotRight(null);
+				battleController.endGame(GameStateType.VICTORY_LEFT);
+				sendGameStateInfoToClients(GameStateType.VICTORY_LEFT);
+			} else {
+				LOG.info("Unknown Client wanted to disconnect:" + clientUUID);
+			}
 		}
 		resetGame();
 	}
@@ -432,50 +436,46 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 			NoFreeSlotInBattleArenaException, ServerIsNotReadyForYouException {
 		LOG.info("Robot: " + robot + " played by " + playerId + " on Client: "
 				+ uuid + "\nwants tries register at server");
-		
-		if(battleController.getCurrentGameState()!= GameStateType.GAME_HASNT_BEGUN)
-		{
-			
 
-		if (battleController.getRobotLeft() == null) {
-			battleController.performInitialModificationOfRobot(robot);
-			robot.setRobotPosition(RobotPosition.LEFT);
-			battleController.setRobotLeft(robot);
-			clientUUIDLeft = uuid;
-			LOG.info("Robot registered: " + robot + " ClientUUID: " + uuid);
+		if (battleController.getCurrentGameState() == GameStateType.GAME_HASNT_BEGUN) {
+			if (battleController.getRobotLeft() == null) {
+				battleController.performInitialModificationOfRobot(robot);
+				robot.setRobotPosition(RobotPosition.LEFT);
+				battleController.setRobotLeft(robot);
+				clientUUIDLeft = uuid;
+				LOG.info("Robot registered: " + robot + " ClientUUID: " + uuid);
 
-			try {
-				persistCustomRobot(robot, playerId);
-			} catch (IOException e) {
-				LOG.error("Error while persisting custom robot", e);
-			} catch (JDOMException e) {
-				LOG.error("Error while persisting custom robot", e);
+				try {
+					persistCustomRobot(robot, playerId);
+				} catch (IOException e) {
+					LOG.error("Error while persisting custom robot", e);
+				} catch (JDOMException e) {
+					LOG.error("Error while persisting custom robot", e);
+				}
+
+				return RobotPosition.LEFT;
+
+			} else if (battleController.getRobotRight() == null) {
+				battleController.performInitialModificationOfRobot(robot);
+				robot.setRobotPosition(RobotPosition.RIGHT);
+				battleController.setRobotRight(robot);
+				clientUUIDRight = uuid;
+
+				LOG.info("Robot registered: " + robot + " ClientUUID: " + uuid);
+
+				try {
+					persistCustomRobot(robot, playerId);
+				} catch (IOException e) {
+					LOG.error("Error while persisting custom robot", e);
+				} catch (JDOMException e) {
+					LOG.error("Error while persisting custom robot", e);
+				}
+
+				return RobotPosition.RIGHT;
+			} else {
+				throw new NoFreeSlotInBattleArenaException();
 			}
-
-			return RobotPosition.LEFT;
-
-		} else if (battleController.getRobotRight() == null) {
-			battleController.performInitialModificationOfRobot(robot);
-			robot.setRobotPosition(RobotPosition.RIGHT);
-			battleController.setRobotRight(robot);
-			clientUUIDRight = uuid;
-
-			LOG.info("Robot registered: " + robot + " ClientUUID: " + uuid);
-
-			try {
-				persistCustomRobot(robot, playerId);
-			} catch (IOException e) {
-				LOG.error("Error while persisting custom robot", e);
-			} catch (JDOMException e) {
-				LOG.error("Error while persisting custom robot", e);
-			}
-
-			return RobotPosition.RIGHT;
 		} else {
-			throw new NoFreeSlotInBattleArenaException();
-		}
-		}
-		else {
 			throw new ServerIsNotReadyForYouException();
 		}
 	}
