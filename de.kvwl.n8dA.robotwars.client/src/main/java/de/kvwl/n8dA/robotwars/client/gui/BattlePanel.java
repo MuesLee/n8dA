@@ -40,11 +40,10 @@ import de.kvwl.n8dA.robotwars.commons.game.util.GameStateType;
 import de.kvwl.n8dA.robotwars.commons.game.util.ItemUtil;
 import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
 
-public class BattlePanel extends JPanel implements ActionListener,
-		BattleClientListener {
+public class BattlePanel extends JPanel implements ActionListener, BattleClientListener
+{
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(BattlePanel.class);
+	private static final Logger LOG = LoggerFactory.getLogger(BattlePanel.class);
 
 	private static final String IMAGE_PATH = "/de/kvwl/n8dA/robotwars/commons/images/";
 	private static final long serialVersionUID = 1L;
@@ -73,8 +72,10 @@ public class BattlePanel extends JPanel implements ActionListener,
 
 	private JPanel sidePanel;
 
-	public BattlePanel(RoboBattlePlayerClient battleClient, Robot robot,
-			String playerName) {
+	private JPanel statusPanel;
+
+	public BattlePanel(RoboBattlePlayerClient battleClient, Robot robot, String playerName)
+	{
 
 		this.battleClient = battleClient;
 		this.robot = robot;
@@ -84,9 +85,11 @@ public class BattlePanel extends JPanel implements ActionListener,
 		setupConnection();
 	}
 
-	private void setupConnection() {
+	private void setupConnection()
+	{
 
-		try {
+		try
+		{
 			battleClient.setClientListener(this);
 			battleClient.registerClientWithRobotAtServer(robot, playerName);
 
@@ -95,34 +98,42 @@ public class BattlePanel extends JPanel implements ActionListener,
 			updateRobot();
 
 			battleClient.sendPlayerIsReadyToBattleToServer();
-		} catch (NoFreeSlotInBattleArenaException e) {
+		}
+		catch (NoFreeSlotInBattleArenaException e)
+		{
 
-			int showConfirmDialog = JOptionPane
-					.showConfirmDialog(
-							this,
-							"Zu zeit ist kein Platz für dich in der Arena. \nErneut versuchen?.",
-							"Kein freier Platz", JOptionPane.OK_CANCEL_OPTION);
+			int showConfirmDialog = JOptionPane.showConfirmDialog(this,
+				"Zu zeit ist kein Platz für dich in der Arena. \nErneut versuchen?.", "Kein freier Platz",
+				JOptionPane.OK_CANCEL_OPTION);
 
-			if (showConfirmDialog == JOptionPane.OK_OPTION) {
+			if (showConfirmDialog == JOptionPane.OK_OPTION)
+			{
 				setupConnection();
-			} else {
+			}
+			else
+			{
 				System.exit(-1);
 			}
-		} catch (ServerIsNotReadyForYouException e) {
+		}
+		catch (ServerIsNotReadyForYouException e)
+		{
 			int showConfirmDialog = JOptionPane.showConfirmDialog(this,
-					"Bitte versuche es gleich nochmal. \nErneut versuchen?",
-					"Der Server ist gerade beschäftigt..",
-					JOptionPane.OK_CANCEL_OPTION);
+				"Bitte versuche es gleich nochmal. \nErneut versuchen?", "Der Server ist gerade beschäftigt..",
+				JOptionPane.OK_CANCEL_OPTION);
 
-			if (showConfirmDialog == JOptionPane.OK_OPTION) {
+			if (showConfirmDialog == JOptionPane.OK_OPTION)
+			{
 				setupConnection();
-			} else {
+			}
+			else
+			{
 				System.exit(-1);
 			}
 		}
 	}
 
-	private void createGui() {
+	private void createGui()
+	{
 
 		setLayout(new BorderLayout());
 		setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -132,44 +143,54 @@ public class BattlePanel extends JPanel implements ActionListener,
 		pnlActionSelection = createActionSelection();
 		add(pnlActionSelection, BorderLayout.CENTER);
 
-		JPanel statusPanel = new JPanel();
-		statusPanel.setLayout(new BoxLayout(statusPanel, BoxLayout.Y_AXIS));
-
-		ownStatusEffectPanel = createStatusEffectPanel(
-				robot.getStatusEffects(), "Eigene Statuseffekte");
-		statusPanel.add(ownStatusEffectPanel, BorderLayout.SOUTH);
-
-		Robot updatedRobotOfEnemy = battleClient.getUpdatedRobotOfEnemy();
-		List<StatusEffect> enemyStatusEffects;
-		if (updatedRobotOfEnemy != null) {
-			enemyStatusEffects = updatedRobotOfEnemy.getStatusEffects();
-		} else {
-			enemyStatusEffects = Collections.<StatusEffect> emptyList();
-		}
-		enemyStatusEffectPanel = createStatusEffectPanel(enemyStatusEffects,
-				"Gegnerische Statuseffekte");
-		statusPanel.add(enemyStatusEffectPanel, BorderLayout.SOUTH);
+		statusPanel = createStatusPanel();
+		add(statusPanel, BorderLayout.SOUTH);
 
 		sidePanel = createSidePanel();
-
-		add(statusPanel, BorderLayout.SOUTH);
 		add(sidePanel, BorderLayout.EAST);
 
 		updateStats(false);
 	}
 
-	private JPanel createSidePanel() {
+	private JPanel createStatusPanel()
+	{
+
+		JPanel statusPanel = new JPanel();
+		statusPanel.setLayout(new BoxLayout(statusPanel, BoxLayout.Y_AXIS));
+
+		ownStatusEffectPanel = createStatusEffectPanel(robot.getStatusEffects(), "Eigene Statuseffekte");
+		statusPanel.add(ownStatusEffectPanel, BorderLayout.SOUTH);
+
+		Robot updatedRobotOfEnemy = battleClient.getUpdatedRobotOfEnemy();
+		List<StatusEffect> enemyStatusEffects;
+		if (updatedRobotOfEnemy != null)
+		{
+			enemyStatusEffects = updatedRobotOfEnemy.getStatusEffects();
+		}
+		else
+		{
+			enemyStatusEffects = Collections.<StatusEffect> emptyList();
+		}
+		enemyStatusEffectPanel = createStatusEffectPanel(enemyStatusEffects, "Gegnerische Statuseffekte");
+		statusPanel.add(enemyStatusEffectPanel, BorderLayout.SOUTH);
+
+		return statusPanel;
+	}
+
+	private JPanel createSidePanel()
+	{
 		final JPanel sidePanel = new JPanel();
 		BoxLayout layout = new BoxLayout(sidePanel, BoxLayout.Y_AXIS);
 		sidePanel.setLayout(layout);
 
 		JButton helpButton = new JButton();
-		helpButton.setIcon(new ImageIcon(InternalImage.loadFromPath(IMAGE_PATH,
-				"questionmark.png")));
+		helpButton.setIcon(new ImageIcon(InternalImage.loadFromPath(IMAGE_PATH, "questionmark.png")));
 		helpButton.setToolTipText("Wie geht das Spiel eigentlich?");
-		helpButton.addActionListener(new ActionListener() {
+		helpButton.addActionListener(new ActionListener()
+		{
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e)
+			{
 				HelpFrame helpFrame = new HelpFrame();
 				helpFrame.setLocationRelativeTo(sidePanel);
 			}
@@ -177,11 +198,12 @@ public class BattlePanel extends JPanel implements ActionListener,
 
 		JButton adviceButton = new JButton();
 		adviceButton.setToolTipText("SmartBot - Berater (DLC)");
-		adviceButton.setIcon(new ImageIcon(InternalImage.loadFromPath(
-				IMAGE_PATH, "smartbot.png")));
-		adviceButton.addActionListener(new ActionListener() {
+		adviceButton.setIcon(new ImageIcon(InternalImage.loadFromPath(IMAGE_PATH, "smartbot.png")));
+		adviceButton.addActionListener(new ActionListener()
+		{
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e)
+			{
 				// TODO AdviceBot programmieren
 			}
 		});
@@ -198,7 +220,8 @@ public class BattlePanel extends JPanel implements ActionListener,
 		return sidePanel;
 	}
 
-	private JPanel createInfoSection() {
+	private JPanel createInfoSection()
+	{
 		JPanel info = new JPanel();
 		info.setLayout(new BorderLayout());
 
@@ -210,12 +233,13 @@ public class BattlePanel extends JPanel implements ActionListener,
 		return info;
 	}
 
-	private StatusEffectPanel createStatusEffectPanel(
-			List<StatusEffect> statusEffects, String title) {
+	private StatusEffectPanel createStatusEffectPanel(List<StatusEffect> statusEffects, String title)
+	{
 		return new StatusEffectPanel(statusEffects, title);
 	}
 
-	private JPanel createRoboStats() {
+	private JPanel createRoboStats()
+	{
 		JPanel stats = new JPanel();
 		stats.setLayout(new BoxLayout(stats, BoxLayout.Y_AXIS));
 
@@ -227,8 +251,7 @@ public class BattlePanel extends JPanel implements ActionListener,
 		stats.add(pnlLife);
 
 		pnlLife.add(new JLabel(new ImageIcon(ImageUtils.getScaledInstance(
-				InternalImage.loadFromPath(IMAGE_PATH, "life.png"), 20, 20,
-				null))));
+			InternalImage.loadFromPath(IMAGE_PATH, "life.png"), 20, 20, null))));
 
 		life = new SimpleProgressBar();
 		life.setMinimum(0);
@@ -249,8 +272,7 @@ public class BattlePanel extends JPanel implements ActionListener,
 		stats.add(pnlEnergy);
 
 		pnlEnergy.add(new JLabel(new ImageIcon(ImageUtils.getScaledInstance(
-				InternalImage.loadFromPath(IMAGE_PATH, "energy.png"), 20, 20,
-				null))));
+			InternalImage.loadFromPath(IMAGE_PATH, "energy.png"), 20, 20, null))));
 
 		energy = new SimpleProgressBar();
 		energy.setMinimum(0);
@@ -270,7 +292,8 @@ public class BattlePanel extends JPanel implements ActionListener,
 		return stats;
 	}
 
-	private JPanel createTimer() {
+	private JPanel createTimer()
+	{
 
 		JPanel timer = new JPanel();
 		timer.setLayout(new BorderLayout());
@@ -287,7 +310,8 @@ public class BattlePanel extends JPanel implements ActionListener,
 		return timer;
 	}
 
-	private JPanel createActionSelection() {
+	private JPanel createActionSelection()
+	{
 		JPanel actions = new JPanel();
 		actions.setLayout(new BoxLayout(actions, BoxLayout.X_AXIS));
 
@@ -298,35 +322,34 @@ public class BattlePanel extends JPanel implements ActionListener,
 		return actions;
 	}
 
-	private JPanel createDefendSelection() {
+	private JPanel createDefendSelection()
+	{
 		JPanel defends = new JPanel();
-		defends.setBorder(BorderFactory.createCompoundBorder(BorderFactory
-				.createTitledBorder(
-						BorderFactory.createLineBorder(Color.BLACK, 2, true),
-						"Verteidigung"), BorderFactory.createEmptyBorder(3, 3,
-				3, 3)));
+		defends.setBorder(BorderFactory.createCompoundBorder(
+			BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 2, true), "Verteidigung"),
+			BorderFactory.createEmptyBorder(3, 3, 3, 3)));
 		defends.setLayout(new GridLayout(2, 2, 5, 5));
 
-		List<Defense> defs = (robot != null) ? robot.getPossibleDefends()
-				: new ArrayList<Defense>(0);
-		for (int i = 0; i < 4; i++) {
+		List<Defense> defs = (robot != null) ? robot.getPossibleDefends() : new ArrayList<Defense>(0);
+		for (int i = 0; i < 4; i++)
+		{
 
 			ActionButton def = new ActionButton();
 			def.addActionListener(this);
 
-			if (i < defs.size()) {
+			if (i < defs.size())
+			{
 
 				Defense defense = defs.get(i);
 
 				def.setRoboAction(defense);
-				def.setText(String.format("%s - %.2f (%d E)",
-						defense.getName(),
-						(100 * defense.getBonusOnDefenseFactor()),
-						defense.getEnergyCosts()));
+				def.setText(String.format("%s - %.2f (%d E)", defense.getName(),
+					(100 * defense.getBonusOnDefenseFactor()), defense.getEnergyCosts()));
 				def.setIcon(defense.getRobotActionType());
-				def.setToolTipText(ItemUtil
-						.createToolTipTextForRobotActions(defense));
-			} else {
+				def.setToolTipText(ItemUtil.createToolTipTextForRobotActions(defense));
+			}
+			else
+			{
 
 				def.setText("<Leer>");
 				def.setRoboAction(null);
@@ -338,32 +361,34 @@ public class BattlePanel extends JPanel implements ActionListener,
 		return defends;
 	}
 
-	private JPanel createAttackSelection() {
+	private JPanel createAttackSelection()
+	{
 		JPanel attacks = new JPanel();
-		attacks.setBorder(BorderFactory.createCompoundBorder(BorderFactory
-				.createTitledBorder(
-						BorderFactory.createLineBorder(Color.BLACK, 2, true),
-						"Angriff"), BorderFactory.createEmptyBorder(3, 3, 3, 3)));
+		attacks.setBorder(BorderFactory.createCompoundBorder(
+			BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 2, true), "Angriff"),
+			BorderFactory.createEmptyBorder(3, 3, 3, 3)));
 		attacks.setLayout(new GridLayout(2, 2, 5, 5));
 
-		List<Attack> atks = (robot != null) ? robot.getPossibleAttacks()
-				: new ArrayList<Attack>(0);
-		for (int i = 0; i < 4; i++) {
+		List<Attack> atks = (robot != null) ? robot.getPossibleAttacks() : new ArrayList<Attack>(0);
+		for (int i = 0; i < 4; i++)
+		{
 
 			ActionButton atk = new ActionButton();
 			atk.addActionListener(this);
 
-			if (i < atks.size()) {
+			if (i < atks.size())
+			{
 
 				Attack attack = atks.get(i);
 
 				atk.setRoboAction(attack);
-				atk.setText(String.format("%s - %d S (%d E)", attack.getName(),
-						attack.getDamage(), attack.getEnergyCosts()));
+				atk.setText(String.format("%s - %d S (%d E)", attack.getName(), attack.getDamage(),
+					attack.getEnergyCosts()));
 				atk.setIcon(attack.getRobotActionType());
-				atk.setToolTipText(ItemUtil
-						.createToolTipTextForRobotActions(attack));
-			} else {
+				atk.setToolTipText(ItemUtil.createToolTipTextForRobotActions(attack));
+			}
+			else
+			{
 
 				atk.setText("<Leer>");
 				atk.setRoboAction(null);
@@ -375,9 +400,11 @@ public class BattlePanel extends JPanel implements ActionListener,
 		return attacks;
 	}
 
-	private void updateStats(boolean interpretItems) {
+	private void updateStats(boolean interpretItems)
+	{
 
-		if (robot == null) {
+		if (robot == null)
+		{
 			return;
 		}
 
@@ -389,19 +416,20 @@ public class BattlePanel extends JPanel implements ActionListener,
 		tmp.setMaxEnergyPoints(robot.getMaxEnergyPoints());
 		tmp.setEnergyPoints(robot.getEnergyPoints());
 
-		if (interpretItems) {
+		if (interpretItems)
+		{
 
 			List<RoboItem> items = robot.getEquippedItems();
 
-			for (RoboItem i : items) {
+			for (RoboItem i : items)
+			{
 
 				i.performInitialRobotModification(tmp);
 			}
 		}
 
-		LOG.debug("Stat update -> Health: {}({}), Energy: {}({})",
-				tmp.getHealthPoints(), tmp.getMaxHealthPoints(),
-				tmp.getEnergyPoints(), tmp.getMaxEnergyPoints());
+		LOG.debug("Stat update -> Health: {}({}), Energy: {}({})", tmp.getHealthPoints(), tmp.getMaxHealthPoints(),
+			tmp.getEnergyPoints(), tmp.getMaxEnergyPoints());
 
 		life.setMaximum(tmp.getMaxHealthPoints());
 		life.setValue(tmp.getHealthPoints());
@@ -415,37 +443,39 @@ public class BattlePanel extends JPanel implements ActionListener,
 		Robot updatedRobotOfEnemy = battleClient.getUpdatedRobotOfEnemy();
 		LOG.debug("Enemy Robot: " + updatedRobotOfEnemy);
 
-		if (updatedRobotOfEnemy != null) {
-			enemyStatusEffectPanel.update(updatedRobotOfEnemy
-					.getStatusEffects());
+		if (updatedRobotOfEnemy != null)
+		{
+			enemyStatusEffectPanel.update(updatedRobotOfEnemy.getStatusEffects());
 		}
 	}
 
-	private void actionSelection(RobotAction roboAction) {
+	private void actionSelection(RobotAction roboAction)
+	{
 
 		actionSelection(roboAction, false);
 	}
 
-	private void actionSelection(RobotAction roboAction, boolean force) {
+	private void actionSelection(RobotAction roboAction, boolean force)
+	{
 		LOG.debug("Action Selected -> {}", roboAction);
 
-		if (roboAction == null) {
+		if (roboAction == null)
+		{
 			LOG.debug("Action selected -> <Leer>");
 			return;
 		}
 
-		if (!force && countdown.getTime() <= 0) {
+		if (!force && countdown.getTime() <= 0)
+		{
 			LOG.debug("Countdown over -> no selection possible");
 			return;
 		}
 
-		if (!force && roboAction.getEnergyCosts() > robot.getEnergyPoints()) {
+		if (!force && roboAction.getEnergyCosts() > robot.getEnergyPoints())
+		{
 			LOG.debug("Energy amount not suitable");
-			JOptionPane
-					.showMessageDialog(
-							this,
-							"Deine Energie reicht nicht aus, um diese Fähigkeit einzusetzen.",
-							"Nicht genug Energie", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Deine Energie reicht nicht aus, um diese Fähigkeit einzusetzen.",
+				"Nicht genug Energie", JOptionPane.WARNING_MESSAGE);
 			return;
 		}
 
@@ -457,7 +487,8 @@ public class BattlePanel extends JPanel implements ActionListener,
 		setInfo("Warte bis dein Gegener seine Aktion gewählt hat und die Runde beendet wurde.");
 	}
 
-	private void startCountdown() {
+	private void startCountdown()
+	{
 
 		setInfo("Bitte wähle deine nächste Aktion aus.");
 
@@ -469,32 +500,38 @@ public class BattlePanel extends JPanel implements ActionListener,
 		repack();
 	}
 
-	private void repack() {
+	private void repack()
+	{
 
 		Container parent = this.getParent();
 
-		while (!(parent instanceof JFrame) || parent == null) {
+		while (!(parent instanceof JFrame) || parent == null)
+		{
 
 			parent = parent.getParent();
 		}
 
-		if (parent != null) {
+		if (parent != null)
+		{
 
 			((JFrame) parent).pack();
 		}
 	}
 
-	private void setInfo(String s) {
+	private void setInfo(String s)
+	{
 
 		lblInfo.setText(s);
 	}
 
-	public void updateRobot() {
+	public void updateRobot()
+	{
 
 		updateRobot(false);
 	}
 
-	public void updateRobot(boolean interpretItems) {
+	public void updateRobot(boolean interpretItems)
+	{
 
 		remove(pnlActionSelection);
 
@@ -507,7 +544,8 @@ public class BattlePanel extends JPanel implements ActionListener,
 		repaint();
 	}
 
-	private void countdownOver() {
+	private void countdownOver()
+	{
 
 		LOG.debug("Countdown over -> auto select action");
 		countdown.setVisible(false);
@@ -515,16 +553,17 @@ public class BattlePanel extends JPanel implements ActionListener,
 		List<Attack> attacks = robot.getPossibleAttacks();
 		List<Defense> defends = robot.getPossibleDefends();
 
-		List<RobotAction> actions = new ArrayList<RobotAction>(attacks.size()
-				+ defends.size());
+		List<RobotAction> actions = new ArrayList<RobotAction>(attacks.size() + defends.size());
 		actions.addAll(attacks);
 		actions.addAll(defends);
 
 		Collections.shuffle(actions);
 
-		for (RobotAction action : actions) {
+		for (RobotAction action : actions)
+		{
 
-			if (action.getEnergyCosts() <= robot.getEnergyPoints()) {
+			if (action.getEnergyCosts() <= robot.getEnergyPoints())
+			{
 
 				actionSelection(action, true);
 				break;
@@ -533,7 +572,8 @@ public class BattlePanel extends JPanel implements ActionListener,
 	}
 
 	@Override
-	public void startActionSelection() {
+	public void startActionSelection()
+	{
 
 		robot = battleClient.getUpdatedRobot();
 		updateRobot(false);
@@ -541,13 +581,15 @@ public class BattlePanel extends JPanel implements ActionListener,
 	}
 
 	@Override
-	public void gameOver(GameStateType result) {
+	public void gameOver(GameStateType result)
+	{
 
 		LOG.debug("Game Over -> Result: " + result);
 
 		Robot robotTmp = battleClient.getUpdatedRobot();
 
-		if (robotTmp != null) {
+		if (robotTmp != null)
+		{
 
 			robot = robotTmp;
 			updateRobot();
@@ -560,66 +602,78 @@ public class BattlePanel extends JPanel implements ActionListener,
 
 		String msg = "";
 
-		switch (result) {
+		switch (result)
+		{
 
-		case DRAW:
-			msg = "Keiner von Euch hat gewonnen ;(";
+			case DRAW:
+				msg = "Keiner von Euch hat gewonnen ;(";
 			break;
 
-		case VICTORY_LEFT:
+			case VICTORY_LEFT:
 
-			if (ownPosition == RobotPosition.LEFT) {
+				if (ownPosition == RobotPosition.LEFT)
+				{
 
-				msg = "Du hast gewonnen :)";
-			} else {
+					msg = "Du hast gewonnen :)";
+				}
+				else
+				{
 
-				msg = "Du hast verloren :(";
-			}
+					msg = "Du hast verloren :(";
+				}
 			break;
 
-		case VICTORY_RIGHT:
+			case VICTORY_RIGHT:
 
-			if (ownPosition == RobotPosition.RIGHT) {
+				if (ownPosition == RobotPosition.RIGHT)
+				{
 
-				msg = "Du hast gewonnen :)";
-			} else {
+					msg = "Du hast gewonnen :)";
+				}
+				else
+				{
 
-				msg = "Du hast verloren :(";
-			}
+					msg = "Du hast verloren :(";
+				}
 			break;
 
-		default:
-			return;
+			default:
+				return;
 		}
 
-		JOptionPane.showMessageDialog(this, msg, "Game Over",
-				JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(this, msg, "Game Over", JOptionPane.INFORMATION_MESSAGE);
 		System.exit(-1);
 
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e)
+	{
 
 		Object source = e.getSource();
 
-		if (source == countdown) {
-			if (countdown.getTime() == 0) {
+		if (source == countdown)
+		{
+			if (countdown.getTime() == 0)
+			{
 
 				countdownOver();
 			}
-		} else if (source instanceof ActionButton) {
+		}
+		else if (source instanceof ActionButton)
+		{
 
 			actionSelection(((ActionButton) source).getRoboAction());
 		}
 	}
 
-	public StatusEffectPanel getEnemyStatusEffectPanel() {
+	public StatusEffectPanel getEnemyStatusEffectPanel()
+	{
 		return enemyStatusEffectPanel;
 	}
 
-	public void setEnemyStatusEffectPanel(
-			StatusEffectPanel enemyStatusEffectPanel) {
+	public void setEnemyStatusEffectPanel(StatusEffectPanel enemyStatusEffectPanel)
+	{
 		this.enemyStatusEffectPanel = enemyStatusEffectPanel;
 	}
 
