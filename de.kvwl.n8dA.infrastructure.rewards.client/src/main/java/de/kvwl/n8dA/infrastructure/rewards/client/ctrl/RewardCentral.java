@@ -188,7 +188,7 @@ public class RewardCentral extends JFrame implements ActionListener
 	private void deleteUser() throws RemoteException
 	{
 
-		String name = JOptionPane.showInputDialog(this, "Enter game name - Clear");
+		String name = JOptionPane.showInputDialog(this, "Enter user name - Delete");
 
 		if (name == null || name.isEmpty())
 		{
@@ -266,7 +266,8 @@ public class RewardCentral extends JFrame implements ActionListener
 			e.printStackTrace();
 		}
 
-		CreditAccessClient client = new CreditAccessClient(Settings.getString("ip_address_server", "localhost"), Settings.getBoolean("install_security_manager", false));
+		CreditAccessClient client = new CreditAccessClient(Settings.getString("ip_address_server", "localhost"),
+			Settings.getBoolean("install_security_manager", false));
 		client.initConnectionToServer();
 
 		RewardCentral rewardCentral = new RewardCentral(client);
