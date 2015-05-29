@@ -63,7 +63,7 @@ public class BattleControllerTest {
 	}
 
 	@Test
-	public void testGetEloWinFactorForPlayer() {
+	public void testGetEloWinFactorForPlayer1() {
 
 		int pointsA = 2806;
 		int pointsB = 2577;
@@ -72,9 +72,19 @@ public class BattleControllerTest {
 
 		assertEquals(0.789, eloWinFactorForPlayer, 0.001);
 	}
+	@Test
+	public void testGetEloWinFactorForPlayer2() {
+		
+		int pointsA = 2577;
+		int pointsB = 2806;
+		double eloWinFactorForPlayer = battleController
+				.getEloWinFactorForPlayer(pointsA, pointsB);
+		
+		assertEquals(0.211, eloWinFactorForPlayer, 0.001);
+	}
 	
 	@Test
-	public void testGetEloMatchPoints() throws Exception {
+	public void testGetEloMatchPoints1() throws Exception {
 	
 		int pointsPlayerLeft = 2806;
 		double eloWinFactorForPlayerLeft = 0.789;
@@ -83,8 +93,17 @@ public class BattleControllerTest {
 		int calculatedEloPointsForPlayer = battleController.getCalculatedEloPointsForPlayer(pointsPlayerLeft, eloWinFactorForPlayerLeft, modForMatchPlayerLeft, pointFactor);
 		assertEquals(2808, calculatedEloPointsForPlayer);
 	}
+	@Test
+	public void testGetEloMatchPoints2() throws Exception {
+		
+		int pointsPlayerLeft = 2577;
+		double eloWinFactorForPlayerLeft = 0.211; 
+		double modForMatchPlayerLeft = 1;
+		int pointFactor = 10;
+		int calculatedEloPointsForPlayer = battleController.getCalculatedEloPointsForPlayer(pointsPlayerLeft, eloWinFactorForPlayerLeft, modForMatchPlayerLeft, pointFactor);
+		assertEquals(2585, calculatedEloPointsForPlayer);
+	}
 	
-
 	@Test
 	public void testEmptyStatusEffectConsumption() throws Exception {
 
