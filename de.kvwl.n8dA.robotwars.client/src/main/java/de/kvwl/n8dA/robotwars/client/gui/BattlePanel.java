@@ -335,7 +335,7 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 
 		//TODO: Other atks/defs
 
-		return actions;
+		return ownActions;
 	}
 
 	private JPanel createDefendSelection()
