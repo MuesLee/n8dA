@@ -402,7 +402,7 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 		stats.setLayout(new BoxLayout(stats, BoxLayout.Y_AXIS));
 		bottomRow.add(stats, BorderLayout.NORTH);
 
-		lblCosts = new JLabel("Kosten: 100");
+		lblCosts = new JLabel("Kosten: 200(100)");
 		lblCosts.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 		stats.add(lblCosts);
 
@@ -524,7 +524,8 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 		lblRoboName.setText(robo.getName());
 		lblHealth.setText(String.format("Leben: %d", robo.getMaxHealthPoints()));
 		lblEnergy.setText(String.format("Energie: %d", robo.getMaxEnergyPoints()));
-		lblCosts.setText(String.format("Kosten: %d", robo.getConfigurationPointCosts()));
+		lblCosts
+			.setText(String.format("Kosten: %d(%d)", getConfigurationCosts(robo), robo.getConfigurationPointCosts()));
 
 		setRoboAni(robo.getAnimation());
 		actualizeModifications(robo);
