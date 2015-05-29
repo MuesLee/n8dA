@@ -51,81 +51,116 @@ public class BattleControllerTest {
 				"cinematicVisualizer");
 		field.setAccessible(true);
 		field.set(battleController, cinematicVisualizerMock);
+		
+		Field field1 = battleController.getClass().getDeclaredField(
+				"robotLeft");
+		field1.setAccessible(true);
+		field1.set(battleController, robotLeft);
+		Field field2 = battleController.getClass().getDeclaredField(
+				"robotRight");
+		field2.setAccessible(true);
+		field2.set(battleController, robotRight);
+	}
 
-		battleController.setRobotLeft(robotLeft);
-		battleController.setRobotRight(robotRight);
+	@Test
+	public void testGetEloWinFactorForPlayer() {
 
+		int pointsA = 2806;
+		int pointsB = 2577;
+		double eloWinFactorForPlayer = battleController
+				.getEloWinFactorForPlayer(pointsA, pointsB);
+
+		assertEquals(0.789, eloWinFactorForPlayer, 0.001);
 	}
 	
+	@Test
+	public void testGetEloMatchPoints() throws Exception {
 	
+		int pointsPlayerLeft = 2806;
+		double eloWinFactorForPlayerLeft = 0.789;
+		double modForMatchPlayerLeft = 1;
+		int pointFactor = 10;
+		int calculatedEloPointsForPlayer = battleController.getCalculatedEloPointsForPlayer(pointsPlayerLeft, eloWinFactorForPlayerLeft, modForMatchPlayerLeft, pointFactor);
+		assertEquals(2808, calculatedEloPointsForPlayer);
+	}
+	
+
 	@Test
 	public void testEmptyStatusEffectConsumption() throws Exception {
-		
+
 		battleController.consumeStatusEffects(robotLeft);
-		
+
 		assertTrue(robotLeft.getStatusEffects().isEmpty());
 	}
-	
+
 	@Test
 	public void testStatusEffectConsumption() throws Exception {
-		
-		// RoundsLeft should be lowered by 1 
-		
+
+		// RoundsLeft should be lowered by 1
+
 		List<StatusEffect> givenEffects = new ArrayList<>();
-		TypeEffect givenEffect = new TypeEffect(RobotActionType.FIRE, TypeEffectModificationType.RESISTANCE, 1);
+		TypeEffect givenEffect = new TypeEffect(RobotActionType.FIRE,
+				TypeEffectModificationType.RESISTANCE, 1);
 		givenEffects.add(givenEffect);
-		robotLeft.setStatusEffects(givenEffects );
-		
+		robotLeft.setStatusEffects(givenEffects);
+
 		battleController.consumeStatusEffects(robotLeft);
-		
+
 		List<StatusEffect> actualEffects = robotLeft.getStatusEffects();
 		StatusEffect actualEffect = actualEffects.get(0);
-		StatusEffect expectedEffect = new TypeEffect(RobotActionType.FIRE, TypeEffectModificationType.RESISTANCE, 0);
-		assertEquals(expectedEffect.getRoundsLeft(), actualEffect.getRoundsLeft());
+		StatusEffect expectedEffect = new TypeEffect(RobotActionType.FIRE,
+				TypeEffectModificationType.RESISTANCE, 0);
+		assertEquals(expectedEffect.getRoundsLeft(),
+				actualEffect.getRoundsLeft());
 	}
+
 	@Test
 	public void testStatusEffectConsumption1() throws Exception {
-		
-		// RoundsLeft should be lowered by 1 
+
+		// RoundsLeft should be lowered by 1
 		// StatusEffect should be removed
-		
+
 		List<StatusEffect> givenEffects = new ArrayList<>();
-		TypeEffect givenEffect = new TypeEffect(RobotActionType.FIRE, TypeEffectModificationType.RESISTANCE, 0);
+		TypeEffect givenEffect = new TypeEffect(RobotActionType.FIRE,
+				TypeEffectModificationType.RESISTANCE, 0);
 		givenEffects.add(givenEffect);
-		robotLeft.setStatusEffects(givenEffects );
-		
+		robotLeft.setStatusEffects(givenEffects);
+
 		battleController.consumeStatusEffects(robotLeft);
-		
+
 		assertTrue(robotLeft.getStatusEffects().isEmpty());
 	}
+
 	@Test
 	public void testStatusEffectConsumption2() throws Exception {
-		
-		// RoundsLeft should be lowered by 1 
+
+		// RoundsLeft should be lowered by 1
 		// 1 StatusEffect should be removed
-		
+
 		List<StatusEffect> givenEffects = new ArrayList<>();
-		TypeEffect givenEffect = new TypeEffect(RobotActionType.FIRE, TypeEffectModificationType.RESISTANCE, 0);
-		TypeEffect givenEffect2 = new TypeEffect(RobotActionType.WATER, TypeEffectModificationType.RESISTANCE, 1);
-		TypeEffect givenEffect3 = new TypeEffect(RobotActionType.LIGHTNING, TypeEffectModificationType.VULNERABILITY, 3);
+		TypeEffect givenEffect = new TypeEffect(RobotActionType.FIRE,
+				TypeEffectModificationType.RESISTANCE, 0);
+		TypeEffect givenEffect2 = new TypeEffect(RobotActionType.WATER,
+				TypeEffectModificationType.RESISTANCE, 1);
+		TypeEffect givenEffect3 = new TypeEffect(RobotActionType.LIGHTNING,
+				TypeEffectModificationType.VULNERABILITY, 3);
 		givenEffects.add(givenEffect);
 		givenEffects.add(givenEffect2);
 		givenEffects.add(givenEffect3);
 		robotLeft.setStatusEffects(givenEffects);
-		
+
 		battleController.consumeStatusEffects(robotLeft);
-		
+
 		assertTrue(!robotLeft.getStatusEffects().isEmpty());
 		assertEquals(givenEffects.get(0).getRoundsLeft(), 0);
 		assertEquals(givenEffects.get(1).getRoundsLeft(), 2);
 	}
 
-	
 	// 1 Res Light, 1 Vul Water on empty Status
 	@Test
 	public void testInflictStatusEffect() {
 		Attack robotAction = new Attack(RobotActionType.LIGHTNING, 10);
-		
+
 		TypeEffect typeEffect = new TypeEffect(RobotActionType.LIGHTNING,
 				TypeEffectModificationType.RESISTANCE, 1);
 		TypeEffect typeEffect2 = new TypeEffect(RobotActionType.WATER,
@@ -175,31 +210,29 @@ public class BattleControllerTest {
 
 		assertEquals(expectedStatusEffects, actualStatusEffects);
 	}
-	
-	
-	
+
 	@Test
 	public void testInflictStatusEffect3() {
 		Attack robotAction = new Attack(RobotActionType.LIGHTNING, 10);
 		TypeEffect typeEffect = new TypeEffect(RobotActionType.LIGHTNING,
 				TypeEffectModificationType.VULNERABILITY, 2);
-		
+
 		ArrayList<StatusEffect> actionsStatusEffects = new ArrayList<StatusEffect>();
 		actionsStatusEffects.add(typeEffect);
 		robotAction.setStatusEffects(actionsStatusEffects);
-		
+
 		robotLeft.addStatusEffect(new TypeEffect(RobotActionType.FIRE,
 				TypeEffectModificationType.RESISTANCE, 1));
-		
+
 		battleController.inflictStatusEffects(robotLeft, robotAction);
-		
+
 		ArrayList<StatusEffect> expectedStatusEffects = new ArrayList<StatusEffect>();
 		expectedStatusEffects.add(new TypeEffect(RobotActionType.FIRE,
 				TypeEffectModificationType.RESISTANCE, 1));
 		expectedStatusEffects.add(new TypeEffect(RobotActionType.LIGHTNING,
 				TypeEffectModificationType.VULNERABILITY, 2));
 		List<StatusEffect> actualStatusEffects = robotLeft.getStatusEffects();
-		
+
 		assertEquals(expectedStatusEffects, actualStatusEffects);
 	}
 
@@ -278,7 +311,8 @@ public class BattleControllerTest {
 		int actualHPLeft = battleController.getRobotLeft().getHealthPoints();
 		int actualHPRight = battleController.getRobotRight().getHealthPoints();
 
-		int expectedHPLeft = (int) (startHPLeft - (attackDmg * (defense.getBonusOnDefenseFactor())));
+		int expectedHPLeft = (int) (startHPLeft - (attackDmg * (defense
+				.getBonusOnDefenseFactor())));
 		int expectedHPRight = startHPRight;
 
 		assertEquals(expectedHPLeft, actualHPLeft);
@@ -297,7 +331,7 @@ public class BattleControllerTest {
 
 		int startHPLeft = battleController.getRobotLeft().getHealthPoints();
 		int startHPRight = battleController.getRobotRight().getHealthPoints();
-		
+
 		battleController.computeOutcomeATTvsDEF(robotLeft, robotRight);
 
 		int actualHPLeft = battleController.getRobotLeft().getHealthPoints();

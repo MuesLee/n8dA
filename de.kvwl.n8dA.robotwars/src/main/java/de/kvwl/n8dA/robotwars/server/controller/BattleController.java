@@ -632,7 +632,7 @@ public class BattleController {
 	 * @param matchResult
 	 * @return a positive number, representing the points gained for the winner
 	 */
-	private int calculatePointsForMatch(String playerLeft, String playerRight,
+	int calculatePointsForMatch(String playerLeft, String playerRight,
 			GameStateType matchResult) {
 
 		setCurrentGameState(GameStateType.SERVER_BUSY);
@@ -689,7 +689,7 @@ public class BattleController {
 		return Math.abs(eloDifRight);
 	}
 
-	private int getCalculatedEloPointsForPlayer(int pointsPlayerLeft,
+	int getCalculatedEloPointsForPlayer(int pointsPlayerLeft,
 			double eloWinFactorForPlayerLeft, double modForMatchPlayerLeft,
 			int pointFactor) {
 		
@@ -697,8 +697,9 @@ public class BattleController {
 		return newPoints;
 	}
 
-	private double getEloWinFactorForPlayer(int pointsA, int pointsB) {
-		return (1 / (1 + Math.pow(10, (pointsB - pointsA) / 400)));
+	double getEloWinFactorForPlayer(double pointsA, double pointsB) {
+		double exp = (pointsB - pointsA) / 400;
+		return (1 / (1 + Math.pow(10, exp)));
 	}
 
 	public Robot getLocalRobotForRemoteRobot(Robot robot)

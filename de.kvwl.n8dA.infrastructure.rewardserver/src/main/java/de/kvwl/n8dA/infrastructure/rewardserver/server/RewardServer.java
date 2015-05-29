@@ -317,9 +317,5 @@ public class RewardServer extends UnicastRemoteObject implements
 			findGamePersonForPersonAndGame.setPoints(points);
 			gamePersonDao.update(findGamePersonForPersonAndGame);
 		}
-		else {
-			GamePerson gamePer = new GamePerson(new Game(gameName), new Person(personName), points);
-			gamePersonDao.add(gamePer);
-		}
 	}
 }
