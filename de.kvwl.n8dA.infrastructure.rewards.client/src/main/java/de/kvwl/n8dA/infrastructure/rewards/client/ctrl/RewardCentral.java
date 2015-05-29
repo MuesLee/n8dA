@@ -195,6 +195,13 @@ public class RewardCentral extends JFrame implements ActionListener
 			return;
 		}
 
+		List<GamePerson> games = client.getAllGamesForPersonName(name);
+		for (GamePerson game : games)
+		{
+
+			client.overwriteRecord(game.getPerson().getName(), game.getGame().getName(), 0);
+		}
+
 		client.deletePerson(name);
 	}
 
