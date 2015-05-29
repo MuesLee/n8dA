@@ -182,7 +182,7 @@ public class CreditAccessClient implements CreditAccess
 	}
 
 	@Override
-	public void deletePerson(String name) {
+	public void deletePerson(String name) throws RemoteException {
 		server.deletePerson(name);
 	}
 }
