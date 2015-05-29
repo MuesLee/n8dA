@@ -62,7 +62,7 @@ public class BattleController {
 	private List<RoboItem> allItems;
 	private List<StatusEffect> allStatusEffects;
 
-	private GameStateType currentGameState = GameStateType.GAME_HASNT_BEGUN;
+	private GameStateType currentGameState;
 
 	private RoboBattleServer server;
 
@@ -594,32 +594,52 @@ public class BattleController {
 	}
 
 	public void endGame(GameStateType currentGameState) {
-		setCurrentGameState(GameStateType.SERVER_BUSY);
+		setCurrentGameState(GameStateType.GAME_IS_ENDING);
 		switch (currentGameState) {
 		case VICTORY_LEFT:
 		case VICTORY_RIGHT:
 
-			String winner = getWinner(currentGameState);
-			String loser = getLoser(currentGameState);
+			Robot winner = getWinner(currentGameState);
+			Robot loser = getLoser(currentGameState);
 
 			cinematicVisualizer.playSound("gameOver");
-			showTextWithCaption("GAME OVER", winner + " wins!");
+			showTextWithCaption("GAME OVER", winner.getNickname() + " wins!");
 
 			int calculatePointsForMatch = calculatePointsForMatch(
 					robotLeft.getRobotOwner(), robotRight.getRobotOwner(),
 					currentGameState);
 
-			showTextWithCaption(winner, " earns " + calculatePointsForMatch
-					+ " points!");
-			showTextWithCaption(loser, " loses " + calculatePointsForMatch
-					+ " points!");
-
+			showTextWithCaption(winner.getRobotOwner(), " earns "
+					+ calculatePointsForMatch + " points!");
+			showTextWithCaption(loser.getRobotOwner(), " loses "
+					+ calculatePointsForMatch + " points!");
 			break;
 		case DRAW:
-			cinematicVisualizer.playSound("gameOver");
+
+			int pointsLeft = server.getConfigurationPointsForPlayer(robotLeft
+					.getRobotOwner());
+			int pointsRight = server.getConfigurationPointsForPlayer(robotRight
+					.getRobotOwner());
+
+			calculatePointsForMatch = calculatePointsForMatch(
+					robotLeft.getRobotOwner(), robotRight.getRobotOwner(),
+					currentGameState);
+
+			if (pointsLeft > pointsRight) {
+				winner = robotRight;
+				loser = robotLeft;
+			} else {
+				winner = robotLeft;
+				loser = robotRight;
+			}
+
 			showTextWithCaption("GAME OVER", "Draw.");
-			calculatePointsForMatch(robotLeft.getRobotOwner(),
-					robotRight.getRobotOwner(), currentGameState);
+			showTextWithCaption(winner.getRobotOwner(), " earns "
+					+ calculatePointsForMatch + " points!");
+			showTextWithCaption(loser.getRobotOwner(), " loses "
+					+ calculatePointsForMatch + " points!");
+
+			cinematicVisualizer.playSound("gameOver");
 			break;
 		default:
 			break;
@@ -650,10 +670,8 @@ public class BattleController {
 		int roboBattlePointsPlayerRight = server
 				.getRoboBattlePointsForPlayer(playerRight);
 
-		int pointsPlayerLeftNoRobo = (int) (pointsPlayerLeft
-				- roboBattlePointsPlayerLeft);
-		int pointsPlayerRightNoRobo = (int) (pointsPlayerRight
-				- roboBattlePointsPlayerRight);
+		int pointsPlayerLeftNoRobo = (int) (pointsPlayerLeft - roboBattlePointsPlayerLeft);
+		int pointsPlayerRightNoRobo = (int) (pointsPlayerRight - roboBattlePointsPlayerRight);
 
 		double eloWinFactorForPlayerLeft = getEloWinFactorForPlayer(
 				pointsPlayerLeft, pointsPlayerRight);
@@ -674,12 +692,13 @@ public class BattleController {
 			return 0;
 		}
 
-		int calcPointsPlayerLeft = (int) Math.round(getCalculatedEloPointsForPlayer(
-				pointsPlayerLeft, eloWinFactorForPlayerLeft,
-				modForMatchPlayerLeft, 20));
-		int calcPointsPlayerRight = (int) Math.round(getCalculatedEloPointsForPlayer(
-				pointsPlayerRight, 1.0 - eloWinFactorForPlayerLeft,
-				1.0 - modForMatchPlayerLeft, 20.0));
+		int calcPointsPlayerLeft = (int) Math
+				.round(getCalculatedEloPointsForPlayer(pointsPlayerLeft,
+						eloWinFactorForPlayerLeft, modForMatchPlayerLeft, 20));
+		int calcPointsPlayerRight = (int) Math
+				.round(getCalculatedEloPointsForPlayer(pointsPlayerRight,
+						1.0 - eloWinFactorForPlayerLeft,
+						1.0 - modForMatchPlayerLeft, 20.0));
 
 		int eloDifLeft = calcPointsPlayerLeft - pointsPlayerLeftNoRobo;
 		int eloDifRight = calcPointsPlayerRight - pointsPlayerRightNoRobo;
@@ -909,45 +928,30 @@ public class BattleController {
 		LOG.info("Robot " + robot + " has " + energyRobot + " EP left.");
 	}
 
-	private String getLoser(GameStateType currentGameState) {
-		String text = "";
+	private Robot getLoser(GameStateType currentGameState) {
 
 		switch (currentGameState) {
-		case DRAW:
-			text = "DRAW";
-			break;
 		case VICTORY_LEFT:
-			text = robotRight.getNickname();
-			break;
+			return robotRight;
 		case VICTORY_RIGHT:
-			text = robotLeft.getNickname();
-			break;
+			return robotLeft;
 		default:
-			text = "Player";
 			break;
 		}
-		return text;
+		return null;
 	}
 
-	private String getWinner(GameStateType currentGameState) {
-
-		String text = "";
+	private Robot getWinner(GameStateType currentGameState) {
 
 		switch (currentGameState) {
-		case DRAW:
-			text = "DRAW";
-			break;
 		case VICTORY_LEFT:
-			text = robotLeft.getNickname();
-			break;
+			return robotLeft;
 		case VICTORY_RIGHT:
-			text = robotRight.getNickname();
-			break;
+			return robotRight;
 		default:
-			text = "Server";
 			break;
 		}
-		return text;
+		return null;
 	}
 
 	public Robot getRobotLeft() {

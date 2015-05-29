@@ -355,22 +355,22 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		LOG.info("Client disconnected: " + clientUUID);
 
 		GameStateType currentGameState = battleController.getCurrentGameState();
-		if (currentGameState == GameStateType.BATTLE_IS_ACTIVE
-				|| currentGameState == GameStateType.WAITING_FOR_PLAYER_INPUT) {
+		if (currentGameState.getIndex() >=6) {
 			if (clientUUID.equals(clientUUIDLeft)) {
 				battleController
 						.setCurrentGameState(GameStateType.VICTORY_RIGHT);
 				battleController.endGame(GameStateType.VICTORY_RIGHT);
 				sendGameStateInfoToClients(GameStateType.VICTORY_RIGHT);
+				resetGame();
 			} else if (clientUUID.equals(clientUUIDRight)) {
 				battleController.setRobotRight(null);
 				battleController.endGame(GameStateType.VICTORY_LEFT);
 				sendGameStateInfoToClients(GameStateType.VICTORY_LEFT);
+				resetGame();
 			} else {
 				LOG.info("Unknown Client wanted to disconnect:" + clientUUID);
 			}
 		}
-		resetGame();
 	}
 
 	private void resetGame() {
