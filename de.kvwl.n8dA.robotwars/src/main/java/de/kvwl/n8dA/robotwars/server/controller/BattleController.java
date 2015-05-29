@@ -605,18 +605,34 @@ public class BattleController {
 
 			cinematicVisualizer.playSound("gameOver");
 			showTextWithCaption("GAME OVER", winner + " wins!");
+			
+			int calculatePointsForMatch = calculatePointsForMatch(robotLeft.getRobotOwner(), robotRight.getRobotOwner(), currentGameState);
+			
+			showTextWithCaption(winner, " earns " + calculatePointsForMatch + " points!");
+			showTextWithCaption(loser, " loses " + calculatePointsForMatch + " points!");
 
 			break;
 		case DRAW:
 			cinematicVisualizer.playSound("gameOver");
 			showTextWithCaption("GAME OVER", "Draw.");
+			calculatePointsForMatch(robotLeft.getRobotOwner(), robotRight.getRobotOwner(), currentGameState);
 			break;
 		default:
 			break;
 		}
 	}
 
-	private int getPointsForMatch(String playerLeft, String playerRight,
+	/**
+	 * Calculates the Matchs points.
+	 * 
+	 * Since it returns always a positive number, the negation of the result will be the points lost for the loser.
+	 * 
+	 * @param playerLeft
+	 * @param playerRight
+	 * @param matchResult
+	 * @return a positive number, representing the points gained for the winner
+	 */
+	private int calculatePointsForMatch(String playerLeft, String playerRight,
 			GameStateType matchResult) {
 
 		setCurrentGameState(GameStateType.SERVER_BUSY);
@@ -650,7 +666,6 @@ public class BattleController {
 			break;
 		default:
 			return 0;
-			break;
 		}
 		
 		int calcPointsPlayerLeft = getCalculatedEloPointsForPlayer(pointsPlayerLeft, eloWinFactorForPlayerLeft, modForMatchPlayerLeft, 20);
@@ -671,9 +686,7 @@ public class BattleController {
 		server.persistPointsForPlayer(playerLeft, roboBattlePointsPlayerLeft);
 		server.persistPointsForPlayer(playerRight, roboBattlePointsPlayerRight);
 
-		showTextWithCaption(winner, " earns " + earnedPoints + " points!");
-		showTextWithCaption(loser, " loses " + lostPoints + " points!");
-
+		return Math.abs(eloDifRight);
 	}
 
 	private int getCalculatedEloPointsForPlayer(int pointsPlayerLeft,
