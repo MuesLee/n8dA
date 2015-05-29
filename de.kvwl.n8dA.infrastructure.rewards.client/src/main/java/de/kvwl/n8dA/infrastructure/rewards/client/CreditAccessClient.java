@@ -22,23 +22,22 @@ import de.kvwl.n8dA.infrastructure.commons.util.NetworkUtils;
 /**
  * GUI-loser Client als Verbindung zum zentralen Punkte-Server.
  */
-public class CreditAccessClient implements CreditAccess
-{
+public class CreditAccessClient implements CreditAccess {
 
-	private static final Logger LOG = LoggerFactory.getLogger(CreditAccessClient.class);
+	private static final Logger LOG = LoggerFactory
+			.getLogger(CreditAccessClient.class);
 
 	private BasicCreditAccess server;
 	private UUID uuid;
 	private String ipAdressServer;
 
-	public CreditAccessClient(String ipAdressServer)
-	{
+	public CreditAccessClient(String ipAdressServer) {
 
 		this(ipAdressServer, false);
 	}
 
-	public CreditAccessClient(String ipAdressServer, boolean installSecurityManager)
-	{
+	public CreditAccessClient(String ipAdressServer,
+			boolean installSecurityManager) {
 
 		System.out.println(System.getProperty("user.home"));
 
@@ -65,11 +64,9 @@ public class CreditAccessClient implements CreditAccess
 		 * ignored.
 		 */
 
-		if (installSecurityManager)
-		{
+		if (installSecurityManager) {
 
-			if (System.getSecurityManager() == null)
-			{
+			if (System.getSecurityManager() == null) {
 				System.setSecurityManager(new SecurityManager());
 			}
 		}
@@ -85,9 +82,10 @@ public class CreditAccessClient implements CreditAccess
 	 * @throws NotBoundException
 	 * @throws MalformedURLException
 	 */
-	public void initConnectionToServer() throws RemoteException, MalformedURLException, NotBoundException
-	{
-		String url = "//" + ipAdressServer + "/" + NetworkUtils.REWARD_SERVER_NAME;
+	public void initConnectionToServer() throws RemoteException,
+			MalformedURLException, NotBoundException {
+		String url = "//" + ipAdressServer + "/"
+				+ NetworkUtils.REWARD_SERVER_NAME;
 		server = (BasicCreditAccess) Naming.lookup(url);
 		LOG.info("Client: " + uuid + " connected to Server");
 	}
@@ -95,100 +93,139 @@ public class CreditAccessClient implements CreditAccess
 	/**
 	 * Ruft den Punktestand f�r den �bergebenen Namen vom Server ab
 	 */
-	public int getConfigurationPointsForPerson(String name) throws NoSuchPersonException, RemoteException
-	{
-		return server.getConfigurationPointsForPerson(name);
+	public int getConfigurationPointsForPerson(String name)
+			throws NoSuchPersonException, RemoteException {
+		if (server == null) {
+			return server.getConfigurationPointsForPerson(name);
+		}
+		throw new RemoteException("Server ist null / nicht erreichbar.");
 	}
 
 	// XXX Timo: Nur zu Testzwecken. Später entfernen.
-	public static void main(String[] args) throws Exception
-	{
+	public static void main(String[] args) throws Exception {
 
 		CreditAccessClient client = new CreditAccessClient("localhost");
-		try
-		{
+		try {
 			client.initConnectionToServer();
 
 			client.persistConfigurationPointsForPerson("Derp", "TestGame", 5);
 			client.persistConfigurationPointsForPerson("Derp", "TestGame", 6);
 			System.out.println(client.getAllGamesForPersonName("Derp"));
-		}
-		catch (RemoteException e)
-		{
+		} catch (RemoteException e) {
 			LOG.error("Remote Error", e);
 		}
 	}
 
 	@Override
-	public void persistConfigurationPointsForPerson(String personName, String gameName, int points)
-		throws RemoteException
-	{
-		server.persistConfigurationPointsForPerson(personName, gameName, points);
+	public void persistConfigurationPointsForPerson(String personName,
+			String gameName, int points) throws RemoteException {
+		if (server == null) {
+			server.persistConfigurationPointsForPerson(personName, gameName,
+					points);
+		}
+		throw new RemoteException("Server ist null / nicht erreichbar.");
 	}
 
-	public List<GamePerson> getAllGamesForPersonName(String personName) throws RemoteException
-	{
-		return server.getAllGamesForPersonName(personName);
+	public List<GamePerson> getAllGamesForPersonName(String personName)
+			throws RemoteException {
+		if (server == null) {
+			return server.getAllGamesForPersonName(personName);
+		}
+		throw new RemoteException("Server ist null / nicht erreichbar.");
 	}
 
 	@Override
 	public List<Game> getAllGames() throws RemoteException {
-		return server.getAllGames();
+		if (server == null) {
+			return server.getAllGames();
+		}
+		throw new RemoteException("Server ist null / nicht erreichbar.");
 	}
 
 	@Override
 	public List<GamePerson> getAllGamePersonsForGame(String gameName)
 			throws RemoteException {
-		return server.getAllGamePersonsForGame(gameName);
+		if (server == null) {
+			return server.getAllGamePersonsForGame(gameName);
+		}
+		throw new RemoteException("Server ist null / nicht erreichbar.");
 	}
 
 	@Override
 	public List<GamePerson> getAllGamePersons() throws RemoteException {
-		return server.getAllGamePersons();
+		if (server == null) {
+			return server.getAllGamePersons();
+		}
+		throw new RemoteException("Server ist null / nicht erreichbar.");
 	}
 
 	@Override
 	public List<GamePerson> getFirst10GamePersonsForGame(String gameName)
 			throws RemoteException {
-		return server.getFirst10GamePersonsForGame(gameName);
+		if (server == null) {
+			return server.getFirst10GamePersonsForGame(gameName);
+		}
+		throw new RemoteException("Server ist null / nicht erreichbar.");
 	}
 
 	@Override
 	public int getGamePointsForPerson(String person, String name)
 			throws RemoteException, NoSuchPersonException {
-		return server.getGamePointsForPerson(person, name);
+		if (server == null) {
+			return server.getGamePointsForPerson(person, name);
+		}
+		throw new RemoteException("Server ist null / nicht erreichbar.");
 	}
 
 	@Override
 	public List<Person> getAllPersons() throws RemoteException {
-		return server.getAllPersons();
+		if (server == null) {
+			return server.getAllPersons();
+		}
+		throw new RemoteException("Server ist null / nicht erreichbar.");
 	}
 
 	@Override
 	public void createGame(String name) throws RemoteException {
-	server.createGame(name);
-		
+
+		if (server == null) {
+			server.createGame(name);
+		}
+		throw new RemoteException("Server ist null / nicht erreichbar.");
+
 	}
 
 	@Override
 	public void deleteGame(String name) throws RemoteException {
-		server.deleteGame(name);
-		
+		if (server == null) {
+			server.deleteGame(name);
+		}
+		throw new RemoteException("Server ist null / nicht erreichbar.");
+
 	}
 
 	@Override
 	public void clearGame(String name) throws RemoteException {
-		server.clearGame(name);		
+		if (server == null) {
+			server.clearGame(name);
+		}
+		throw new RemoteException("Server ist null / nicht erreichbar.");
 	}
 
 	@Override
 	public void deletePerson(String name) throws RemoteException {
-		server.deletePerson(name);
+		if (server == null) {
+			server.deletePerson(name);
+		}
+		throw new RemoteException("Server ist null / nicht erreichbar.");
 	}
 
 	@Override
 	public void overwriteRecord(String personName, String gameName, int points)
 			throws RemoteException {
-		server.overwriteRecord(personName, gameName, points);
+		if (server == null) {
+			server.overwriteRecord(personName, gameName, points);
+		}
+		throw new RemoteException("Server ist null / nicht erreichbar.");
 	}
 }
