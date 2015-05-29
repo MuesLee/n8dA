@@ -265,4 +265,46 @@ public class RewardServer extends UnicastRemoteObject implements
 		return findGamePersonForPersonAndGame != null ? findGamePersonForPersonAndGame
 				.getPoints() : 0;
 	}
+
+	@Override
+	public List<Person> getAllPersons() throws RemoteException {
+		return personDao.findAll();
+	}
+
+	@Override
+	public void createGame(String name) throws RemoteException {
+		
+		Game game = new Game(name);
+		
+		gameDao.add(game);
+	}
+
+	@Override
+	public void deleteGame(String name) throws RemoteException {
+		
+		Game findById = gameDao.findById(name);
+		if(findById != null)
+		{
+			gameDao.delete(findById);
+		}
+	}
+
+	@Override
+	public void clearGame(String name) throws RemoteException {
+		List<GamePerson> findAllPersonsForGameName = gamePersonDao.findAllPersonsForGameName(name);
+		
+		for (GamePerson gamePerson : findAllPersonsForGameName) {
+			gamePersonDao.delete(gamePerson);
+		}
+	}
+
+	@Override
+	public void deletePerson(String name) {
+		
+		Person findById = personDao.findById(name);
+		if(findById != null)
+		{
+			personDao.delete(findById);
+		}
+	}
 }
