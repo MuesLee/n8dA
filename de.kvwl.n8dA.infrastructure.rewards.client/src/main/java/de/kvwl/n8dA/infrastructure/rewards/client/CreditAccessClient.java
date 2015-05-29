@@ -95,7 +95,7 @@ public class CreditAccessClient implements CreditAccess {
 	 */
 	public int getConfigurationPointsForPerson(String name)
 			throws NoSuchPersonException, RemoteException {
-		if (server == null) {
+		if (server != null) {
 			return server.getConfigurationPointsForPerson(name);
 		}
 		throw new RemoteException("Server ist null / nicht erreichbar.");
@@ -119,7 +119,7 @@ public class CreditAccessClient implements CreditAccess {
 	@Override
 	public void persistConfigurationPointsForPerson(String personName,
 			String gameName, int points) throws RemoteException {
-		if (server == null) {
+		if (server != null) {
 			server.persistConfigurationPointsForPerson(personName, gameName,
 					points);
 		}
@@ -128,7 +128,7 @@ public class CreditAccessClient implements CreditAccess {
 
 	public List<GamePerson> getAllGamesForPersonName(String personName)
 			throws RemoteException {
-		if (server == null) {
+		if (server != null) {
 			return server.getAllGamesForPersonName(personName);
 		}
 		throw new RemoteException("Server ist null / nicht erreichbar.");
@@ -136,7 +136,7 @@ public class CreditAccessClient implements CreditAccess {
 
 	@Override
 	public List<Game> getAllGames() throws RemoteException {
-		if (server == null) {
+		if (server != null) {
 			return server.getAllGames();
 		}
 		throw new RemoteException("Server ist null / nicht erreichbar.");
@@ -145,7 +145,7 @@ public class CreditAccessClient implements CreditAccess {
 	@Override
 	public List<GamePerson> getAllGamePersonsForGame(String gameName)
 			throws RemoteException {
-		if (server == null) {
+		if (server != null) {
 			return server.getAllGamePersonsForGame(gameName);
 		}
 		throw new RemoteException("Server ist null / nicht erreichbar.");
@@ -153,7 +153,7 @@ public class CreditAccessClient implements CreditAccess {
 
 	@Override
 	public List<GamePerson> getAllGamePersons() throws RemoteException {
-		if (server == null) {
+		if (server != null) {
 			return server.getAllGamePersons();
 		}
 		throw new RemoteException("Server ist null / nicht erreichbar.");
@@ -162,7 +162,7 @@ public class CreditAccessClient implements CreditAccess {
 	@Override
 	public List<GamePerson> getFirst10GamePersonsForGame(String gameName)
 			throws RemoteException {
-		if (server == null) {
+		if (server != null) {
 			return server.getFirst10GamePersonsForGame(gameName);
 		}
 		throw new RemoteException("Server ist null / nicht erreichbar.");
@@ -171,7 +171,7 @@ public class CreditAccessClient implements CreditAccess {
 	@Override
 	public int getGamePointsForPerson(String person, String name)
 			throws RemoteException, NoSuchPersonException {
-		if (server == null) {
+		if (server != null) {
 			return server.getGamePointsForPerson(person, name);
 		}
 		throw new RemoteException("Server ist null / nicht erreichbar.");
@@ -179,7 +179,7 @@ public class CreditAccessClient implements CreditAccess {
 
 	@Override
 	public List<Person> getAllPersons() throws RemoteException {
-		if (server == null) {
+		if (server != null) {
 			return server.getAllPersons();
 		}
 		throw new RemoteException("Server ist null / nicht erreichbar.");
@@ -188,7 +188,7 @@ public class CreditAccessClient implements CreditAccess {
 	@Override
 	public void createGame(String name) throws RemoteException {
 
-		if (server == null) {
+		if (server != null) {
 			server.createGame(name);
 		}
 		throw new RemoteException("Server ist null / nicht erreichbar.");
@@ -197,7 +197,7 @@ public class CreditAccessClient implements CreditAccess {
 
 	@Override
 	public void deleteGame(String name) throws RemoteException {
-		if (server == null) {
+		if (server != null) {
 			server.deleteGame(name);
 		}
 		throw new RemoteException("Server ist null / nicht erreichbar.");
@@ -206,7 +206,7 @@ public class CreditAccessClient implements CreditAccess {
 
 	@Override
 	public void clearGame(String name) throws RemoteException {
-		if (server == null) {
+		if (server != null) {
 			server.clearGame(name);
 		}
 		throw new RemoteException("Server ist null / nicht erreichbar.");
@@ -214,7 +214,7 @@ public class CreditAccessClient implements CreditAccess {
 
 	@Override
 	public void deletePerson(String name) throws RemoteException {
-		if (server == null) {
+		if (server != null) {
 			server.deletePerson(name);
 		}
 		throw new RemoteException("Server ist null / nicht erreichbar.");
@@ -223,7 +223,7 @@ public class CreditAccessClient implements CreditAccess {
 	@Override
 	public void overwriteRecord(String personName, String gameName, int points)
 			throws RemoteException {
-		if (server == null) {
+		if (server != null) {
 			server.overwriteRecord(personName, gameName, points);
 		}
 		throw new RemoteException("Server ist null / nicht erreichbar.");
