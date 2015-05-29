@@ -22,6 +22,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -313,11 +314,26 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 	private JPanel createActionSelection()
 	{
 		JPanel actions = new JPanel();
-		actions.setLayout(new BoxLayout(actions, BoxLayout.X_AXIS));
+		actions.setLayout(new BorderLayout());
 
-		actions.add(createAttackSelection());
-		actions.add(Box.createHorizontalStrut(10));
-		actions.add(createDefendSelection());
+		JSplitPane spActions = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+		spActions.setOneTouchExpandable(true);
+		spActions.setDividerSize(10);
+		actions.add(spActions, BorderLayout.CENTER);
+
+		JPanel ownActions = new JPanel();
+		spActions.setLeftComponent(ownActions);
+		ownActions.setLayout(new BoxLayout(ownActions, BoxLayout.X_AXIS));
+
+		ownActions.add(createAttackSelection());
+		ownActions.add(Box.createHorizontalStrut(10));
+		ownActions.add(createDefendSelection());
+
+		JPanel otherActions = new JPanel();
+		spActions.setRightComponent(otherActions);
+		otherActions.setLayout(new BoxLayout(ownActions, BoxLayout.X_AXIS));
+
+		//TODO: Other atks/defs
 
 		return actions;
 	}
