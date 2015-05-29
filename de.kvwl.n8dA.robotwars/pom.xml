@@ -79,7 +79,7 @@
 				<dependency>
 			<groupId>de.kvwl</groupId>
 			<artifactId>de.kvwl.n8dA.infrastructure.rewards.client</artifactId>
-			<version>0.0.4-SNAPSHOT</version>
+			<version>0.0.5-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
