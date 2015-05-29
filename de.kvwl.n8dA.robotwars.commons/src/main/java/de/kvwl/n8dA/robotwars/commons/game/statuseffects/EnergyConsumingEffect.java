@@ -21,7 +21,7 @@ public class EnergyConsumingEffect extends StatusEffect {
 	@Override
 	public void performEachRoundsModification(Robot robot) {
 		int energyPoints = robot.getEnergyPoints();
-		robot.setEnergyPoints(Math.min(energyPoints - getEnergyLoss(), 0));
+		robot.setEnergyPoints(Math.max(energyPoints - getEnergyLoss(), 0));
 	}
 
 	@Override
