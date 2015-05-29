@@ -538,7 +538,7 @@ public class RoboConfigurationPanel extends JPanel implements ActionListener
 		if (img == null)
 		{
 
-			System.out.println("------------>" + Main.SOURCE_FOLDER + ani.getPathToFile());
+			LOG.debug("------------>" + Main.SOURCE_FOLDER + ani.getPathToFile());
 
 			img = ImageIO.read(Paths.get(Main.SOURCE_FOLDER, ani.getPathToFile()).toFile());
 			animations.put(ani.getId(), img);
