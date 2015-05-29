@@ -641,19 +641,19 @@ public class BattleController {
 	int calculatePointsForMatch(String playerLeft, String playerRight,
 			GameStateType matchResult) {
 
-		int pointsPlayerLeft = server
+		double pointsPlayerLeft = server
 				.getConfigurationPointsForPlayer(playerLeft);
-		int pointsPlayerRight = server
+		double pointsPlayerRight = server
 				.getConfigurationPointsForPlayer(playerRight);
 		int roboBattlePointsPlayerLeft = server
 				.getRoboBattlePointsForPlayer(playerLeft);
 		int roboBattlePointsPlayerRight = server
 				.getRoboBattlePointsForPlayer(playerRight);
 
-		int pointsPlayerLeftNoRobo = pointsPlayerLeft
-				- roboBattlePointsPlayerLeft;
-		int pointsPlayerRightNoRobo = pointsPlayerRight
-				- roboBattlePointsPlayerRight;
+		int pointsPlayerLeftNoRobo = (int) (pointsPlayerLeft
+				- roboBattlePointsPlayerLeft);
+		int pointsPlayerRightNoRobo = (int) (pointsPlayerRight
+				- roboBattlePointsPlayerRight);
 
 		double eloWinFactorForPlayerLeft = getEloWinFactorForPlayer(
 				pointsPlayerLeft, pointsPlayerRight);

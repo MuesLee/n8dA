@@ -86,21 +86,21 @@ public class BattleControllerTest {
 	@Test
 	public void testGetEloMatchPoints1() throws Exception {
 	
-		int pointsPlayerLeft = 2806;
+		double pointsPlayerLeft = 2806;
 		double eloWinFactorForPlayerLeft = 0.789;
 		double modForMatchPlayerLeft = 1;
-		int pointFactor = 10;
-		int calculatedEloPointsForPlayer = battleController.getCalculatedEloPointsForPlayer(pointsPlayerLeft, eloWinFactorForPlayerLeft, modForMatchPlayerLeft, pointFactor);
+		double pointFactor = 10;
+		int calculatedEloPointsForPlayer = (int) battleController.getCalculatedEloPointsForPlayer(pointsPlayerLeft, eloWinFactorForPlayerLeft, modForMatchPlayerLeft, pointFactor);
 		assertEquals(2808, calculatedEloPointsForPlayer);
 	}
 	@Test
 	public void testGetEloMatchPoints2() throws Exception {
 		
-		int pointsPlayerLeft = 2577;
+		double pointsPlayerLeft = 2577;
 		double eloWinFactorForPlayerLeft = 0.211; 
 		double modForMatchPlayerLeft = 1;
-		int pointFactor = 10;
-		int calculatedEloPointsForPlayer = battleController.getCalculatedEloPointsForPlayer(pointsPlayerLeft, eloWinFactorForPlayerLeft, modForMatchPlayerLeft, pointFactor);
+		double pointFactor = 10;
+		int calculatedEloPointsForPlayer = (int) Math.round(battleController.getCalculatedEloPointsForPlayer(pointsPlayerLeft, eloWinFactorForPlayerLeft, modForMatchPlayerLeft, pointFactor));
 		assertEquals(2585, calculatedEloPointsForPlayer);
 	}
 	
