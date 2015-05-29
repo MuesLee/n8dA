@@ -36,6 +36,8 @@ public class RewardCentral extends JFrame implements ActionListener
 	private JMenuItem miGameClear;
 	private JMenu mFile;
 	private JMenuItem miRefresh;
+	private JMenu mUser;
+	private JMenuItem miDeleteUser;
 
 	public RewardCentral(BasicCreditAccess client)
 	{
@@ -79,6 +81,13 @@ public class RewardCentral extends JFrame implements ActionListener
 		miGameClear = new JMenuItem("Clear");
 		miGameClear.addActionListener(this);
 		mGame.add(miGameClear);
+
+		mUser = new JMenu("User");
+		menuBar.add(mUser);
+
+		miDeleteUser = new JMenuItem("Delete User");
+		miDeleteUser.addActionListener(this);
+		mUser.add(miDeleteUser);
 
 		try
 		{
@@ -164,11 +173,28 @@ public class RewardCentral extends JFrame implements ActionListener
 			{
 				clearGame();
 			}
+			else if (source == miDeleteUser)
+			{
+				deleteUser();
+			}
 		}
 		catch (Exception e1)
 		{
 			e1.printStackTrace();
 		}
+	}
+
+	private void deleteUser() throws RemoteException
+	{
+
+		String name = JOptionPane.showInputDialog(this, "Enter game name - Clear");
+
+		if (name == null || name.isEmpty())
+		{
+			return;
+		}
+
+		client.deletePerson(name);
 	}
 
 	private void clearGame() throws RemoteException

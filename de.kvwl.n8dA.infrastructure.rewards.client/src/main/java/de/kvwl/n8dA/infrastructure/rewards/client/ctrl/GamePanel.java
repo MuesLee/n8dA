@@ -3,7 +3,10 @@ package de.kvwl.n8dA.infrastructure.rewards.client.ctrl;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
+import java.util.List;
 
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -27,6 +30,8 @@ public class GamePanel extends JPanel implements ActionListener
 	private JTable table;
 	private DefaultTableModel model;
 	private Game game;
+	private JButton btnRefresh;
+
 	private JButton btnEditRecord;
 
 	public GamePanel(BasicCreditAccess client)
@@ -55,25 +60,79 @@ public class GamePanel extends JPanel implements ActionListener
 	public void actionPerformed(ActionEvent e)
 	{
 
-		Object source = e.getSource();
-
-		if (source == btnEditRecord)
+		try
 		{
+			Object source = e.getSource();
 
-			editRecord();
+			if (source == btnEditRecord)
+			{
+
+				editRecord();
+			}
+			else if (source == btnRefresh)
+			{
+
+				refresh();
+			}
+		}
+		catch (RemoteException e1)
+		{
+			e1.printStackTrace();
 		}
 
 	}
 
-	private void editRecord()
+	private void editRecord() throws RemoteException
 	{
 
+		if (game == null || game.getName() == null)
+		{
+			return;
+		}
+
 		String userName = "";
+		String userPoints = "0";
+
+		int selectedRow = table.getSelectedRow();
+		if (selectedRow >= 0)
+		{
+			int modelRowIndex = table.convertRowIndexToModel(selectedRow);
+			userName = model.getValueAt(modelRowIndex, 0).toString();
+
+			userPoints = model.getValueAt(modelRowIndex, 1).toString();
+		}
 
 		String name = JOptionPane.showInputDialog(this, "Enter user name - Edit record", userName);
-		int points = 0;
+		int points = Integer.valueOf(JOptionPane.showInputDialog(this, "Enter points for " + name + " - Edit record",
+			userPoints));
 
-		client.overwriteRecord();
+		if (name == null || name.isEmpty() || points < 0)
+		{
+			return;
+		}
+
+		client.overwriteRecord(name, game.getName(), points);
+	}
+
+	public void refresh() throws RemoteException
+	{
+		if (game == null || game.getName() == null)
+		{
+			return;
+		}
+
+		while (model.getRowCount() > 0)
+		{
+			model.removeRow(0);
+		}
+
+		List<GamePerson> persons = client.getAllGamePersonsForGame(game.getName());
+
+		for (GamePerson person : persons)
+		{
+
+			addRecord(person);
+		}
 	}
 
 	private void createGui()
@@ -103,6 +162,7 @@ public class GamePanel extends JPanel implements ActionListener
 
 		table = new JTable();
 		table.setModel(model);
+		table.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
 		table.setAutoCreateRowSorter(true);
 
 		scrollPane.setViewportView(table);
@@ -111,6 +171,11 @@ public class GamePanel extends JPanel implements ActionListener
 		toolBar.setRollover(true);
 		toolBar.setFloatable(false);
 		add(toolBar, BorderLayout.NORTH);
+
+		btnRefresh = new JButton("Refresh");
+		btnRefresh.addActionListener(this);
+		btnRefresh.setEnabled(game != null);
+		toolBar.add(btnRefresh);
 
 		btnEditRecord = new JButton("Edit Record");
 		btnEditRecord.addActionListener(this);
