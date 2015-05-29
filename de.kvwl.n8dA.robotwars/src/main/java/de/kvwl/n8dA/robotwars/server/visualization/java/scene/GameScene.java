@@ -8,6 +8,7 @@ import game.engine.time.TimeUtils;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
@@ -216,6 +217,7 @@ public class GameScene implements Scene, CinematicVisualizer {
 		obj.setOutlineColor(Color.LIGHT_GRAY);
 		obj.setColor(new Color(0, 0, 0));
 		obj.setStroke(new BasicStroke(1.5f));
+		obj.setFont(new Font("Comic Sans MS", Font.BOLD, 8));
 
 		Rectangle2D bounds = new Rectangle2D.Float(0, 0, 1, 1);
 
