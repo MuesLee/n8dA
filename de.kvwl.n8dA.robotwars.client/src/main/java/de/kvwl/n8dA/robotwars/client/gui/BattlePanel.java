@@ -329,13 +329,21 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 		ownActions.add(Box.createHorizontalStrut(10));
 		ownActions.add(createDefendSelection());
 
-		JPanel otherActions = new JPanel();
+		JPanel otherActions = createOtherActionsPanel();
 		spActions.setRightComponent(otherActions);
-		otherActions.setLayout(new BoxLayout(ownActions, BoxLayout.X_AXIS));
 
+		//TODO return actions - Ref:createOtherActionsPanel
+		return ownActions;
+	}
+
+	private JPanel createOtherActionsPanel()
+	{
 		//TODO: Other atks/defs
 
-		return ownActions;
+		JPanel otherActions = new JPanel();
+		otherActions.setLayout(new BoxLayout(otherActions, BoxLayout.X_AXIS));
+
+		return otherActions;
 	}
 
 	private JPanel createDefendSelection()

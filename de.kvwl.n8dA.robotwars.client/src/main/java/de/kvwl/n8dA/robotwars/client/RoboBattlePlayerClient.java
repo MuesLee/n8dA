@@ -46,8 +46,9 @@ public class RoboBattlePlayerClient extends RoboBattleClient
 		catch (NoFreeSlotInBattleArenaException e)
 		{
 			e.printStackTrace();
-		} catch (ServerIsNotReadyForYouException e) {
-			// TODO Auto-generated catch block
+		}
+		catch (ServerIsNotReadyForYouException e)
+		{
 			e.printStackTrace();
 		}
 		client.getUpdatedRobot();
@@ -59,9 +60,10 @@ public class RoboBattlePlayerClient extends RoboBattleClient
 	 * 
 	 * @param robot
 	 * @throws NoFreeSlotInBattleArenaException
-	 * @throws ServerIsNotReadyForYouException 
+	 * @throws ServerIsNotReadyForYouException
 	 */
-	public void registerClientWithRobotAtServer(Robot robot, String playerId) throws NoFreeSlotInBattleArenaException, ServerIsNotReadyForYouException
+	public void registerClientWithRobotAtServer(Robot robot, String playerId) throws NoFreeSlotInBattleArenaException,
+		ServerIsNotReadyForYouException
 	{
 		try
 		{
@@ -109,11 +111,11 @@ public class RoboBattlePlayerClient extends RoboBattleClient
 		}
 		catch (RemoteException e)
 		{
-			LOG.error("Remote error",e);
+			LOG.error("Remote error", e);
 		}
 		catch (UnknownRobotException e)
 		{
-			LOG.error("Unknown Robot",e);
+			LOG.error("Unknown Robot", e);
 		}
 		return null;
 	}
@@ -194,7 +196,7 @@ public class RoboBattlePlayerClient extends RoboBattleClient
 	{
 		producer.sendDisconnectFromServer();
 		producer.closeConnections();
-		
+
 	}
 
 	public List<Attack> getAllPossibleAttacksFromServer()
@@ -209,8 +211,6 @@ public class RoboBattlePlayerClient extends RoboBattleClient
 		}
 		return null;
 	}
-	
-	
 
 	public List<Defense> getAllPossibleDefendsFromServer()
 	{
