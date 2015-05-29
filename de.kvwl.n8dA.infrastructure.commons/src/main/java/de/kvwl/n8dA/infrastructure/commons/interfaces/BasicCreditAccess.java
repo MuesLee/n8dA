@@ -42,5 +42,5 @@ public interface BasicCreditAccess extends Remote
 	public void persistConfigurationPointsForPerson(String personName, String gameName, int points)
 		throws RemoteException;
 
-	public void deletePerson(String name);
+	public void deletePerson(String name) throws RemoteException;;
 }
