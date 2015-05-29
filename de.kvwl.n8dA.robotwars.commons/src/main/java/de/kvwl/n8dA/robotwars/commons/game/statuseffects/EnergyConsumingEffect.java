@@ -11,18 +11,17 @@ public class EnergyConsumingEffect extends StatusEffect {
 		super(startDuration);
 		setPositive(false);
 		setIconName("stat_energy.png");
-
 	}
 
 	@Override
 	public void performInitialRobotModification(Robot robot) {
-		int energyPoints = robot.getEnergyPoints();
-		robot.setEnergyPoints(Math.min(energyPoints - getEnergyLoss(), 0));
+	// nothing to do here
 	}
 
 	@Override
 	public void performEachRoundsModification(Robot robot) {
-		// nothing to do here.
+		int energyPoints = robot.getEnergyPoints();
+		robot.setEnergyPoints(Math.min(energyPoints - getEnergyLoss(), 0));
 	}
 
 	@Override
