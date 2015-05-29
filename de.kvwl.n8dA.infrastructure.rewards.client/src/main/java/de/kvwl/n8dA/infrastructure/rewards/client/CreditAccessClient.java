@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import de.kvwl.n8dA.infrastructure.commons.entity.Game;
 import de.kvwl.n8dA.infrastructure.commons.entity.GamePerson;
+import de.kvwl.n8dA.infrastructure.commons.entity.Person;
 import de.kvwl.n8dA.infrastructure.commons.exception.NoSuchPersonException;
 import de.kvwl.n8dA.infrastructure.commons.interfaces.BasicCreditAccess;
 import de.kvwl.n8dA.infrastructure.commons.interfaces.CreditAccess;
@@ -143,21 +144,45 @@ public class CreditAccessClient implements CreditAccess
 
 	@Override
 	public List<GamePerson> getAllGamePersons() throws RemoteException {
-		// TODO Auto-generated method stub
 		return server.getAllGamePersons();
 	}
 
 	@Override
 	public List<GamePerson> getFirst10GamePersonsForGame(String gameName)
 			throws RemoteException {
-		// TODO Auto-generated method stub
 		return server.getFirst10GamePersonsForGame(gameName);
 	}
 
 	@Override
 	public int getGamePointsForPerson(String person, String name)
 			throws RemoteException, NoSuchPersonException {
-		// TODO Auto-generated method stub
 		return server.getGamePointsForPerson(person, name);
+	}
+
+	@Override
+	public List<Person> getAllPersons() throws RemoteException {
+		return server.getAllPersons();
+	}
+
+	@Override
+	public void createGame(String name) throws RemoteException {
+	server.createGame(name);
+		
+	}
+
+	@Override
+	public void deleteGame(String name) throws RemoteException {
+		server.deleteGame(name);
+		
+	}
+
+	@Override
+	public void clearGame(String name) throws RemoteException {
+		server.clearGame(name);		
+	}
+
+	@Override
+	public void deletePerson(String name) {
+		server.deletePerson(name);
 	}
 }
