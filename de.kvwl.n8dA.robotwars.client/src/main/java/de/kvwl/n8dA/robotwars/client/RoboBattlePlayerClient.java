@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.jms.Message;
+import javax.jms.ObjectMessage;
 
 import de.kvwl.n8dA.robotwars.commons.exception.NoFreeSlotInBattleArenaException;
 import de.kvwl.n8dA.robotwars.commons.exception.ServerIsNotReadyForYouException;
@@ -147,13 +148,25 @@ public class RoboBattlePlayerClient extends RoboBattleClient
 		try
 		{
 			LOG.info("Message from Server received");
-
+			
+			if(message instanceof ObjectMessage)
+			{
+				LOG.info("ObjectMessage");
+				
+				RobotAction enemyRobotAction =(RobotAction) ((ObjectMessage) message).getObject();
+				
+				handleReceivedEnemyRobotAction(enemyRobotAction);
+			}
+			else {
+				
+			
 			int intProperty = message.getIntProperty(GameStateType.getNotificationName());
 			GameStateType gameStateType = GameStateType.values()[intProperty];
-
+			
 			LOG.info("Client: " + uuid + " received: " + gameStateType.name());
-
+			
 			handleReceivedGamestateType(gameStateType);
+			}
 
 		}
 		catch (ArrayIndexOutOfBoundsException e)
@@ -165,6 +178,10 @@ public class RoboBattlePlayerClient extends RoboBattleClient
 			LOG.error("####Bumm####", e);
 		}
 
+	}
+
+	private void handleReceivedEnemyRobotAction(RobotAction enemyRobotAction) {
+		clientListener.receiveEnemyRobotAction(enemyRobotAction);
 	}
 
 	private void handleReceivedGamestateType(GameStateType gameStateType)
