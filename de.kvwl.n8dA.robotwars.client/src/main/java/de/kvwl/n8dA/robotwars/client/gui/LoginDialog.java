@@ -158,7 +158,6 @@ public class LoginDialog extends JDialog implements ActionListener
 
 	public static LoginResult getCreditPoints(CreditAccess creditClient) throws CanceledException
 	{
-
 		LoginDialog login = new LoginDialog(creditClient);
 		login.setLocationRelativeTo(null);
 		login.setVisible(true);

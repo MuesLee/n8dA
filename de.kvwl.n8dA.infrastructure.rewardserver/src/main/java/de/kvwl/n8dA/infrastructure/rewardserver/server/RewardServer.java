@@ -28,12 +28,13 @@ import de.kvwl.n8dA.infrastructure.rewardserver.dao.GameDaoHSQL;
 import de.kvwl.n8dA.infrastructure.rewardserver.dao.GamePersonDaoHSQL;
 import de.kvwl.n8dA.infrastructure.rewardserver.dao.PersonDaoHSQL;
 
-public class RewardServer extends UnicastRemoteObject implements BasicCreditAccess
-{
+public class RewardServer extends UnicastRemoteObject implements
+		BasicCreditAccess {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger LOG = LoggerFactory.getLogger(RewardServer.class);
+	private static final Logger LOG = LoggerFactory
+			.getLogger(RewardServer.class);
 
 	private PersonDaoHSQL personDao;
 	private GamePersonDaoHSQL gamePersonDao;
@@ -46,115 +47,77 @@ public class RewardServer extends UnicastRemoteObject implements BasicCreditAcce
 
 	private HighscoreController highscoreController;
 
-	protected RewardServer() throws RemoteException
-	{
-
+	protected RewardServer() throws RemoteException {
 		this(false);
 	}
 
-	protected RewardServer(boolean installSecurityManager) throws RemoteException
-	{
+	protected RewardServer(boolean installSecurityManager)
+			throws RemoteException {
 
-		if (installSecurityManager)
-		{
+		if (installSecurityManager) {
 			installSecurityManager();
 		}
 	}
 
-	private void installSecurityManager()
-	{
-		if (System.getSecurityManager() == null)
-		{
+	private void installSecurityManager() {
+		if (System.getSecurityManager() == null) {
 			System.setSecurityManager(new SecurityManager());
 		}
 	}
 
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) {
 		RewardServer rewardServer;
-		try
-		{
+		try {
 			BasicConfigurator.configure();
 
 			REWARD_SERVER_FULL_TCP_ADDRESS = JOptionPane.showInputDialog(null,
-				"Bitte die vollständige TCP-Adresse des Servers eingeben!",
-				NetworkUtils.REWARD_SERVER_DEFAULT_FULL_TCP_ADRESS);
-			REWARD_SERVER_REGISTRY_PORT = JOptionPane.showInputDialog(null, "Bitte den Registry-Port eingeben!",
-				NetworkUtils.REWARD_SERVER_DEFAULT_REGISTRY_PORT);
+					"Bitte die vollständige TCP-Adresse des Servers eingeben!",
+					NetworkUtils.REWARD_SERVER_DEFAULT_FULL_TCP_ADRESS);
+			REWARD_SERVER_REGISTRY_PORT = JOptionPane.showInputDialog(null,
+					"Bitte den Registry-Port eingeben!",
+					NetworkUtils.REWARD_SERVER_DEFAULT_REGISTRY_PORT);
 
 			rewardServer = new RewardServer();
-			rewardServer.startServer(Integer.parseInt(REWARD_SERVER_REGISTRY_PORT));
-		}
-		catch (RemoteException e)
-		{
+			rewardServer.startServer(Integer
+					.parseInt(REWARD_SERVER_REGISTRY_PORT));
+		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void addTestData()
-	{
-
-		//		String testGameName1 = "Rebellen schubsen";
-		//		String testGameName2 = "zerschlagen Imperium man muss";
-		//		int testGamePoints = 100;
-		//		Game game1 = new Game(testGameName1);
-		//		Game game2 = new Game(testGameName2);
-		//		gameDao.add(game1);
-		//		gameDao.add(game2);
-
-		//		try {
-		//			persistConfigurationPointsForPerson("Lord Vader",testGameName1 , testGamePoints);
-		//			persistConfigurationPointsForPerson("Yoda",testGameName2 , testGamePoints+20);
-		//		} catch (RemoteException e) {
-		//			LOG.error("Fehler bei Persistierung der Testdaten",e);
-		//		}
-	}
-
-	public void startServer(int port)
-	{
-		try
-		{
+	public void startServer(int port) {
+		try {
 			personDao = new PersonDaoHSQL();
 			gamePersonDao = new GamePersonDaoHSQL();
 			gameDao = new GameDaoHSQL();
 			startActiveMQBroker();
 
 			Registry registry = LocateRegistry.getRegistry(port);
-			if (registry == null)
-			{
+			if (registry == null) {
 				LocateRegistry.createRegistry(port);
 			}
-			addTestData();
-
 			highscoreController = new HighscoreController(this);
 			highscoreController.showHighscoreView();
 		}
 
-		catch (RemoteException ex)
-		{
+		catch (RemoteException ex) {
 			LOG.error(ex.getMessage());
 		}
-		try
-		{
+		try {
 			Naming.rebind(NetworkUtils.REWARD_SERVER_NAME, this);
-			LOG.info("##### " + NetworkUtils.REWARD_SERVER_NAME + " STARTED ####");
-		}
-		catch (MalformedURLException ex)
-		{
+			LOG.info("##### " + NetworkUtils.REWARD_SERVER_NAME
+					+ " STARTED ####");
+		} catch (MalformedURLException ex) {
 			LOG.error(ex.getMessage());
-		}
-		catch (RemoteException ex)
-		{
+		} catch (RemoteException ex) {
 			LOG.error(ex.getMessage());
 		}
 	}
 
-	private void startActiveMQBroker()
-	{
+	private void startActiveMQBroker() {
 		LOG.info("Starting ActiveMQ Broker");
 
-		try
-		{
+		try {
 			broker = new BrokerService();
 			KahaDBPersistenceAdapter adaptor = new KahaDBPersistenceAdapter();
 			adaptor.setDirectory(new File("activemq"));
@@ -162,38 +125,32 @@ public class RewardServer extends UnicastRemoteObject implements BasicCreditAcce
 			broker.setUseJmx(true);
 			broker.addConnector(REWARD_SERVER_FULL_TCP_ADDRESS);
 			broker.start();
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
 
 	@SuppressWarnings("unused")
-	private void stopActiveMQBroker()
-	{
-		try
-		{
+	private void stopActiveMQBroker() {
+		try {
 			broker.stop();
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public int getConfigurationPointsForPerson(String name) throws NoSuchPersonException, RemoteException
-	{
+	public int getConfigurationPointsForPerson(String name)
+			throws NoSuchPersonException, RemoteException {
 
 		LOG.info("ConfigPoints requested for " + name);
 
-		List<GamePerson> findAllGamesByPersonName = gamePersonDao.findAllGamesByPersonName(name);
+		List<GamePerson> findAllGamesByPersonName = gamePersonDao
+				.findAllGamesByPersonName(name);
 
 		int points = 0;
-		for (GamePerson gamePerson : findAllGamesByPersonName)
-		{
+		for (GamePerson gamePerson : findAllGamesByPersonName) {
 			points += gamePerson.getPoints();
 		}
 
@@ -203,11 +160,11 @@ public class RewardServer extends UnicastRemoteObject implements BasicCreditAcce
 	}
 
 	@Override
-	public List<GamePerson> getAllGamesForPersonName(String personName)
-	{
+	public List<GamePerson> getAllGamesForPersonName(String personName) {
 		LOG.info("All Games requested for " + personName);
 
-		List<GamePerson> findAllGamesByPersonName = gamePersonDao.findAllGamesByPersonName(personName);
+		List<GamePerson> findAllGamesByPersonName = gamePersonDao
+				.findAllGamesByPersonName(personName);
 
 		LOG.info(findAllGamesByPersonName + " returned for " + personName);
 
@@ -215,80 +172,87 @@ public class RewardServer extends UnicastRemoteObject implements BasicCreditAcce
 	}
 
 	@Override
-	public void persistConfigurationPointsForPerson(String personName, String gameName, int points)
-		throws RemoteException
-	{
+	public void persistConfigurationPointsForPerson(String personName,
+			String gameName, int points) throws RemoteException {
 
-		LOG.info("Persist request for: " + personName + ". With " + points + " points for game: " + gameName);
+		LOG.info("Persist request for: " + personName + ". With " + points
+				+ " points for game: " + gameName);
 
-		GamePerson findPersonInGame = gamePersonDao.findPersonInGame(gameName, personName);
+		GamePerson findPersonInGame = gamePersonDao.findPersonInGame(gameName,
+				personName);
 
-		if (findPersonInGame == null)
-		{
-			LOG.info("Person: " + personName + " has not played " + gameName + " before. Creating new game entry");
+		if (findPersonInGame == null) {
+			LOG.info("Person: " + personName + " has not played " + gameName
+					+ " before. Creating new game entry");
 
 			Game game = gameDao.findById(gameName);
-			if (game == null)
-			{
-				LOG.info("It is: " + gameName + " first play ever . Creating new game entry");
+			if (game == null) {
+				LOG.info("It is: " + gameName
+						+ " first play ever . Creating new game entry");
 				game = new Game(gameName);
 				gameDao.add(game);
 				highscoreController.refreshGameList();
 			}
 			Person person = personDao.findById(personName);
 
-			if (person == null)
-			{
-				LOG.info("It is persons: " + personName + " first game ever . Creating new person entry");
+			if (person == null) {
+				LOG.info("It is persons: " + personName
+						+ " first game ever . Creating new person entry");
 				person = new Person(personName);
 			}
 
 			gamePersonDao.add(new GamePerson(game, person, points));
 
-			LOG.info("Persisted person: " + personName + ". With " + points + " points for game: " + gameName);
-		}
-		else
-		{
-			Integer oldPoints = findPersonInGame.getPoints();
-			if (oldPoints >= points)
-			{
-				LOG.info("Person: " + personName + ". Already had " + oldPoints + " points for game: " + gameName
-					+ ". No update needed ");
-			}
-			else
-			{
+			LOG.info("Persisted person: " + personName + ". With " + points
+					+ " points for game: " + gameName);
+		} else {
+
+			if (!gameName.equals("RoboBattle")) {
+
+				Integer oldPoints = findPersonInGame.getPoints();
+				if (oldPoints >= points) {
+					LOG.info("Person: " + personName + ". Already had "
+							+ oldPoints + " points for game: " + gameName
+							+ ". No update needed ");
+				} else {
+					findPersonInGame.setPoints(points);
+					gamePersonDao.update(findPersonInGame);
+					LOG.info("Person: " + personName + ". Had " + oldPoints
+							+ " points for game: " + gameName + ". Now has "
+							+ points);
+				}
+			} else {
 				findPersonInGame.setPoints(points);
 				gamePersonDao.update(findPersonInGame);
-				LOG.info("Person: " + personName + ". Had " + oldPoints + " points for game: " + gameName
-					+ ". Now has " + points);
+				LOG.info("Person: " + personName + " has now " + points
+						+ " in " + gameName);
 			}
 		}
 	}
 
 	@Override
-	public List<Game> getAllGames() throws RemoteException
-	{
+	public List<Game> getAllGames() throws RemoteException {
 
 		return gameDao.findAll();
 	}
 
 	@Override
-	public List<GamePerson> getAllGamePersonsForGame(String gameName) throws RemoteException
-	{
-		List<GamePerson> findAllPersonsForGameName = gamePersonDao.findAllPersonsForGameName(gameName);
+	public List<GamePerson> getAllGamePersonsForGame(String gameName)
+			throws RemoteException {
+		List<GamePerson> findAllPersonsForGameName = gamePersonDao
+				.findAllPersonsForGameName(gameName);
 
 		return findAllPersonsForGameName;
 	}
 
 	@Override
-	public List<GamePerson> getAllGamePersons() throws RemoteException
-	{
+	public List<GamePerson> getAllGamePersons() throws RemoteException {
 		return gamePersonDao.findAllGamePersons();
 	}
 
 	@Override
-	public List<GamePerson> getFirst10GamePersonsForGame(String gameName) throws RemoteException
-	{
+	public List<GamePerson> getFirst10GamePersonsForGame(String gameName)
+			throws RemoteException {
 		return gamePersonDao.findFirst10PersonsForGameName(gameName);
 	}
 
@@ -296,7 +260,9 @@ public class RewardServer extends UnicastRemoteObject implements BasicCreditAcce
 	public int getGamePointsForPerson(String person, String name)
 			throws RemoteException, NoSuchPersonException {
 		// TODO Auto-generated method stub
-	GamePerson findGamePersonForPersonAndGame = gamePersonDao.findGamePersonForPersonAndGame(person, name);
-	return findGamePersonForPersonAndGame != null ? findGamePersonForPersonAndGame.getPoints():0;
+		GamePerson findGamePersonForPersonAndGame = gamePersonDao
+				.findGamePersonForPersonAndGame(person, name);
+		return findGamePersonForPersonAndGame != null ? findGamePersonForPersonAndGame
+				.getPoints() : 0;
 	}
 }

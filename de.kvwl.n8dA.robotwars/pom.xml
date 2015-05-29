@@ -74,7 +74,7 @@
 		<dependency>
 			<groupId>de.kvwl</groupId>
 			<artifactId>de.kvwl.n8dA.robotwars.commons</artifactId>
-			<version>0.0.9-SNAPSHOT</version>
+			<version>0.0.10-SNAPSHOT</version>
 		</dependency>
 				<dependency>
 			<groupId>de.kvwl</groupId>
