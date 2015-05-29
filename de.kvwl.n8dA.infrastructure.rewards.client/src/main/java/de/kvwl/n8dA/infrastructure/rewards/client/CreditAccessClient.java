@@ -185,4 +185,10 @@ public class CreditAccessClient implements CreditAccess
 	public void deletePerson(String name) throws RemoteException {
 		server.deletePerson(name);
 	}
+
+	@Override
+	public void overwriteRecord(String personName, String gameName, int points)
+			throws RemoteException {
+		server.overwriteRecord(personName, gameName, points);
+	}
 }

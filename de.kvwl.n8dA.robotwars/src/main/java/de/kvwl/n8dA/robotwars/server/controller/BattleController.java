@@ -628,38 +628,64 @@ public class BattleController {
 				.getRoboBattlePointsForPlayer(playerLeft);
 		int roboBattlePointsPlayerRight = server
 				.getRoboBattlePointsForPlayer(playerRight);
-
 		
+		double eloWinFactorForPlayerLeft = getEloWinFactorForPlayer(pointsPlayerLeft, pointsPlayerRight);
+		double eloWinFactorForPlayerRight = getEloWinFactorForPlayer(pointsPlayerRight, pointsPlayerLeft);
+		
+		double modForMatchPlayerLeft = 0;
+		double modForMatchPlayerRight = 0;
 		
 		switch (matchResult) {
 		case DRAW:
+			modForMatchPlayerLeft = 0.5;
+			modForMatchPlayerRight = 0.5;
 			break;
 		case VICTORY_LEFT:
+			modForMatchPlayerLeft = 1;
+			modForMatchPlayerRight = 0;
 			break;
 		case VICTORY_RIGHT:
+			modForMatchPlayerLeft = 0;
+			modForMatchPlayerRight = 1;
 			break;
 		default:
 			return 0;
 			break;
 		}
-
-		roboBattlePointsPlayerLeft += earnedPoints;
-		roboBattlePointsPlayerRight -= lostPoints;
-		if (roboBattlePointsPlayerRight > 0) {
+		
+		int calcPointsPlayerLeft = getCalculatedEloPointsForPlayer(pointsPlayerLeft, eloWinFactorForPlayerLeft, modForMatchPlayerLeft, 20);
+		int calcPointsPlayerRight = getCalculatedEloPointsForPlayer(pointsPlayerRight, eloWinFactorForPlayerRight, modForMatchPlayerRight, 20);
+		int eloDifLeft = calcPointsPlayerLeft - pointsPlayerLeft;
+		int eloDifRight = calcPointsPlayerRight - pointsPlayerRight;
+		
+		roboBattlePointsPlayerLeft += eloDifLeft;
+		roboBattlePointsPlayerRight += eloDifRight;
+		
+		if (roboBattlePointsPlayerRight < 0) {
 			roboBattlePointsPlayerRight = 0;
 		}
-		roboBattlePointsPlayerLeft += earnedPoints;
+		else if(roboBattlePointsPlayerRight < 0) {
+			roboBattlePointsPlayerRight = 0;
+		}
 
-		server.persistPointsForPlayer(winner, roboBattlePointsPlayerLeft);
-		server.persistPointsForPlayer(loser, roboBattlePointsPlayerRight);
+		server.persistPointsForPlayer(playerLeft, roboBattlePointsPlayerLeft);
+		server.persistPointsForPlayer(playerRight, roboBattlePointsPlayerRight);
 
 		showTextWithCaption(winner, " earns " + earnedPoints + " points!");
 		showTextWithCaption(loser, " loses " + lostPoints + " points!");
 
 	}
-	private int getEloPointsForPlayer(int pointsA, int pointsB)
-	{
-		return (int) (1 / (1 + Math.pow(10, (pointsB -pointsA)/400)));
+
+	private int getCalculatedEloPointsForPlayer(int pointsPlayerLeft,
+			double eloWinFactorForPlayerLeft, double modForMatchPlayerLeft,
+			int pointFactor) {
+		
+		int newPoints = (int) (pointsPlayerLeft + pointFactor*(modForMatchPlayerLeft-eloWinFactorForPlayerLeft));
+		return newPoints;
+	}
+
+	private double getEloWinFactorForPlayer(int pointsA, int pointsB) {
+		return (1 / (1 + Math.pow(10, (pointsB - pointsA) / 400)));
 	}
 
 	public Robot getLocalRobotForRemoteRobot(Robot robot)
