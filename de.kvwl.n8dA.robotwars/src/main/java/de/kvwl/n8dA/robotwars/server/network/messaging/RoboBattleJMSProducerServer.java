@@ -14,6 +14,7 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
 import de.kvwl.n8dA.robotwars.commons.game.util.GameStateType;
 import de.kvwl.n8dA.robotwars.commons.network.messages.ClientProperty;
 import de.kvwl.n8dA.robotwars.commons.utils.NetworkUtils;
@@ -75,6 +76,20 @@ public void sendGameStateNotificationToAllClients(GameStateType gameStateType)
 		sendMessage(message);
 		
 		LOG.info("GameStateUpdate sent to all Clients: " + gameStateType);
+		
+	} catch (JMSException e) {
+		LOG.error("Error sending message", e);
+	}
+}
+
+public void sendEnemyRobotActionToClient(RobotAction enemyRobotAction, UUID receiver)
+{
+	try {
+		Message message = session.createObjectMessage(enemyRobotAction);
+		
+		message.setStringProperty(ClientProperty.UUID.getName(), receiver.toString());
+
+		sendMessage(message);
 		
 	} catch (JMSException e) {
 		LOG.error("Error sending message", e);

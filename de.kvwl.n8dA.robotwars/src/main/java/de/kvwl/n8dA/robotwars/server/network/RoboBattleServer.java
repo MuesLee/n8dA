@@ -326,6 +326,8 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 			LOG.info("Message from UUID: " + clientUUID + ". Action: "
 					+ robotAction);
 
+			sendRobotActionToEnemyOfClient(robotAction, clientUUID);
+
 		} catch (JMSException e) {
 			LOG.error("Error while receiving Player input", e);
 		} catch (ClassCastException e) {
@@ -337,7 +339,19 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		} catch (WrongGameStateException e) {
 			LOG.error("Not the right to time to send input...", e);
 		}
+	}
 
+	private void sendRobotActionToEnemyOfClient(RobotAction robotAction,
+			UUID clientUUID) {
+
+		UUID uuid;
+		if (clientUUID.equals(clientUUIDLeft)) {
+			uuid = clientUUIDRight;
+		} else {
+			uuid = clientUUIDLeft;
+		}
+
+		producer.sendEnemyRobotActionToClient(robotAction, uuid);
 	}
 
 	private Robot getRobotForUUID(UUID uuid) throws UnknownRobotException {
@@ -355,7 +369,7 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		LOG.info("Client disconnected: " + clientUUID);
 
 		GameStateType currentGameState = battleController.getCurrentGameState();
-		if (currentGameState.getIndex() >=6) {
+		if (currentGameState.getIndex() >= 6) {
 			if (clientUUID.equals(clientUUIDLeft)) {
 				battleController
 						.setCurrentGameState(GameStateType.VICTORY_RIGHT);
