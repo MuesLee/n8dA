@@ -39,6 +39,11 @@ public interface BasicCreditAccess extends Remote
 
 	public void clearGame(String name) throws RemoteException;
 
+	/**
+	 * Create or overwrite. Egal ob besserer Punktestand oder nicht
+	 */
+	public void overwriteRecord(String personName, String gameName, int points) throws RemoteException;
+
 	public void persistConfigurationPointsForPerson(String personName, String gameName, int points)
 		throws RemoteException;
 
