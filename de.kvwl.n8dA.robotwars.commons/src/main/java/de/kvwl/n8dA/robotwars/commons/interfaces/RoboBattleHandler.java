@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import de.kvwl.n8dA.robotwars.commons.exception.NoFreeSlotInBattleArenaException;
+import de.kvwl.n8dA.robotwars.commons.exception.ServerIsNotReadyForYouException;
 import de.kvwl.n8dA.robotwars.commons.exception.UnknownRobotException;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
@@ -16,7 +17,7 @@ import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
 
 public interface RoboBattleHandler extends Remote {
 	
-	public RobotPosition registerRobotAndClientForBattle(Robot robot, UUID clientUUID, String playerId) throws RemoteException, NoFreeSlotInBattleArenaException;
+	public RobotPosition registerRobotAndClientForBattle(Robot robot, UUID clientUUID, String playerId) throws RemoteException, NoFreeSlotInBattleArenaException, ServerIsNotReadyForYouException;
 	
 	public Robot getSynchronizedRobot(UUID clientUUID) throws RemoteException, UnknownRobotException;
 	public Robot getSynchronizedRobotOfEnemy(UUID ownUUID) throws RemoteException, UnknownRobotException;

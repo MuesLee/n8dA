@@ -590,12 +590,10 @@ public class BattleController {
 		default:
 			break;
 		}
-
-		setCurrentGameState(currentGameState);
 	}
 
 	public void endGame(GameStateType currentGameState) {
-
+		setCurrentGameState(GameStateType.SERVER_BUSY);
 		switch (currentGameState) {
 		case VICTORY_LEFT:
 		case VICTORY_RIGHT:
@@ -620,6 +618,7 @@ public class BattleController {
 		default:
 			break;
 		}
+		setCurrentGameState(currentGameState);
 	}
 
 	/**
@@ -635,7 +634,6 @@ public class BattleController {
 	int calculatePointsForMatch(String playerLeft, String playerRight,
 			GameStateType matchResult) {
 
-		setCurrentGameState(GameStateType.SERVER_BUSY);
 		int pointsPlayerLeft = server
 				.getConfigurationPointsForPlayer(playerLeft);
 		int pointsPlayerRight = server

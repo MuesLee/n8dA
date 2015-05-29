@@ -34,6 +34,7 @@ import de.kvwl.n8dA.infrastructure.commons.interfaces.CreditAccess;
 import de.kvwl.n8dA.infrastructure.rewards.client.CreditAccessClient;
 import de.kvwl.n8dA.robotwars.commons.exception.NoFreeSlotInBattleArenaException;
 import de.kvwl.n8dA.robotwars.commons.exception.RobotHasInsufficientEnergyException;
+import de.kvwl.n8dA.robotwars.commons.exception.ServerIsNotReadyForYouException;
 import de.kvwl.n8dA.robotwars.commons.exception.UnknownRobotException;
 import de.kvwl.n8dA.robotwars.commons.exception.WrongGameStateException;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
@@ -428,13 +429,16 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 	@Override
 	public RobotPosition registerRobotAndClientForBattle(Robot robot,
 			UUID uuid, String playerId) throws RemoteException,
-			NoFreeSlotInBattleArenaException {
+			NoFreeSlotInBattleArenaException, ServerIsNotReadyForYouException {
 		LOG.info("Robot: " + robot + " played by " + playerId + " on Client: "
 				+ uuid + "\nwants tries register at server");
-
-		battleController.performInitialModificationOfRobot(robot);
+		
+		if(battleController.getCurrentGameState()!= GameStateType.GAME_HASNT_BEGUN)
+		{
+			
 
 		if (battleController.getRobotLeft() == null) {
+			battleController.performInitialModificationOfRobot(robot);
 			robot.setRobotPosition(RobotPosition.LEFT);
 			battleController.setRobotLeft(robot);
 			clientUUIDLeft = uuid;
@@ -451,6 +455,7 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 			return RobotPosition.LEFT;
 
 		} else if (battleController.getRobotRight() == null) {
+			battleController.performInitialModificationOfRobot(robot);
 			robot.setRobotPosition(RobotPosition.RIGHT);
 			battleController.setRobotRight(robot);
 			clientUUIDRight = uuid;
@@ -468,6 +473,10 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 			return RobotPosition.RIGHT;
 		} else {
 			throw new NoFreeSlotInBattleArenaException();
+		}
+		}
+		else {
+			throw new ServerIsNotReadyForYouException();
 		}
 	}
 

@@ -7,6 +7,7 @@ import java.util.UUID;
 import javax.jms.Message;
 
 import de.kvwl.n8dA.robotwars.commons.exception.NoFreeSlotInBattleArenaException;
+import de.kvwl.n8dA.robotwars.commons.exception.ServerIsNotReadyForYouException;
 import de.kvwl.n8dA.robotwars.commons.exception.UnknownRobotException;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
@@ -45,6 +46,9 @@ public class RoboBattlePlayerClient extends RoboBattleClient
 		catch (NoFreeSlotInBattleArenaException e)
 		{
 			e.printStackTrace();
+		} catch (ServerIsNotReadyForYouException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		client.getUpdatedRobot();
 		client.sendRobotActionToServer(new Attack(RobotActionType.FIRE, 10));
@@ -55,8 +59,9 @@ public class RoboBattlePlayerClient extends RoboBattleClient
 	 * 
 	 * @param robot
 	 * @throws NoFreeSlotInBattleArenaException
+	 * @throws ServerIsNotReadyForYouException 
 	 */
-	public void registerClientWithRobotAtServer(Robot robot, String playerId) throws NoFreeSlotInBattleArenaException
+	public void registerClientWithRobotAtServer(Robot robot, String playerId) throws NoFreeSlotInBattleArenaException, ServerIsNotReadyForYouException
 	{
 		try
 		{
