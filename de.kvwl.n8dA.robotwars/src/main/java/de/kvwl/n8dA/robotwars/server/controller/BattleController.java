@@ -594,7 +594,7 @@ public class BattleController {
 		setCurrentGameState(currentGameState);
 	}
 
-	private void endGame(GameStateType currentGameState) {
+	public void endGame(GameStateType currentGameState) {
 
 		switch (currentGameState) {
 		case VICTORY_LEFT:
@@ -603,32 +603,8 @@ public class BattleController {
 			String winner = getWinner();
 			String loser = getLoser();
 
-			int winnersPoints = server.getConfigurationPointsForPlayer(winner);
-			int losersPoints = server.getConfigurationPointsForPlayer(loser);
-			int earnedPoints = getPointsForMatch(winnersPoints, losersPoints,
-					true);
-			int lostPoints = getPointsForMatch(winnersPoints, losersPoints,
-					false);
-			int roboBattlePointsWinner = server
-					.getRoboBattlePointsForPlayer(winner);
-			int roboBattlePointsLoser = server
-					.getRoboBattlePointsForPlayer(loser);
-
-			roboBattlePointsWinner += earnedPoints;
-			roboBattlePointsLoser -= lostPoints;
-			if (roboBattlePointsLoser > 0) {
-				roboBattlePointsLoser = 0;
-			}
-			roboBattlePointsWinner += earnedPoints;
-
-			server.persistPointsForPlayer(winner, earnedPoints);
-			server.persistPointsForPlayer(loser, lostPoints);
-
 			cinematicVisualizer.playSound("gameOver");
 			showTextWithCaption("GAME OVER", winner + " wins!");
-
-			showTextWithCaption(winner, " earns " + earnedPoints + " points!");
-			showTextWithCaption(loser, " loses " + lostPoints + " points!");
 
 			break;
 		case DRAW:
@@ -638,6 +614,52 @@ public class BattleController {
 		default:
 			break;
 		}
+	}
+
+	private int getPointsForMatch(String playerLeft, String playerRight,
+			GameStateType matchResult) {
+
+		setCurrentGameState(GameStateType.SERVER_BUSY);
+		int pointsPlayerLeft = server
+				.getConfigurationPointsForPlayer(playerLeft);
+		int pointsPlayerRight = server
+				.getConfigurationPointsForPlayer(playerRight);
+		int roboBattlePointsPlayerLeft = server
+				.getRoboBattlePointsForPlayer(playerLeft);
+		int roboBattlePointsPlayerRight = server
+				.getRoboBattlePointsForPlayer(playerRight);
+
+		
+		
+		switch (matchResult) {
+		case DRAW:
+			break;
+		case VICTORY_LEFT:
+			break;
+		case VICTORY_RIGHT:
+			break;
+		default:
+			return 0;
+			break;
+		}
+
+		roboBattlePointsPlayerLeft += earnedPoints;
+		roboBattlePointsPlayerRight -= lostPoints;
+		if (roboBattlePointsPlayerRight > 0) {
+			roboBattlePointsPlayerRight = 0;
+		}
+		roboBattlePointsPlayerLeft += earnedPoints;
+
+		server.persistPointsForPlayer(winner, roboBattlePointsPlayerLeft);
+		server.persistPointsForPlayer(loser, roboBattlePointsPlayerRight);
+
+		showTextWithCaption(winner, " earns " + earnedPoints + " points!");
+		showTextWithCaption(loser, " loses " + lostPoints + " points!");
+
+	}
+	private int getEloPointsForPlayer(int pointsA, int pointsB)
+	{
+		return (int) (1 / (1 + Math.pow(10, (pointsB -pointsA)/400)));
 	}
 
 	public Robot getLocalRobotForRemoteRobot(Robot robot)
@@ -836,19 +858,6 @@ public class BattleController {
 		LOG.info("Robot " + robot + " has " + energyRobot + " EP left.");
 	}
 
-	private int getPointsForMatch(int winnersPoints, int losersPoints,
-			boolean calculateForWinner) {
-		int basePoints = 50;
-
-		int calculatedPoints = 0;
-		if (calculateForWinner) {
-			calculatedPoints = basePoints;
-		} else {
-			calculatedPoints -= basePoints;
-		}
-		return calculatedPoints;
-	}
-
 	private String getLoser() {
 		String text = "";
 
@@ -891,14 +900,17 @@ public class BattleController {
 	}
 
 	public Robot getRobotLeft() {
+
 		return robotLeft;
 	}
 
 	public void setRobotLeft(Robot robotLeft) {
+		setCurrentGameState(GameStateType.SERVER_BUSY);
 		getCinematicVisualizer().robotHasEnteredTheArena(robotLeft,
 				RobotPosition.LEFT, loader);
 		this.robotLeft = robotLeft;
 		showTextWithCaption(robotLeft.getNickname(), "wants to fight!");
+		setCurrentGameState(GameStateType.GAME_HASNT_BEGUN);
 	}
 
 	public Robot getRobotRight() {
@@ -906,10 +918,12 @@ public class BattleController {
 	}
 
 	public void setRobotRight(Robot robotRight) {
+		setCurrentGameState(GameStateType.SERVER_BUSY);
 		getCinematicVisualizer().robotHasEnteredTheArena(robotRight,
 				RobotPosition.RIGHT, loader);
 		this.robotRight = robotRight;
 		showTextWithCaption(robotRight.getNickname(), "accepts the challenge!");
+		setCurrentGameState(GameStateType.GAME_HASNT_BEGUN);
 	}
 
 	/**
