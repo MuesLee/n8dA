@@ -264,6 +264,12 @@ public class RewardCentral extends JFrame implements ActionListener
 	public static void main(String[] args) throws RemoteException, MalformedURLException, NotBoundException
 	{
 
+		_main();
+	}
+
+	public static void _main() throws RemoteException, MalformedURLException, NotBoundException
+	{
+
 		try
 		{
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
