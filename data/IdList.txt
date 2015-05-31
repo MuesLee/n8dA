@@ -1,4 +1,5 @@
 Attacken - Animationen
+CD -> CD
 Laser -> Laser
 Welle -> Welle
 Eishieb -> Eishieb
@@ -14,6 +15,7 @@ Blitz -> Blitz
 
 
 Verteidigungen - Animationen
+Firewall -> Firewall
 Spiegel -> Spiegel
 Tennis -> Tennis
 Schwamm -> Schwamm
@@ -41,6 +43,7 @@ PillenRoboter -> PillenRoboter
 
 
 Attacken - Objekte
+Cyberangriff -> 57
 Laser -> 13
 Welle -> 12
 Eishieb -> 11
@@ -56,6 +59,7 @@ Blitz -> 9
 
 
 Verteidigungen - Objekte
+Firewall -> 58
 Spiegel -> 21
 Tennisschläger -> 22
 Schwamm -> 28
@@ -147,6 +151,8 @@ Alle Ids
 54
 55
 56
+57
+58
 100
 101
 102
@@ -169,10 +175,12 @@ Blitz
 Blubber
 BlueRoboter
 Bombe
+CD
 Donnerwolke
 Eishieb
 Feuerball
 Feuerloescher
+Firewall
 GirlRoboter
 GreenRoboter
 Holzschild

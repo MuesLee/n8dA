@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<defense>
+	<defensefactor>0.3</defensefactor>
+	<type>FIRE</type>
+	<powertype>NORMAL</powertype>
+	<animationid>Firewall</animationid>
+	<energycosts>3</energycosts>
+	<configcosts>25</configcosts>
+	<name>Firewall</name>
+	<id>58</id>
+	<statuseffects>
+		<id>107</id>
+    </statuseffects>
+</defense>
