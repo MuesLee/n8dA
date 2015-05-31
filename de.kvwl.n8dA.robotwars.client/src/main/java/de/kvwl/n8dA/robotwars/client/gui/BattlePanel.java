@@ -9,6 +9,7 @@ import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -22,7 +23,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.SwingUtilities;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,6 +78,8 @@ public class BattlePanel extends JPanel implements ActionListener,
 	private JPanel sidePanel;
 
 	private JPanel statusPanel;
+
+	private JPanel actions;
 
 	public BattlePanel(RoboBattlePlayerClient battleClient, Robot robot,
 			String playerName) {
@@ -316,15 +321,28 @@ public class BattlePanel extends JPanel implements ActionListener,
 		JPanel otherActions = createOtherActionsPanel();
 		spActions.setRightComponent(otherActions);
 
-		// TODO return actions - Ref:createOtherActionsPanel
-		return ownActions;
+		return actions;
 	}
 
 	private JPanel createOtherActionsPanel() {
-		// TODO: Other atks/defs
 
 		JPanel otherActions = new JPanel();
-		otherActions.setLayout(new BoxLayout(otherActions, BoxLayout.X_AXIS));
+		otherActions.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+				.createTitledBorder(
+						BorderFactory.createLineBorder(Color.BLACK, 2, true),
+						"Gegner Historie"), BorderFactory.createEmptyBorder(3,
+				3, 3, 3)));
+		otherActions.setLayout(new BorderLayout());
+
+		JScrollPane sp = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_NEVER,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		otherActions.add(sp, BorderLayout.CENTER);
+
+		if (actions == null) {
+			actions = new JPanel();
+			actions.setLayout(new BoxLayout(actions, BoxLayout.X_AXIS));
+		}
+		sp.setViewportView(actions);
 
 		return otherActions;
 	}
@@ -538,6 +556,57 @@ public class BattlePanel extends JPanel implements ActionListener,
 		repaint();
 	}
 
+	private void putEnemyAction(RobotAction robotAction) {
+
+		int actionCount = actions.getComponentCount();
+		while (actionCount > 7) {
+
+			actions.remove(actionCount - 1);
+			actionCount = actions.getComponentCount();
+		}
+
+		ActionButton lblAction = new ActionButton();
+		lblAction.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createEmptyBorder(3, 0, 3, 5),
+				BorderFactory.createLineBorder(Color.BLACK, 2, true)));
+		lblAction.setBorderPainted(true);
+		lblAction.setContentAreaFilled(false);
+
+		if (robotAction instanceof Attack) {
+
+			Attack attack = (Attack) robotAction;
+
+			lblAction.setRoboAction(attack);
+			lblAction.setText(String.format("%s - %d S (%d E)",
+					attack.getName(), attack.getDamage(),
+					attack.getEnergyCosts()));
+			lblAction.setIcon(attack.getRobotActionType());
+			lblAction.setToolTipText(ItemUtil
+					.createToolTipTextForRobotActions(attack));
+		} else if (robotAction instanceof Defense) {
+
+			Defense defense = (Defense) robotAction;
+
+			lblAction.setRoboAction(defense);
+			lblAction.setText(String.format("%s - %.2f (%d E)",
+					defense.getName(),
+					(100 * defense.getBonusOnDefenseFactor()),
+					defense.getEnergyCosts()));
+			lblAction.setIcon(defense.getRobotActionType());
+			lblAction.setToolTipText(ItemUtil
+					.createToolTipTextForRobotActions(defense));
+		} else {
+
+			lblAction.setText(String.format("%s (%s)", robotAction.getName(),
+					robotAction.getDescription()));
+		}
+
+		actions.add(lblAction, 0);
+		revalidate();
+		repaint();
+		repack();
+	}
+
 	private void countdownOver() {
 
 		LOG.debug("Countdown over -> auto select action");
@@ -630,9 +699,21 @@ public class BattlePanel extends JPanel implements ActionListener,
 	}
 
 	@Override
-	public void receiveEnemyRobotAction(RobotAction robotAction) {
-		// TODO Marvin: receiveEnemyRobotAction
+	public void receiveEnemyRobotAction(final RobotAction robotAction) {
+		LOG.debug("Received enemy robot action: {}", robotAction);
 
+		try {
+			SwingUtilities.invokeAndWait(new Runnable() {
+
+				@Override
+				public void run() {
+
+					putEnemyAction(robotAction);
+				}
+			});
+		} catch (InvocationTargetException | InterruptedException e) {
+			LOG.warn("Could not add enemy action", e);
+		}
 	}
 
 	@Override

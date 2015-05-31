@@ -8,23 +8,21 @@ import de.kvwl.n8dA.robotwars.commons.gui.Animation;
 
 public abstract class RobotAction extends Entity {
 
-	private static final long serialVersionUID = 3093807349848858832L;
-	
+	private static final long serialVersionUID = 1L;
+
 	public RobotAction(RobotActionType robotActionType) {
 		this.robotActionType = robotActionType;
 	}
 
 	protected RobotActionType robotActionType;
-	protected RobotActionPowerType	robotActionPowerType;
-	
+	protected RobotActionPowerType robotActionPowerType;
+
 	protected Animation animation;
 	protected int energyCosts;
 	protected String description;
-	
-	
-	
+
 	protected List<StatusEffect> statusEffects;
-	
+
 	public boolean beats(RobotAction otherAction) {
 		return this.robotActionType.beats(otherAction.getRobotActionType());
 	}
@@ -60,7 +58,7 @@ public abstract class RobotAction extends Entity {
 	}
 
 	public String getDescription() {
-		
+
 		return description;
 	}
 
@@ -69,7 +67,7 @@ public abstract class RobotAction extends Entity {
 	}
 
 	public List<StatusEffect> getStatusEffects() {
-		
+
 		return statusEffects;
 	}
 
@@ -81,43 +79,38 @@ public abstract class RobotAction extends Entity {
 		return robotActionPowerType;
 	}
 
-	public void setRobotActionPowerType(RobotActionPowerType robotActionPowerType) {
+	public void setRobotActionPowerType(
+			RobotActionPowerType robotActionPowerType) {
 		this.robotActionPowerType = robotActionPowerType;
 	}
-	
+
 	@Override
 	public int compareTo(Entity o) {
 		int configCostResult = super.compareTo(o);
-		
+
 		RobotAction other;
-		if(o instanceof RobotAction)
-		{
-			other =  (RobotAction) o;
-		}
-		else {
+		if (o instanceof RobotAction) {
+			other = (RobotAction) o;
+		} else {
 			return configCostResult;
 		}
-		
+
 		int result = 0;
 		int thisIndex = this.getRobotActionType().getIndex();
 		int otherIndex = other.getRobotActionType().getIndex();
-		
-		if(configCostResult == 0)
-		{
-			if(thisIndex == otherIndex)
+
+		if (configCostResult == 0) {
+			if (thisIndex == otherIndex)
 				result = 0;
-			else if(thisIndex > otherIndex)
-			{
+			else if (thisIndex > otherIndex) {
 				result = 1;
+			} else {
+				result = -1;
 			}
-			else {
-				result =-1;
-			}
-		}
-		else {
+		} else {
 			result = configCostResult;
 		}
-		
+
 		return result;
 	}
 }
