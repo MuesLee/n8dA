@@ -1,90 +1,90 @@
 Attacken - Animationen
-Blitz -> Blitz
+Laser -> Laser
+Welle -> Welle
+Eishieb -> Eishieb
+Spritze -> Spritze
+Plasma -> Plasma
 Blubber -> Blubber
 Bombe -> Bombe
 Donnerwolke -> Donnerwolke
-Eishieb -> Eishieb
-Feuerball -> Feuerball
-Laser -> Laser
-Molotovcocktail -> Molotovcocktail
-Plasma -> Plasma
 Rakete -> Rakete
-Spritze -> Spritze
-Welle -> Welle
+Feuerball -> Feuerball
+Molotovcocktail -> Molotovcocktail
+Blitz -> Blitz
 
 
 Verteidigungen - Animationen
-Feuerloescher -> Feuerloescher
-Holzschild -> Holzschild
-Kissen -> Kissen
-Laserschild -> Laserschild
-Satellitenschuessel -> Satellitenschuessel
-Schwamm -> Schwamm
 Spiegel -> Spiegel
 Tennis -> Tennis
+Schwamm -> Schwamm
+Kissen -> Kissen
+Holzschild -> Holzschild
 Wind -> Wind
+Laserschild -> Laserschild
+Feuerloescher -> Feuerloescher
+Satellitenschuessel -> Satellitenschuessel
 
 
 Roboter - Animationen
-AtomRoboter -> AtomRoboter
+KochRobot -> KochRobot
+NinjaRoboter -> NinjaRoboter
+NerdRoboter -> NerdRoboter
+GreenRoboter -> GreenRoboter
+SmokingRoboter -> SmokingRoboter
 BlueRoboter -> BlueRoboter
 GirlRoboter -> GirlRoboter
-GreenRoboter -> GreenRoboter
-KochRobot -> KochRobot
-KosmosRoboter -> KosmosRoboter
 MissingNo -> MissingNo
-NerdRoboter -> NerdRoboter
-NinjaRoboter -> NinjaRoboter
-PillenRoboter -> PillenRoboter
+AtomRoboter -> AtomRoboter
 RadRoboter -> RadRoboter
-SmokingRoboter -> SmokingRoboter
+KosmosRoboter -> KosmosRoboter
+PillenRoboter -> PillenRoboter
 
 
 Attacken - Objekte
-Blitz -> 9
+Laser -> 13
+Welle -> 12
+Eishieb -> 11
+Wasserspritze -> 17
+Plasma -> 15
 Blubber -> 26
 Bombe -> 10
 Donnerwolke -> 25
-Eishieb -> 11
-Feuerball -> 24
-Laser -> 13
-Molotovcocktail -> 14
-Plasma -> 15
 Rakete -> 16
-Wasserspritze -> 17
-Welle -> 12
+Feuerball -> 24
+Molotovcocktail -> 14
+Blitz -> 9
 
 
 Verteidigungen - Objekte
-Feuerlöscher -> 27
-Holzschild -> 18
-Kissen -> 19
-Laserschild -> 20
-Satellitenschüssel -> 29
-Schwamm -> 28
 Spiegel -> 21
 Tennisschläger -> 22
+Schwamm -> 28
+Kissen -> 19
+Holzschild -> 18
 Wind -> 23
+Laserschild -> 20
+Feuerlöscher -> 27
+Satellitenschüssel -> 29
 
 
 Roboter - Objekte
-Nucular -> 1
+Ninja -> 6
+Nerd -> 56
+Digital -> 3
+Repo-Bot -> 8
 BlueRoboter -> 2
 Herzchen -> 0
-Digital -> 3
 Koch -> 55
-Space Fighter -> 4
 MissingNo -> 54
-Nerd -> 56
-Ninja -> 6
-Die Pille -> 5
+Nucular -> 1
 B(l)ender -> 7
-Repo-Bot -> 8
+Space Fighter -> 4
+Die Pille -> 5
 
 
 Items
 Lebenspunkte Boost: 10 -> 50
-Lebenspunkte: 1 -> 51
+Lebenspunkte Regeneration: 1 -> 51
 Energiepunkte Boost: 5 -> 52
 Energiepunkte Regeneration: 1 -> 53
 
@@ -105,6 +105,8 @@ Elementareffekt -  AT:WATER MT:VULNERABILITY SD:2 -> 111
 Elementareffekt -  AT:LIGHTNING MT:RESISTANCE SD:3 -> 113
 Elementareffekt -  AT:FIRE MT:RESISTANCE SD:3 -> 112
 Elementareffekt -  AT:WATER MT:RESISTANCE SD:3 -> 114
+de.kvwl.n8dA.robotwars.commons.game.statuseffects.EnergyConsumingEffect -> 116
+de.kvwl.n8dA.robotwars.commons.game.statuseffects.HealthConsumingEffect -> 115
 
 
 Alle Ids
@@ -160,6 +162,8 @@ Alle Ids
 112
 113
 114
+115
+116
 AtomRoboter
 Blitz
 Blubber
