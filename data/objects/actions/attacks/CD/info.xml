@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <attack>
-	<damage>10</damage>
+	<damage>20</damage>
 	<powertype>NORMAL</powertype>
 	<type>LIGHTNING</type>
 	<animationid>CD</animationid>
-	<energycosts>0</energycosts>
-	<configcosts>0</configcosts>
+	<energycosts>6</energycosts>
+	<configcosts>200</configcosts>
 	<name>Cyberangriff</name>
 	<id>57</id>
 	 <statuseffects> 
