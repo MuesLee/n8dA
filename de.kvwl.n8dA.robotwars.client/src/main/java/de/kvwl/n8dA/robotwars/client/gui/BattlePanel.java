@@ -6,6 +6,7 @@ import game.engine.image.InternalImage;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,7 +25,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
 
 import org.slf4j.Logger;
@@ -305,13 +305,12 @@ public class BattlePanel extends JPanel implements ActionListener,
 		JPanel actions = new JPanel();
 		actions.setLayout(new BorderLayout());
 
-		JSplitPane spActions = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-		spActions.setOneTouchExpandable(true);
-		spActions.setDividerSize(10);
+		JPanel spActions = new JPanel();
+		spActions.setLayout(new BorderLayout());
 		actions.add(spActions, BorderLayout.CENTER);
 
 		JPanel ownActions = new JPanel();
-		spActions.setLeftComponent(ownActions);
+		spActions.add(ownActions, BorderLayout.CENTER);
 		ownActions.setLayout(new BoxLayout(ownActions, BoxLayout.X_AXIS));
 
 		ownActions.add(createAttackSelection());
@@ -319,7 +318,7 @@ public class BattlePanel extends JPanel implements ActionListener,
 		ownActions.add(createDefendSelection());
 
 		JPanel otherActions = createOtherActionsPanel();
-		spActions.setRightComponent(otherActions);
+		spActions.add(otherActions, BorderLayout.SOUTH);
 
 		return actions;
 	}
@@ -335,7 +334,16 @@ public class BattlePanel extends JPanel implements ActionListener,
 		otherActions.setLayout(new BorderLayout());
 
 		JScrollPane sp = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_NEVER,
-				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Dimension getPreferredSize() {
+
+				return new Dimension(0, super.getPreferredSize().height);
+			}
+		};
 		otherActions.add(sp, BorderLayout.CENTER);
 
 		if (actions == null) {
