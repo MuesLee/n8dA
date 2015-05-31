@@ -326,8 +326,6 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 			LOG.info("Message from UUID: " + clientUUID + ". Action: "
 					+ robotAction);
 
-			sendRobotActionToEnemyOfClient(robotAction, clientUUID);
-
 		} catch (JMSException e) {
 			LOG.error("Error while receiving Player input", e);
 		} catch (ClassCastException e) {
@@ -341,17 +339,21 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		}
 	}
 
-	private void sendRobotActionToEnemyOfClient(RobotAction robotAction,
-			UUID clientUUID) {
-
+	public void sendEnemyRobotActionToClient(RobotAction robotAction,
+			Robot robot) {
 		UUID uuid;
-		if (clientUUID.equals(clientUUIDLeft)) {
-			uuid = clientUUIDRight;
-		} else {
-			uuid = clientUUIDLeft;
+
+		try {
+			if (robot.equals(getRobotForUUID(clientUUIDLeft))) {
+				uuid = clientUUIDRight;
+			} else {
+				uuid = clientUUIDLeft;
+			}
+			producer.sendEnemyRobotActionToClient(robotAction, uuid);
+		} catch (UnknownRobotException e) {
+			LOG.error("Fehler bei Robotervergleich", e);
 		}
 
-		producer.sendEnemyRobotActionToClient(robotAction, uuid);
 	}
 
 	private Robot getRobotForUUID(UUID uuid) throws UnknownRobotException {

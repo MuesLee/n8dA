@@ -110,6 +110,8 @@ public class BattleController {
 
 		getCinematicVisualizer().roundIsAboutToStart(true);
 
+		RobotAction robotActionLeft = robotLeft.getCurrentAction();
+		RobotAction robotActionRight = robotRight.getCurrentAction();
 		computeBattleOutcome(robotLeft, robotRight);
 
 		consumeStatusEffects(robotLeft);
@@ -127,6 +129,9 @@ public class BattleController {
 		cinematicVisualizer.updateEnergypoints(robotRight, RobotPosition.RIGHT,
 				true, false);
 
+		server.sendEnemyRobotActionToClient(robotActionLeft, robotLeft);
+		server.sendEnemyRobotActionToClient(robotActionRight, robotRight);
+		
 		updateGameState(robotLeft, robotRight);
 
 		if (currentGameState == GameStateType.WAITING_FOR_PLAYER_INPUT) {
