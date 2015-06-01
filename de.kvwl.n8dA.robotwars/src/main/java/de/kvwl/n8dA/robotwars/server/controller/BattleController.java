@@ -71,8 +71,6 @@ public class BattleController {
 
 	public BattleController(DataLoader loader) {
 
-		// XXX Timo: Fenster schließen, wenn Spiel beendet wird
-
 		this.loader = loader;
 
 		this.setCinematicVisualizer(CinematicVisualizerImpl.get());
@@ -156,8 +154,10 @@ public class BattleController {
 
 	GameStateType getCurrentGameState(Robot robotLeft, Robot robotRight) {
 
+		
 		GameStateType result = GameStateType.WAITING_FOR_PLAYER_INPUT;
 
+		//TODO Timo: Client haut während Kampanimation ab, bleibt unentdeckt 
 		if (robotLeft == null || robotRight == null) {
 			return GameStateType.GAME_HASNT_BEGUN;
 		} else {

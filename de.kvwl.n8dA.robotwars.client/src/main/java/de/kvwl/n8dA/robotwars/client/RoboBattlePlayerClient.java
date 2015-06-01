@@ -39,7 +39,6 @@ public class RoboBattlePlayerClient extends RoboBattleClient
 		RoboBattlePlayerClient client = new RoboBattlePlayerClient();
 		client.init();
 
-		// XXX Timo: Test Zeug entfernen
 		try
 		{
 			client.registerClientWithRobotAtServer(new Robot(), "Derp");
@@ -198,7 +197,6 @@ public class RoboBattlePlayerClient extends RoboBattleClient
 			case DRAW:
 			case VICTORY_LEFT:
 			case VICTORY_RIGHT:
-				//TODO Timo: entweder, du übergists mir hier dann auch noch einmal den aktuellen stand des robots (abfrage gibt momentan nur null pointer) oder es bleibt wie es ist.
 				clientListener.gameOver(gameStateType);
 			break;
 			case WAITING_FOR_PLAYER_INPUT:

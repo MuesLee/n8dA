@@ -41,29 +41,6 @@ public class CreditAccessClient implements CreditAccess {
 
 		System.out.println(System.getProperty("user.home"));
 
-		// TODO Timo: Bau das mal auf Startparameter um
-		/*
-		 * Notes:
-		 * 
-		 * The URL can be any regular URL or simply the name of a policy file in
-		 * the current directory, as in
-		 * 
-		 * java -Djava.security.manager -Djava.security.policy=mypolicy SomeApp
-		 * 
-		 * The "-Djava.security.manager" argument ensures that the default
-		 * security manager is installed, and thus the application is subject to
-		 * policy checks. It is not required if the application SomeApp installs
-		 * a security manager.
-		 * 
-		 * If you use
-		 * 
-		 * java -Djava.security.manager -Djava.security.policy==someURL SomeApp
-		 * 
-		 * (note the double equals) then just the specified policy file will be
-		 * used; all the ones indicated in the security properties file will be
-		 * ignored.
-		 */
-
 		if (installSecurityManager) {
 
 			if (System.getSecurityManager() == null) {
@@ -99,21 +76,6 @@ public class CreditAccessClient implements CreditAccess {
 			return server.getConfigurationPointsForPerson(name);
 		}
 		throw new RemoteException("Server ist null / nicht erreichbar.");
-	}
-
-	// XXX Timo: Nur zu Testzwecken. Später entfernen.
-	public static void main(String[] args) throws Exception {
-
-		CreditAccessClient client = new CreditAccessClient("localhost");
-		try {
-			client.initConnectionToServer();
-
-			client.persistConfigurationPointsForPerson("Derp", "TestGame", 5);
-			client.persistConfigurationPointsForPerson("Derp", "TestGame", 6);
-			System.out.println(client.getAllGamesForPersonName("Derp"));
-		} catch (RemoteException e) {
-			LOG.error("Remote Error", e);
-		}
 	}
 
 	@Override

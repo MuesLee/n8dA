@@ -196,7 +196,7 @@ public class BattlePanel extends JPanel implements ActionListener,
 		adviceButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO AdviceBot programmieren
+				// TODO Timo: AdviceBot programmieren
 			}
 		});
 

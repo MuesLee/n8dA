@@ -375,7 +375,6 @@ public class RobotScene implements Scene
 
 					acRight.setVisible(true);
 					acRight.setDone(Math.min(acRight.getDone() + elapsedAni, 1));
-					CinematicVisualizerImpl.get().playSound("defenseReflection");
 				}
 
 				if (isAtkFinished)
@@ -385,7 +384,6 @@ public class RobotScene implements Scene
 
 					if (acRight.getType() == ActionType.ReflectingDefense)
 					{
-
 						acRight = acLeft;
 						acLeft = null;
 
@@ -393,6 +391,7 @@ public class RobotScene implements Scene
 						acRight.setVisible(true);
 						acRight.setDone(0);
 						acRight.setDamage(DamagePhase.Not);
+						CinematicVisualizerImpl.get().playSound("defenseReflection");
 					}
 				}
 			}
