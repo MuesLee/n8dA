@@ -675,9 +675,6 @@ public class BattleController {
 		int roboBattlePointsPlayerRight = server
 				.getRoboBattlePointsForPlayer(playerRight);
 
-		int pointsPlayerLeftNoRobo = (int) (pointsPlayerLeft - roboBattlePointsPlayerLeft);
-		int pointsPlayerRightNoRobo = (int) (pointsPlayerRight - roboBattlePointsPlayerRight);
-
 		double eloWinFactorForPlayerLeft = getEloWinFactorForPlayer(
 				pointsPlayerLeft, pointsPlayerRight);
 
@@ -705,8 +702,8 @@ public class BattleController {
 						1.0 - eloWinFactorForPlayerLeft,
 						1.0 - modForMatchPlayerLeft, 20.0));
 
-		int eloDifLeft = calcPointsPlayerLeft - pointsPlayerLeftNoRobo;
-		int eloDifRight = calcPointsPlayerRight - pointsPlayerRightNoRobo;
+		int eloDifLeft = (int) (calcPointsPlayerLeft -pointsPlayerLeft);
+		int eloDifRight = (int) (calcPointsPlayerRight -pointsPlayerRight);
 
 		roboBattlePointsPlayerLeft += eloDifLeft;
 		roboBattlePointsPlayerRight += eloDifRight;

@@ -125,7 +125,7 @@ public class BattleControllerTest {
 		Mockito.when(battleServerMock.getConfigurationPointsForPlayer(playerRight)).thenReturn(1370);
 		
 		Mockito.when(battleServerMock.getRoboBattlePointsForPlayer(playerLeft)).thenReturn(0);
-		Mockito.when(battleServerMock.getRoboBattlePointsForPlayer(playerRight)).thenReturn(0);
+		Mockito.when(battleServerMock.getRoboBattlePointsForPlayer(playerRight)).thenReturn(10);
 		
 		
 //		int pointsLeft = Mockito.verify(battleServerMock.persistPointsForPlayer(Mockito.eq("playerLeft"), Mockito.anyInt())).intValue();
