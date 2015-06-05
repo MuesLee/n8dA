@@ -83,8 +83,6 @@ public class RewardServer extends UnicastRemoteObject implements
 			rewardServer.startServer(Integer
 					.parseInt(REWARD_SERVER_REGISTRY_PORT));
 
-			rewardServer.startServer(Integer
-					.parseInt(REWARD_SERVER_REGISTRY_PORT));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
