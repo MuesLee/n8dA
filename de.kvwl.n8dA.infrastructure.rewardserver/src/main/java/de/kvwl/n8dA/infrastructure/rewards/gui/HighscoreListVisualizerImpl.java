@@ -21,6 +21,8 @@ public class HighscoreListVisualizerImpl extends SwingGameFrame implements Highs
 
 	HighscoreScene highscoreScene = new HighscoreScene();
 
+	//TODO Marvin: Fullscreen konfigurabel machen
+	
 	public HighscoreListVisualizerImpl()
 	{
 

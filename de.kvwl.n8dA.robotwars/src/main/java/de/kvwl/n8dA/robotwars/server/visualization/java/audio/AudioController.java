@@ -24,17 +24,16 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class AudioController {
 	private Properties prop;
 	private Sequencer sequencerGame;
-	private Sequencer sequencerMenu;
 	private InputStream midiFileGameBackGround;
-	private InputStream midiFileMenuBackGround;
 
-	//TODO Timo: Methode lässt auf Aufrufer warten
-	
+	// TODO Timo: Methode lässt auf Aufrufer warten
+
 	public AudioController() {
 		prop = new Properties();
 		try {
-			
-			FileInputStream file = new FileInputStream("./"+ "sounds.properties");
+
+			FileInputStream file = new FileInputStream("./"
+					+ "sounds.properties");
 			prop.load(file);
 			loadMIDIFileForBackgroundMusic();
 		} catch (IOException e) {
@@ -50,48 +49,36 @@ public class AudioController {
 	}
 
 	private void loadMIDIFileForBackgroundMusic() {
-		File fileMenu = new File(prop.getProperty("backgroundMenuMusic"));
 		File fileGame = new File(prop.getProperty("backgroundMusic"));
 		try {
 			midiFileGameBackGround = new FileInputStream(fileGame);
-			midiFileMenuBackGround = new FileInputStream(fileMenu);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public void startBackgroundMusic() {
-		try {
-			sequencerGame = MidiSystem.getSequencer();
-			sequencerGame.open();
-			sequencerGame.setSequence(MidiSystem
-					.getSequence(midiFileGameBackGround));
-			sequencerGame.setLoopCount(Sequencer.LOOP_CONTINUOUSLY);
-			sequencerGame.start();
-		} catch (MidiUnavailableException e2) {
-			System.out.println("MidiUnavailableException");
-		} catch (InvalidMidiDataException e) {
-			System.out.println("InvalidMidiDataException");
-		} catch (IOException e) {
-			System.out.println("IOException");
+		if (sequencerGame == null) {
+			try {
+				sequencerGame = MidiSystem.getSequencer();
+				sequencerGame.open();
+				sequencerGame.setSequence(MidiSystem
+						.getSequence(midiFileGameBackGround));
+				sequencerGame.setLoopCount(Sequencer.LOOP_CONTINUOUSLY);
+			} catch (MidiUnavailableException e2) {
+				System.out.println("MidiUnavailableException");
+			} catch (InvalidMidiDataException e) {
+				System.out.println("InvalidMidiDataException");
+			} catch (IOException e) {
+				System.out.println("IOException");
+			}
 		}
-	}
-
-	public void startMenuBackgroundMusic() {
-		try {
-			sequencerMenu = MidiSystem.getSequencer();
-			sequencerMenu.open();
-			sequencerMenu.setSequence(MidiSystem
-					.getSequence(midiFileMenuBackGround));
-			sequencerMenu.setLoopCount(Sequencer.LOOP_CONTINUOUSLY);
-			sequencerMenu.start();
-		} catch (MidiUnavailableException e2) {
-			System.out.println("MidiUnavailableException");
-		} catch (InvalidMidiDataException e) {
-			System.out.println("InvalidMidiDataException");
-		} catch (IOException e) {
-			System.out.println("IOException");
+		else {
+			if(sequencerIsRunning())
+				return;
 		}
+		sequencerGame.start();
+		
 	}
 
 	public void stopBackgroundMusic() {
@@ -99,15 +86,6 @@ public class AudioController {
 			return;
 		}
 		sequencerGame.stop();
-		sequencerGame.close();
-	}
-
-	public void stopMenuBackgroundMusic() {
-		if (sequencerMenu == null || !sequencerMenu.isRunning()) {
-			return;
-		}
-		sequencerMenu.stop();
-		sequencerMenu.close();
 	}
 
 	public synchronized void playSound(final String soundName) {
@@ -153,11 +131,10 @@ public class AudioController {
 					}
 				}
 				AudioListener listener = new AudioListener();
-				
-				
+
 				File soundFile = new File(prop.getProperty(soundName));
 				FileInputStream fileInputStream = new FileInputStream(soundFile);
-				
+
 				final BufferedInputStream bufInputStream = new BufferedInputStream(
 						fileInputStream);
 				AudioInputStream audioInputStream = AudioSystem

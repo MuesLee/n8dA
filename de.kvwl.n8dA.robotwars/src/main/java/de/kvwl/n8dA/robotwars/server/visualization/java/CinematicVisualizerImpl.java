@@ -1,5 +1,6 @@
 package de.kvwl.n8dA.robotwars.server.visualization.java;
 
+import game.engine.frame.FullScreenGameFrame;
 import game.engine.frame.SwingGameFrame;
 import game.engine.image.InternalImage;
 import game.engine.stage.scene.object.SceneObject;
@@ -20,7 +21,7 @@ import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.Animatio
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.robot.Action;
 
 //TODO Wechsel zu Fullscreen
-public class CinematicVisualizerImpl extends SwingGameFrame implements
+public class CinematicVisualizerImpl extends FullScreenGameFrame implements
 		CinematicVisualizer {
 
 	private static final long serialVersionUID = 1L;
@@ -40,8 +41,8 @@ public class CinematicVisualizerImpl extends SwingGameFrame implements
 	private CinematicVisualizerImpl(GraphicsConfiguration config) {
 
 		// Switch Konstruktoren wenn Vollbild
-		// super(config.getDevice(), config.getDisplayMode(), "RoboBattle");
-		super("RoboBattle");
+		super(config.getDevice(), config.getDisplayMode(), "RoboBattle");
+		//super("RoboBattle");
 		this.audioController = new AudioController();
 
 		setup();
@@ -50,11 +51,11 @@ public class CinematicVisualizerImpl extends SwingGameFrame implements
 	private void setup() {
 
 		try {
-			setIconImage(InternalImage.loadFromPath(IMAGE_PATH, "icon.png"));
+			setIcon(InternalImage.loadFromPath(IMAGE_PATH, "icon.png"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		setAlwaysOnTop(true);
+		//setAlwaysOnTop(true);
 
 		setScene(gameScene);
 		registerExitKey();
@@ -75,6 +76,15 @@ public class CinematicVisualizerImpl extends SwingGameFrame implements
 					dispose();
 					System.exit(0);
 					break;
+				case KeyEvent.VK_END:
+					if(audioController.sequencerIsRunning())
+					{
+						audioController.stopBackgroundMusic();
+					}
+					else {
+						audioController.startBackgroundMusic();
+					}
+					break;
 				}
 			}
 		});
@@ -82,13 +92,13 @@ public class CinematicVisualizerImpl extends SwingGameFrame implements
 
 	private void addWindowListener() {
 
-		addWindowFocusListener(new WindowAdapter() {
-			@Override
-			public void windowClosed(WindowEvent e) {
-
-				System.exit(0);
-			}
-		});
+//		addWindowFocusListener(new WindowAdapter() {
+//			@Override
+//			public void windowClosed(WindowEvent e) {
+//
+//				System.exit(0);
+//			}
+//		});
 	}
 
 	@Override
@@ -155,6 +165,7 @@ public class CinematicVisualizerImpl extends SwingGameFrame implements
 		gameScene.reset();
 	}
 
+	//TODO Marvin: Fullscreen konfigurierbar machen
 	public static CinematicVisualizerImpl get() {
 
 		if (instance == null) {
