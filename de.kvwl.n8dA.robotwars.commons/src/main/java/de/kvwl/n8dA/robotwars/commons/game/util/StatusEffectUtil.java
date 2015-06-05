@@ -53,7 +53,7 @@ public class StatusEffectUtil
 		
 		HealthConsumingEffect healthConsumingEffect = new HealthConsumingEffect(4);
 		healthConsumingEffect.setId(115L);
-		EnergyConsumingEffect energyConsumingEffect = new EnergyConsumingEffect(3);
+		EnergyConsumingEffect energyConsumingEffect = new EnergyConsumingEffect(2);
 		energyConsumingEffect.setId(116L);
 		
 		

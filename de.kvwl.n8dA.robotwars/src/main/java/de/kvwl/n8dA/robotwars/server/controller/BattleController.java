@@ -154,16 +154,34 @@ public class BattleController {
 
 	GameStateType getCurrentGameState(Robot robotLeft, Robot robotRight) {
 
+		GameStateType result = null;
 		
-		GameStateType result = GameStateType.WAITING_FOR_PLAYER_INPUT;
-
-		//TODO Timo: Client haut während Kampanimation ab, bleibt unentdeckt 
 		if (robotLeft == null || robotRight == null) {
+			
+			if(currentGameState.getIndex()>=6)
+			{
+				if(robotRight == null)
+				{
+					endGame(GameStateType.VICTORY_LEFT);
+				}
+				else if(robotLeft == null)
+				{
+					endGame(GameStateType.VICTORY_RIGHT);
+				}
+				else {
+					endGame(GameStateType.DRAW);
+				}
+			}
+			
 			return GameStateType.GAME_HASNT_BEGUN;
+			
 		} else {
 			if (robotLeft.getCurrentAction() != null
 					&& robotRight.getCurrentAction() != null) {
 				result = GameStateType.BATTLE_IS_ACTIVE;
+			}
+			else {
+				result = GameStateType.WAITING_FOR_PLAYER_INPUT;
 			}
 		}
 

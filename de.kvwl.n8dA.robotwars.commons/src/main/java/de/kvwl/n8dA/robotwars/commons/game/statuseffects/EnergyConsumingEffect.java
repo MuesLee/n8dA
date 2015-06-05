@@ -4,7 +4,7 @@ import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 
 public class EnergyConsumingEffect extends StatusEffect {
 
-	private static final int _ENERGY_LOSS = 2;
+	private static final int _ENERGY_LOSS = 3;
 	private static final long serialVersionUID = 1L;
 
 	public EnergyConsumingEffect(int startDuration) {

@@ -373,6 +373,7 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		GameStateType currentGameState = battleController.getCurrentGameState();
 		if (currentGameState.getIndex() >= 6) {
 			if (clientUUID.equals(clientUUIDLeft)) {
+				battleController.setRobotLeft(null);
 				battleController
 						.setCurrentGameState(GameStateType.VICTORY_RIGHT);
 				battleController.endGame(GameStateType.VICTORY_RIGHT);
@@ -380,6 +381,8 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 				resetGame();
 			} else if (clientUUID.equals(clientUUIDRight)) {
 				battleController.setRobotRight(null);
+				battleController
+				.setCurrentGameState(GameStateType.VICTORY_LEFT);
 				battleController.endGame(GameStateType.VICTORY_LEFT);
 				sendGameStateInfoToClients(GameStateType.VICTORY_LEFT);
 				resetGame();
