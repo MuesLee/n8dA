@@ -78,7 +78,6 @@ public class AudioController {
 				return;
 		}
 		sequencerGame.start();
-		
 	}
 
 	public void stopBackgroundMusic() {
