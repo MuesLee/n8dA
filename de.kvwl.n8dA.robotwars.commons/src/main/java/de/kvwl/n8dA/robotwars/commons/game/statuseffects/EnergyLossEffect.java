@@ -24,6 +24,12 @@ public class EnergyLossEffect extends StatusEffect {
 	public void performEachRoundsModification(Robot robot) {
 
 	}
+	
+	@Override
+	public String getModifierText() {
+
+		return "Verlust von " + energyLoss;
+	}
 
 	@Override
 	public StatusEffect clone() {
@@ -31,6 +37,11 @@ public class EnergyLossEffect extends StatusEffect {
 				this.getStartDuration());
 		clonedEffect.setRoundsLeft(this.getRoundsLeft());
 		return clonedEffect;
+	}
+	@Override
+	public String toString() {
+
+		return "ENERGYLOSSEFFECT - RATE: " + energyLoss;
 	}
 
 }

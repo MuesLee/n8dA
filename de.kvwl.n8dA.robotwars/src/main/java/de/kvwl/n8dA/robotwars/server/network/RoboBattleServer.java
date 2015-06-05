@@ -177,14 +177,12 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		return 0;
 	}
 
-	public int persistPointsForPlayer(String playerName, int points) {
+	public void persistPointsForPlayer(String playerName, int points) {
 		try {
 			creditAccess.persistConfigurationPointsForPerson(playerName,
 					"RoboBattle", points);
-			return points;
 		} catch (RemoteException e) {
 			LOG.error("DAMN!", e);
-			return -1;
 		}
 	}
 
@@ -257,6 +255,11 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		battleController.setAllItems(ItemUtil.getAllRoboItems());
 		battleController.setAllStatusEffects(StatusEffectUtil
 				.getAllStatusEffects());
+
+		String property = getProperty("MAGICNUMBER");
+		if (property == null || property.isEmpty())
+			property = "30.0";
+		BattleController.set_MAGICNUMBER(Double.parseDouble(property));
 
 	}
 
@@ -373,18 +376,24 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		LOG.info("Client disconnected: " + clientUUID);
 
 		GameStateType currentGameState = battleController.getCurrentGameState();
-		if (currentGameState.getIndex() >= 6) {
+		
+		if(currentGameState == GameStateType.GAME_OVER)
+		{
+			resetGame();
+		}
+		else if (currentGameState.getIndex() >= 6) {
 			if (clientUUID.equals(clientUUIDLeft)) {
 				battleController
 						.setCurrentGameState(GameStateType.VICTORY_RIGHT);
 				battleController.endGame(GameStateType.VICTORY_RIGHT);
+				resetGame();
 				sendGameStateInfoToClients(GameStateType.VICTORY_RIGHT);
-				resetGame();
 			} else if (clientUUID.equals(clientUUIDRight)) {
-				battleController.setRobotRight(null);
+				battleController
+						.setCurrentGameState(GameStateType.VICTORY_LEFT);
 				battleController.endGame(GameStateType.VICTORY_LEFT);
-				sendGameStateInfoToClients(GameStateType.VICTORY_LEFT);
 				resetGame();
+				sendGameStateInfoToClients(GameStateType.VICTORY_LEFT);
 			} else {
 				LOG.info("Unknown Client wanted to disconnect:" + clientUUID);
 			}
@@ -559,6 +568,12 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 				.getAllStatusEffects();
 		LOG.debug("All StatusEffects requested: " + allStatusEffects);
 		return allStatusEffects;
+	}
+
+	public void endGame(GameStateType currentGameState) {
+		
+		sendGameStateInfoToClients(currentGameState);
+		resetGame();
 	}
 
 }

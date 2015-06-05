@@ -532,7 +532,7 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 		countdown.stopCountdown();
 		countdown.setVisible(false);
 
-		setInfo("Warte bis dein Gegener seine Aktion gewählt hat und die Runde beendet wurde.");
+		setInfo("Warte bis dein Gegner seine Aktion gewählt hat und die Runde beendet wurde.");
 	}
 
 	private void startCountdown()

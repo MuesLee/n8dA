@@ -47,6 +47,8 @@ import de.kvwl.n8dA.robotwars.server.visualization.java.scene.robot.RobotScene;
 
 public class BattleController {
 
+	private static double _MAGICNUMBER = 20.0;
+
 	static final double NEUTRAL_DEFENSE_DAMAGE_FACTOR = 0.75;
 
 	private static final Logger LOG = LoggerFactory
@@ -638,18 +640,19 @@ public class BattleController {
 				loser = robotRight;
 			}
 
+			cinematicVisualizer.playSound("gameOver");
 			showTextWithCaption("GAME OVER", "Draw.");
 			showTextWithCaption(winner.getRobotOwner(), " earns "
 					+ calculatePointsForMatch + " points!");
 			showTextWithCaption(loser.getRobotOwner(), " loses "
 					+ calculatePointsForMatch + " points!");
 
-			cinematicVisualizer.playSound("gameOver");
 			break;
 		default:
 			break;
 		}
-		setCurrentGameState(currentGameState);
+		setCurrentGameState(GameStateType.GAME_OVER);
+		server.endGame(currentGameState);
 	}
 
 	/**
@@ -696,11 +699,11 @@ public class BattleController {
 
 		int calcPointsPlayerLeft = (int) Math
 				.round(getCalculatedEloPointsForPlayer(pointsPlayerLeft,
-						eloWinFactorForPlayerLeft, modForMatchPlayerLeft, 20));
+						eloWinFactorForPlayerLeft, modForMatchPlayerLeft, get_MAGICNUMBER()));
 		int calcPointsPlayerRight = (int) Math
 				.round(getCalculatedEloPointsForPlayer(pointsPlayerRight,
 						1.0 - eloWinFactorForPlayerLeft,
-						1.0 - modForMatchPlayerLeft, 20.0));
+						1.0 - modForMatchPlayerLeft, get_MAGICNUMBER()));
 
 		int eloDifLeft = (int) (calcPointsPlayerLeft -pointsPlayerLeft);
 		int eloDifRight = (int) (calcPointsPlayerRight -pointsPlayerRight);
@@ -962,12 +965,13 @@ public class BattleController {
 	}
 
 	public void setRobotLeft(Robot robotLeft) {
+		GameStateType previousGameState = getCurrentGameState();
 		setCurrentGameState(GameStateType.SERVER_BUSY);
 		getCinematicVisualizer().robotHasEnteredTheArena(robotLeft,
 				RobotPosition.LEFT, loader);
 		this.robotLeft = robotLeft;
 		showTextWithCaption(robotLeft.getNickname(), "wants to fight!");
-		setCurrentGameState(GameStateType.GAME_HASNT_BEGUN);
+		setCurrentGameState(previousGameState);
 	}
 
 	public Robot getRobotRight() {
@@ -975,12 +979,13 @@ public class BattleController {
 	}
 
 	public void setRobotRight(Robot robotRight) {
+		GameStateType previousGameState = getCurrentGameState();
 		setCurrentGameState(GameStateType.SERVER_BUSY);
 		getCinematicVisualizer().robotHasEnteredTheArena(robotRight,
 				RobotPosition.RIGHT, loader);
 		this.robotRight = robotRight;
 		showTextWithCaption(robotRight.getNickname(), "accepts the challenge!");
-		setCurrentGameState(GameStateType.GAME_HASNT_BEGUN);
+		setCurrentGameState(previousGameState);
 	}
 
 	/**
@@ -1092,5 +1097,13 @@ public class BattleController {
 
 	public void setAllStatusEffects(List<StatusEffect> allStatusEffects) {
 		this.allStatusEffects = allStatusEffects;
+	}
+
+	public static double get_MAGICNUMBER() {
+		return _MAGICNUMBER;
+	}
+
+	public static void set_MAGICNUMBER(double _MAGICNUMBER) {
+		BattleController._MAGICNUMBER = _MAGICNUMBER;
 	}
 }

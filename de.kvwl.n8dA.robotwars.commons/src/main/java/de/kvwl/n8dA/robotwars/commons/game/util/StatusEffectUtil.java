@@ -78,6 +78,7 @@ public class StatusEffectUtil
 		statusEffects.add(waterResMega);
 		statusEffects.add(energyConsumingEffect);
 		statusEffects.add(healthConsumingEffect);
+		statusEffects.add(energyLossEffect);
 		return statusEffects;
 	}
 
