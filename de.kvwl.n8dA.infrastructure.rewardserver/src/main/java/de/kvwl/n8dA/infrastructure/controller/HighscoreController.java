@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -126,6 +127,14 @@ public class HighscoreController
 		try
 		{
 			games = server.getAllGames();
+			for (Iterator<Game> iterator = games.iterator(); iterator
+					.hasNext();) {
+				Game game = iterator.next();
+				if(game.getName().startsWith("."))
+				{
+					iterator.remove();
+				}
+			}
 		}
 		catch (RemoteException e)
 		{
@@ -166,9 +175,16 @@ public class HighscoreController
 		
 		for (GamePerson gamePerson : gamePersons)
 		{
+			String gameName = gamePerson.getGame().getName();
+			
+			if(gameName.startsWith("."))
+			{
+				continue;
+			}
+			
 			String personName = gamePerson.getPerson().getName();
 			Integer gamePoints = gamePerson.getPoints();
-
+			
 			if (result.containsKey(personName))
 			{
 				Integer storedGamePoints = result.get(personName);
