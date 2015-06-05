@@ -5,6 +5,7 @@ import java.util.List;
 
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.EnergyConsumingEffect;
+import de.kvwl.n8dA.robotwars.commons.game.statuseffects.EnergyLossEffect;
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.HealthConsumingEffect;
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.StatusEffect;
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.TypeEffect;
@@ -55,6 +56,9 @@ public class StatusEffectUtil
 		healthConsumingEffect.setId(115L);
 		EnergyConsumingEffect energyConsumingEffect = new EnergyConsumingEffect(2);
 		energyConsumingEffect.setId(116L);
+		
+		EnergyLossEffect energyLossEffect = new EnergyLossEffect();
+		energyLossEffect.setId(117L);
 		
 		
 		statusEffects.add(lightningRes);

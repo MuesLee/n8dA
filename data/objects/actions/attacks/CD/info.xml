@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <attack>
-	<damage>20</damage>
+	<damage>25</damage>
 	<powertype>NORMAL</powertype>
 	<type>LIGHTNING</type>
 	<animationid>CD</animationid>
@@ -10,6 +10,6 @@
 	<id>57</id>
 	 <statuseffects> 
         <id>101</id>
-	<id>105</id>
+	<id>111</id>
     </statuseffects>
 </attack>
