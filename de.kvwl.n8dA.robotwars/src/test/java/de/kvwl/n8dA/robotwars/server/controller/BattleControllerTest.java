@@ -1,6 +1,7 @@
 package de.kvwl.n8dA.robotwars.server.controller;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import de.kvwl.n8dA.robotwars.commons.exception.RobotsArentRdyToFightException;
@@ -21,6 +23,7 @@ import de.kvwl.n8dA.robotwars.commons.game.statuseffects.TypeEffect;
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.TypeEffectModificationType;
 import de.kvwl.n8dA.robotwars.commons.game.util.GameStateType;
 import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
+import de.kvwl.n8dA.robotwars.server.network.RoboBattleServer;
 import de.kvwl.n8dA.robotwars.server.visualization.CinematicVisualizer;
 
 public class BattleControllerTest {
@@ -32,6 +35,9 @@ public class BattleControllerTest {
 
 	@Mock
 	private CinematicVisualizer cinematicVisualizerMock;
+	
+	@Mock
+	private RoboBattleServer battleServerMock;
 
 	@Before
 	public void setUp() throws NoSuchFieldException, SecurityException,
@@ -51,6 +57,11 @@ public class BattleControllerTest {
 				"cinematicVisualizer");
 		field.setAccessible(true);
 		field.set(battleController, cinematicVisualizerMock);
+		
+		Field field3 = battleController.getClass().getDeclaredField(
+				"server");
+		field3.setAccessible(true);
+		field3.set(battleController, battleServerMock);
 		
 		Field field1 = battleController.getClass().getDeclaredField(
 				"robotLeft");
@@ -102,6 +113,27 @@ public class BattleControllerTest {
 		double pointFactor = 10;
 		int calculatedEloPointsForPlayer = (int) Math.round(battleController.getCalculatedEloPointsForPlayer(pointsPlayerLeft, eloWinFactorForPlayerLeft, modForMatchPlayerLeft, pointFactor));
 		assertEquals(2585, calculatedEloPointsForPlayer);
+	}
+	
+	@Test
+	public void testPointCalculationComplete() throws Exception {
+		String playerLeft ="Timo";
+		String playerRight = "Marvin";
+		GameStateType matchResult = GameStateType.VICTORY_LEFT;
+		
+		Mockito.when(battleServerMock.getConfigurationPointsForPlayer(playerLeft)).thenReturn(1200);
+		Mockito.when(battleServerMock.getConfigurationPointsForPlayer(playerRight)).thenReturn(1370);
+		
+		Mockito.when(battleServerMock.getRoboBattlePointsForPlayer(playerLeft)).thenReturn(0);
+		Mockito.when(battleServerMock.getRoboBattlePointsForPlayer(playerRight)).thenReturn(0);
+		
+		
+//		int pointsLeft = Mockito.verify(battleServerMock.persistPointsForPlayer(Mockito.eq("playerLeft"), Mockito.anyInt())).intValue();
+//		int pointsRight = Mockito.verify(battleServerMock.persistPointsForPlayer(Mockito.eq("playerRight"), Mockito.anyInt())).intValue();
+		battleController.calculatePointsForMatch(playerLeft, playerRight, matchResult);
+		
+//		System.out.println("LEFT " + pointsLeft);
+//		System.out.println("RIGHT " + pointsRight);		
 	}
 	
 	@Test
