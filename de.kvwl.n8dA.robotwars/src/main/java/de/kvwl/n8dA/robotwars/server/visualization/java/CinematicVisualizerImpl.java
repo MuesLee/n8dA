@@ -3,6 +3,7 @@ package de.kvwl.n8dA.robotwars.server.visualization.java;
 import game.engine.frame.FullScreenGameFrame;
 import game.engine.frame.SwingGameFrame;
 import game.engine.image.InternalImage;
+import game.engine.stage.scene.Scene;
 import game.engine.stage.scene.object.SceneObject;
 
 import java.awt.Image;
@@ -66,7 +67,7 @@ public class CinematicVisualizerImpl implements CinematicVisualizer {
 
 		if (window instanceof FullScreenGameFrame) {
 
-			throw new RuntimeException("Not supported for this window type");
+			System.err.println("Not supported for this window type");
 		} else if (window instanceof SwingGameFrame) {
 
 			SwingGameFrame frame = (SwingGameFrame) window;
@@ -77,16 +78,16 @@ public class CinematicVisualizerImpl implements CinematicVisualizer {
 		}
 	}
 
-	private void setScene(GameScene gameScene) {
+	private void setScene(Scene scene) {
 
 		if (window instanceof FullScreenGameFrame) {
 
 			FullScreenGameFrame frame = (FullScreenGameFrame) window;
-			frame.setScene(gameScene);
+			frame.setScene(scene);
 		} else if (window instanceof SwingGameFrame) {
 
 			SwingGameFrame frame = (SwingGameFrame) window;
-			frame.setScene(gameScene);
+			frame.setScene(scene);
 		} else {
 
 			throw new RuntimeException("Unknown window type");
@@ -186,7 +187,7 @@ public class CinematicVisualizerImpl implements CinematicVisualizer {
 
 		if (window instanceof FullScreenGameFrame) {
 
-			throw new RuntimeException("Not supported for this window type");
+			System.err.println("Not supported for this window type");
 		} else if (window instanceof SwingGameFrame) {
 
 			SwingGameFrame frame = (SwingGameFrame) window;
