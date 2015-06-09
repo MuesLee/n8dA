@@ -5,10 +5,11 @@ import game.engine.frame.SwingGameFrame;
 import game.engine.image.InternalImage;
 import game.engine.stage.scene.object.SceneObject;
 
+import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.WindowListener;
 import java.awt.geom.Rectangle2D;
 
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
@@ -20,48 +21,92 @@ import de.kvwl.n8dA.robotwars.server.visualization.java.scene.GameScene;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.animation.Animation;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.robot.Action;
 
-//TODO Wechsel zu Fullscreen
-public class CinematicVisualizerImpl extends FullScreenGameFrame implements
-		CinematicVisualizer {
+public class CinematicVisualizerImpl implements CinematicVisualizer {
 
-	private static final long serialVersionUID = 1L;
 	private static final String IMAGE_PATH = "/de/kvwl/n8dA/robotwars/commons/images/";
 
 	private static CinematicVisualizerImpl instance;
 
 	private AudioController audioController;
-
 	private GameScene gameScene = new GameScene();
+	private Object window;
 
-	private CinematicVisualizerImpl() {
+	private CinematicVisualizerImpl(boolean fullscreen,
+			GraphicsConfiguration config, boolean aot) {
 
-		this(GraphicsConfiguration.getSystemDefault());
-	}
+		if (fullscreen) {
 
-	private CinematicVisualizerImpl(GraphicsConfiguration config) {
+			window = new FullScreenGameFrame(config.getDevice(),
+					config.getDisplayMode(), "RoboBattle");
+		} else {
 
-		// Switch Konstruktoren wenn Vollbild
-		super(config.getDevice(), config.getDisplayMode(), "RoboBattle");
-		//super("RoboBattle");
+			window = new SwingGameFrame("RoboBattle");
+		}
+
 		this.audioController = new AudioController();
-
-		setup();
+		setup(aot);
 	}
 
-	private void setup() {
+	private void setup(boolean alwaysOnTop) {
 
 		try {
 			setIcon(InternalImage.loadFromPath(IMAGE_PATH, "icon.png"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		//setAlwaysOnTop(true);
+		setAlwaysOnTop(alwaysOnTop);
 
 		setScene(gameScene);
 		registerExitKey();
-		addWindowListener();
 
 		audioController.startBackgroundMusic();
+	}
+
+	private void setAlwaysOnTop(boolean alwaysOnTop) {
+
+		if (window instanceof FullScreenGameFrame) {
+
+			throw new RuntimeException("Not supported for this window type");
+		} else if (window instanceof SwingGameFrame) {
+
+			SwingGameFrame frame = (SwingGameFrame) window;
+			frame.setAlwaysOnTop(alwaysOnTop);
+		} else {
+
+			throw new RuntimeException("Unknown window type");
+		}
+	}
+
+	private void setScene(GameScene gameScene) {
+
+		if (window instanceof FullScreenGameFrame) {
+
+			FullScreenGameFrame frame = (FullScreenGameFrame) window;
+			frame.setScene(gameScene);
+		} else if (window instanceof SwingGameFrame) {
+
+			SwingGameFrame frame = (SwingGameFrame) window;
+			frame.setScene(gameScene);
+		} else {
+
+			throw new RuntimeException("Unknown window type");
+		}
+	}
+
+	private void setIcon(Image loadFromPath) {
+
+		if (window instanceof FullScreenGameFrame) {
+
+			FullScreenGameFrame frame = (FullScreenGameFrame) window;
+			frame.setIcon(loadFromPath);
+		} else if (window instanceof SwingGameFrame) {
+
+			SwingGameFrame frame = (SwingGameFrame) window;
+			frame.setIconImage(loadFromPath);
+		} else {
+
+			throw new RuntimeException("Unknown window type");
+		}
 	}
 
 	private void registerExitKey() {
@@ -77,11 +122,9 @@ public class CinematicVisualizerImpl extends FullScreenGameFrame implements
 					System.exit(0);
 					break;
 				case KeyEvent.VK_END:
-					if(audioController.sequencerIsRunning())
-					{
+					if (audioController.sequencerIsRunning()) {
 						audioController.stopBackgroundMusic();
-					}
-					else {
+					} else {
 						audioController.startBackgroundMusic();
 					}
 					break;
@@ -90,15 +133,68 @@ public class CinematicVisualizerImpl extends FullScreenGameFrame implements
 		});
 	}
 
-	private void addWindowListener() {
+	private void dispose() {
 
-//		addWindowFocusListener(new WindowAdapter() {
-//			@Override
-//			public void windowClosed(WindowEvent e) {
-//
-//				System.exit(0);
-//			}
-//		});
+		if (window instanceof FullScreenGameFrame) {
+
+			FullScreenGameFrame frame = (FullScreenGameFrame) window;
+			frame.dispose();
+		} else if (window instanceof SwingGameFrame) {
+
+			SwingGameFrame frame = (SwingGameFrame) window;
+			frame.dispose();
+		} else {
+
+			throw new RuntimeException("Unknown window type");
+		}
+	}
+
+	private void setVisible(boolean b) {
+
+		if (window instanceof FullScreenGameFrame) {
+
+			FullScreenGameFrame frame = (FullScreenGameFrame) window;
+			frame.setVisible(b);
+		} else if (window instanceof SwingGameFrame) {
+
+			SwingGameFrame frame = (SwingGameFrame) window;
+			frame.setVisible(b);
+		} else {
+
+			throw new RuntimeException("Unknown window type");
+		}
+	}
+
+	private void addKeyListener(KeyListener lis) {
+
+		if (window instanceof FullScreenGameFrame) {
+
+			FullScreenGameFrame frame = (FullScreenGameFrame) window;
+			frame.addKeyListener(lis);
+		} else if (window instanceof SwingGameFrame) {
+
+			SwingGameFrame frame = (SwingGameFrame) window;
+			frame.addKeyListener(lis);
+		} else {
+
+			throw new RuntimeException("Unknown window type");
+		}
+	}
+
+	@SuppressWarnings("unused")
+	private void addWindowListener(WindowListener lis) {
+
+		if (window instanceof FullScreenGameFrame) {
+
+			throw new RuntimeException("Not supported for this window type");
+		} else if (window instanceof SwingGameFrame) {
+
+			SwingGameFrame frame = (SwingGameFrame) window;
+			frame.addWindowListener(lis);
+		} else {
+
+			throw new RuntimeException("Unknown window type");
+		}
 	}
 
 	@Override
@@ -165,18 +261,6 @@ public class CinematicVisualizerImpl extends FullScreenGameFrame implements
 		gameScene.reset();
 	}
 
-	//TODO Marvin: Fullscreen konfigurierbar machen
-	public static CinematicVisualizerImpl get() {
-
-		if (instance == null) {
-
-			instance = new CinematicVisualizerImpl();
-			instance.setVisible(true);
-		}
-
-		return instance;
-	}
-
 	@Override
 	public void showAnimation(SceneObject obj, Animation animation,
 			Rectangle2D bounds, boolean wait) {
@@ -186,5 +270,49 @@ public class CinematicVisualizerImpl extends FullScreenGameFrame implements
 	@Override
 	public void playSound(String soundName) {
 		audioController.playSound(soundName);
+	}
+
+	public static CinematicVisualizerImpl get() {
+
+		return get(false);
+	}
+
+	public static CinematicVisualizerImpl get(boolean fullscreen) {
+
+		boolean alwaysOnTop = !fullscreen;
+
+		return get(fullscreen, alwaysOnTop);
+	}
+
+	public static CinematicVisualizerImpl get(boolean fullscreen,
+			boolean alwaysOnTop) {
+
+		return get(fullscreen, false, alwaysOnTop);
+	}
+
+	public static CinematicVisualizerImpl get(boolean fullscreen,
+			boolean recreate, boolean alwaysOnTop) {
+
+		return get(fullscreen, GraphicsConfiguration.getDefaultConfig(),
+				recreate, alwaysOnTop);
+	}
+
+	public static CinematicVisualizerImpl get(boolean fullscreen,
+			GraphicsConfiguration config, boolean recreate, boolean alwaysOnTop) {
+
+		if (recreate && instance != null) {
+
+			instance.dispose();
+			instance = null;
+		}
+
+		if (instance == null) {
+
+			instance = new CinematicVisualizerImpl(fullscreen, config,
+					alwaysOnTop);
+			instance.setVisible(true);
+		}
+
+		return instance;
 	}
 }
