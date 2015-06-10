@@ -6,6 +6,7 @@ public class RatedAction implements Comparable<RatedAction> {
 
 	private int rating;
 	private RobotAction action;
+	private String comment;
 	public RatedAction(int rating, RobotAction action) {
 		super();
 		this.rating = rating;
@@ -36,6 +37,12 @@ public class RatedAction implements Comparable<RatedAction> {
 		else {
 			return -1;
 		}
+	}
+	public String getComment() {
+		return comment;
+	}
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 	
 	

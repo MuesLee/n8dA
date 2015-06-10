@@ -16,7 +16,7 @@ public class EnergyLossEffect extends StatusEffect {
 	@Override
 	public void performInitialRobotModification(Robot robot) {
 		int energyPoints = robot.getEnergyPoints();
-		energyPoints = Math.max(0, energyPoints-energyLoss);
+		energyPoints = Math.max(0, energyPoints-getEnergyLoss());
 		robot.setEnergyPoints(energyPoints);
 	}
 
@@ -28,7 +28,7 @@ public class EnergyLossEffect extends StatusEffect {
 	@Override
 	public String getModifierText() {
 
-		return "Verlust von " + energyLoss;
+		return "Verlust von " + getEnergyLoss();
 	}
 
 	@Override
@@ -41,7 +41,15 @@ public class EnergyLossEffect extends StatusEffect {
 	@Override
 	public String toString() {
 
-		return "ENERGYLOSSEFFECT - RATE: " + energyLoss;
+		return "ENERGYLOSSEFFECT - RATE: " + getEnergyLoss();
+	}
+
+	public static int getEnergyLoss() {
+		return energyLoss;
+	}
+
+	public static void setEnergyLoss(int energyLoss) {
+		EnergyLossEffect.energyLoss = energyLoss;
 	}
 
 }

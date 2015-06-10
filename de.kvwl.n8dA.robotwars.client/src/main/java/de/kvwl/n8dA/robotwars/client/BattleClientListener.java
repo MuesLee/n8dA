@@ -14,4 +14,6 @@ public interface BattleClientListener
 	public void updateRobot();
 	
 	public void receiveEnemyRobotAction(RobotAction robotAction);
+
+	public void updateNotSoSmartBot(GameStateType gameStateType);
 }

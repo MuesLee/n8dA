@@ -185,6 +185,9 @@ public class RoboBattlePlayerClient extends RoboBattleClient
 
 	private void handleReceivedGamestateType(GameStateType gameStateType)
 	{
+		
+		clientListener.updateNotSoSmartBot(gameStateType);
+		
 		switch (gameStateType)
 		{
 			case BATTLE_IS_ACTIVE:

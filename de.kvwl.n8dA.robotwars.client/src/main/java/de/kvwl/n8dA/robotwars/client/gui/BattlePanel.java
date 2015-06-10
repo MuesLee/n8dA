@@ -541,9 +541,11 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 
 		battleClient.sendRobotActionToServer(roboAction);
 
+		notSoSmartBot.checkIfPlayerActionWasAdviced(roboAction);
+		
 		countdown.stopCountdown();
 		countdown.setVisible(false);
-
+		
 		setInfo("Warte bis dein Gegner seine Aktion gewählt hat und die Runde beendet wurde.");
 	}
 
@@ -818,6 +820,11 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 
 	public void setNotSoSmartBot(NotSoSmartBot notSoSmartBot) {
 		this.notSoSmartBot = notSoSmartBot;
+	}
+
+	@Override
+	public void updateNotSoSmartBot(GameStateType gameStateType) {
+		notSoSmartBot.setGameState(gameStateType);
 	}
 
 }
