@@ -25,6 +25,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import net.java.balloontip.BalloonTip;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -200,7 +202,7 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 			}
 		});
 
-		JButton adviceButton = new JButton();
+		final JButton adviceButton = new JButton();
 		adviceButton.setToolTipText("SmartBot - Berater (DLC)");
 		adviceButton.setIcon(new ImageIcon(InternalImage.loadFromPath(IMAGE_PATH, "smartbot.png")));
 		adviceButton.addActionListener(new ActionListener()
@@ -209,6 +211,8 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 			public void actionPerformed(ActionEvent e)
 			{
 				// TODO Timo: AdviceBot programmieren
+				BalloonTip ballon = new BalloonTip(adviceButton, "Hallo!");
+				ballon.setVisible(true);
 			}
 		});
 

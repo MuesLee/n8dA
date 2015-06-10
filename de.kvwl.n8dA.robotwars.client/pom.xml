@@ -79,6 +79,12 @@
 			<artifactId>de.kvwl.n8dA.robotwars.commons</artifactId>
 			<version>0.0.14-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>net.java.balloontip</groupId>
+			<artifactId>balloontip</artifactId>
+			<version>1.2.4.1</version>
+		</dependency>
+
 	</dependencies>
 
 	<repositories>
