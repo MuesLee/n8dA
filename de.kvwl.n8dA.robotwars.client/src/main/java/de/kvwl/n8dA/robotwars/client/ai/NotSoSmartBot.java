@@ -1,5 +1,7 @@
 package de.kvwl.n8dA.robotwars.client.ai;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
@@ -37,7 +39,8 @@ public class NotSoSmartBot {
 						{	
 							if(getOwnRobot().getEnergyPoints()>=attack.getEnergyCosts())
 							{
-								text = "Gib ihm ne Kelle!\nBenutze " + attack.getName();
+								String attackName = attack.getName();
+								text = attackName +"! " + attackName.toUpperCase()+"!!11 BABABAAAMMMM!!!11";
 							}
 						}
 					}
@@ -45,6 +48,17 @@ public class NotSoSmartBot {
 			}
 		}
 		return text;
+	}
+	
+	private List<RatedAction> getRatedRobotActions()
+	{
+		List<RatedAction> ratedActions = new ArrayList<>();
+		
+		//TODO implement ActionRating
+		
+		Collections.sort(ratedActions);
+		
+		return ratedActions;
 	}
 
 
