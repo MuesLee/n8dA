@@ -32,17 +32,15 @@ import org.slf4j.LoggerFactory;
 
 import de.kvwl.n8dA.robotwars.client.BattleClientListener;
 import de.kvwl.n8dA.robotwars.client.RoboBattlePlayerClient;
+import de.kvwl.n8dA.robotwars.client.ai.NotSoSmartBot;
 import de.kvwl.n8dA.robotwars.commons.exception.NoFreeSlotInBattleArenaException;
 import de.kvwl.n8dA.robotwars.commons.exception.ServerIsNotReadyForYouException;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
-import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.StatusEffect;
-import de.kvwl.n8dA.robotwars.commons.game.statuseffects.TypeEffect;
-import de.kvwl.n8dA.robotwars.commons.game.statuseffects.TypeEffectModificationType;
 import de.kvwl.n8dA.robotwars.commons.game.util.GameStateType;
 import de.kvwl.n8dA.robotwars.commons.game.util.ItemUtil;
 import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
@@ -83,12 +81,15 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 
 	private JPanel actions;
 
+	private NotSoSmartBot notSoSmartBot;
+	
 	public BattlePanel(RoboBattlePlayerClient battleClient, Robot robot, String playerName)
 	{
 
 		this.battleClient = battleClient;
 		this.robot = robot;
 		this.playerName = playerName;
+		this.setNotSoSmartBot(new NotSoSmartBot(robot));
 
 		createGui();
 		setupConnection();
@@ -213,8 +214,7 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				// TODO Timo: AdviceBot programmieren
-				String smartBotText = getSmartBotText();
+				String smartBotText = notSoSmartBot.getSmartBotText();
 				BalloonTip ballon = new BalloonTip(adviceButton, smartBotText);
 				ballon.setVisible(true);
 			}
@@ -232,32 +232,7 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 		sidePanel.setVisible(true);
 		return sidePanel;
 	}
-	private String getSmartBotText() {
-		String text = "Hallo, ich bin NotSoSmart-Bot! Ich mache gerade meinem Namen alle Ehre und kann dir nicht weiterhelfen...";
-		
-		List<StatusEffect> statusEffects = enemyStatusEffectPanel.getStatusEffects();
-		for (StatusEffect statusEffect : statusEffects) {
-			if(statusEffect instanceof TypeEffect)
-			{
-				TypeEffect typeEffect = (TypeEffect) statusEffect;
-				RobotActionType typeEffectActionType = typeEffect.getActionType();
-				if(typeEffect.getModificationType()==TypeEffectModificationType.VULNERABILITY)
-				{
-					List<Attack> possibleAttacks = robot.getPossibleAttacks();
-					for (Attack attack : possibleAttacks) {
-						if(attack.getRobotActionType().equals(typeEffectActionType))
-						{	
-							if(robot.getEnergyPoints()>=attack.getEnergyCosts())
-							{
-								text = "Gib ihm ne Kelle!\nBenutze " + attack.getName();
-							}
-						}
-					}
-				}
-			}
-		}
-		return text;
-	}
+
 
 	private JPanel createInfoSection()
 	{
@@ -506,7 +481,6 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 
 			for (RoboItem i : items)
 			{
-
 				i.performInitialRobotModification(tmp);
 			}
 		}
@@ -523,12 +497,15 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 		lblEnergy.setText("" + tmp.getEnergyPoints());
 
 		ownStatusEffectPanel.update(robot.getStatusEffects());
+		notSoSmartBot.setOwnRobot(robot);
 		Robot updatedRobotOfEnemy = battleClient.getUpdatedRobotOfEnemy();
+		
 		LOG.debug("Enemy Robot: " + updatedRobotOfEnemy);
 
 		if (updatedRobotOfEnemy != null)
 		{
 			enemyStatusEffectPanel.update(updatedRobotOfEnemy.getStatusEffects());
+			notSoSmartBot.setEnemyRobot(updatedRobotOfEnemy);
 		}
 	}
 
@@ -833,6 +810,14 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 	public void setEnemyStatusEffectPanel(StatusEffectPanel enemyStatusEffectPanel)
 	{
 		this.enemyStatusEffectPanel = enemyStatusEffectPanel;
+	}
+
+	public NotSoSmartBot getNotSoSmartBot() {
+		return notSoSmartBot;
+	}
+
+	public void setNotSoSmartBot(NotSoSmartBot notSoSmartBot) {
+		this.notSoSmartBot = notSoSmartBot;
 	}
 
 }
