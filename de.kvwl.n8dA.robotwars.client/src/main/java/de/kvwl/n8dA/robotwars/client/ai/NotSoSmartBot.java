@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
+import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
@@ -18,6 +19,7 @@ import de.kvwl.n8dA.robotwars.commons.game.util.GameStateType;
 
 public class NotSoSmartBot {
 
+	private static final double neutral_defense_factor = 0.75;
 	private Robot ownRobot;
 	private Robot enemyRobot;
 
@@ -26,6 +28,7 @@ public class NotSoSmartBot {
 	private static final int rating_energy_loss = 1;
 	private static final int rating_hp_loss = 1;
 	private static final int rating_direct_damage = 2;
+	private static final int rating_avoided_direct_damage = 2;
 	private static final int rating_kill_enemy = 100;
 	private static final int rating_avoid_death = 50;
 	private static final int comment_massive_dmg = 30;
@@ -42,10 +45,10 @@ public class NotSoSmartBot {
 
 	public String getSmartBotText() {
 
-		if (isSad() && playerActionDone) {
+		if (isSad() && playerActionDone && advicedAction == null) {
 			return "Das hätte ich ja nicht gemacht...";
 		}
-		if (isSad) {
+		if (isSad && !playerActionDone && advicedAction == null) {
 			return "Du hörst ja eh nicht auf mich...";
 		}
 		if (playerActionDone) {
@@ -120,7 +123,26 @@ public class NotSoSmartBot {
 	}
 
 	private List<? extends RatedAction> rateDefenseActions() {
+		
+		//TODO Timo: implement  Defendrating
 		List<RatedAction> ratedActions = new ArrayList<>();
+
+		int ownHealthPoints = ownRobot.getHealthPoints();
+
+		List<Defense> possibleDefends = ownRobot.getPossibleDefends();
+		for (Defense defense : possibleDefends) {
+			int rating =0;
+			double defenseFactor = defense.getBonusOnDefenseFactor() + neutral_defense_factor;
+			
+			int ownEnergyPoints = ownRobot.getEnergyPoints();
+			if (ownEnergyPoints < defense.getEnergyCosts()) {
+				continue;
+			}
+
+		
+		RatedAction ratedAction = new RatedAction(rating, defense);
+		ratedActions.add(ratedAction);
+		}
 
 		return ratedActions;
 	}
@@ -132,6 +154,12 @@ public class NotSoSmartBot {
 
 		List<Attack> possibleAttacks = ownRobot.getPossibleAttacks();
 		for (Attack attack : possibleAttacks) {
+
+			int ownEnergyPoints = ownRobot.getEnergyPoints();
+			if (ownEnergyPoints < attack.getEnergyCosts()) {
+				continue;
+			}
+
 			int rating = 0;
 			String comment = "";
 			int possibleDmg = attack.getDamage();
@@ -149,33 +177,13 @@ public class NotSoSmartBot {
 				}
 			}
 
-			List<StatusEffect> appliedStatusEffects = attack.getStatusEffects();
-			for (StatusEffect statusEffect : appliedStatusEffects) {
-				if (statusEffect instanceof TypeEffect) {
-					TypeEffect typeEffect = (TypeEffect) statusEffect;
-					if (typeEffect.getModificationType() == TypeEffectModificationType.VULNERABILITY) {
-						rating += rating_stat_vulnerability;
-					} else {
-						rating -= rating_stat_resistance;
-					}
-				} else if (statusEffect instanceof EnergyConsumingEffect) {
-					EnergyConsumingEffect energyConsumingEffect = (EnergyConsumingEffect) statusEffect;
-					int energyLost = EnergyConsumingEffect.getEnergyLoss()
-							* energyConsumingEffect.getStartDuration();
-					rating += (energyLost * rating_energy_loss);
-				} else if (statusEffect instanceof EnergyLossEffect) {
-					rating += (EnergyLossEffect.getEnergyLoss() * rating_energy_loss);
-				} else if (statusEffect instanceof HealthConsumingEffect) {
-					HealthConsumingEffect healthConsumingEffect = (HealthConsumingEffect) statusEffect;
-					int hpLost = HealthConsumingEffect.getHpLoss()
-							* healthConsumingEffect.getStartDuration();
-					rating += (hpLost * rating_hp_loss);
-				}
-			}
+			rating += getRatingForAppliedStatusEffects(attack.getStatusEffects(), true);
 
 			if (possibleDmg >= comment_massive_dmg) {
 				comment += attack.getName().toUpperCase()
 						+ "!!11 BABABAAAMM!!11";
+			} else {
+				comment += " und ab geht\'s";
 			}
 			if (healthPointsEnemy <= possibleDmg) {
 				rating += rating_kill_enemy;
@@ -188,6 +196,74 @@ public class NotSoSmartBot {
 			ratedActions.add(ratedAction);
 		}
 		return ratedActions;
+	}
+
+	private int getRatingForAppliedStatusEffects(
+			List<StatusEffect> statusEffects, boolean isAttack) {
+		
+		int rating_stat_vulnerability = NotSoSmartBot.rating_stat_vulnerability;
+		int rating_stat_resistance = NotSoSmartBot.rating_stat_resistance;
+		if(!isAttack)
+		{
+			rating_stat_resistance*=-1;
+			rating_stat_vulnerability*=-1;
+		}
+		
+		int rating = 0;
+		for (StatusEffect statusEffect : statusEffects) {
+			if (statusEffect instanceof TypeEffect) {
+				TypeEffect typeEffect = (TypeEffect) statusEffect;
+				if (typeEffect.getModificationType() == TypeEffectModificationType.VULNERABILITY) {
+					rating += rating_stat_vulnerability;
+				} else {
+					rating -= rating_stat_resistance;
+				}
+			} else if (statusEffect instanceof EnergyConsumingEffect) {
+				EnergyConsumingEffect energyConsumingEffect = (EnergyConsumingEffect) statusEffect;
+				int energyLost = EnergyConsumingEffect.getEnergyLoss()
+						* energyConsumingEffect.getStartDuration();
+				rating += (energyLost * rating_energy_loss);
+			} else if (statusEffect instanceof EnergyLossEffect) {
+				rating += (EnergyLossEffect.getEnergyLoss() * rating_energy_loss);
+			} else if (statusEffect instanceof HealthConsumingEffect) {
+				HealthConsumingEffect healthConsumingEffect = (HealthConsumingEffect) statusEffect;
+				int hpLost = HealthConsumingEffect.getHpLoss()
+						* healthConsumingEffect.getStartDuration();
+				rating += (hpLost * rating_hp_loss);
+			}
+		}
+		
+		return rating;
+	}
+
+	private int getEnemyMaxDamageForRobotActionType(RobotActionType actionType) {
+		int maxDmg = 0;
+		int energyPoints = enemyRobot.getEnergyPoints();
+		List<Attack> possibleAttacks = enemyRobot.getPossibleAttacks();
+		for (Attack attack : possibleAttacks) {
+			RobotActionType attackActionType = attack.getRobotActionType();
+			if (attackActionType != actionType
+					|| energyPoints < attack.getEnergyCosts()) {
+				continue;
+			}
+			maxDmg = Math.max(maxDmg, attack.getDamage());
+		}
+
+		return maxDmg;
+	}
+
+	private int getEnemyMaxDamage() {
+		int maxDmg = 0;
+		int energyPoints = enemyRobot.getEnergyPoints();
+		List<Attack> possibleAttacks = enemyRobot.getPossibleAttacks();
+		for (Attack attack : possibleAttacks) {
+			if (energyPoints < attack.getEnergyCosts()) {
+				continue;
+			}
+			maxDmg = Math.max(maxDmg, attack.getDamage());
+		}
+
+		return maxDmg;
 	}
 
 	public Robot getOwnRobot() {
@@ -236,10 +312,14 @@ public class NotSoSmartBot {
 	}
 
 	public void checkIfPlayerActionWasAdviced(RobotAction roboAction) {
-		if (roboAction.equals(advicedAction)) {
+		if (advicedAction == null) {
 			isSad = false;
 		} else {
-			isSad = true;
+			if (roboAction.equals(advicedAction)) {
+				isSad = false;
+			} else {
+				isSad = true;
+			}
 		}
 		playerActionDone = true;
 		advicedAction = null;

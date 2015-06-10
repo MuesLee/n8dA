@@ -171,8 +171,6 @@ public class HighscoreController
 	{
 		Map<String, Integer> result = new HashMap<>();
 
-		//TODO Timo: Spielnamen mit . nicht anzeigen
-		
 		for (GamePerson gamePerson : gamePersons)
 		{
 			String gameName = gamePerson.getGame().getName();

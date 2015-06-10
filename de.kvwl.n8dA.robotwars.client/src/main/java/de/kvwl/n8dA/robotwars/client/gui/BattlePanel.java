@@ -689,6 +689,7 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 	{
 
 		robot = battleClient.getUpdatedRobot();
+		notSoSmartBot.setPlayerActionDone(false);
 		updateRobot(false);
 		startCountdown();
 	}

@@ -26,8 +26,6 @@ public class AudioController {
 	private Sequencer sequencerGame;
 	private InputStream midiFileGameBackGround;
 
-	// TODO Timo: Methode lässt auf Aufrufer warten
-
 	public AudioController() {
 		prop = new Properties();
 		try {

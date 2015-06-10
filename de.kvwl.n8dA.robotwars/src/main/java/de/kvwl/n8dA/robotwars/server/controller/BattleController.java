@@ -159,7 +159,6 @@ public class BattleController {
 		
 		GameStateType result = GameStateType.WAITING_FOR_PLAYER_INPUT;
 
-		//TODO Timo: Client haut während Kampanimation ab, bleibt unentdeckt 
 		if (robotLeft == null || robotRight == null) {
 			return GameStateType.GAME_HASNT_BEGUN;
 		} else {
