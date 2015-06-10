@@ -27,7 +27,7 @@ public class StatusEffectPanel extends JPanel {
 
 	public void update(List<StatusEffect> statusEffects) {
 		
-		this.statusEffects = statusEffects;
+		this.setStatusEffects(statusEffects);
 		
 		removeAll();
 		buildPanel();
@@ -36,7 +36,7 @@ public class StatusEffectPanel extends JPanel {
 	}
 
 	private void buildStatusBars() {
-		for (StatusEffect statusEffect : statusEffects) {
+		for (StatusEffect statusEffect : getStatusEffects()) {
 			JProgressBar statusBar = buildStatusBar(statusEffect);
 			JLabel labelStatusBar = buildLabelForStatusBar(statusEffect);
 			labelStatusBar.setLabelFor(statusBar);
@@ -110,10 +110,18 @@ public class StatusEffectPanel extends JPanel {
 
 	public StatusEffectPanel(List<StatusEffect> statusEffects, String title) {
 		super();
-		this.statusEffects = statusEffects;
+		this.setStatusEffects(statusEffects);
 		this.title = title;
 		GridLayout mgr = new GridLayout(0, 2);
 		setLayout(mgr);
 		buildPanel();
+	}
+
+	public List<StatusEffect> getStatusEffects() {
+		return statusEffects;
+	}
+
+	public void setStatusEffects(List<StatusEffect> statusEffects) {
+		this.statusEffects = statusEffects;
 	}
 }

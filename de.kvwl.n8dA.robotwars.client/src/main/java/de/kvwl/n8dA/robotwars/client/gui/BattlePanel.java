@@ -37,9 +37,12 @@ import de.kvwl.n8dA.robotwars.commons.exception.ServerIsNotReadyForYouException;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Attack;
 import de.kvwl.n8dA.robotwars.commons.game.actions.Defense;
 import de.kvwl.n8dA.robotwars.commons.game.actions.RobotAction;
+import de.kvwl.n8dA.robotwars.commons.game.actions.RobotActionType;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.items.RoboItem;
 import de.kvwl.n8dA.robotwars.commons.game.statuseffects.StatusEffect;
+import de.kvwl.n8dA.robotwars.commons.game.statuseffects.TypeEffect;
+import de.kvwl.n8dA.robotwars.commons.game.statuseffects.TypeEffectModificationType;
 import de.kvwl.n8dA.robotwars.commons.game.util.GameStateType;
 import de.kvwl.n8dA.robotwars.commons.game.util.ItemUtil;
 import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
@@ -203,7 +206,7 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 		});
 
 		final JButton adviceButton = new JButton();
-		adviceButton.setToolTipText("SmartBot - Berater (DLC)");
+		adviceButton.setToolTipText("NotSoSmartBot - Berater)");
 		adviceButton.setIcon(new ImageIcon(InternalImage.loadFromPath(IMAGE_PATH, "smartbot.png")));
 		adviceButton.addActionListener(new ActionListener()
 		{
@@ -211,9 +214,11 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 			public void actionPerformed(ActionEvent e)
 			{
 				// TODO Timo: AdviceBot programmieren
-				BalloonTip ballon = new BalloonTip(adviceButton, "Hallo!");
+				String smartBotText = getSmartBotText();
+				BalloonTip ballon = new BalloonTip(adviceButton, smartBotText);
 				ballon.setVisible(true);
 			}
+
 		});
 
 		helpButton.setBorderPainted(false);
@@ -226,6 +231,32 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 		sidePanel.add(adviceButton);
 		sidePanel.setVisible(true);
 		return sidePanel;
+	}
+	private String getSmartBotText() {
+		String text = "Hallo, ich bin NotSoSmart-Bot! Ich mache gerade meinem Namen alle Ehre und kann dir nicht weiterhelfen...";
+		
+		List<StatusEffect> statusEffects = enemyStatusEffectPanel.getStatusEffects();
+		for (StatusEffect statusEffect : statusEffects) {
+			if(statusEffect instanceof TypeEffect)
+			{
+				TypeEffect typeEffect = (TypeEffect) statusEffect;
+				RobotActionType typeEffectActionType = typeEffect.getActionType();
+				if(typeEffect.getModificationType()==TypeEffectModificationType.VULNERABILITY)
+				{
+					List<Attack> possibleAttacks = robot.getPossibleAttacks();
+					for (Attack attack : possibleAttacks) {
+						if(attack.getRobotActionType().equals(typeEffectActionType))
+						{	
+							if(robot.getEnergyPoints()>=attack.getEnergyCosts())
+							{
+								text = "Gib ihm ne Kelle!\nBenutze " + attack.getName();
+							}
+						}
+					}
+				}
+			}
+		}
+		return text;
 	}
 
 	private JPanel createInfoSection()
