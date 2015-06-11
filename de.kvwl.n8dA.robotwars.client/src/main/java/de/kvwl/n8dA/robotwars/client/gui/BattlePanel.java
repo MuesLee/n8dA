@@ -232,7 +232,6 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 		return sidePanel;
 	}
 
-
 	private JPanel createInfoSection()
 	{
 		JPanel info = new JPanel();
@@ -756,7 +755,6 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 
 		JOptionPane.showMessageDialog(this, msg, "Game Over", JOptionPane.INFORMATION_MESSAGE);
 		System.exit(-1);
-
 	}
 
 	@Override
