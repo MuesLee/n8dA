@@ -72,6 +72,8 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 	private RoboBattleJMSProducerServer producer;
 	private RoboBattleJMSReceiverServer receiver;
 	private CreditAccess creditAccess;
+	
+	private static RoboBattleServer server;
 
 	private BrokerService broker;
 
@@ -89,6 +91,7 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		loader = new DataLoaderFileSystemImpl(Paths.get("../data"));
 		this.setBattleController(new BattleController(loader));
 		this.getBattleController().setServer(this);
+		server= this;
 	}
 
 	public static void main(String[] args) {
@@ -402,7 +405,7 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		}
 	}
 
-	private void resetGame() {
+	public void resetGame() {
 		LOG.info("Resetting game....");
 
 		clientUUIDLeft = null;
@@ -589,4 +592,9 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		this.battleController = battleController;
 	}
 
+	public static RoboBattleServer get()
+	{
+		return server;
+	}
+	
 }

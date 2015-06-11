@@ -16,6 +16,7 @@ import java.awt.geom.Rectangle2D;
 import de.kvwl.n8dA.robotwars.commons.game.entities.Robot;
 import de.kvwl.n8dA.robotwars.commons.game.util.RobotPosition;
 import de.kvwl.n8dA.robotwars.server.input.DataLoader;
+import de.kvwl.n8dA.robotwars.server.network.RoboBattleServer;
 import de.kvwl.n8dA.robotwars.server.visualization.CinematicVisualizer;
 import de.kvwl.n8dA.robotwars.server.visualization.java.audio.AudioController;
 import de.kvwl.n8dA.robotwars.server.visualization.java.scene.GameScene;
@@ -128,6 +129,9 @@ public class CinematicVisualizerImpl implements CinematicVisualizer {
 					} else {
 						audioController.startBackgroundMusic();
 					}
+					break;
+				case KeyEvent.VK_PRINTSCREEN:
+					RoboBattleServer.get().resetGame();
 					break;
 				}
 			}
@@ -294,7 +298,7 @@ public class CinematicVisualizerImpl implements CinematicVisualizer {
 	public static CinematicVisualizerImpl get(boolean fullscreen,
 			boolean recreate, boolean alwaysOnTop) {
 
-		return get(fullscreen, GraphicsConfiguration.getDefaultConfig(),
+		return get(fullscreen, GraphicsConfiguration.getSystemDefault(),
 				recreate, alwaysOnTop);
 	}
 
