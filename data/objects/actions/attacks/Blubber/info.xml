@@ -4,7 +4,7 @@
 	<type>WATER</type>
 	<powertype>HEAVY</powertype>
 	<animationid>Blubber</animationid>
-	<energycosts>4</energycosts>
+	<energycosts>5</energycosts>
 	<configcosts>150</configcosts>
 	<name>Blubber</name>
 	<id>26</id>

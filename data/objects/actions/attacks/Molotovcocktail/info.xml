@@ -4,7 +4,7 @@
 	<type>FIRE</type>
 <powertype>HEAVY</powertype>
 	<animationid>Molotovcocktail</animationid>
-	<energycosts>4</energycosts>
+	<energycosts>5</energycosts>
 	<configcosts>150</configcosts>
 	<name>Molotovcocktail</name>
 	<id>14</id>

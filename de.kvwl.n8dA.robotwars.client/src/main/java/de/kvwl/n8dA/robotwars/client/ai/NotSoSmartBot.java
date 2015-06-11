@@ -29,8 +29,8 @@ public class NotSoSmartBot {
 	private static final double rating_hp_loss = 1;
 	private static final double rating_direct_damage = 2;
 	private static final double rating_avoided_direct_damage = rating_direct_damage*0.66;
-	private static final double rating_kill_enemy = 100;
-	private static final double rating_avoid_death = 50;
+	private static final double rating_kill_enemy = 200;
+	private static final double rating_avoid_death = 100;
 	private static final double comment_massive_dmg = 30;
 
 	private GameStateType gameState = GameStateType.GAME_HASNT_BEGUN;
