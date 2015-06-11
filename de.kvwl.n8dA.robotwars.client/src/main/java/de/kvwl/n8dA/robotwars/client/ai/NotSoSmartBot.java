@@ -23,15 +23,15 @@ public class NotSoSmartBot {
 	private Robot ownRobot;
 	private Robot enemyRobot;
 
-	private static final int rating_stat_vulnerability = 5;
-	private static final int rating_stat_resistance = -5;
-	private static final int rating_energy_loss = 1;
-	private static final int rating_hp_loss = 1;
-	private static final int rating_direct_damage = 2;
-	private static final int rating_avoided_direct_damage = 2;
-	private static final int rating_kill_enemy = 100;
-	private static final int rating_avoid_death = 50;
-	private static final int comment_massive_dmg = 30;
+	private static final double rating_stat_vulnerability = 5;
+	private static final double rating_stat_resistance = -5;
+	private static final double rating_energy_loss = 1;
+	private static final double rating_hp_loss = 1;
+	private static final double rating_direct_damage = 2;
+	private static final double rating_avoided_direct_damage = rating_direct_damage*0.66;
+	private static final double rating_kill_enemy = 100;
+	private static final double rating_avoid_death = 50;
+	private static final double comment_massive_dmg = 30;
 
 	private GameStateType gameState = GameStateType.GAME_HASNT_BEGUN;
 	private boolean playerActionDone = false;
@@ -132,14 +132,37 @@ public class NotSoSmartBot {
 		List<Defense> possibleDefends = ownRobot.getPossibleDefends();
 		for (Defense defense : possibleDefends) {
 			int rating =0;
-			double defenseFactor = defense.getBonusOnDefenseFactor() + neutral_defense_factor;
 			
 			int ownEnergyPoints = ownRobot.getEnergyPoints();
 			if (ownEnergyPoints < defense.getEnergyCosts()) {
 				continue;
 			}
-
-		
+			double bonusOnDefenseFactor = defense.getBonusOnDefenseFactor();
+			double defenseFactorCombined = bonusOnDefenseFactor + neutral_defense_factor;
+			RobotActionType defenseType = defense.getRobotActionType();
+			RobotActionType counteredType = defenseType.getDominatedRobotActionType();
+			
+			int maxDmgDefenseType = getEnemyMaxDamageForRobotActionType(defenseType);
+			int maxDmgCounteredType = getEnemyMaxDamageForRobotActionType(counteredType);
+			
+			
+			List<StatusEffect> statusEffects = ownRobot.getStatusEffects();
+			for (StatusEffect statusEffect : statusEffects) {
+				double damageModDefenseType = statusEffect.getDamageModificatorForRoboActionType(defenseType);
+				double damageModCounteredType = statusEffect.getDamageModificatorForRoboActionType(counteredType);
+				
+				maxDmgCounteredType*=damageModCounteredType;
+				maxDmgDefenseType*=damageModDefenseType;
+			}
+			
+			if(maxDmgCounteredType>=ownHealthPoints || maxDmgDefenseType >=ownHealthPoints)
+			{
+				rating += rating_avoid_death;
+			}
+			rating+=getRatingForAppliedStatusEffects(defense.getStatusEffects(), false);
+			rating += (maxDmgCounteredType*rating_avoided_direct_damage)+(maxDmgCounteredType*bonusOnDefenseFactor*rating_direct_damage);
+			rating += (maxDmgDefenseType*rating_avoided_direct_damage)*(1-defenseFactorCombined);
+			
 		RatedAction ratedAction = new RatedAction(rating, defense);
 		ratedActions.add(ratedAction);
 		}
@@ -201,8 +224,8 @@ public class NotSoSmartBot {
 	private int getRatingForAppliedStatusEffects(
 			List<StatusEffect> statusEffects, boolean isAttack) {
 		
-		int rating_stat_vulnerability = NotSoSmartBot.rating_stat_vulnerability;
-		int rating_stat_resistance = NotSoSmartBot.rating_stat_resistance;
+		double rating_stat_vulnerability = NotSoSmartBot.rating_stat_vulnerability;
+		double rating_stat_resistance = NotSoSmartBot.rating_stat_resistance;
 		if(!isAttack)
 		{
 			rating_stat_resistance*=-1;
@@ -252,6 +275,7 @@ public class NotSoSmartBot {
 		return maxDmg;
 	}
 
+	@SuppressWarnings("unused")
 	private int getEnemyMaxDamage() {
 		int maxDmg = 0;
 		int energyPoints = enemyRobot.getEnergyPoints();

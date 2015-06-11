@@ -34,6 +34,21 @@ private int index;
 				return false;
 		}
 	}
+	
+	public RobotActionType getDominatedRobotActionType()
+	{
+		switch(this)
+		{
+		case FIRE:
+			return RobotActionType.LIGHTNING;
+		case LIGHTNING:
+			return RobotActionType.WATER;
+		case WATER:
+			return FIRE;
+		}
+		
+		return null;
+	}
 
 	public String getHumanReadableString()
 	{
