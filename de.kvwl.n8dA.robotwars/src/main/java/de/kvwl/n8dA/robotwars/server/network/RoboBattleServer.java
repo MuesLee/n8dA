@@ -87,8 +87,8 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 	protected RoboBattleServer() throws RemoteException {
 		super();
 		loader = new DataLoaderFileSystemImpl(Paths.get("../data"));
-		this.battleController = new BattleController(loader);
-		this.battleController.setServer(this);
+		this.setBattleController(new BattleController(loader));
+		this.getBattleController().setServer(this);
 	}
 
 	public static void main(String[] args) {
@@ -102,7 +102,9 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 			BATTLE_SERVER_REGISTRY_PORT = server
 					.getProperty("BATTLE_SERVER_REGISTRY_PORT");
 			server.startServer(Integer.parseInt(BATTLE_SERVER_REGISTRY_PORT));
-
+			String fullscreenProperty = server.getProperty("BATTLE_FULLSCREEN");
+			String onTopProperty = server.getProperty("BATTLE_ON_TOP");
+			server.getBattleController().showCinematicBattleWindow(Boolean.parseBoolean(fullscreenProperty), Boolean.parseBoolean(onTopProperty));
 		} catch (NumberFormatException e) {
 
 			e.printStackTrace();
@@ -249,11 +251,11 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		LOG.debug("Loaded StatusEffects --------------------------------------> "
 				+ StatusEffectUtil.getAllStatusEffects());
 
-		battleController.setAllAttacks(loader.loadRobotAttacks());
-		battleController.setAllDefends(loader.loadRobotDefends());
+		getBattleController().setAllAttacks(loader.loadRobotAttacks());
+		getBattleController().setAllDefends(loader.loadRobotDefends());
 
-		battleController.setAllItems(ItemUtil.getAllRoboItems());
-		battleController.setAllStatusEffects(StatusEffectUtil
+		getBattleController().setAllItems(ItemUtil.getAllRoboItems());
+		getBattleController().setAllStatusEffects(StatusEffectUtil
 				.getAllStatusEffects());
 
 		String property = getProperty("MAGICNUMBER");
@@ -299,7 +301,7 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 			if (playerIsRdy) {
 				LOG.info("Message from UUID: " + clientUUID
 						+ ". Client is ready");
-				battleController.setRobotIsReady(getRobotForUUID(clientUUID));
+				getBattleController().setRobotIsReady(getRobotForUUID(clientUUID));
 			}
 			if (clientDisconnected) {
 				LOG.info("Message from UUID: " + clientUUID
@@ -363,9 +365,9 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 
 	private Robot getRobotForUUID(UUID uuid) throws UnknownRobotException {
 		if (uuid.equals(clientUUIDLeft))
-			return battleController.getRobotLeft();
+			return getBattleController().getRobotLeft();
 		if (uuid.equals(clientUUIDRight))
-			return battleController.getRobotRight();
+			return getBattleController().getRobotRight();
 
 		throw new UnknownRobotException();
 
@@ -375,7 +377,7 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 
 		LOG.info("Client disconnected: " + clientUUID);
 
-		GameStateType currentGameState = battleController.getCurrentGameState();
+		GameStateType currentGameState = getBattleController().getCurrentGameState();
 		
 		if(currentGameState == GameStateType.GAME_OVER)
 		{
@@ -383,15 +385,15 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		}
 		else if (currentGameState.getIndex() >= 6) {
 			if (clientUUID.equals(clientUUIDLeft)) {
-				battleController
+				getBattleController()
 						.setCurrentGameState(GameStateType.VICTORY_RIGHT);
-				battleController.endGame(GameStateType.VICTORY_RIGHT);
+				getBattleController().endGame(GameStateType.VICTORY_RIGHT);
 				resetGame();
 				sendGameStateInfoToClients(GameStateType.VICTORY_RIGHT);
 			} else if (clientUUID.equals(clientUUIDRight)) {
-				battleController
+				getBattleController()
 						.setCurrentGameState(GameStateType.VICTORY_LEFT);
-				battleController.endGame(GameStateType.VICTORY_LEFT);
+				getBattleController().endGame(GameStateType.VICTORY_LEFT);
 				resetGame();
 				sendGameStateInfoToClients(GameStateType.VICTORY_LEFT);
 			} else {
@@ -405,8 +407,11 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 
 		clientUUIDLeft = null;
 		clientUUIDRight = null;
-		battleController = new BattleController(loader);
-		battleController.setServer(this);
+		setBattleController(new BattleController(loader));
+		getBattleController().setServer(this);
+		String fullscreenProperty = getProperty("BATTLE_FULLSCREEN");
+		String onTopProperty = getProperty("BATTLE_ON_TOP");
+		getBattleController().showCinematicBattleWindow(Boolean.parseBoolean(fullscreenProperty), Boolean.parseBoolean(onTopProperty));
 		loadGameData();
 		LOG.info("Reset game!");
 
@@ -417,14 +422,14 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 			WrongGameStateException {
 		LOG.info("Action: " + robotAction + " received from UUID: " + uuid);
 
-		battleController.setActionForRobot(robotAction, getRobotForUUID(uuid));
+		getBattleController().setActionForRobot(robotAction, getRobotForUUID(uuid));
 	}
 
 	@Override
 	public Robot getSynchronizedRobot(UUID uuid) throws RemoteException,
 			UnknownRobotException {
 
-		Robot robot = battleController
+		Robot robot = getBattleController()
 				.getLocalRobotForRemoteRobot(getRobotForUUID(uuid));
 		LOG.info("UUID: " + uuid + " has requested update of Robot. Received "
 				+ robot);
@@ -440,9 +445,9 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		Robot robot = null;
 
 		if (ownUUID.equals(clientUUIDLeft)) {
-			robot = battleController.getRobotRight();
+			robot = getBattleController().getRobotRight();
 		} else if (ownUUID.equals(clientUUIDRight)) {
-			robot = battleController.getRobotLeft();
+			robot = getBattleController().getRobotLeft();
 		} else {
 			throw new UnknownRobotException();
 		}
@@ -464,11 +469,11 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		LOG.info("Robot: " + robot + " played by " + playerId + " on Client: "
 				+ uuid + "\nwants tries register at server");
 
-		if (battleController.getCurrentGameState() == GameStateType.GAME_HASNT_BEGUN) {
-			if (battleController.getRobotLeft() == null) {
-				battleController.performInitialModificationOfRobot(robot);
+		if (getBattleController().getCurrentGameState() == GameStateType.GAME_HASNT_BEGUN) {
+			if (getBattleController().getRobotLeft() == null) {
+				getBattleController().performInitialModificationOfRobot(robot);
 				robot.setRobotPosition(RobotPosition.LEFT);
-				battleController.setRobotLeft(robot);
+				getBattleController().setRobotLeft(robot);
 				clientUUIDLeft = uuid;
 				LOG.info("Robot registered: " + robot + " ClientUUID: " + uuid);
 
@@ -482,10 +487,10 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 
 				return RobotPosition.LEFT;
 
-			} else if (battleController.getRobotRight() == null) {
-				battleController.performInitialModificationOfRobot(robot);
+			} else if (getBattleController().getRobotRight() == null) {
+				getBattleController().performInitialModificationOfRobot(robot);
 				robot.setRobotPosition(RobotPosition.RIGHT);
-				battleController.setRobotRight(robot);
+				getBattleController().setRobotRight(robot);
 				clientUUIDRight = uuid;
 
 				LOG.info("Robot registered: " + robot + " ClientUUID: " + uuid);
@@ -542,12 +547,12 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 
 	@Override
 	public List<RoboItem> getAllPossibleItems() {
-		return battleController.getAllItems();
+		return getBattleController().getAllItems();
 	}
 
 	@Override
 	public List<Attack> getAllPossibleAttacks() {
-		List<Attack> allAttacks = battleController.getAllAttacks();
+		List<Attack> allAttacks = getBattleController().getAllAttacks();
 		LOG.debug("All Attacks requested: " + allAttacks);
 
 		return allAttacks;
@@ -555,7 +560,7 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 
 	@Override
 	public List<Defense> getAllPossibleDefends() {
-		List<Defense> allDefends = battleController.getAllDefends();
+		List<Defense> allDefends = getBattleController().getAllDefends();
 		LOG.debug("All Defends requested: " + allDefends);
 
 		return allDefends;
@@ -564,7 +569,7 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 	@Override
 	public List<StatusEffect> getAllPossibleStatusEffects()
 			throws RemoteException {
-		List<StatusEffect> allStatusEffects = battleController
+		List<StatusEffect> allStatusEffects = getBattleController()
 				.getAllStatusEffects();
 		LOG.debug("All StatusEffects requested: " + allStatusEffects);
 		return allStatusEffects;
@@ -574,6 +579,14 @@ public class RoboBattleServer extends UnicastRemoteObject implements
 		
 		sendGameStateInfoToClients(currentGameState);
 		resetGame();
+	}
+
+	public BattleController getBattleController() {
+		return battleController;
+	}
+
+	public void setBattleController(BattleController battleController) {
+		this.battleController = battleController;
 	}
 
 }

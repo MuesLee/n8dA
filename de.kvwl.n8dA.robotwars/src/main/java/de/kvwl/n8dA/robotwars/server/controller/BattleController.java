@@ -75,11 +75,15 @@ public class BattleController {
 
 		this.loader = loader;
 
-		this.setCinematicVisualizer(CinematicVisualizerImpl.get());
-		this.getCinematicVisualizer().reset();
 		setCurrentGameState(GameStateType.GAME_HASNT_BEGUN);
 	}
 
+	public void showCinematicBattleWindow(boolean fullScreen, boolean alwaysOnTop)
+	{
+		this.setCinematicVisualizer(CinematicVisualizerImpl.get(fullScreen, alwaysOnTop));
+		this.getCinematicVisualizer().reset();
+	}
+	
 	private void startTheBattle() {
 		LOG.info("The Battle has begun!");
 

@@ -207,7 +207,7 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 		});
 
 		final JButton adviceButton = new JButton();
-		adviceButton.setToolTipText("NotSoSmartBot - Berater)");
+		adviceButton.setToolTipText("NotSoSmartBot (Berater)");
 		adviceButton.setIcon(new ImageIcon(InternalImage.loadFromPath(IMAGE_PATH, "smartbot.png")));
 		adviceButton.addActionListener(new ActionListener()
 		{
