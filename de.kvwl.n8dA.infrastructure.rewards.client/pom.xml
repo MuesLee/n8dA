@@ -28,7 +28,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>de.kvwl.n8da.infrastructure.rewards.client.ctrl.RewardCentral</mainClass>
+							<mainClass>de.kvwl.n8dA.infrastructure.rewards.client.ctrl.RewardCentral</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>

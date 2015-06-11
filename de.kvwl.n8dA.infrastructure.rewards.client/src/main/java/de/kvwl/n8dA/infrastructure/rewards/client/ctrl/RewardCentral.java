@@ -261,10 +261,13 @@ public class RewardCentral extends JFrame implements ActionListener
 		client.createGame(name);
 	}
 
-	public static void main(String[] args) throws RemoteException, MalformedURLException, NotBoundException
+	public static void main(String[] args)
 	{
-
-		_main();
+		try {
+			_main();
+		} catch (RemoteException | MalformedURLException | NotBoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void _main() throws RemoteException, MalformedURLException, NotBoundException
