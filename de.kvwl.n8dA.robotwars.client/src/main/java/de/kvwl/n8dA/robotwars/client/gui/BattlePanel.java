@@ -218,7 +218,6 @@ public class BattlePanel extends JPanel implements ActionListener, BattleClientL
 				BalloonTip ballon = new BalloonTip(adviceButton, smartBotText);
 				ballon.setVisible(true);
 			}
-
 		});
 
 		helpButton.setBorderPainted(false);
