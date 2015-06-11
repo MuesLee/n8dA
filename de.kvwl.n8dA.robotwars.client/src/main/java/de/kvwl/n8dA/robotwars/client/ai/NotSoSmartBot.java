@@ -102,7 +102,7 @@ public class NotSoSmartBot {
 			String actionName = action.getName();
 			String comment = ratedAction.getComment();
 
-			text = actionName + " " + comment;
+			text = actionName + comment;
 		}
 		return text;
 	}
@@ -132,7 +132,7 @@ public class NotSoSmartBot {
 		List<Defense> possibleDefends = ownRobot.getPossibleDefends();
 		for (Defense defense : possibleDefends) {
 			int rating =0;
-			
+			String comment = "";
 			int ownEnergyPoints = ownRobot.getEnergyPoints();
 			if (ownEnergyPoints < defense.getEnergyCosts()) {
 				continue;
@@ -155,15 +155,19 @@ public class NotSoSmartBot {
 				maxDmgDefenseType*=damageModDefenseType;
 			}
 			
+			comment="! DEFENSE!";
 			if(maxDmgCounteredType>=ownHealthPoints || maxDmgDefenseType >=ownHealthPoints)
 			{
 				rating += rating_avoid_death;
+				comment =" sonst gehste drauf!!!11 OMFG!!11";
 			}
+			
 			rating+=getRatingForAppliedStatusEffects(defense.getStatusEffects(), false);
 			rating += (maxDmgCounteredType*rating_avoided_direct_damage)+(maxDmgCounteredType*bonusOnDefenseFactor*rating_direct_damage);
 			rating += (maxDmgDefenseType*rating_avoided_direct_damage)*(1-defenseFactorCombined);
 			
 		RatedAction ratedAction = new RatedAction(rating, defense);
+		ratedAction.setComment(comment);
 		ratedActions.add(ratedAction);
 		}
 
@@ -203,10 +207,10 @@ public class NotSoSmartBot {
 			rating += getRatingForAppliedStatusEffects(attack.getStatusEffects(), true);
 
 			if (possibleDmg >= comment_massive_dmg) {
-				comment += attack.getName().toUpperCase()
+				comment += "! "+attack.getName().toUpperCase()
 						+ "!!11 BABABAAAMM!!11";
 			} else {
-				comment += " und ab geht\'s";
+				comment += " wäre solide!";
 			}
 			if (healthPointsEnemy <= possibleDmg) {
 				rating += rating_kill_enemy;
