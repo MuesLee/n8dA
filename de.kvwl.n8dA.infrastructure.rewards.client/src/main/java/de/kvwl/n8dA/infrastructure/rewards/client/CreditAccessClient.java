@@ -190,4 +190,13 @@ public class CreditAccessClient implements CreditAccess {
 		}
 		throw new RemoteException("Server ist null / nicht erreichbar.");
 	}
+
+	@Override
+	public List<GamePerson> getFirst10GamePersons() throws RemoteException {
+		if (server != null) 
+		{
+			return server.getFirst10GamePersons();
+		}
+		throw new RemoteException("Server ist null / nicht erreichbar.");
+	}
 }

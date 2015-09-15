@@ -346,4 +346,10 @@ public class RewardServer extends UnicastRemoteObject implements
 			gamePersonDao.add(new GamePerson(game, findById, points));
 		}
 	}
+
+	@Override
+	public List<GamePerson> getFirst10GamePersons() throws RemoteException {
+	
+		return gamePersonDao.findFirst10GamePersons();
+	}
 }

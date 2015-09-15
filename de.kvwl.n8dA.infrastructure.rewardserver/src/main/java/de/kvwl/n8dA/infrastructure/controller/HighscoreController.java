@@ -90,7 +90,7 @@ public class HighscoreController
 
 			if (CURRENT_LIST_INDEX == -1 || CURRENT_LIST_INDEX >= gameListSize)
 			{
-				gamePersons = server.getAllGamePersons();
+				gamePersons = server.getFirst10GamePersons();
 				listTitle = "Gesamtpunktzahl";
 			}
 			else
